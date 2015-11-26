@@ -13,8 +13,8 @@
 		A752DE3B1C02FC9F008E3118 /* KMViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A752DE3A1C02FC9F008E3118 /* KMViewController.swift */; };
 		A752DE3D1C030103008E3118 /* TaskManageProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = A752DE3C1C030103008E3118 /* TaskManageProtocols.swift */; };
 		A752DE431C03F23D008E3118 /* UserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A752DE421C03F23D008E3118 /* UserService.swift */; };
+		A753A0A31C06FE5A00C9FBFE /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A753A0A21C06FE5A00C9FBFE /* ViewController.swift */; };
 		A791C6B11C02E90000670017 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A791C6B01C02E90000670017 /* AppDelegate.swift */; };
-		A791C6B31C02E90000670017 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A791C6B21C02E90000670017 /* ViewController.swift */; };
 		A791C6B61C02E90000670017 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A791C6B41C02E90000670017 /* Main.storyboard */; };
 		A791C6B91C02E90000670017 /* swiftArchitecture.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = A791C6B71C02E90000670017 /* swiftArchitecture.xcdatamodeld */; };
 		A791C6BB1C02E90000670017 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A791C6BA1C02E90000670017 /* Assets.xcassets */; };
@@ -48,10 +48,10 @@
 		A752DE3A1C02FC9F008E3118 /* KMViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KMViewController.swift; sourceTree = "<group>"; };
 		A752DE3C1C030103008E3118 /* TaskManageProtocols.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TaskManageProtocols.swift; sourceTree = "<group>"; };
 		A752DE421C03F23D008E3118 /* UserService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserService.swift; sourceTree = "<group>"; };
-		A752DE451C03F987008E3118 /* swiftArchitecture-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "swiftArchitecture-Bridging-Header.h"; path = "../Demo/ViewController/swiftArchitecture-Bridging-Header.h"; sourceTree = "<group>"; };
+		A753A0A11C06FE3A00C9FBFE /* swiftArchitecture-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "swiftArchitecture-Bridging-Header.h"; sourceTree = "<group>"; };
+		A753A0A21C06FE5A00C9FBFE /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		A791C6AD1C02E90000670017 /* SAD.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SAD.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A791C6B01C02E90000670017 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		A791C6B21C02E90000670017 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ViewController.swift; path = ../../ViewController.swift; sourceTree = "<group>"; };
 		A791C6B51C02E90000670017 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		A791C6B81C02E90000670017 /* swiftArchitecture.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = swiftArchitecture.xcdatamodel; sourceTree = "<group>"; };
 		A791C6BA1C02E90000670017 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -164,7 +164,7 @@
 		A752DE411C031066008E3118 /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
-				A791C6B21C02E90000670017 /* ViewController.swift */,
+				A753A0A21C06FE5A00C9FBFE /* ViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -172,7 +172,7 @@
 		A752DE441C03F287008E3118 /* Resource */ = {
 			isa = PBXGroup;
 			children = (
-				A752DE451C03F987008E3118 /* swiftArchitecture-Bridging-Header.h */,
+				A753A0A11C06FE3A00C9FBFE /* swiftArchitecture-Bridging-Header.h */,
 			);
 			path = Resource;
 			sourceTree = "<group>";
@@ -415,13 +415,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A791C6B31C02E90000670017 /* ViewController.swift in Sources */,
 				A791C6B11C02E90000670017 /* AppDelegate.swift in Sources */,
 				A752DE3B1C02FC9F008E3118 /* KMViewController.swift in Sources */,
 				A752DE311C02FA28008E3118 /* KMBaseServise.swift in Sources */,
 				A752DE431C03F23D008E3118 /* UserService.swift in Sources */,
 				A752DE361C02FAFE008E3118 /* NetworkManagerProtocol.swift in Sources */,
 				A791C6B91C02E90000670017 /* swiftArchitecture.xcdatamodeld in Sources */,
+				A753A0A31C06FE5A00C9FBFE /* ViewController.swift in Sources */,
 				A752DE3D1C030103008E3118 /* TaskManageProtocols.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

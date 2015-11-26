@@ -10,8 +10,6 @@ import UIKit
 import AFNetworking
 
 class KMBaseServise: NSObject {
-    
-    
 }
 
 extension KMBaseServise: NetworkManagerProtocol {
@@ -24,24 +22,9 @@ extension KMBaseServise: NetworkManagerProtocol {
             return ResultType.Failed(ErrorResultType(description: "URL error", code: 003))
         }
         
-        let request = NSMutableURLRequest(URL: url)
-        request.HTTPMethod = "POST"
-        request.timeoutInterval = timeout ?? 10
+        let operation = NetworkManager.sendRequestOfURL(url, method: "POST", param: param, timeout: timeout)
         
-        if param != nil {
-            var bodyString = ""
-            for key in param!.keys {
-                bodyString += "&\(key)=\(param![key])"
-            }
-            bodyString = bodyString.substringFromIndex(bodyString.startIndex.successor())
-            request.HTTPBody = bodyString.dataUsingEncoding(NSUTF8StringEncoding)
-        }
-
         var result: ResultType<returnType> = ResultType.Failed(ErrorResultType(description: "No data", code: 001))
-        
-        let operation = AFHTTPRequestOperation(request: request)
-        operation.start()
-        operation.waitUntilFinished()
         
         if let resp = operation.responseData {
             do {

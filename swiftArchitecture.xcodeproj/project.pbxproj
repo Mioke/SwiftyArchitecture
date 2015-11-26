@@ -14,6 +14,7 @@
 		A752DE3D1C030103008E3118 /* TaskManageProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = A752DE3C1C030103008E3118 /* TaskManageProtocols.swift */; };
 		A752DE431C03F23D008E3118 /* UserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A752DE421C03F23D008E3118 /* UserService.swift */; };
 		A753A0A31C06FE5A00C9FBFE /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A753A0A21C06FE5A00C9FBFE /* ViewController.swift */; };
+		A753A0A51C07054300C9FBFE /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A753A0A41C07054300C9FBFE /* NetworkManager.swift */; };
 		A791C6B11C02E90000670017 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A791C6B01C02E90000670017 /* AppDelegate.swift */; };
 		A791C6B61C02E90000670017 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A791C6B41C02E90000670017 /* Main.storyboard */; };
 		A791C6B91C02E90000670017 /* swiftArchitecture.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = A791C6B71C02E90000670017 /* swiftArchitecture.xcdatamodeld */; };
@@ -50,6 +51,7 @@
 		A752DE421C03F23D008E3118 /* UserService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserService.swift; sourceTree = "<group>"; };
 		A753A0A11C06FE3A00C9FBFE /* swiftArchitecture-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "swiftArchitecture-Bridging-Header.h"; sourceTree = "<group>"; };
 		A753A0A21C06FE5A00C9FBFE /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		A753A0A41C07054300C9FBFE /* NetworkManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		A791C6AD1C02E90000670017 /* SAD.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SAD.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A791C6B01C02E90000670017 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A791C6B51C02E90000670017 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -123,6 +125,7 @@
 			isa = PBXGroup;
 			children = (
 				A752DE301C02FA28008E3118 /* KMBaseServise.swift */,
+				A753A0A41C07054300C9FBFE /* NetworkManager.swift */,
 			);
 			path = KMBaseService;
 			sourceTree = "<group>";
@@ -415,6 +418,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A753A0A51C07054300C9FBFE /* NetworkManager.swift in Sources */,
 				A791C6B11C02E90000670017 /* AppDelegate.swift in Sources */,
 				A752DE3B1C02FC9F008E3118 /* KMViewController.swift in Sources */,
 				A752DE311C02FA28008E3118 /* KMBaseServise.swift in Sources */,
@@ -570,7 +574,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.KleinMioke.swiftArchitecture;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "swiftArchitecture/Demo/ViewController/swiftArchitecture-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "swiftArchitecture/Resource/swiftArchitecture-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
@@ -585,7 +589,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.KleinMioke.swiftArchitecture;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "swiftArchitecture/Demo/ViewController/swiftArchitecture-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "swiftArchitecture/Resource/swiftArchitecture-Bridging-Header.h";
 			};
 			name = Release;
 		};

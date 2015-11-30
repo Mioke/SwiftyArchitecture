@@ -15,6 +15,7 @@
 		A753A0A31C06FE5A00C9FBFE /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A753A0A21C06FE5A00C9FBFE /* ViewController.swift */; };
 		A753A0A51C07054300C9FBFE /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A753A0A41C07054300C9FBFE /* NetworkManager.swift */; };
 		A753A0A71C080B6800C9FBFE /* UIViewController+TaskManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A753A0A61C080B6800C9FBFE /* UIViewController+TaskManager.swift */; };
+		A753A0AA1C0C215E00C9FBFE /* publicFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A753A0A91C0C215E00C9FBFE /* publicFunctions.swift */; };
 		A791C6B11C02E90000670017 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A791C6B01C02E90000670017 /* AppDelegate.swift */; };
 		A791C6B61C02E90000670017 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A791C6B41C02E90000670017 /* Main.storyboard */; };
 		A791C6B91C02E90000670017 /* swiftArchitecture.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = A791C6B71C02E90000670017 /* swiftArchitecture.xcdatamodeld */; };
@@ -52,6 +53,7 @@
 		A753A0A21C06FE5A00C9FBFE /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		A753A0A41C07054300C9FBFE /* NetworkManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		A753A0A61C080B6800C9FBFE /* UIViewController+TaskManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+TaskManager.swift"; sourceTree = "<group>"; };
+		A753A0A91C0C215E00C9FBFE /* publicFunctions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = publicFunctions.swift; sourceTree = "<group>"; };
 		A791C6AD1C02E90000670017 /* SAD.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SAD.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A791C6B01C02E90000670017 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A791C6B51C02E90000670017 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -114,6 +116,7 @@
 		A752DE2E1C02F868008E3118 /* Base */ = {
 			isa = PBXGroup;
 			children = (
+				A753A0A81C0C214700C9FBFE /* ConstValue&Function */,
 				A752DE321C02FA9A008E3118 /* Protocols */,
 				A752DE2F1C02F996008E3118 /* KMBaseService */,
 				A752DE371C02FBED008E3118 /* UIViewControllerCategory */,
@@ -179,6 +182,14 @@
 				A753A0A11C06FE3A00C9FBFE /* swiftArchitecture-Bridging-Header.h */,
 			);
 			path = Resource;
+			sourceTree = "<group>";
+		};
+		A753A0A81C0C214700C9FBFE /* ConstValue&Function */ = {
+			isa = PBXGroup;
+			children = (
+				A753A0A91C0C215E00C9FBFE /* publicFunctions.swift */,
+			);
+			path = "ConstValue&Function";
 			sourceTree = "<group>";
 		};
 		A791C6A41C02E8FF00670017 = {
@@ -421,6 +432,7 @@
 			files = (
 				A753A0A51C07054300C9FBFE /* NetworkManager.swift in Sources */,
 				A791C6B11C02E90000670017 /* AppDelegate.swift in Sources */,
+				A753A0AA1C0C215E00C9FBFE /* publicFunctions.swift in Sources */,
 				A752DE311C02FA28008E3118 /* KMBaseServise.swift in Sources */,
 				A752DE431C03F23D008E3118 /* UserService.swift in Sources */,
 				A753A0A71C080B6800C9FBFE /* UIViewController+TaskManager.swift in Sources */,

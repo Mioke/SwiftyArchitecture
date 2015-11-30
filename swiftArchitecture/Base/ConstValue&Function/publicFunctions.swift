@@ -28,20 +28,15 @@ class Log {
     }
 }
 
-/// UI相关
-class UI {
-    /* 缓存相关属性，减少调用方法的次数 */
-    static let screenHeight: CGFloat = UIScreen.mainScreen().bounds.size.height
-    static let screenWidth: CGFloat = UIScreen.mainScreen().bounds.size.width
-    
-    class var SCREEN_HEIGHT: CGFloat {
-        get {
-            return screenHeight
-        }
-    }
-    class var SCREEN_WIDTH: CGFloat {
-        get {
-            return screenWidth
-        }
-    }
+public let kServer = "http://115.29.175.210:8009/"
+
+func ServerURLString(interface: String) -> String {
+    return kServer + interface
 }
+
+func ServerURLWithComponent(comp: String) -> NSURL? {
+    return NSURL(string: ServerURLString(comp))
+}
+
+
+

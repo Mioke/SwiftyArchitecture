@@ -8,7 +8,7 @@
 
 import Foundation
 
-class DefaultDatabase: KMPersistance, DataBaseManagerProtocol {
+class DefaultDatabase: KMPersistanceDatabase, DatabaseManagerProtocol {
     
     var path: String
     var database: FMDatabaseQueue

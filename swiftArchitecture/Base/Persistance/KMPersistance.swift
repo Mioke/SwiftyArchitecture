@@ -12,7 +12,7 @@ protocol PersistanceManagerProtocol: NSObjectProtocol {
     
 }
 
-protocol DataBaseManagerProtocol: PersistanceManagerProtocol {
+protocol DatabaseManagerProtocol: PersistanceManagerProtocol {
     
     var path: String { get set }
     
@@ -22,17 +22,30 @@ protocol DataBaseManagerProtocol: PersistanceManagerProtocol {
     init(path: String, DBName: String)
 }
 
-class KMPersistance: NSObject {
+class KMPersistanceDatabase: NSObject {
     
-    private weak var child: protocol<DataBaseManagerProtocol>?
+    private weak var child: protocol<DatabaseManagerProtocol>?
     
     override init() {
         super.init()
         
-        if !self.conformsToProtocol(DataBaseManagerProtocol.self as! Protocol) {
-            assert(false, "KMPersistance's subclass must follow the KMPersistanceProtocol")
+        if self is protocol<DatabaseManagerProtocol> {
+            self.child = self as? protocol<DatabaseManagerProtocol>
+            assert(self.child != nil, "KMPersistanceDatabase's database couldn't be nil")
         } else {
-            self.child = self as? protocol<DataBaseManagerProtocol>
+            assert(false, "KMPersistanceDatabase's subclass must follow the KMPersistanceProtocol")
         }
+    }
+    
+    /**
+     Test function, use subclass's params for some public functions
+     
+     - parameter query: query SQL string
+     - parameter args:  the args in SQL string
+     
+     - returns: result array
+     */
+    func query(query: String, withArgumentsInArray args: [AnyObject]?) -> NSMutableArray {
+        return DatabaseManager.database(self.child!.database, query: query, withArgumentsInArray: args)
     }
 }

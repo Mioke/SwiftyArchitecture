@@ -15,12 +15,12 @@ class DatabaseManager: NSObject {
         let rstArray = NSMutableArray()
         databaseQueue.inTransaction { (db: FMDatabase!, rollback: UnsafeMutablePointer<ObjCBool>) -> Void in
             
-            let rst = db.executeQuery(query, withArgumentsInArray: args)
-            
-            while rst.next() {
-                rstArray.addObject(rst.resultDictionary())
+            if let rst = db.executeQuery(query, withArgumentsInArray: args) {
+                while rst.next() {
+                    rstArray.addObject(rst.resultDictionary())
+                }
+                rst.close()
             }
-            rst.close()
         }
         return rstArray
     }

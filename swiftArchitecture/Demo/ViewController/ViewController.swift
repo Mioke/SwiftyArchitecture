@@ -17,6 +17,9 @@ class ViewController: UIViewController {
         scope("init UI") {
             self.view.backgroundColor = UIColor.lightGrayColor()
         }
+        
+        let db = DefaultDatabase()
+        Log.debugPrintln(db.query("select * from tableDoesntExtist", withArgumentsInArray: nil))
     }
 
     override func didReceiveMemoryWarning() {

@@ -17,6 +17,8 @@ class ViewController: UIViewController {
         scope("init UI") {
             self.view.backgroundColor = UIColor.lightGrayColor()
         }
+        
+        let db = DefaultDatabase()
     }
 
     override func didReceiveMemoryWarning() {

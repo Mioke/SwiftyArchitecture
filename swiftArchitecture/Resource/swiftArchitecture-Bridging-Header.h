@@ -3,3 +3,5 @@
 //
 
 #import <AFNetworking/AFNetworking.h>
+
+#import "FMDB.h"

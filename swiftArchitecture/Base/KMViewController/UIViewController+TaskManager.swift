@@ -10,9 +10,9 @@ import Foundation
 
 extension UIViewController: TaskExecutor {
     
-    typealias receivDataType = AnyObject
+    typealias receiveDataType = AnyObject
     
-    func doTask(task: () -> receivDataType, identifier: String) {
+    func doTask(task: () -> receiveDataType, identifier: String) {
         
         dispatch_async(dispatch_get_global_queue(0, 0)) { () -> Void in
             
@@ -24,7 +24,7 @@ extension UIViewController: TaskExecutor {
     }
     
     @available(*, deprecated, message="尽量不要使用block回调，保证结构统一性。To make sure the unitarity of callback ,don't use this except neccesary")
-    func doTask(task: () -> receivDataType, callBack: (receivDataType) -> Void) {
+    func doTask(task: () -> receiveDataType, callBack: (receiveDataType) -> Void) {
         
         dispatch_async(dispatch_get_global_queue(0, 0)) { () -> Void in
             
@@ -41,13 +41,13 @@ extension UIViewController: TaskExecutor {
      - parameter result:     Task execution's result. 任务执行返回的结果
      - parameter identifier: Task's identifier. 任务的标识
      */
-    func finishTaskWithReuslt(result: receivDataType, identifier: String) {
+    func finishTaskWithReuslt(result: receiveDataType, identifier: String) {
         self.dealErrorResult(result)
     }
     
-    private func dealErrorResult(result: receivDataType) -> Bool {
+    private func dealErrorResult(result: receiveDataType) -> Bool {
         
-        if let _ = (result as? ResultType<receivDataType>)?.error() {
+        if let _ = (result as? ResultType<receiveDataType>)?.error() {
             // do something
             
             return false

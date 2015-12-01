@@ -16,11 +16,11 @@ protocol _receiver: NSObjectProtocol {
 
 protocol TaskExecutor: _sender, _receiver {
     
-    typealias receivDataType
+    typealias receiveDataType
     
-    func doTask(task: () -> receivDataType, identifier: String) -> Void
+    func doTask(task: () -> receiveDataType, identifier: String) -> Void
     
-    func doTask(task: () -> receivDataType, callBack: (receivDataType) -> Void) -> Void
+    func doTask(task: () -> receiveDataType, callBack: (receiveDataType) -> Void) -> Void
     
-    func finishTaskWithReuslt(result: receivDataType, identifier: String) -> Void
+    func finishTaskWithReuslt(result: receiveDataType, identifier: String) -> Void
 }

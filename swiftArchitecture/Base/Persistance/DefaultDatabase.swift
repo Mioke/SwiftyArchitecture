@@ -17,10 +17,6 @@ class DefaultDatabase: KMPersistance, DataBaseManagerProtocol {
     @available(*, unavailable, message="Use DefaultDatabse() instead")
     required convenience init(path: String, DBName: String) {
         self.init()
-        self.path = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true).first!
-        self.databaseName = "default.db"
-        
-        self.database = FMDatabaseQueue(path: self.path + self.databaseName)
     }
     
     override init() {
@@ -30,5 +26,4 @@ class DefaultDatabase: KMPersistance, DataBaseManagerProtocol {
         
         super.init()
     }
-    
 }

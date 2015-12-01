@@ -17,8 +17,6 @@ class ViewController: UIViewController {
         scope("init UI") {
             self.view.backgroundColor = UIColor.lightGrayColor()
         }
-        
-        let db = DefaultDatabase()
     }
 
     override func didReceiveMemoryWarning() {
@@ -28,11 +26,11 @@ class ViewController: UIViewController {
 
     @IBAction func clickButton(sender: AnyObject) {
         
-        self.doTask({ () -> receivDataType in
+        self.doTask({ () -> receiveDataType in
             
             return UserService.sharedInstance.login()
 
-        }) { (result: receivDataType) -> Void in
+        }) { (result: receiveDataType) -> Void in
             
             if let result = result as? Bool where
                 result {
@@ -44,14 +42,14 @@ class ViewController: UIViewController {
         
         // or
         
-        self.doTask({ () -> receivDataType in
+        self.doTask({ () -> receiveDataType in
             
             return UserService.sharedInstance.login()
             
         }, identifier: "LoginAction")
     }
     
-    override func finishTaskWithReuslt(result: receivDataType, identifier: String) {
+    override func finishTaskWithReuslt(result: receiveDataType, identifier: String) {
         
         if identifier == "LoginAction" {
             

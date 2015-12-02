@@ -20,9 +20,9 @@ class DefaultDatabase: KMPersistanceDatabase, DatabaseManagerProtocol {
     }
     
     override init() {
-        self.path = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true).first!
         self.databaseName = "default.db"
-        self.database = FMDatabaseQueue(path: self.path + self.databaseName)
+        self.path = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true).first! + "/" + self.databaseName
+        self.database = FMDatabaseQueue(path: self.path)
         
         super.init()
     }

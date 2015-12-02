@@ -50,5 +50,7 @@ protocol NetworkManagerProtocol {
     
     typealias returnType
     
-    func sendRequestOfURLString(urlString: String, param: [String: AnyObject]?, timeout: NSTimeInterval?) -> ResultType<returnType>
+    var server: String { get }
+    
+    func sendRequestWithApiName(apiName: String, param: [String: AnyObject]?, timeout: NSTimeInterval?) -> ResultType<returnType>
 }

@@ -15,10 +15,16 @@ class KMBaseServise: NSObject {
 extension KMBaseServise: NetworkManagerProtocol {
     
     typealias returnType = [String: AnyObject]
-
-    func sendRequestOfURLString(urlString: String, param: [String : AnyObject]?, timeout: NSTimeInterval?) -> ResultType<returnType> {
+    
+    var server: String {
+        get {
+            return kServer
+        }
+    }
+    
+    func sendRequestWithApiName(apiName: String, param: [String : AnyObject]?, timeout: NSTimeInterval?) -> ResultType<returnType> {
         
-        guard let url = NSURL(string: urlString) else {
+        guard let url = NSURL(string: self.server + apiName) else {
             return ResultType.Failed(ErrorResultType(description: "URL error", code: 1003))
         }
         

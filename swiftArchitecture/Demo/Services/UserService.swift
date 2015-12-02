@@ -15,14 +15,14 @@ class UserService: KMBaseServise {
     
     func login() -> Bool {
         
-        let url = "http://115.29.175.210:8009/auth/login/?os=iphone"
+        let api = "auth/login/?os=iphone"
         let param = [
             "ver": "i5.1.1",
             "account": "1223@ss.com",
             "password": "111111",
             "device": "12345"
         ]
-        let result = self.sendRequestOfURLString(url, param: param, timeout: nil)
+        let result = self.sendRequestWithApiName(api, param: param, timeout: nil)
         
         print(result)
         

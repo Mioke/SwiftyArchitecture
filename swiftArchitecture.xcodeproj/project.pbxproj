@@ -23,6 +23,7 @@
 		A7826F6C1C0D9011007AA18D /* DatabaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7826F6B1C0D9011007AA18D /* DatabaseManager.swift */; };
 		A7826F6F1C0EC657007AA18D /* String+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7826F6E1C0EC657007AA18D /* String+Extensions.swift */; };
 		A7826F761C0EF06A007AA18D /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7826F751C0EF06A007AA18D /* UserModel.swift */; };
+		A7826F781C102E06007AA18D /* Internal.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7826F771C102E06007AA18D /* Internal.swift */; };
 		A791C6B11C02E90000670017 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A791C6B01C02E90000670017 /* AppDelegate.swift */; };
 		A791C6B61C02E90000670017 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A791C6B41C02E90000670017 /* Main.storyboard */; };
 		A791C6B91C02E90000670017 /* swiftArchitecture.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = A791C6B71C02E90000670017 /* swiftArchitecture.xcdatamodeld */; };
@@ -68,6 +69,7 @@
 		A7826F6B1C0D9011007AA18D /* DatabaseManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatabaseManager.swift; sourceTree = "<group>"; };
 		A7826F6E1C0EC657007AA18D /* String+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Extensions.swift"; sourceTree = "<group>"; };
 		A7826F751C0EF06A007AA18D /* UserModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
+		A7826F771C102E06007AA18D /* Internal.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Internal.swift; sourceTree = "<group>"; };
 		A791C6AD1C02E90000670017 /* SAD.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SAD.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A791C6B01C02E90000670017 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A791C6B51C02E90000670017 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -190,6 +192,7 @@
 			isa = PBXGroup;
 			children = (
 				A753A0A21C06FE5A00C9FBFE /* ViewController.swift */,
+				A7826F771C102E06007AA18D /* Internal.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -479,6 +482,7 @@
 				A791C6B11C02E90000670017 /* AppDelegate.swift in Sources */,
 				A7826F6C1C0D9011007AA18D /* DatabaseManager.swift in Sources */,
 				A753A0B21C0D79BA00C9FBFE /* KMPersistance.swift in Sources */,
+				A7826F781C102E06007AA18D /* Internal.swift in Sources */,
 				A7826F6F1C0EC657007AA18D /* String+Extensions.swift in Sources */,
 				A753A0AA1C0C215E00C9FBFE /* publicFunctions.swift in Sources */,
 				A753A0AE1C0D586F00C9FBFE /* PersistanceProtocols.swift in Sources */,
@@ -638,6 +642,7 @@
 				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/Pods/**";
 				INFOPLIST_FILE = swiftArchitecture/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				OTHER_SWIFT_FLAGS = "$(inherited) \"-D\" \"COCOAPODS\" -D DEBUG";
 				PRODUCT_BUNDLE_IDENTIFIER = com.KleinMioke.swiftArchitecture;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "swiftArchitecture/Resource/swiftArchitecture-Bridging-Header.h";
@@ -654,6 +659,7 @@
 				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/Pods/**";
 				INFOPLIST_FILE = swiftArchitecture/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				OTHER_SWIFT_FLAGS = "$(inherited) \"-D\" \"COCOAPODS\" ";
 				PRODUCT_BUNDLE_IDENTIFIER = com.KleinMioke.swiftArchitecture;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "swiftArchitecture/Resource/swiftArchitecture-Bridging-Header.h";

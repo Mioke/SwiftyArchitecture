@@ -12,27 +12,47 @@ extension UIViewController: sender, receiver {
     
     typealias receiveDataType = AnyObject
     
-    func doTask(task: () -> receiveDataType, identifier: String) {
+    func doTask(task: () throws -> receiveDataType, identifier: String) {
         
         let block =  {
-            let result = task()
-            dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                self.finishTaskWithReuslt(result, identifier: identifier)
-            })
+            do {
+                let result = try task()
+                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                    self.finishTaskWithReuslt(result, identifier: identifier)
+                })
+            } catch let e {
+                if let error = e as? ErrorResultType {
+                    self.taskCancelledWithError(error as! AnyObject, identifier: identifier)
+                } else {
+                    Log.debugPrintln("Undefined error")
+                }
+            }
         }
         dispatch_async(dispatch_get_global_queue(0, 0), block)
     }
     
     @available(*, deprecated, message="尽量不要使用block回调，保证结构统一性。To make sure the unitarity of callback ,don't use this except neccesary")
-    func doTask(task: () -> receiveDataType, callBack: (receiveDataType) -> Void) {
+    func doTask(task: () throws -> receiveDataType, callBack: (receiveDataType) -> Void, failure: (ErrorResultType) -> Void) {
         
         dispatch_async(dispatch_get_global_queue(0, 0)) { () -> Void in
             
-            let result = task()
-            dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                callBack(result)
-            })
+            do {
+                let result = try task()
+                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                    callBack(result)
+                })
+            } catch let e {
+                if let error = e as? ErrorResultType {
+                    failure(error)
+                } else {
+                    Log.debugPrintln("Undefined error")
+                }
+            }
         }
+    }
+    
+    func taskCancelledWithError(error: AnyObject, identifier: String) {
+        NetworkManager.dealError(error as! ErrorResultType)
     }
     
     /**
@@ -42,7 +62,7 @@ extension UIViewController: sender, receiver {
      - parameter identifier: Task's identifier. 任务的标识
      */
     func finishTaskWithReuslt(result: receiveDataType, identifier: String) {
-        NetworkManager.dealErrorResult(result)
+        
     }
 }
 

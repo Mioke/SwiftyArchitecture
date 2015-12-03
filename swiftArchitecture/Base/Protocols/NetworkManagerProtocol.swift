@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct ErrorResultType {
+struct ErrorResultType: ErrorType {
     var description: String
     var code: Int
 }
@@ -52,5 +52,5 @@ protocol NetworkManagerProtocol {
     
     var server: String { get }
     
-    func sendRequestWithApiName(apiName: String, param: [String: AnyObject]?, timeout: NSTimeInterval?) -> ResultType<returnType>
+    func sendRequestWithApiName(apiName: String, param: [String: AnyObject]?, timeout: NSTimeInterval?) throws -> ResultType<returnType>
 }

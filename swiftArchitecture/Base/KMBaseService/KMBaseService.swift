@@ -12,15 +12,15 @@ import AFNetworking
 private let successKey = "success"
 private let errorKey = "error"
 
-protocol ApiManagerDelegate: NSObjectProtocol {
-    
-    func managerDidFinishWithData(data: AnyObject)
-    func managerDidFinishWithError(error: ErrorResultType)
-}
+//protocol ApiManagerDelegate: NSObjectProtocol {
+//    
+//    func managerDidFinishWithData(data: AnyObject)
+//    func managerDidFinishWithError(error: ErrorResultType)
+//}
 
 class KMBaseService: NSObject {
     
-    weak var delegate: ApiManagerDelegate?
+//    weak var delegate: ApiManagerDelegate?
 }
 
 extension KMBaseService: NetworkManagerProtocol {
@@ -33,10 +33,10 @@ extension KMBaseService: NetworkManagerProtocol {
         }
     }
     
-    func sendRequestWithApiName(apiName: String, param: [String : AnyObject]?, timeout: NSTimeInterval?) -> ResultType<returnType> {
+    func sendRequestWithApiName(apiName: String, param: [String : AnyObject]?, timeout: NSTimeInterval?) throws -> ResultType<returnType> {
         
         guard let url = NSURL(string: self.server + apiName) else {
-            return ResultType.Failed(ErrorResultType(description: "URL error", code: 1003))
+            throw ErrorResultType(description: "URL error", code: 1003)
         }
         
         let operation = NetworkManager.sendRequestOfURL(url, method: "POST", param: param, timeout: timeout)
@@ -60,6 +60,9 @@ extension KMBaseService: NetworkManagerProtocol {
             } catch {
                 result = ResultType.Failed(ErrorResultType(description: "JSON data parse error", code: 1000))
             }
+        }
+        if let error = result.error() {
+            throw error
         }
         return result
     }

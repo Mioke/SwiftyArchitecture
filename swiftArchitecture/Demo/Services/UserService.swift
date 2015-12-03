@@ -19,7 +19,7 @@ class UserService: KMBaseService {
         }
     }
     
-    func login() -> Bool {
+    func login() throws -> Bool {
         
         let api = "auth/login/?os=iphone"
         let param = [
@@ -28,7 +28,8 @@ class UserService: KMBaseService {
             "password": "111111",
             "device": "12345"
         ]
-        let result = self.sendRequestWithApiName(api, param: param, timeout: nil)
+        
+        let result = try self.sendRequestWithApiName(api, param: param, timeout: nil)
         
         print(result)
         

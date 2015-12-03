@@ -43,15 +43,11 @@ class NetworkManager: NSObject {
         return operation
     }
     
-    class func dealErrorResult(result: AnyObject) -> Bool {
+    class func dealError(error: ErrorResultType) -> Void {
         
-        if let error = (result as? ResultType<AnyObject>)?.error() {
-            // do something like
-            if error.code == 1001 {
-                // ...
-            }
-            return false
+        // do something like
+        if error.code == 1001 {
+            // ...
         }
-        return true
     }
 }

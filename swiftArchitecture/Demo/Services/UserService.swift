@@ -8,10 +8,16 @@
 
 import Foundation
 
-class UserService: KMBaseServise {
+class UserService: KMBaseService {
     
-    // Singleton
-    static let sharedInstance = UserService()
+    // Singleton model
+    static let currentUser = UserModel()
+    
+    var user: UserModel {
+        get {
+            return UserService.currentUser
+        }
+    }
     
     func login() -> Bool {
         
@@ -26,12 +32,10 @@ class UserService: KMBaseServise {
         
         print(result)
         
-        if result.isSuccess() {
-            if result.successData()!["success"] as? Int == 0 { return false }
+        if let success = result.successData()?["success"] as? Int where success == 1 {
+            return true
         }
-        else { return false }
-        
-        return true
+        return false
     }
 
 }

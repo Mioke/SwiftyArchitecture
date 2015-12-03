@@ -9,10 +9,21 @@
 import UIKit
 import AFNetworking
 
-class KMBaseServise: NSObject {
+private let successKey = "success"
+private let errorKey = "error"
+
+protocol ApiManagerDelegate: NSObjectProtocol {
+    
+    func managerDidFinishWithData(data: AnyObject)
+    func managerDidFinishWithError(error: ErrorResultType)
 }
 
-extension KMBaseServise: NetworkManagerProtocol {
+class KMBaseService: NSObject {
+    
+    weak var delegate: ApiManagerDelegate?
+}
+
+extension KMBaseService: NetworkManagerProtocol {
     
     typealias returnType = [String: AnyObject]
     
@@ -35,7 +46,17 @@ extension KMBaseServise: NetworkManagerProtocol {
         if let resp = operation.responseData {
             do {
                 let dic = try NSJSONSerialization.JSONObjectWithData(resp, options: .AllowFragments) as! returnType
-                result = ResultType.Success(dic)
+
+                if let success = dic[successKey] as? Int where success == 1 {
+                    result = ResultType.Success(dic)
+                }
+                else if let errorDic = dic[errorKey] as? [String: String] {
+                    
+                    let code = Int(errorDic["code"] ?? "0")  ?? 1004
+                    let msg = errorDic["msg"] ?? "Unknown error"
+                    
+                    result = ResultType.Failed(ErrorResultType(description: msg , code: code))
+                }
             } catch {
                 result = ResultType.Failed(ErrorResultType(description: "JSON data parse error", code: 1000))
             }

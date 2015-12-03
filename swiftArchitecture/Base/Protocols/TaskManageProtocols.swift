@@ -8,19 +8,21 @@
 
 import Foundation
 
-protocol _sender: NSObjectProtocol {
-}
-
-protocol _receiver: NSObjectProtocol {
-}
-
-protocol TaskExecutor: _sender, _receiver {
-    
+protocol _task: NSObjectProtocol {
     typealias receiveDataType
+}
+
+protocol sender: _task {
     
     func doTask(task: () -> receiveDataType, identifier: String) -> Void
     
     func doTask(task: () -> receiveDataType, callBack: (receiveDataType) -> Void) -> Void
     
+    //    func cancelTaskWithIdentifier(identifier: String) -> Bool
+}
+
+protocol receiver: _task {
+    
     func finishTaskWithReuslt(result: receiveDataType, identifier: String) -> Void
 }
+

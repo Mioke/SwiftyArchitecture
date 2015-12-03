@@ -22,9 +22,9 @@ func scope(name: String, closure: () -> ()) -> Void {
 class Log {
     
     class func debugPrintln<T>(value: T) -> Void {
-        #if DEBUG
+//        #if DEBUG
             print(value)
-        #endif
+//        #endif
     }
 }
 

@@ -42,4 +42,16 @@ class NetworkManager: NSObject {
         
         return operation
     }
+    
+    class func dealErrorResult(result: AnyObject) -> Bool {
+        
+        if let error = (result as? ResultType<AnyObject>)?.error() {
+            // do something like
+            if error.code == 1001 {
+                // ...
+            }
+            return false
+        }
+        return true
+    }
 }

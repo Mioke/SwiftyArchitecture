@@ -8,19 +8,19 @@
 
 import Foundation
 
-extension UIViewController: TaskExecutor {
+extension UIViewController: sender, receiver {
     
     typealias receiveDataType = AnyObject
     
     func doTask(task: () -> receiveDataType, identifier: String) {
         
-        dispatch_async(dispatch_get_global_queue(0, 0)) { () -> Void in
-            
+        let block =  {
             let result = task()
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
                 self.finishTaskWithReuslt(result, identifier: identifier)
             })
         }
+        dispatch_async(dispatch_get_global_queue(0, 0), block)
     }
     
     @available(*, deprecated, message="尽量不要使用block回调，保证结构统一性。To make sure the unitarity of callback ,don't use this except neccesary")
@@ -30,11 +30,11 @@ extension UIViewController: TaskExecutor {
             
             let result = task()
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                self.dealErrorResult(result)
                 callBack(result)
             })
         }
     }
+    
     /**
      Task's callback. 任务的回调函数
      
@@ -42,16 +42,8 @@ extension UIViewController: TaskExecutor {
      - parameter identifier: Task's identifier. 任务的标识
      */
     func finishTaskWithReuslt(result: receiveDataType, identifier: String) {
-        self.dealErrorResult(result)
-    }
-    
-    private func dealErrorResult(result: receiveDataType) -> Bool {
-        
-        if let _ = (result as? ResultType<receiveDataType>)?.error() {
-            // do something
-            
-            return false
-        }
-        return true
+        NetworkManager.dealErrorResult(result)
     }
 }
+
+

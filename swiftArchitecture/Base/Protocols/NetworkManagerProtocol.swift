@@ -8,9 +8,16 @@
 
 import Foundation
 
-struct ErrorResultType: ErrorType {
-    var description: String
-    var code: Int
+class ErrorResultType: NSObject, ErrorType {
+    var desc: String = ""
+    var code: Int = 0
+    
+    convenience init(desc: String, code: Int) {
+        self.init()
+        
+        self.desc = desc
+        self.code = code
+    }
 }
 
 enum ResultType<T> {

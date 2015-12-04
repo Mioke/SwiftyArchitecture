@@ -36,12 +36,12 @@ extension KMBaseService: NetworkManagerProtocol {
     func sendRequestWithApiName(apiName: String, param: [String : AnyObject]?, timeout: NSTimeInterval?) throws -> ResultType<returnType> {
         
         guard let url = NSURL(string: self.server + apiName) else {
-            throw ErrorResultType(description: "URL error", code: 1003)
+            throw ErrorResultType(desc: "URL error", code: 1003)
         }
         
         let operation = NetworkManager.sendRequestOfURL(url, method: "POST", param: param, timeout: timeout)
         
-        var result: ResultType<returnType> = ResultType.Failed(ErrorResultType(description: "No data", code: 1001))
+        var result: ResultType<returnType> = ResultType.Failed(ErrorResultType(desc: "No data", code: 1001))
         
         if let resp = operation.responseData {
             do {
@@ -55,10 +55,10 @@ extension KMBaseService: NetworkManagerProtocol {
                     let code = Int(errorDic["code"] ?? "0")  ?? 1004
                     let msg = errorDic["msg"] ?? "Unknown error"
                     
-                    result = ResultType.Failed(ErrorResultType(description: msg , code: code))
+                    result = ResultType.Failed(ErrorResultType(desc: msg , code: code))
                 }
             } catch {
-                result = ResultType.Failed(ErrorResultType(description: "JSON data parse error", code: 1000))
+                result = ResultType.Failed(ErrorResultType(desc: "JSON data parse error", code: 1000))
             }
         }
         if let error = result.error() {

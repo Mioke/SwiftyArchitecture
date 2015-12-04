@@ -22,7 +22,7 @@ extension UIViewController: sender, receiver {
                 })
             } catch let e {
                 if let error = e as? ErrorResultType {
-                    self.taskCancelledWithError(error as! AnyObject, identifier: identifier)
+                    self.taskCancelledWithError(error, identifier: identifier)
                 } else {
                     Log.debugPrintln("Undefined error")
                 }
@@ -51,8 +51,8 @@ extension UIViewController: sender, receiver {
         }
     }
     
-    func taskCancelledWithError(error: AnyObject, identifier: String) {
-        NetworkManager.dealError(error as! ErrorResultType)
+    func taskCancelledWithError(error: ErrorResultType, identifier: String) {
+        NetworkManager.dealError(error)
     }
     
     /**

@@ -22,7 +22,6 @@ class ViewController: UIViewController {
         
         let db = DefaultDatabase()
         Log.debugPrintln(db.query("select * from tableDoesntExtist", withArgumentsInArray: nil))
-        
     }
 
     override func didReceiveMemoryWarning() {
@@ -51,7 +50,7 @@ class ViewController: UIViewController {
         }
     }
     
-    override func taskCancelledWithError(error: AnyObject, identifier: String) {
+    override func taskCancelledWithError(error: ErrorResultType, identifier: String) {
         super.taskCancelledWithError(error, identifier: identifier)
     }
 }

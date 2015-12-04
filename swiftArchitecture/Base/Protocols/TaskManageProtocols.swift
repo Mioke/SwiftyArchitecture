@@ -23,7 +23,7 @@ protocol sender: _task {
 
 protocol receiver: _task {
     
-    func taskCancelledWithError(error: AnyObject, identifier: String) -> Void
+    func taskCancelledWithError(error: ErrorResultType, identifier: String) -> Void
     
     func finishTaskWithReuslt(result: receiveDataType, identifier: String) -> Void
 }

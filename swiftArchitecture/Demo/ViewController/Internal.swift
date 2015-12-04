@@ -8,21 +8,21 @@
 
 import UIKit
 
-//protocol XProtocol {
-//    
-//    func dealError(error: ErrorResultType)
-//}
-//
-//extension UIViewController: XProtocol {
-//    
-//    func dealError(error: ErrorResultType) {
-//        
-//    }
-//}
-//
-//class ABCViewController: UIViewController {
-//    
-//    override func dealError(error: ErrorResultType) {
-//        
-//    }
-//}
+protocol XProtocol {
+    
+    func dealError(error: ErrorResultType)
+}
+
+extension UIViewController: XProtocol {
+    
+    func dealError(error: ErrorResultType) {
+        
+    }
+}
+
+class ABCViewController: UIViewController {
+    
+    override func dealError(error: ErrorResultType) {
+        
+    }
+}

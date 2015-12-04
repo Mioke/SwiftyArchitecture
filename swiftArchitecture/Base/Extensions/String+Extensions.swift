@@ -47,25 +47,3 @@ extension String {
     }
 }
 
-extension CollectionType where Generator.Element: Comparable {
-    
-    var isSorted: Bool {
-        
-        var compare: Int?
-        
-        for i in self.startIndex..<self.endIndex {
-            if compare == nil {
-                if self[i] > self[i.successor()] { compare = 0 }
-                else { compare = 1 }
-                continue
-            }
-            if compare! == 1 {
-                if self[i] > self[i.successor()] { return false }
-            } else {
-                if self[i] < self[i.successor()] { return false }
-            }
-        }
-        return true
-    }
-    
-}

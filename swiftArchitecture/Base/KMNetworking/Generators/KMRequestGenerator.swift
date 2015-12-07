@@ -7,7 +7,14 @@
 //
 
 import UIKit
+import Alamofire
 
 class KMRequestGenerator: NSObject {
     
+    class func generateRequestWithServer(server: Server, method: Alamofire.Method, apiVersion: String?, apiName: String, params: [String: AnyObject]) -> Request {
+        
+        let urlString = "\(server.url)/\(apiVersion ?? "")/\(apiName)"
+        
+        return Manager.sharedInstance.request(method, urlString, parameters: params, encoding: .URL, headers: nil)
+    }
 }

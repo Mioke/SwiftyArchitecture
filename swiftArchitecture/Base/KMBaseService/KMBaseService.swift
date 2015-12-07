@@ -29,7 +29,7 @@ extension KMBaseService: NetworkManagerProtocol {
     
     var server: String {
         get {
-            return kServer
+            return kServer.url
         }
     }
     

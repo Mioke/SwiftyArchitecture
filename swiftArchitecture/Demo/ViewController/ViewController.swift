@@ -11,6 +11,8 @@ import UIKit
 class ViewController: UIViewController {
     
     let userService = UserService()
+    
+    var loginManager: ApiLogin!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -18,6 +20,14 @@ class ViewController: UIViewController {
         
         scope("init UI") {
             self.view.backgroundColor = UIColor.lightGrayColor()
+        }
+        
+        scope("init data") {
+            self.loginManager = {
+                let manager = ApiLogin()
+                manager.delegate = self
+                return manager
+            }()
         }
         
         let db = DefaultDatabase()
@@ -55,5 +65,18 @@ class ViewController: UIViewController {
     }
 }
 
+extension ViewController: ApiCallbackProtocol {
+    
+    func ApiManager(apiManager: BaseApiManager, finishWithOriginData data: AnyObject) {
+        
+        if let apiManager = apiManager as? ApiLogin {
+            print("login success: \n \(apiManager.originData())")
+        }
+    }
+    
+    func ApiManager(apimanager: BaseApiManager, failedWithError: ErrorResultType) {
+        
+    }
+}
 
 

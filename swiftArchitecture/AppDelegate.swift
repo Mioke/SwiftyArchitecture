@@ -9,6 +9,7 @@
 import UIKit
 import CoreData
 import AFNetworking
+import Alamofire
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -19,7 +20,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
         
-        AFNetworkActivityIndicatorManager.sharedManager().enabled = true
+//        AFNetworkActivityIndicatorManager.sharedManager().enabled = true
+        
         #if DEBUG
             Server.online = false
         #endif

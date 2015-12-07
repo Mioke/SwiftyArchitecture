@@ -28,15 +28,15 @@ class Log {
     }
 }
 
-public let kServer = "http://115.29.175.210:8009/"
-
-func ServerURLString(interface: String) -> String {
-    return kServer + interface
-}
-
-func ServerURLWithComponent(comp: String) -> NSURL? {
-    return NSURL(string: ServerURLString(comp))
-}
+//public let kServer = "http://115.29.175.210:8009/"
+//
+//func ServerURLString(interface: String) -> String {
+//    return kServer + interface
+//}
+//
+//func ServerURLWithComponent(comp: String) -> NSURL? {
+//    return NSURL(string: ServerURLString(comp))
+//}
 
 
 

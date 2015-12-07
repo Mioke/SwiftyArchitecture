@@ -25,14 +25,12 @@ class Server: NSObject {
         }
     }
     
-    @available(*, unavailable, message="Use init(online:, offline:)")
-    override init() {
-        super.init()
-    }
-    
     init(online: String, offline: String) {
         super.init()
         self.onlineURL = online
         self.offlineURL = offline
     }
 }
+
+let kServer = Server(online: "http://115.29.175.210:8009/", offline: "http://115.29.175.210:8009/")
+

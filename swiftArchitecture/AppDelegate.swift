@@ -20,6 +20,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         
         AFNetworkActivityIndicatorManager.sharedManager().enabled = true
+        #if DEBUG
+            Server.online = false
+        #endif
         
         return true
     }

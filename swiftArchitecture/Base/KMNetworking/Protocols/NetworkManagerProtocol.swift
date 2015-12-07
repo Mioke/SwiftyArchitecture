@@ -9,7 +9,7 @@
 import Foundation
 
 class ErrorResultType: NSObject, ErrorType {
-    var desc: String = ""
+    var desc: String = "Undefined error"
     var code: Int = 0
     
     convenience init(desc: String, code: Int) {

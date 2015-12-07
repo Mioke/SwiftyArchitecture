@@ -17,8 +17,9 @@
 		A753A0A71C080B6800C9FBFE /* UIViewController+TaskManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A753A0A61C080B6800C9FBFE /* UIViewController+TaskManager.swift */; };
 		A753A0AA1C0C215E00C9FBFE /* publicFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A753A0A91C0C215E00C9FBFE /* publicFunctions.swift */; };
 		A753A0AC1C0C30A700C9FBFE /* UIRelevance.swift in Sources */ = {isa = PBXBuildFile; fileRef = A753A0AB1C0C30A700C9FBFE /* UIRelevance.swift */; };
-		A753A0AE1C0D586F00C9FBFE /* PersistanceProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = A753A0AD1C0D586F00C9FBFE /* PersistanceProtocols.swift */; };
 		A753A0B21C0D79BA00C9FBFE /* KMPersistance.swift in Sources */ = {isa = PBXBuildFile; fileRef = A753A0B11C0D79BA00C9FBFE /* KMPersistance.swift */; };
+		A77BACE11C1542EE00AF7A86 /* Server.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77BACE01C1542EE00AF7A86 /* Server.swift */; };
+		A77BACE61C1548E800AF7A86 /* KMRequestGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77BACE51C1548E800AF7A86 /* KMRequestGenerator.swift */; };
 		A7826F6A1C0D842B007AA18D /* DefaultDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7826F691C0D842B007AA18D /* DefaultDatabase.swift */; };
 		A7826F6C1C0D9011007AA18D /* DatabaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7826F6B1C0D9011007AA18D /* DatabaseManager.swift */; };
 		A7826F6F1C0EC657007AA18D /* String+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7826F6E1C0EC657007AA18D /* String+Extensions.swift */; };
@@ -64,8 +65,9 @@
 		A753A0A61C080B6800C9FBFE /* UIViewController+TaskManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+TaskManager.swift"; sourceTree = "<group>"; };
 		A753A0A91C0C215E00C9FBFE /* publicFunctions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = publicFunctions.swift; sourceTree = "<group>"; };
 		A753A0AB1C0C30A700C9FBFE /* UIRelevance.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIRelevance.swift; sourceTree = "<group>"; };
-		A753A0AD1C0D586F00C9FBFE /* PersistanceProtocols.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersistanceProtocols.swift; sourceTree = "<group>"; };
 		A753A0B11C0D79BA00C9FBFE /* KMPersistance.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KMPersistance.swift; sourceTree = "<group>"; };
+		A77BACE01C1542EE00AF7A86 /* Server.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Server.swift; sourceTree = "<group>"; };
+		A77BACE51C1548E800AF7A86 /* KMRequestGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KMRequestGenerator.swift; sourceTree = "<group>"; };
 		A7826F691C0D842B007AA18D /* DefaultDatabase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultDatabase.swift; sourceTree = "<group>"; };
 		A7826F6B1C0D9011007AA18D /* DatabaseManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatabaseManager.swift; sourceTree = "<group>"; };
 		A7826F6E1C0EC657007AA18D /* String+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Extensions.swift"; sourceTree = "<group>"; };
@@ -134,6 +136,7 @@
 		A752DE2E1C02F868008E3118 /* Base */ = {
 			isa = PBXGroup;
 			children = (
+				A77BACDF1C1542D600AF7A86 /* KMNetworking */,
 				A7826F6D1C0EC640007AA18D /* Extensions */,
 				A753A0B01C0D797D00C9FBFE /* Persistance */,
 				A752DE321C02FA9A008E3118 /* Protocols */,
@@ -148,7 +151,6 @@
 			isa = PBXGroup;
 			children = (
 				A752DE301C02FA28008E3118 /* KMBaseService.swift */,
-				A753A0A41C07054300C9FBFE /* NetworkManager.swift */,
 			);
 			path = KMBaseService;
 			sourceTree = "<group>";
@@ -156,9 +158,7 @@
 		A752DE321C02FA9A008E3118 /* Protocols */ = {
 			isa = PBXGroup;
 			children = (
-				A752DE351C02FAFE008E3118 /* NetworkManagerProtocol.swift */,
 				A752DE3C1C030103008E3118 /* TaskManageProtocols.swift */,
-				A753A0AD1C0D586F00C9FBFE /* PersistanceProtocols.swift */,
 			);
 			path = Protocols;
 			sourceTree = "<group>";
@@ -219,11 +219,46 @@
 		A753A0B01C0D797D00C9FBFE /* Persistance */ = {
 			isa = PBXGroup;
 			children = (
-				A753A0B11C0D79BA00C9FBFE /* KMPersistance.swift */,
+				A77BACE21C1544CA00AF7A86 /* Protocols */,
 				A7826F691C0D842B007AA18D /* DefaultDatabase.swift */,
 				A7826F6B1C0D9011007AA18D /* DatabaseManager.swift */,
 			);
 			path = Persistance;
+			sourceTree = "<group>";
+		};
+		A77BACDF1C1542D600AF7A86 /* KMNetworking */ = {
+			isa = PBXGroup;
+			children = (
+				A77BACE41C15456F00AF7A86 /* Generators */,
+				A77BACE31C15454700AF7A86 /* Protocols */,
+				A77BACE01C1542EE00AF7A86 /* Server.swift */,
+				A753A0A41C07054300C9FBFE /* NetworkManager.swift */,
+			);
+			path = KMNetworking;
+			sourceTree = "<group>";
+		};
+		A77BACE21C1544CA00AF7A86 /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				A753A0B11C0D79BA00C9FBFE /* KMPersistance.swift */,
+			);
+			path = Protocols;
+			sourceTree = "<group>";
+		};
+		A77BACE31C15454700AF7A86 /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				A752DE351C02FAFE008E3118 /* NetworkManagerProtocol.swift */,
+			);
+			path = Protocols;
+			sourceTree = "<group>";
+		};
+		A77BACE41C15456F00AF7A86 /* Generators */ = {
+			isa = PBXGroup;
+			children = (
+				A77BACE51C1548E800AF7A86 /* KMRequestGenerator.swift */,
+			);
+			path = Generators;
 			sourceTree = "<group>";
 		};
 		A7826F6D1C0EC640007AA18D /* Extensions */ = {
@@ -488,10 +523,11 @@
 				A7826F781C102E06007AA18D /* Internal.swift in Sources */,
 				A7826F6F1C0EC657007AA18D /* String+Extensions.swift in Sources */,
 				A753A0AA1C0C215E00C9FBFE /* publicFunctions.swift in Sources */,
-				A753A0AE1C0D586F00C9FBFE /* PersistanceProtocols.swift in Sources */,
 				A752DE311C02FA28008E3118 /* KMBaseService.swift in Sources */,
 				A752DE431C03F23D008E3118 /* UserService.swift in Sources */,
+				A77BACE11C1542EE00AF7A86 /* Server.swift in Sources */,
 				A753A0A71C080B6800C9FBFE /* UIViewController+TaskManager.swift in Sources */,
+				A77BACE61C1548E800AF7A86 /* KMRequestGenerator.swift in Sources */,
 				A752DE361C02FAFE008E3118 /* NetworkManagerProtocol.swift in Sources */,
 				A753A0AC1C0C30A700C9FBFE /* UIRelevance.swift in Sources */,
 				A7826F6A1C0D842B007AA18D /* DefaultDatabase.swift in Sources */,

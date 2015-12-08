@@ -7,12 +7,16 @@
 //
 
 import Foundation
+import Alamofire
 
 class BaseApiManager: NSObject {
     
+    static let successKey = "success"
+    static let successValue = 1
+    
     private weak var child: ApiInfoProtocol?
     
-    private var result: ResultType<[String: AnyObject]>?
+    private var data: [String: AnyObject]?
     
     var isLoading = false
     
@@ -31,21 +35,52 @@ class BaseApiManager: NSObject {
     
     func loadDataWithParams(params: [String: AnyObject]) -> Void {
         
+        self.isLoading = true
+        
+        let request = KMRequestGenerator.generateRequestWithServer(self.child!.server, method: .GET, apiVersion: self.child!.apiVersion, apiName: self.child!.apiName, params: params)
+        
+        request.responseJSON { (resp: Response<AnyObject, NSError>) -> Void in
+            
+            self.isLoading = false
+            
+            if let value = resp.result.value as? [String: AnyObject] {
+                self.data = value
+                self.loadingComplete()
+                
+                // FIXME: Change the type of successValue conform to Server's return value type.
+                if value[BaseApiManager.successKey] as! Int == BaseApiManager.successValue {
+                    self.delegate?.ApiManager(self, finishWithOriginData: value)
+                } else {
+                    // TODO: The error that server's return
+//                    self.delegate?.ApiManager(self, failedWithError: <#T##NSError#>)
+                }
+            }
+            else if let error = resp.result.error {
+                self.loadingFailedWithError(error)
+                self.delegate?.ApiManager(self, failedWithError: error)
+            }
+            else {
+                let error = NSError(domain: "Unknown domain", code: 1001, userInfo: nil)
+                self.loadingFailedWithError(error)
+                self.delegate?.ApiManager(self, failedWithError: error)
+            }
+        }
+    }
+    
+    func loadingComplete() -> Void {
+        // do nothing
+    }
+    
+    func loadingFailedWithError(error: NSError) -> Void {
+        // TODO: Do something with general error like `if error.code == 1001 { ... }`
+
     }
     
     func isSuccess() -> Bool {
-        if let
-            success = self.result?.successData()?["success"] as? String
-            where success == "1"
-        {
-            return true
-        }
-        else {
-            return false
-        }
+        return self.data != nil
     }
     
     func originData() -> [String: AnyObject]? {
-        return self.result?.successData()
+        return self.data
     }
 }

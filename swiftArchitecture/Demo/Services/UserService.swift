@@ -14,9 +14,7 @@ class UserService: KMBaseService {
     static let currentUser = UserModel()
     
     var user: UserModel {
-        get {
-            return UserService.currentUser
-        }
+        get { return UserService.currentUser }
     }
     
     func login() throws -> Bool {

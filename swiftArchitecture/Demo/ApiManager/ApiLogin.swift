@@ -10,21 +10,23 @@ import Foundation
 
 class ApiLogin: BaseApiManager, ApiInfoProtocol {
 
-    // MARK: ApiInfoProtocol params
+    // MARK: - ApiInfoProtocol params
     
     var apiVersion: String {
-        get {
-            return ""
-        }
+        get { return "" }
     }
     var apiName: String {
-        get {
-            "auth/login/?os=iphone/"
-        }
+        get { return "auth/login/?os=iphone/" }
     }
     var server: Server {
-        get {
-            return kServer
-        }
+        get { return kServer }
+    }
+    
+    // MARK: - Completion
+    override func loadingComplete() {
+        Log.debugPrintln(self.originData())
+    }
+    override func loadingFailedWithError(error: NSError) {
+        Log.debugPrintln(error)
     }
 }

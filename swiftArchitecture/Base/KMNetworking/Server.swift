@@ -12,8 +12,8 @@ class Server: NSObject {
     
     static var online: Bool = true
 
-    private var onlineURL: String = ""
-    private var offlineURL: String = ""
+    private var onlineURL: String
+    private var offlineURL: String
     
     var url: String {
         get {
@@ -26,9 +26,9 @@ class Server: NSObject {
     }
     
     init(online: String, offline: String) {
-        super.init()
         self.onlineURL = online
         self.offlineURL = offline
+        super.init()
     }
 }
 

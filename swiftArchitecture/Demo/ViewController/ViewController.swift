@@ -41,11 +41,18 @@ class ViewController: UIViewController {
 
     @IBAction func clickButton(sender: AnyObject) {
         
-        self.doTask({ () -> receiveDataType in
-            
-            return try self.userService.login()
-            
-        }, identifier: "LoginAction")
+//        self.doTask({ () -> receiveDataType in
+//            
+//            return try self.userService.login()
+//            
+//        }, identifier: "LoginAction")
+        
+        self.loginManager.loadDataWithParams([
+            "ver": "i5.1.1",
+            "account": "1223@ss.com",
+            "password": "111111",
+            "device": "12345"
+        ])
     }
     
     override func finishTaskWithReuslt(result: receiveDataType, identifier: String) {
@@ -74,7 +81,7 @@ extension ViewController: ApiCallbackProtocol {
         }
     }
     
-    func ApiManager(apimanager: BaseApiManager, failedWithError: ErrorResultType) {
+    func ApiManager(apimanager: BaseApiManager, failedWithError: NSError) {
         
     }
 }

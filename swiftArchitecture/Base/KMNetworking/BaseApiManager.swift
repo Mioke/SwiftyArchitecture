@@ -35,9 +35,14 @@ class BaseApiManager: NSObject {
     
     func loadDataWithParams(params: [String: AnyObject]) -> Void {
         
+        if self.isLoading {
+            return
+        }
+        
         self.isLoading = true
         
         let request = KMRequestGenerator.generateRequestWithServer(self.child!.server, method: .GET, apiVersion: self.child!.apiVersion, apiName: self.child!.apiName, params: params)
+        request.session.configuration.timeoutIntervalForRequest = self.timeoutInterval
         
         request.responseJSON { (resp: Response<AnyObject, NSError>) -> Void in
             
@@ -77,7 +82,7 @@ class BaseApiManager: NSObject {
     }
     
     func isSuccess() -> Bool {
-        return self.data != nil
+        return self.data != nil && !self.isLoading
     }
     
     func originData() -> [String: AnyObject]? {

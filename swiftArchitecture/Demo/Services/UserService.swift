@@ -11,7 +11,7 @@ import Foundation
 class UserService: KMBaseService {
     
     // Singleton model
-    static let currentUser = UserModel()
+    static let currentUser = UserModel(name: "defaultUser", uid: 0)
     
     var user: UserModel {
         get { return UserService.currentUser }

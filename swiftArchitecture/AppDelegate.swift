@@ -26,6 +26,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             Server.online = false
         #endif
         
+        let root = InternalTestVC()
+        let nav = UINavigationController(rootViewController: root)
+
+        self.window?.rootViewController = nav
+        self.window?.makeKeyAndVisible()
+        
         return true
     }
 

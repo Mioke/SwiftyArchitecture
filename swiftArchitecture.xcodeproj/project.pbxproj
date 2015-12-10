@@ -24,6 +24,10 @@
 		A77BACEA1C15641700AF7A86 /* BaseApiManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77BACE91C15641700AF7A86 /* BaseApiManager.swift */; };
 		A77BACED1C157EEB00AF7A86 /* ApiLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77BACEC1C157EEB00AF7A86 /* ApiLogin.swift */; };
 		A77BACEF1C15810300AF7A86 /* ApiCallbackProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77BACEE1C15810300AF7A86 /* ApiCallbackProtocol.swift */; };
+		A77BACF11C16ABBF00AF7A86 /* UIColor+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77BACF01C16ABBF00AF7A86 /* UIColor+Extensions.swift */; };
+		A77BAD161C1927E500AF7A86 /* DatabaseCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77BAD151C1927E500AF7A86 /* DatabaseCommand.swift */; };
+		A77BAD1A1C196DFD00AF7A86 /* InternalTestVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77BAD191C196DFD00AF7A86 /* InternalTestVC.swift */; };
+		A77BAD1D1C1971A300AF7A86 /* UserTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77BAD1C1C1971A300AF7A86 /* UserTable.swift */; };
 		A7826F6A1C0D842B007AA18D /* DefaultDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7826F691C0D842B007AA18D /* DefaultDatabase.swift */; };
 		A7826F6C1C0D9011007AA18D /* DatabaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7826F6B1C0D9011007AA18D /* DatabaseManager.swift */; };
 		A7826F6F1C0EC657007AA18D /* String+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7826F6E1C0EC657007AA18D /* String+Extensions.swift */; };
@@ -76,6 +80,10 @@
 		A77BACE91C15641700AF7A86 /* BaseApiManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseApiManager.swift; sourceTree = "<group>"; };
 		A77BACEC1C157EEB00AF7A86 /* ApiLogin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApiLogin.swift; sourceTree = "<group>"; };
 		A77BACEE1C15810300AF7A86 /* ApiCallbackProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApiCallbackProtocol.swift; sourceTree = "<group>"; };
+		A77BACF01C16ABBF00AF7A86 /* UIColor+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+Extensions.swift"; sourceTree = "<group>"; };
+		A77BAD151C1927E500AF7A86 /* DatabaseCommand.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatabaseCommand.swift; sourceTree = "<group>"; };
+		A77BAD191C196DFD00AF7A86 /* InternalTestVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InternalTestVC.swift; sourceTree = "<group>"; };
+		A77BAD1C1C1971A300AF7A86 /* UserTable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserTable.swift; sourceTree = "<group>"; };
 		A7826F691C0D842B007AA18D /* DefaultDatabase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultDatabase.swift; sourceTree = "<group>"; };
 		A7826F6B1C0D9011007AA18D /* DatabaseManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatabaseManager.swift; sourceTree = "<group>"; };
 		A7826F6E1C0EC657007AA18D /* String+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Extensions.swift"; sourceTree = "<group>"; };
@@ -185,6 +193,7 @@
 			children = (
 				A77BACEB1C157EC100AF7A86 /* ApiManager */,
 				A7826F741C0EF058007AA18D /* Model */,
+				A77BAD1B1C19715F00AF7A86 /* Persistance */,
 				A752DE401C031066008E3118 /* Services */,
 				A752DE411C031066008E3118 /* ViewController */,
 			);
@@ -204,6 +213,7 @@
 			children = (
 				A753A0A21C06FE5A00C9FBFE /* ViewController.swift */,
 				A7826F771C102E06007AA18D /* Internal.swift */,
+				A77BAD191C196DFD00AF7A86 /* InternalTestVC.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -251,6 +261,7 @@
 			isa = PBXGroup;
 			children = (
 				A753A0B11C0D79BA00C9FBFE /* KMPersistance.swift */,
+				A77BAD151C1927E500AF7A86 /* DatabaseCommand.swift */,
 			);
 			path = Protocols;
 			sourceTree = "<group>";
@@ -281,11 +292,20 @@
 			path = ApiManager;
 			sourceTree = "<group>";
 		};
+		A77BAD1B1C19715F00AF7A86 /* Persistance */ = {
+			isa = PBXGroup;
+			children = (
+				A77BAD1C1C1971A300AF7A86 /* UserTable.swift */,
+			);
+			path = Persistance;
+			sourceTree = "<group>";
+		};
 		A7826F6D1C0EC640007AA18D /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
 				A7826F6E1C0EC657007AA18D /* String+Extensions.swift */,
 				A7826F791C112AF2007AA18D /* CollectionType+Extension.swift */,
+				A77BACF01C16ABBF00AF7A86 /* UIColor+Extensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -541,12 +561,15 @@
 				A7826F6C1C0D9011007AA18D /* DatabaseManager.swift in Sources */,
 				A753A0B21C0D79BA00C9FBFE /* KMPersistance.swift in Sources */,
 				A7826F781C102E06007AA18D /* Internal.swift in Sources */,
+				A77BAD1A1C196DFD00AF7A86 /* InternalTestVC.swift in Sources */,
 				A7826F6F1C0EC657007AA18D /* String+Extensions.swift in Sources */,
+				A77BAD161C1927E500AF7A86 /* DatabaseCommand.swift in Sources */,
 				A77BACED1C157EEB00AF7A86 /* ApiLogin.swift in Sources */,
 				A753A0AA1C0C215E00C9FBFE /* publicFunctions.swift in Sources */,
 				A752DE311C02FA28008E3118 /* KMBaseService.swift in Sources */,
 				A752DE431C03F23D008E3118 /* UserService.swift in Sources */,
 				A77BACE11C1542EE00AF7A86 /* Server.swift in Sources */,
+				A77BACF11C16ABBF00AF7A86 /* UIColor+Extensions.swift in Sources */,
 				A753A0A71C080B6800C9FBFE /* UIViewController+TaskManager.swift in Sources */,
 				A77BACEA1C15641700AF7A86 /* BaseApiManager.swift in Sources */,
 				A77BACE61C1548E800AF7A86 /* KMRequestGenerator.swift in Sources */,
@@ -554,6 +577,7 @@
 				A753A0AC1C0C30A700C9FBFE /* UIRelevance.swift in Sources */,
 				A7826F6A1C0D842B007AA18D /* DefaultDatabase.swift in Sources */,
 				A77BACE81C15638900AF7A86 /* ApiInfoProtocol.swift in Sources */,
+				A77BAD1D1C1971A300AF7A86 /* UserTable.swift in Sources */,
 				A791C6B91C02E90000670017 /* swiftArchitecture.xcdatamodeld in Sources */,
 				A753A0A31C06FE5A00C9FBFE /* ViewController.swift in Sources */,
 				A752DE3D1C030103008E3118 /* TaskManageProtocols.swift in Sources */,

@@ -31,6 +31,7 @@ class DatabaseCommand: NSObject {
         
         guard let params = record.dictionaryRepresentationInTable(table) else {
             assert(false, "DatabaseCommand REPLACE params should not be ampty")
+            return ""
         }
         var sql = "replace into \(table.tableName) ("
         
@@ -50,11 +51,10 @@ class DatabaseCommand: NSObject {
         return sql
     }
     
-    class func queryCommandWithTable(table: TableProtocol, select: String, condition: DatabaseCommandCondition) -> String {
-        guard !select.isEmpty else {
-            assert(false, "DatabaseCommand SELECT: select string should not be ampty")
-        }
-        var sql = "select '\(select)' from \(table.tableName)"
+    class func queryCommandWithTable(table: TableProtocol, select: String?, condition: DatabaseCommandCondition) -> String {
+        
+        let selectSql = select == nil ? "*" : "'\(select!)'"
+        var sql = "select \(selectSql) from \(table.tableName)"
         condition.applyConditionToCommand(&sql)
         
         return sql

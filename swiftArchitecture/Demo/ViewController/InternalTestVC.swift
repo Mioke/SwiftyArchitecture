@@ -18,7 +18,7 @@ class InternalTestVC: UIViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        self.tests = ["Record user model"]
+        self.tests = ["Record user model", "Read users"]
         
         self.tableView = {
             let view = UITableView(frame: self.view.bounds)
@@ -93,8 +93,21 @@ extension InternalTestVC: UITableViewDelegate, UITableViewDataSource {
         switch indexPath.row {
         case 0:
             let table = UserTable()
-            table.replaceRecord(UserService.currentUser)
-            break
+            let newUser = UserModel(name: "Klein", uid: 310)
+            
+            table.replaceRecord(newUser)
+            
+        case 1:
+            let table = UserTable()
+            let condition = DatabaseCommandCondition()
+            
+            condition.whereConditions = "user_id >= 0"
+            condition.orderBy = "user_name"
+            
+            let result = table.queryRecordWithSelect(nil, condition: condition)
+            
+            Log.debugPrintln(result)
+            
         default:
             break
         }

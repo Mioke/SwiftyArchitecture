@@ -123,7 +123,7 @@ class KMPersistanceTable: NSObject {
         return self.child!.database!.execute(sql, withArgumentsInDictionary: params)
     }
     
-    func queryRecordWithSelect(select: String, condition: DatabaseCommandCondition) -> NSMutableArray {
+    func queryRecordWithSelect(select: String?, condition: DatabaseCommandCondition) -> NSMutableArray {
         
         let sql = DatabaseCommand.queryCommandWithTable(self.child!, select: select, condition: condition)
         

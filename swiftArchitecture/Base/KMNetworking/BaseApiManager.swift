@@ -15,6 +15,7 @@ class BaseApiManager: NSObject {
     static let successValue = 1
     
     private weak var child: ApiInfoProtocol?
+    private var request: Request?
     
     private var data: [String: AnyObject]?
     
@@ -40,11 +41,12 @@ class BaseApiManager: NSObject {
         }
         
         self.isLoading = true
+        self.cancel()
         
-        let request = KMRequestGenerator.generateRequestWithServer(self.child!.server, method: .GET, apiVersion: self.child!.apiVersion, apiName: self.child!.apiName, params: params)
-        request.session.configuration.timeoutIntervalForRequest = self.timeoutInterval
+        self.request = KMRequestGenerator.generateRequestWithServer(self.child!.server, method: .GET, apiVersion: self.child!.apiVersion, apiName: self.child!.apiName, params: params)
+        self.request?.session.configuration.timeoutIntervalForRequest = self.timeoutInterval
         
-        request.responseJSON { (resp: Response<AnyObject, NSError>) -> Void in
+        self.request?.responseJSON { (resp: Response<AnyObject, NSError>) -> Void in
             
             self.isLoading = false
             
@@ -70,6 +72,10 @@ class BaseApiManager: NSObject {
                 self.delegate?.ApiManager(self, failedWithError: error)
             }
         }
+    }
+    
+    func cancel() -> Void {
+        self.request?.cancel()
     }
     
     func loadingComplete() -> Void {

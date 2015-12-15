@@ -74,9 +74,9 @@ An base architecture written by swift and protocol oriented. Created by Klein Mi
       }
     
       func ApiManager(apimanager: BaseApiManager, failedWithError error: NSError) {
-          Log.debugPrint(error)
+          
           if apiManager is ApiLogin {
-              Log.debugPrint("login failed")
+              Log.debugPrint("login failed with error: \(error)")
           }
       }
   }

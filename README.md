@@ -61,7 +61,7 @@ An base architecture written by swift and protocol oriented. Created by Klein Mi
   func loadDataWithParams(params: [String: AnyObject]) -> Void
   ```
   
-  Setting delegate to receive data:
+  Setting delegate for receiving origin data:
   
   ```swift
   extension ViewController: ApiCallbackProtocol {

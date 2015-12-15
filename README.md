@@ -8,6 +8,27 @@ An base architecture written by swift and protocol oriented. Created by Klein Mi
 
   Any Object can be a task executor or a result reciever by conform the protocols of `sender` and `reciever`. A task can be any operation that you want be done in background thread. And callbacks will running in main thread again to do the things later.
   
+  ```swift
+  // self is any thing conform to protocol<sender, reciever>
+  
+  func someAction() -> Void {
+      self.doTask({ () -> receiveDataType in
+          return someCalculationNeedLongTime()
+      }, identifier: "calculation")
+  }
+  
+  // callback
+  override func finishTaskWithReuslt(result: receiveDataType, identifier: String) {
+       if identifier == "calculation" {
+          Log.debugPrint(result)
+      }
+  }
+    
+  override func taskCancelledWithError(error: ErrorResultType, identifier: String) {
+      super.taskCancelledWithError(error, identifier: identifier)
+  }
+  ```
+  
 #### Networking
 
 - **Server**
@@ -38,6 +59,27 @@ An base architecture written by swift and protocol oriented. Created by Klein Mi
   
   ```swift
   func loadDataWithParams(params: [String: AnyObject]) -> Void
+  ```
+  
+  Setting delegate to receive data:
+  
+  ```swift
+  extension ViewController: ApiCallbackProtocol {
+    
+      func ApiManager(apiManager: BaseApiManager, finishWithOriginData data: AnyObject) {
+        
+          if let apiManager = apiManager as? ApiLogin {
+              print("login success: \n \(apiManager.originData())")
+          }
+      }
+    
+      func ApiManager(apimanager: BaseApiManager, failedWithError error: NSError) {
+          Log.debugPrint(error)
+          if apiManager is ApiLogin {
+              Log.debugPrint("login failed")
+          }
+      }
+  }
   ```
 - **Attentions**
   

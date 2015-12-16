@@ -11,8 +11,8 @@ import Foundation
 /// UI相关
 class UI {
     /* 缓存相关属性，减少调用方法的次数 */
-    static let screenHeight: CGFloat = UIScreen.mainScreen().bounds.size.height
-    static let screenWidth: CGFloat = UIScreen.mainScreen().bounds.size.width
+    private static let screenHeight: CGFloat = UIScreen.mainScreen().bounds.size.height
+    private static let screenWidth: CGFloat = UIScreen.mainScreen().bounds.size.width
     
     class var SCREEN_HEIGHT: CGFloat {
         get {

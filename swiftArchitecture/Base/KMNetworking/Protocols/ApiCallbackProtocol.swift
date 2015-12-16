@@ -20,5 +20,5 @@ protocol ApiCallbackProtocol: NSObjectProtocol {
      - parameter apimanager:      API manager
      - parameter failedWithError: The error occured
      */
-    func ApiManager(apimanager: BaseApiManager, failedWithError: NSError) -> Void
+    func ApiManager(apimanager: BaseApiManager, failedWithError error: NSError) -> Void
 }

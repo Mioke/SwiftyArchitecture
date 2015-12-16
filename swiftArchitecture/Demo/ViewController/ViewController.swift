@@ -81,7 +81,7 @@ extension ViewController: ApiCallbackProtocol {
         }
     }
     
-    func ApiManager(apimanager: BaseApiManager, failedWithError: NSError) {
+    func ApiManager(apimanager: BaseApiManager, failedWithError error: NSError) {
         
     }
 }

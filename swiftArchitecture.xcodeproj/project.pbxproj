@@ -41,6 +41,7 @@
 		A791C6BE1C02E90000670017 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A791C6BC1C02E90000670017 /* LaunchScreen.storyboard */; };
 		A791C6C91C02E90000670017 /* swiftArchitectureTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A791C6C81C02E90000670017 /* swiftArchitectureTests.swift */; };
 		A791C6D41C02E90000670017 /* swiftArchitectureUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A791C6D31C02E90000670017 /* swiftArchitectureUITests.swift */; };
+		A7CB3B431C1FF11D0046E1AB /* KMCache.m in Sources */ = {isa = PBXBuildFile; fileRef = A7CB3B421C1FF11D0046E1AB /* KMCache.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -103,6 +104,8 @@
 		A791C6CF1C02E90000670017 /* swiftArchitectureUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = swiftArchitectureUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A791C6D31C02E90000670017 /* swiftArchitectureUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = swiftArchitectureUITests.swift; sourceTree = "<group>"; };
 		A791C6D51C02E90000670017 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A7CB3B411C1FF11D0046E1AB /* KMCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KMCache.h; sourceTree = "<group>"; };
+		A7CB3B421C1FF11D0046E1AB /* KMCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KMCache.m; sourceTree = "<group>"; };
 		C042614A9DAADC622DA805D8 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -152,6 +155,7 @@
 		A752DE2E1C02F868008E3118 /* Base */ = {
 			isa = PBXGroup;
 			children = (
+				A7CB3B401C1FF0880046E1AB /* KMCache */,
 				A77BACDF1C1542D600AF7A86 /* KMNetworking */,
 				A753A0B01C0D797D00C9FBFE /* Persistance */,
 				A752DE321C02FA9A008E3118 /* Protocols */,
@@ -374,6 +378,15 @@
 			path = swiftArchitectureUITests;
 			sourceTree = "<group>";
 		};
+		A7CB3B401C1FF0880046E1AB /* KMCache */ = {
+			isa = PBXGroup;
+			children = (
+				A7CB3B411C1FF11D0046E1AB /* KMCache.h */,
+				A7CB3B421C1FF11D0046E1AB /* KMCache.m */,
+			);
+			path = KMCache;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -575,6 +588,7 @@
 				A77BACE61C1548E800AF7A86 /* KMRequestGenerator.swift in Sources */,
 				A752DE361C02FAFE008E3118 /* NetworkManagerProtocol.swift in Sources */,
 				A753A0AC1C0C30A700C9FBFE /* UIRelevance.swift in Sources */,
+				A7CB3B431C1FF11D0046E1AB /* KMCache.m in Sources */,
 				A7826F6A1C0D842B007AA18D /* DefaultDatabase.swift in Sources */,
 				A77BACE81C15638900AF7A86 /* ApiInfoProtocol.swift in Sources */,
 				A77BAD1D1C1971A300AF7A86 /* UserTable.swift in Sources */,

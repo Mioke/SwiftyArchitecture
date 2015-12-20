@@ -108,7 +108,7 @@ A base architecture written by swift and protocol oriented. Created by Klein Mio
 
 - **Table and Record**
 
-  Subclass from `KMPersistanceTable` and conform to `TableProtocol` let you create a new table in a database. Any objcect conform `RecordProtocol` can be record in the table you want.
+  Subclass from `KMPersistanceTable` and conform to `TableProtocol` let you create a new table in a database. Any objcect conform `RecordProtocol` can be record in the table you want. See more details in demo.
   
   Using this just like:
   

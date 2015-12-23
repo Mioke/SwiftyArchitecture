@@ -28,6 +28,11 @@ class InternalTestVC: UIViewController {
             self.view.addSubview(view)
             return view
         }()
+        
+        var a = [9, 84, 27, 18, 45, 10, 33, 77]
+        a.quickSort(0, to: a.count-1)
+        
+        print(a)
     }
 
     override func didReceiveMemoryWarning() {

@@ -32,3 +32,4 @@ extension CollectionType where Generator.Element: Comparable {
     }
     
 }
+

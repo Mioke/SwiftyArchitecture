@@ -29,10 +29,10 @@ class InternalTestVC: UIViewController {
             return view
         }()
         
-        var a = [9, 84, 27, 18, 45, 10, 33, 77]
-        a.quickSort(0, to: a.count-1)
+        var a = [5, 2, 0, 1, 3, 4, 6]
+//        a.quickSort(0, to: a.count-1)
+        a.heapSort()
         
-        print(a)
     }
 
     override func didReceiveMemoryWarning() {

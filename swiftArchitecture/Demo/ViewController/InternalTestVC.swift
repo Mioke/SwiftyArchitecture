@@ -31,7 +31,9 @@ class InternalTestVC: UIViewController {
         
         var a = [5, 2, 0, 1, 3, 4, 6]
 //        a.quickSort(0, to: a.count-1)
-        a.heapSort()
+//        a.heapSort()
+        a.shellSort()
+//        a.insertionSort()
         
     }
 

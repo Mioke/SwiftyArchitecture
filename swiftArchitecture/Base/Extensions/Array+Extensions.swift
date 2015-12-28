@@ -11,7 +11,7 @@ import Foundation
 
 extension Array where Element: Comparable {
     
-    mutating func quickSort(from: Int, to: Int) -> Void {
+    mutating func quickSort(from from: Int, to: Int) -> Void {
         
         if from >= to {
             return
@@ -44,8 +44,8 @@ extension Array where Element: Comparable {
                 }
             }
         }
-        self.quickSort(from, to: head - 1)
-        self.quickSort(head + 1, to: to)
+        self.quickSort(from: from, to: head - 1)
+        self.quickSort(from: head + 1, to: to)
     }
     
     mutating func heapSort() -> Void {
@@ -72,7 +72,7 @@ extension Array where Element: Comparable {
         
         for var i = self.count / 2 - 1; i >= 0; i-- {
             heapAdjust(i, size: self.count)
-            Log.debugPrintln(self)
+            Log.debugPrintln(self) 
         }
         
         Log.debugPrintln("---------------")
@@ -85,6 +85,51 @@ extension Array where Element: Comparable {
             heapAdjust(0, size: i)
             
             Log.debugPrintln(self)
+        }
+    }
+    
+    mutating func insertionSort() -> Void {
+        
+        for var i = 1; i < self.count; i++ {
+            var j = i - 1
+            let temp = self[i]
+            while j >= 0 {
+                if self[j] > temp {
+                    self[j + 1] = self[j]
+                    j = j - 1
+                } else {
+                    break
+                }
+            }
+            self[j + 1] = temp
+        }
+    }
+    
+    mutating func shellSort() -> Void {
+        
+        var increment = self.count / 2
+        Log.debugPrintln(self)
+        while increment != 0 {
+            
+            for var i = 0; i <= increment; i++ {
+                
+                for var loc = i + increment; loc < self.count; loc += increment {
+                    let temp = self[loc]
+                    var pointer = loc - increment
+                    while pointer >= i {
+                        if self[pointer] > temp {
+                            self[pointer + increment] = self[pointer]
+                            pointer = pointer - increment
+                        } else {
+                            break
+                        }
+                    }
+                    self[pointer + increment] = temp
+                }
+            }
+                
+            Log.debugPrintln(self)
+            increment = increment / 2
         }
     }
 }

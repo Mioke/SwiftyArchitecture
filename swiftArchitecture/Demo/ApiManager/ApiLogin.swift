@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import Alamofire
 
 class ApiLogin: BaseApiManager, ApiInfoProtocol {
 
@@ -20,6 +21,16 @@ class ApiLogin: BaseApiManager, ApiInfoProtocol {
     }
     var server: Server {
         get { return kServer }
+    }
+    var httpMethod: Alamofire.Method {
+        get { return .GET }
+    }
+    
+    // If you want to do custom options, override the init().
+    override init() {
+        super.init()
+        // like this, the default setting of this option is false, you can change it when super.init() is done.
+        self.shouldAutoCacheResultWhenSucceed = true
     }
     
     // MARK: - Completion

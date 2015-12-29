@@ -11,18 +11,23 @@ import Alamofire
 
 class BaseApiManager: NSObject {
     
+    // MARK: Statics
     static let successKey = "success"
     static let successValue = 1
     
+    // MARK: Privates
     private weak var child: ApiInfoProtocol?
     private var request: Request?
     
     private var data: [String: AnyObject]?
+    private var urlString: String?
     
+    // MARK: Publics
     var isLoading = false
-    
     var timeoutInterval: NSTimeInterval = 20
+    var shouldAutoCacheResultWhenSucceed: Bool = false
     
+    // MARK: Initialization
     override init() {
         super.init()
         if self is ApiInfoProtocol {
@@ -32,6 +37,7 @@ class BaseApiManager: NSObject {
         }
     }
     
+    // MARK: - Actions
     weak var delegate: ApiCallbackProtocol?
     
     func loadDataWithParams(params: [String: AnyObject]) -> Void {
@@ -39,11 +45,19 @@ class BaseApiManager: NSObject {
         if self.isLoading {
             return
         }
+        // If there is cached result then return it.
+        if self.shouldAutoCacheResultWhenSucceed,
+            let value = NetworkCache.memoryCache.objectForKey(self.apiURLString()) as? [String: AnyObject] {
+                self.data = value
+                self.loadingComplete()
+                self.delegate?.ApiManager(self, finishWithOriginData: value)
+                return
+        }
         
         self.isLoading = true
         self.cancel()
         
-        self.request = KMRequestGenerator.generateRequestWithServer(self.child!.server, method: .GET, apiVersion: self.child!.apiVersion, apiName: self.child!.apiName, params: params)
+        self.request = KMRequestGenerator.generateRequestWithAPI(self, method: self.child!.httpMethod, params: params)
         self.request?.session.configuration.timeoutIntervalForRequest = self.timeoutInterval
         
         self.request?.responseJSON { (resp: Response<AnyObject, NSError>) -> Void in
@@ -57,6 +71,9 @@ class BaseApiManager: NSObject {
                 // FIXME: Change the type of successValue conform to Server's return value type.
                 if value[BaseApiManager.successKey] as! Int == BaseApiManager.successValue {
                     self.delegate?.ApiManager(self, finishWithOriginData: value)
+                    if self.shouldAutoCacheResultWhenSucceed {
+                        NetworkCache.memoryCache.setObject(value, forKey: self.child!.apiName)
+                    }
                 } else {
                     // TODO: The error that server's return
 //                    self.delegate?.ApiManager(self, failedWithError: <#T##NSError#>)
@@ -78,6 +95,7 @@ class BaseApiManager: NSObject {
         self.request?.cancel()
     }
     
+    // MARK: - Callbacks
     func loadingComplete() -> Void {
         // do nothing
     }
@@ -87,11 +105,24 @@ class BaseApiManager: NSObject {
 
     }
     
+    // MARK: - Others
     func isSuccess() -> Bool {
         return self.data != nil && !self.isLoading
     }
     
     func originData() -> [String: AnyObject]? {
         return self.data
+    }
+    
+    func apiURLString() -> String {
+        
+        if self.urlString == nil {
+            if self.child!.apiVersion.isEmpty {
+                self.urlString = self.child!.server.url + "/" + self.child!.apiName
+            } else {
+                self.urlString = self.child!.server.url + "/" + self.child!.apiVersion + "/" + self.child!.apiName
+            }
+        }
+        return self.urlString!
     }
 }

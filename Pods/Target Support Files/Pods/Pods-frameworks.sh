@@ -87,6 +87,7 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "Pods/AFNetworking.framework"
   install_framework "Pods/Alamofire.framework"
   install_framework "Pods/FMDB.framework"
+  install_framework "Pods/KMCache.framework"
   install_framework "Pods/ReactiveCocoa.framework"
   install_framework "Pods/Result.framework"
 fi
@@ -94,6 +95,7 @@ if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "Pods/AFNetworking.framework"
   install_framework "Pods/Alamofire.framework"
   install_framework "Pods/FMDB.framework"
+  install_framework "Pods/KMCache.framework"
   install_framework "Pods/ReactiveCocoa.framework"
   install_framework "Pods/Result.framework"
 fi

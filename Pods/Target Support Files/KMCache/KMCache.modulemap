@@ -1,0 +1,6 @@
+framework module KMCache {
+  umbrella header "KMCache-umbrella.h"
+
+  export *
+  module * { export * }
+}

@@ -11,10 +11,11 @@ import Alamofire
 
 class KMRequestGenerator: NSObject {
     
-    class func generateRequestWithServer(server: Server, method: Alamofire.Method, apiVersion: String, apiName: String, params: [String: AnyObject]) -> Request {
+    class func generateRequestWithAPI(api: BaseApiManager, method: Alamofire.Method, params: [String: AnyObject]) -> Request {
         
+        Log.debugPrintln("/n==================================/n/tURL:\(api.apiURLString())\n\tparam:\(params)")
         // FIXME: Do additional configuration or signature etc.
-        let urlString = "\(server.url)/\(apiVersion)/\(apiName)"
-        return Manager.sharedInstance.request(method, urlString, parameters: params, encoding: .URL, headers: nil)
+        
+        return Manager.sharedInstance.request(method, api.apiURLString(), parameters: params, encoding: .URL, headers: nil)
     }
 }

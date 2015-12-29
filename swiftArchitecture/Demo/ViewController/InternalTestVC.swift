@@ -8,7 +8,7 @@
 
 import UIKit
 
-class InternalTestVC: UIViewController {
+class InternalTestVC: UIViewController, ApiCallbackProtocol {
     
     var tests: [String]!
     
@@ -18,7 +18,7 @@ class InternalTestVC: UIViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        self.tests = ["Record user model", "Read users"]
+        self.tests = ["Record user model", "Read users", "login"]
         
         self.tableView = {
             let view = UITableView(frame: self.view.bounds)
@@ -34,7 +34,6 @@ class InternalTestVC: UIViewController {
 //        a.heapSort()
         a.shellSort()
 //        a.insertionSort()
-        
     }
 
     override func didReceiveMemoryWarning() {
@@ -114,9 +113,28 @@ extension InternalTestVC: UITableViewDelegate, UITableViewDataSource {
             let result = table.queryRecordWithSelect(nil, condition: condition)
             
             Log.debugPrintln(result)
+        case 2:
+            let api = ApiLogin()
+            api.delegate = self
+            api.loadDataWithParams([
+                "ver": "i5.1.1",
+                "account": "1223@ss.com",
+                "password": "111111",
+                "device": "12345"
+            ])
             
         default:
             break
         }
+    }
+    
+    // MARK: - APICallbacks
+    
+    func ApiManager(apiManager: BaseApiManager, finishWithOriginData data: AnyObject) {
+        
+    }
+    
+    func ApiManager(apimanager: BaseApiManager, failedWithError error: NSError) {
+        
     }
 }

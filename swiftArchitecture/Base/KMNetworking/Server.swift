@@ -24,7 +24,13 @@ class Server: NSObject {
             }
         }
     }
-    
+    /**
+     Initailize a server with online url and offline/test url
+     
+     - parameter online:  The URL that online server's site
+     - parameter offline: The URL that offline or test server's site
+     # Format is like _https://10.24.0.3:8001_ or something, don't end with '/' (I think this is big enough to warn you)
+     */
     init(online: String, offline: String) {
         self.onlineURL = online
         self.offlineURL = offline
@@ -32,5 +38,5 @@ class Server: NSObject {
     }
 }
 
-let kServer = Server(online: "http://115.29.175.210:8009/", offline: "http://115.29.175.210:8009/")
+let kServer = Server(online: "http://115.29.175.210:8009", offline: "http://115.29.175.210:8009")
 

@@ -26,6 +26,7 @@ PODS:
   - FMDB/common (2.5)
   - FMDB/standard (2.5):
     - FMDB/common
+  - KMCache (0.1.3)
   - ReactiveCocoa (4.0.4-alpha-1):
     - ReactiveCocoa/UI (= 4.0.4-alpha-1)
     - Result (~> 0.6-beta.1)
@@ -43,12 +44,14 @@ DEPENDENCIES:
   - AFNetworking (~> 2.0)
   - Alamofire (~> 3.0)
   - FMDB
+  - KMCache
   - ReactiveCocoa (~> 4.0.4-alpha-1)
 
 SPEC CHECKSUMS:
   AFNetworking: cb8d14a848e831097108418f5d49217339d4eb60
   Alamofire: 9f93b56389e48def9220dd57d1f44b1927229a5a
   FMDB: 96e8f1bcc1329e269330f99770ad4285d9003e52
+  KMCache: 6f40499b55a792323ed16a97802f6edc5a1b9b06
   ReactiveCocoa: 618a2fc13d4ed80e380aa6fa56547cef43c7341d
   Result: dc390d0b58f9ec43fcd536f1ebdd130803cc6cbc
 

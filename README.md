@@ -148,7 +148,7 @@ A base architecture written by swift and protocol oriented. Created by Klein Mio
 
 # TODO
 
-- Networking: cache, origin data transform to Model or View's data, priority of request.
+- Networking: ~~cache~~, origin data transform to Model or View's data, priority of request.
 - Persistance: transform data to model or View's data after query.
 - Animations
 - Tools and Kits: TextKit like [YYText](https://github.com/ibireme/YYText), etc.

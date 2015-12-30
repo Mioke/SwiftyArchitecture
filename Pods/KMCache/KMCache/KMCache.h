@@ -42,7 +42,6 @@ typedef NS_OPTIONS(int, KMCacheType) {
  *  The max number of cached objects' count. By default, the max count is unlimited (INT_MAX).
  */
 @property (nonatomic, assign) int maxCount;
-
 /**
  *  The max size of cached objects. By default, the max size is unlimited(NSIntegerMax). Only avialble with type .ReleaseBySize.
  */
@@ -96,12 +95,14 @@ typedef NS_OPTIONS(int, KMCacheType) {
  *
  *  @return The object of the key, can be nil.
  */
-- (nullable id)objectForKey:(id)key;
+- (nullable id<NSObject>)objectForKey:(id)key;
 /**
  *  The size of cached data
  */
 - (NSUInteger)size;
-
+/**
+ *  Clean all the cache that holded
+ */
 - (void)cleanAllCache;
 
 @end

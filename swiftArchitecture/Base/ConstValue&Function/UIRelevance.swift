@@ -6,7 +6,7 @@
 //  Copyright © 2015年 KleinMioke. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 /// UI相关
 class UI {

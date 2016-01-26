@@ -6,7 +6,7 @@
 //  Copyright © 2015年 KleinMioke. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 extension UIViewController: sender, receiver {
     

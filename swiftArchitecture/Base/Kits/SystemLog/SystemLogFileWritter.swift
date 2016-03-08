@@ -19,7 +19,7 @@ class SystemLogFileWritter: NSObject {
         
         self.formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
         self.fileName = self.formatter.stringFromDate(NSDate())
-        self.folderPath = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.UserDomainMask, true).first
+        self.folderPath = NSSearchPathForDirectoriesInDomains(.CachesDirectory, .UserDomainMask, true).first! + "SystemLog"
         
         if !NSFileManager.defaultManager().fileExistsAtPath(self.folderPath) {
 

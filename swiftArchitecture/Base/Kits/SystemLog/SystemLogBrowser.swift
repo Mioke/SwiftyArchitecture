@@ -29,16 +29,15 @@ class SystemLogBrowser: UIViewController {
             let scrollView = UIScrollView(frame: self.view.bounds)
             self.view.addSubview(scrollView)
             
-            let attributeText = NSAttributedString(string: content, attributes: [NSFontAttributeName: UIFont.systemFontOfSize(10), NSForegroundColorAttributeName: UIColor.blackColor()])
-            let height = attributeText.boundingRectWithSize(CGSizeMake(self.view.frame.size.width, 99999), options: .UsesLineFragmentOrigin, context: nil).size.width
+            let attributeText = NSAttributedString(string: content, attributes: [NSFontAttributeName: UIFont.systemFontOfSize(10)])
+            let height = attributeText.boundingRectWithSize(CGSizeMake(UIScreen.mainScreen().bounds.size.width - 30, 99999), options: .UsesLineFragmentOrigin, context: nil).height
             
-            let label = UILabel(frame: CGRectMake(0, 0, self.view.frame.size.width, height))
+            let label = UILabel(frame: CGRectMake(15, 15, UIScreen.mainScreen().bounds.size.width - 30, height))
             label.numberOfLines = 0
-            label.backgroundColor = UIColor.lightGrayColor()
             label.attributedText = attributeText
             
             scrollView.addSubview(label)
-            scrollView.contentSize = CGSizeMake(0, height)
+            scrollView.contentSize = CGSizeMake(0, height + 15)
         }
     }
 

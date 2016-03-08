@@ -65,6 +65,9 @@ class BaseApiManager: NSObject {
             self.isLoading = false
             
             if let value = resp.result.value as? [String: AnyObject] {
+                
+                SystemLog.write("HTTP response:\n\tRESP:\(resp.response!)\n\tVALUE:\(value)")
+                
                 self.data = value
                 self.loadingComplete()
                 
@@ -82,11 +85,15 @@ class BaseApiManager: NSObject {
             else if let error = resp.result.error {
                 self.loadingFailedWithError(error)
                 self.delegate?.ApiManager(self, failedWithError: error)
+                
+                SystemLog.write("HTTP response:\n\tRESP:\(resp.response!)\n\tVALUE:\(error)")
             }
             else {
                 let error = NSError(domain: "Unknown domain", code: 1001, userInfo: nil)
                 self.loadingFailedWithError(error)
                 self.delegate?.ApiManager(self, failedWithError: error)
+                
+                SystemLog.write("HTTP response:\n\tRESP:\(resp.response!)\n\tVALUE:\(error)")
             }
         }
     }
@@ -97,8 +104,6 @@ class BaseApiManager: NSObject {
     
     // MARK: - Callbacks
     func loadingComplete() -> Void {
-        
-
         
         // do nothing
     }

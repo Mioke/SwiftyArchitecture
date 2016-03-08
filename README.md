@@ -1,5 +1,5 @@
 # SwiftArchitectureWithPOP
-A base architecture written by swift and protocol oriented. Created by Klein Mioke.
+A base architecture written in swift and protocol oriented. Created by Klein Mioke.
 
 ### What to provide
 

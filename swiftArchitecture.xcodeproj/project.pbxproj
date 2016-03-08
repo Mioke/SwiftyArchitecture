@@ -44,6 +44,10 @@
 		A791C6BE1C02E90000670017 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A791C6BC1C02E90000670017 /* LaunchScreen.storyboard */; };
 		A791C6C91C02E90000670017 /* swiftArchitectureTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A791C6C81C02E90000670017 /* swiftArchitectureTests.swift */; };
 		A791C6D41C02E90000670017 /* swiftArchitectureUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A791C6D31C02E90000670017 /* swiftArchitectureUITests.swift */; };
+		AFD7F0771C8D6FCE005B379A /* SystemLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFD7F0761C8D6FCE005B379A /* SystemLog.swift */; };
+		AFD7F0791C8D7001005B379A /* SystemLogFileWritter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFD7F0781C8D7001005B379A /* SystemLogFileWritter.swift */; };
+		AFD7F07B1C8E5FE2005B379A /* SystemLogFilesBrowser.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFD7F07A1C8E5FE2005B379A /* SystemLogFilesBrowser.swift */; };
+		AFD7F07D1C8E755F005B379A /* SystemLogBrowser.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFD7F07C1C8E755F005B379A /* SystemLogBrowser.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -109,6 +113,10 @@
 		A791C6CF1C02E90000670017 /* swiftArchitectureUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = swiftArchitectureUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A791C6D31C02E90000670017 /* swiftArchitectureUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = swiftArchitectureUITests.swift; sourceTree = "<group>"; };
 		A791C6D51C02E90000670017 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		AFD7F0761C8D6FCE005B379A /* SystemLog.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SystemLog.swift; sourceTree = "<group>"; };
+		AFD7F0781C8D7001005B379A /* SystemLogFileWritter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SystemLogFileWritter.swift; sourceTree = "<group>"; };
+		AFD7F07A1C8E5FE2005B379A /* SystemLogFilesBrowser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SystemLogFilesBrowser.swift; sourceTree = "<group>"; };
+		AFD7F07C1C8E755F005B379A /* SystemLogBrowser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SystemLogBrowser.swift; sourceTree = "<group>"; };
 		C042614A9DAADC622DA805D8 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -168,6 +176,7 @@
 		70F409BE1C5701DE005C9806 /* Kits */ = {
 			isa = PBXGroup;
 			children = (
+				AFD7F0721C8D6F0C005B379A /* SystemLog */,
 			);
 			path = Kits;
 			sourceTree = "<group>";
@@ -400,6 +409,17 @@
 			path = swiftArchitectureUITests;
 			sourceTree = "<group>";
 		};
+		AFD7F0721C8D6F0C005B379A /* SystemLog */ = {
+			isa = PBXGroup;
+			children = (
+				AFD7F0761C8D6FCE005B379A /* SystemLog.swift */,
+				AFD7F0781C8D7001005B379A /* SystemLogFileWritter.swift */,
+				AFD7F07A1C8E5FE2005B379A /* SystemLogFilesBrowser.swift */,
+				AFD7F07C1C8E755F005B379A /* SystemLogBrowser.swift */,
+			);
+			path = SystemLog;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -608,8 +628,10 @@
 				A77BACED1C157EEB00AF7A86 /* ApiLogin.swift in Sources */,
 				A753A0AA1C0C215E00C9FBFE /* publicFunctions.swift in Sources */,
 				A752DE311C02FA28008E3118 /* KMBaseService.swift in Sources */,
+				AFD7F07B1C8E5FE2005B379A /* SystemLogFilesBrowser.swift in Sources */,
 				A752DE431C03F23D008E3118 /* UserService.swift in Sources */,
 				A77BACE11C1542EE00AF7A86 /* Server.swift in Sources */,
+				AFD7F0771C8D6FCE005B379A /* SystemLog.swift in Sources */,
 				A77BACF11C16ABBF00AF7A86 /* UIColor+Extensions.swift in Sources */,
 				A753A0A71C080B6800C9FBFE /* UIViewController+TaskManager.swift in Sources */,
 				A77BACEA1C15641700AF7A86 /* BaseApiManager.swift in Sources */,
@@ -618,7 +640,9 @@
 				A753A0AC1C0C30A700C9FBFE /* UIRelevance.swift in Sources */,
 				7034C5CF1C32581100F1348F /* NetworkCache.swift in Sources */,
 				A7826F6A1C0D842B007AA18D /* DefaultDatabase.swift in Sources */,
+				AFD7F07D1C8E755F005B379A /* SystemLogBrowser.swift in Sources */,
 				A77BACE81C15638900AF7A86 /* ApiInfoProtocol.swift in Sources */,
+				AFD7F0791C8D7001005B379A /* SystemLogFileWritter.swift in Sources */,
 				A77BAD1D1C1971A300AF7A86 /* UserTable.swift in Sources */,
 				A791C6B91C02E90000670017 /* swiftArchitecture.xcdatamodeld in Sources */,
 				A753A0A31C06FE5A00C9FBFE /* ViewController.swift in Sources */,

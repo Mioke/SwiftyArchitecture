@@ -97,6 +97,9 @@ class BaseApiManager: NSObject {
     
     // MARK: - Callbacks
     func loadingComplete() -> Void {
+        
+
+        
         // do nothing
     }
     

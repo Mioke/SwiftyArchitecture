@@ -1,6 +1,15 @@
 # KMCache
 Inspired by [YYCache](https://github.com/ibireme/YYCache).
 
+### Usage
+
+1. Clone or download the zip into your computer, copy the `KMCache` folder into your project
+2. If you are using cocoapods:
+
+   ```ruby
+   pod "KMCache"
+   ```
+
 ### Thought
 Using `CFMutableDictinaryRef` as a container for quick searching. Create `_cache_node` and `_cache_linked_list` to build a linked list for building ordered data. `_cache_node` is a node with properties of `key`, `value`, `timestamp`, `size`, and pointers of `_prev` and `_next`.It store object and other infomations. `_cache_linked_list` is ordered by time of insertion, and refresh the node when the node use again.
 

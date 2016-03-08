@@ -20,13 +20,11 @@ PODS:
   - AFNetworking/UIKit (2.6.3):
     - AFNetworking/NSURLConnection
     - AFNetworking/NSURLSession
-  - Alamofire (3.1.4)
-  - FMDB (2.5):
-    - FMDB/standard (= 2.5)
-  - FMDB/common (2.5)
-  - FMDB/standard (2.5):
-    - FMDB/common
-  - KMCache (0.1.4)
+  - Alamofire (3.2.1)
+  - FMDB (2.6):
+    - FMDB/standard (= 2.6)
+  - FMDB/standard (2.6)
+  - KMCache (0.1.6)
   - ReactiveCocoa (4.0.4-alpha-4):
     - ReactiveCocoa/UI (= 4.0.4-alpha-4)
     - Result (~> 1.0)
@@ -38,7 +36,7 @@ PODS:
   - ReactiveCocoa/UI (4.0.4-alpha-4):
     - ReactiveCocoa/Core
     - Result (~> 1.0)
-  - Result (1.0.1)
+  - Result (1.0.2)
 
 DEPENDENCIES:
   - AFNetworking (~> 2.0)
@@ -49,10 +47,10 @@ DEPENDENCIES:
 
 SPEC CHECKSUMS:
   AFNetworking: cb8d14a848e831097108418f5d49217339d4eb60
-  Alamofire: fbc829692f351fa1d8a31dd75fd7f7f56fea31fb
-  FMDB: 96e8f1bcc1329e269330f99770ad4285d9003e52
-  KMCache: 3f4fd56cbc0205224771d1f9d81312f951654c0b
+  Alamofire: f11d8624a05f5d39e0c99309b3e600a3ba64298a
+  FMDB: c1968bab3ab0aed38f66cb778ae1e7fa9a652b6e
+  KMCache: 04da311ee4dfe0c26692c872be1d89e4287a8d0c
   ReactiveCocoa: e459ea92099447802df20c4735e31e8139b06094
-  Result: caef80340451e1f07492fa1e89117f83613bce24
+  Result: dd3dd71af3fa2e262f1a999e14fba2c25ec14f16
 
 COCOAPODS: 0.39.0

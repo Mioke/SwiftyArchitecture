@@ -28,4 +28,8 @@ class NetworkCache: NSObject {
     func objectForKey(key: NSObjectProtocol) -> NSObjectProtocol? {
         return self.cache.objectForKey(key)
     }
+    
+    func size() -> UInt {
+        return self.cache.size()
+    }
 }

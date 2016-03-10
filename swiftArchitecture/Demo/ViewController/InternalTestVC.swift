@@ -18,7 +18,7 @@ class InternalTestVC: UIViewController, ApiCallbackProtocol {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        self.tests = ["Record user model", "Read users", "Login", "Call Log UI", "Crash"]
+        self.tests = ["Record user model", "Read users", "Login", "Call Log UI", "Crash", "Cache size"]
         
         self.tableView = {
             let view = UITableView(frame: self.view.bounds)
@@ -127,6 +127,8 @@ extension InternalTestVC: UITableViewDelegate, UITableViewDataSource {
         case 4:
             let a = []
             _ = a[1]
+        case 5:
+            Log.debugPrintln(NetworkCache.memoryCache.size())
             
         default:
             break

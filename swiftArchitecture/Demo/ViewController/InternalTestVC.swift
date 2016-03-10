@@ -18,7 +18,7 @@ class InternalTestVC: UIViewController, ApiCallbackProtocol {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        self.tests = ["Record user model", "Read users", "login", "call Log UI"]
+        self.tests = ["Record user model", "Read users", "Login", "Call Log UI", "Crash"]
         
         self.tableView = {
             let view = UITableView(frame: self.view.bounds)
@@ -124,6 +124,9 @@ extension InternalTestVC: UITableViewDelegate, UITableViewDataSource {
             ])
         case 3:
             SystemLog.activeDevelopUI()
+        case 4:
+            let a = []
+            _ = a[1]
             
         default:
             break

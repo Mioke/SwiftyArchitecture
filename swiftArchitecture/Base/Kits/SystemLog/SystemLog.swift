@@ -21,7 +21,7 @@ class SystemLog: NSObject {
         
         if enable {
             NSSetUncaughtExceptionHandler({ (exception: NSException) -> Void in
-                SystemLog.write("\(exception)" as AnyObject)
+                SystemLog.write("\(exception)")
             })
         }
     }

@@ -11,7 +11,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface _cache_node : NSObject
+@interface _cache_node : NSObject <NSCoding>
 {
     @package
     NSTimeInterval _time;

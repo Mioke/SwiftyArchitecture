@@ -13,9 +13,25 @@
 #import <libkern/OSAtomic.h>
 
 @implementation _cache_node
+
+- (void)encodeWithCoder:(NSCoder *)aCoder {
+    
+    [aCoder encodeDouble:_time forKey:@"_time"];
+    [aCoder encodeInteger:_size forKey:@"_size"];
+    [aCoder encodeObject:_key forKey:@"_key"];
+    [aCoder encodeObject:_value forKey:@"_value"];
+}
+
+- (instancetype)initWithCoder:(NSCoder *)aDecoder {
+    if (self = [super init]) {
+        
+    }
+    return self;
+}
+
 @end
 
-@interface _cache_linked_list ()
+@interface _cache_linked_list () <NSCoding>
 
 @end
 
@@ -35,6 +51,17 @@
 
 - (void)dealloc {
     CFRelease(_dic);
+}
+
+- (void)encodeWithCoder:(NSCoder *)aCoder {
+    
+    [aCoder encodeObject:(__bridge id)(_dic) forKey:@"_dic"];
+}
+
+- (instancetype)initWithCoder:(NSCoder *)coder
+{
+    if (self = [super init]) { }
+    return self;
 }
 
 - (void)appendNode:(nonnull _cache_node *)node {

@@ -55,7 +55,7 @@ enum ResultType<T> {
 
 protocol NetworkManagerProtocol {
     
-    typealias returnType
+    associatedtype returnType
     
     var server: String { get }
     

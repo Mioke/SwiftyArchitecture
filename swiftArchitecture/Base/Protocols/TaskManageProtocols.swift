@@ -9,7 +9,7 @@
 import Foundation
 
 protocol _task: NSObjectProtocol {
-    typealias receiveDataType
+    associatedtype receiveDataType
 }
 
 protocol sender: _task {

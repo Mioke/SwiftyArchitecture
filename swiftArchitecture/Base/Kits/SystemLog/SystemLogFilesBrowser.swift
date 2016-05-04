@@ -24,7 +24,7 @@ class SystemLogFilesBrowser: UIViewController, UITableViewDelegate, UITableViewD
         self.tableView.dataSource = self
         self.view.addSubview(self.tableView)
         
-        self.navigationItem.setLeftBarButtonItem(UIBarButtonItem(title: "Close", style: .Plain, target: self, action: "close"), animated: false)
+        self.navigationItem.setLeftBarButtonItem(UIBarButtonItem(title: "Close", style: .Plain, target: self, action: #selector(SystemLogFilesBrowser.close)), animated: false)
     }
     
     func close() -> Void {
@@ -36,17 +36,6 @@ class SystemLogFilesBrowser: UIViewController, UITableViewDelegate, UITableViewD
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
     
     // MARK: - TableView's delegate & datasource
     

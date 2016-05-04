@@ -12,7 +12,7 @@ extension UIColor {
     
     class func colorFromHexString(hex: String) -> UIColor {
         
-        let rgbValue = UnsafeMutablePointer<UInt32>()
+        let rgbValue: UnsafeMutablePointer<UInt32> = nil
         let hexString = hex.stringByReplacingOccurrencesOfString("#", withString: "")
         let scanner = NSScanner(string: hexString)
         

@@ -26,7 +26,7 @@ extension Array where Element: Comparable {
         while head < tail {
             if dir {
                 if self[head] <= key {
-                    head++
+                    head += 1
                 } else {
                     let temp = self[head]
                     self[head] = self[tail]
@@ -35,7 +35,7 @@ extension Array where Element: Comparable {
                 }
             } else {
                 if self[tail] >= key {
-                    tail--
+                    tail -= 1
                 } else {
                     let temp = self[tail]
                     self[tail] = self[head]
@@ -50,34 +50,51 @@ extension Array where Element: Comparable {
     
     mutating func heapSort() -> Void {
         
-        func heapAdjust(var parent: Int, size: Int) -> Void {
-            let element = self[parent]
+        func heapAdjust(parent: Int, size: Int) -> Void {
             
-            var child = parent * 2 + 1
+            var _parent = Int(parent);
+            let element = self[_parent]
+            
+            var child = _parent * 2 + 1
             
             while child < size {
                 
                 if child + 1 < size && self[child] < self[child+1] {
-                    child++
+                    child += 1
                 }
                 if element > self[child] {
                     break
                 }
-                self[parent] = self[child]
-                parent = child
-                child = parent * 2 + 1
+                self[_parent] = self[child]
+                _parent = child
+                child = _parent * 2 + 1
             }
-            self[parent] = element
+            self[_parent] = element
         }
         
-        for var i = self.count / 2 - 1; i >= 0; i-- {
+//        for var i = self.count / 2 - 1; i >= 0; i -= 1 {
+//            heapAdjust(i, size: self.count)
+//            Log.debugPrintln(self) 
+//        }
+        
+        for i in (self.count / 2 - 1) ... 0 {
             heapAdjust(i, size: self.count)
-            Log.debugPrintln(self) 
+            Log.debugPrintln(self)
         }
         
         Log.debugPrintln("---------------")
         
-        for var i = self.count - 1; i > 0; i-- {
+//        for var i = self.count - 1; i > 0; i -= 1 {
+//            let temp  = self[0]
+//            self[0] = self[i]
+//            self[i] = temp
+//            
+//            heapAdjust(0, size: i)
+//            
+//            Log.debugPrintln(self)
+//        }
+        
+        for i in (self.count - 1) ..< 0 {
             let temp  = self[0]
             self[0] = self[i]
             self[i] = temp
@@ -90,7 +107,7 @@ extension Array where Element: Comparable {
     
     mutating func insertionSort() -> Void {
         
-        for var i = 1; i < self.count; i++ {
+        for i in 1 ..< self.count {
             var j = i - 1
             let temp = self[i]
             while j >= 0 {
@@ -111,9 +128,11 @@ extension Array where Element: Comparable {
         Log.debugPrintln(self)
         while increment != 0 {
             
-            for var i = 0; i <= increment; i++ {
+            for i in 0 ... increment {
+                var loc = i + increment
                 
-                for var loc = i + increment; loc < self.count; loc += increment {
+                while loc < self.count {
+                    
                     let temp = self[loc]
                     var pointer = loc - increment
                     while pointer >= i {
@@ -125,6 +144,7 @@ extension Array where Element: Comparable {
                         }
                     }
                     self[pointer + increment] = temp
+                    loc += increment
                 }
             }
                 

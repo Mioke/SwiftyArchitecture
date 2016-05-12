@@ -32,6 +32,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         self.window?.rootViewController = nav
         self.window?.makeKeyAndVisible()
         
+        ModuleLoader.loader().addOperation { 
+            // some Module initialization operations
+        }
+        
         return true
     }
 

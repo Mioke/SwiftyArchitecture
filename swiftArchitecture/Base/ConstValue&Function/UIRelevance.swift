@@ -24,4 +24,12 @@ class UI {
             return screenWidth
         }
     }
+    /**
+     Default font of application
+     
+     - parameter size: Size of the font
+     */
+    class func defaultFontWithSize(size: CGFloat) -> UIFont {
+        return UIFont.systemFontOfSize(size)
+    }
 }

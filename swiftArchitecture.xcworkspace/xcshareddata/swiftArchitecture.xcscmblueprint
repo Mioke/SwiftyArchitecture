@@ -1,0 +1,28 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "F743A893496C3061014DD4CF597EFBF8AF57A106",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "F743A893496C3061014DD4CF597EFBF8AF57A106" : 0
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "77EEB0A7-863A-4971-B627-AB5A621CD462",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "F743A893496C3061014DD4CF597EFBF8AF57A106" : ""
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "swiftArchitecture",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "swiftArchitecture.xcworkspace",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/Mioke\/SwiftArchitectureWithPOP.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "F743A893496C3061014DD4CF597EFBF8AF57A106"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/Mioke\/SwiftArchitectureWithPOP.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "F743A893496C3061014DD4CF597EFBF8AF57A106"
+    }
+  ]
+}

@@ -44,6 +44,8 @@
 		A791C6BE1C02E90000670017 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A791C6BC1C02E90000670017 /* LaunchScreen.storyboard */; };
 		A791C6C91C02E90000670017 /* swiftArchitectureTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A791C6C81C02E90000670017 /* swiftArchitectureTests.swift */; };
 		A791C6D41C02E90000670017 /* swiftArchitectureUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A791C6D31C02E90000670017 /* swiftArchitectureUITests.swift */; };
+		AF43F43D1CE4258A00E78DFF /* UIView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF43F43C1CE4258A00E78DFF /* UIView+Extensions.swift */; };
+		AF43F4431CE4395700E78DFF /* ModuleLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF43F4421CE4395700E78DFF /* ModuleLoader.swift */; };
 		AFD7F0771C8D6FCE005B379A /* SystemLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFD7F0761C8D6FCE005B379A /* SystemLog.swift */; };
 		AFD7F0791C8D7001005B379A /* SystemLogFileWritter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFD7F0781C8D7001005B379A /* SystemLogFileWritter.swift */; };
 		AFD7F07B1C8E5FE2005B379A /* SystemLogFilesBrowser.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFD7F07A1C8E5FE2005B379A /* SystemLogFilesBrowser.swift */; };
@@ -114,6 +116,8 @@
 		A791C6CF1C02E90000670017 /* swiftArchitectureUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = swiftArchitectureUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A791C6D31C02E90000670017 /* swiftArchitectureUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = swiftArchitectureUITests.swift; sourceTree = "<group>"; };
 		A791C6D51C02E90000670017 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		AF43F43C1CE4258A00E78DFF /* UIView+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Extensions.swift"; sourceTree = "<group>"; };
+		AF43F4421CE4395700E78DFF /* ModuleLoader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModuleLoader.swift; sourceTree = "<group>"; };
 		AFD7F0761C8D6FCE005B379A /* SystemLog.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SystemLog.swift; sourceTree = "<group>"; };
 		AFD7F0781C8D7001005B379A /* SystemLogFileWritter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SystemLogFileWritter.swift; sourceTree = "<group>"; };
 		AFD7F07A1C8E5FE2005B379A /* SystemLogFilesBrowser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SystemLogFilesBrowser.swift; sourceTree = "<group>"; };
@@ -178,6 +182,7 @@
 		70F409BE1C5701DE005C9806 /* Kits */ = {
 			isa = PBXGroup;
 			children = (
+				AF43F43E1CE4390E00E78DFF /* ModuleLoader */,
 				AFD7F0721C8D6F0C005B379A /* SystemLog */,
 			);
 			path = Kits;
@@ -343,6 +348,7 @@
 				A7826F791C112AF2007AA18D /* CollectionType+Extension.swift */,
 				A77BACF01C16ABBF00AF7A86 /* UIColor+Extensions.swift */,
 				703FAA441C2A9AB6003AEDFC /* Array+Extensions.swift */,
+				AF43F43C1CE4258A00E78DFF /* UIView+Extensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -409,6 +415,14 @@
 				A791C6D51C02E90000670017 /* Info.plist */,
 			);
 			path = swiftArchitectureUITests;
+			sourceTree = "<group>";
+		};
+		AF43F43E1CE4390E00E78DFF /* ModuleLoader */ = {
+			isa = PBXGroup;
+			children = (
+				AF43F4421CE4395700E78DFF /* ModuleLoader.swift */,
+			);
+			path = ModuleLoader;
 			sourceTree = "<group>";
 		};
 		AFD7F0721C8D6F0C005B379A /* SystemLog */ = {
@@ -625,7 +639,9 @@
 				A753A0B21C0D79BA00C9FBFE /* KMPersistance.swift in Sources */,
 				A7826F781C102E06007AA18D /* Internal.swift in Sources */,
 				A77BAD1A1C196DFD00AF7A86 /* InternalTestVC.swift in Sources */,
+				AF43F4431CE4395700E78DFF /* ModuleLoader.swift in Sources */,
 				A7826F6F1C0EC657007AA18D /* String+Extensions.swift in Sources */,
+				AF43F43D1CE4258A00E78DFF /* UIView+Extensions.swift in Sources */,
 				A77BAD161C1927E500AF7A86 /* DatabaseCommand.swift in Sources */,
 				703FAA451C2A9AB6003AEDFC /* Array+Extensions.swift in Sources */,
 				A77BACED1C157EEB00AF7A86 /* ApiLogin.swift in Sources */,

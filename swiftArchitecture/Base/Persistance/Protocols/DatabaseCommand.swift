@@ -39,7 +39,7 @@ class DatabaseCommand: NSObject {
         let values = NSMutableArray()
         
         for key in params.keys {
-            content.addObject("\(key)")
+            content.addObject("'\(key)'")
             values.addObject(":\(key)")
         }
         sql += "\(content.componentsJoinedByString(","))) values (\(values.componentsJoinedByString(",")))"

@@ -46,6 +46,7 @@
 		A791C6D41C02E90000670017 /* swiftArchitectureUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A791C6D31C02E90000670017 /* swiftArchitectureUITests.swift */; };
 		AF43F43D1CE4258A00E78DFF /* UIView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF43F43C1CE4258A00E78DFF /* UIView+Extensions.swift */; };
 		AF43F4431CE4395700E78DFF /* ModuleLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF43F4421CE4395700E78DFF /* ModuleLoader.swift */; };
+		AF78456E1CE9BD720020F6E8 /* NSDate+Extentsions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF78456D1CE9BD720020F6E8 /* NSDate+Extentsions.swift */; };
 		AFD7F0771C8D6FCE005B379A /* SystemLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFD7F0761C8D6FCE005B379A /* SystemLog.swift */; };
 		AFD7F0791C8D7001005B379A /* SystemLogFileWritter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFD7F0781C8D7001005B379A /* SystemLogFileWritter.swift */; };
 		AFD7F07B1C8E5FE2005B379A /* SystemLogFilesBrowser.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFD7F07A1C8E5FE2005B379A /* SystemLogFilesBrowser.swift */; };
@@ -118,6 +119,7 @@
 		A791C6D51C02E90000670017 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AF43F43C1CE4258A00E78DFF /* UIView+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Extensions.swift"; sourceTree = "<group>"; };
 		AF43F4421CE4395700E78DFF /* ModuleLoader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModuleLoader.swift; sourceTree = "<group>"; };
+		AF78456D1CE9BD720020F6E8 /* NSDate+Extentsions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSDate+Extentsions.swift"; sourceTree = "<group>"; };
 		AFD7F0761C8D6FCE005B379A /* SystemLog.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SystemLog.swift; sourceTree = "<group>"; };
 		AFD7F0781C8D7001005B379A /* SystemLogFileWritter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SystemLogFileWritter.swift; sourceTree = "<group>"; };
 		AFD7F07A1C8E5FE2005B379A /* SystemLogFilesBrowser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SystemLogFilesBrowser.swift; sourceTree = "<group>"; };
@@ -349,6 +351,7 @@
 				A77BACF01C16ABBF00AF7A86 /* UIColor+Extensions.swift */,
 				703FAA441C2A9AB6003AEDFC /* Array+Extensions.swift */,
 				AF43F43C1CE4258A00E78DFF /* UIView+Extensions.swift */,
+				AF78456D1CE9BD720020F6E8 /* NSDate+Extentsions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -655,6 +658,7 @@
 				A753A0A71C080B6800C9FBFE /* UIViewController+TaskManager.swift in Sources */,
 				A77BACEA1C15641700AF7A86 /* BaseApiManager.swift in Sources */,
 				A77BACE61C1548E800AF7A86 /* KMRequestGenerator.swift in Sources */,
+				AF78456E1CE9BD720020F6E8 /* NSDate+Extentsions.swift in Sources */,
 				A752DE361C02FAFE008E3118 /* NetworkManagerProtocol.swift in Sources */,
 				A753A0AC1C0C30A700C9FBFE /* UIRelevance.swift in Sources */,
 				7034C5CF1C32581100F1348F /* NetworkCache.swift in Sources */,

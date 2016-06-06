@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import FMDB
 
 class DefaultDatabase: KMPersistanceDatabase, DatabaseManagerProtocol {
     

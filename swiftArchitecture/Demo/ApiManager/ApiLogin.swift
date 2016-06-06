@@ -35,6 +35,8 @@ class ApiLogin: BaseApiManager, ApiInfoProtocol {
     
     // MARK: - Completion
     override func loadingComplete() {
+        super.loadingComplete()
+        
         Log.debugPrintln(self.originData())
     }
     override func loadingFailedWithError(error: NSError) {

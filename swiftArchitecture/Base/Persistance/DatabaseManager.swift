@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import FMDB
 
 class DatabaseManager: NSObject {
     

@@ -55,21 +55,21 @@ class ViewController: UIViewController {
         ])
     }
     
-    override func finishTaskWithReuslt(result: receiveDataType, identifier: String) {
-        
-        if identifier == "LoginAction" {
-            
-            if let result = result as? Bool where result {
-                print("login success")
-            } else {
-                print("login failed")
-            }
-        }
-    }
+//    override func finishTaskWithReuslt(result: receiveDataType, identifier: String) {
     
-    override func taskCancelledWithError(error: ErrorResultType, identifier: String) {
-        super.taskCancelledWithError(error, identifier: identifier)
-    }
+//        if identifier == "LoginAction" {
+//            
+//            if let result = result as? Bool where result {
+//                print("login success")
+//            } else {
+//                print("login failed")
+//            }
+//        }
+//    }
+    
+//    override func taskCancelledWithError(error: ErrorResultType, identifier: String) {
+//        super.taskCancelledWithError(error, identifier: identifier)
+//    }
 }
 
 extension ViewController: ApiCallbackProtocol {

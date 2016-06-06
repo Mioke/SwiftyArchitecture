@@ -8,6 +8,8 @@
 
 import Foundation
 
+var dateFormatter: NSDateFormatter? = nil
+
 extension NSDate {
     
     var year: Int {
@@ -106,4 +108,12 @@ extension NSDate {
         }
     }
     
+    func stringWithFormat(format: String) -> String {
+        
+        if dateFormatter == nil { dateFormatter = NSDateFormatter() }
+        
+        let formatter = dateFormatter!
+        formatter.dateFormat = format
+        return formatter.stringFromDate(self)
+    }
 }

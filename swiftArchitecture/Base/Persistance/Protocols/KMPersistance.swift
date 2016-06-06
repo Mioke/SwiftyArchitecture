@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import FMDB
 
 protocol PersistanceManagerProtocol: NSObjectProtocol {
     
@@ -112,10 +113,8 @@ class KMPersistanceTable: NSObject {
     
     func replaceRecord(record: RecordProtocol) -> Bool {
         
-        guard let params = record.dictionaryRepresentationInTable(self.child!) else {
-            return false
-        }
-        if params.count == 0 {
+        guard let params = record.dictionaryRepresentationInTable(self.child!)
+            where params.count != 0 else {
             return false
         }
         let sql = DatabaseCommand.replaceCommandWithTable(self.child!, record: record)
@@ -129,6 +128,13 @@ class KMPersistanceTable: NSObject {
         
         return self.child!.database!.query(sql, withArgumentsInArray: nil)
     }
+    
+    func deleteRecordWithCondition(condition: DatabaseCommandCondition) -> Bool {
+        
+        let sql = DatabaseCommand.deleteCommandWithTable(self.child!, condition: condition)
+        
+        return self.child!.database!.execute(sql, withArgumentsInArray: nil)
+    }
 }
 
 // MARK: - Record
@@ -136,9 +142,16 @@ class KMPersistanceTable: NSObject {
 protocol RecordProtocol: PersistanceManagerProtocol {
     
     func dictionaryRepresentationInTable(table: TableProtocol) -> [String: AnyObject]?
+    static func readFromQueryResultDictionary(dictionary: NSDictionary, table: TableProtocol) -> RecordProtocol?
 }
 
-
+// Default implementation, make this func optional-like
+extension RecordProtocol {
+    
+    static func readFromQueryResultDictionary(dictionary: NSDictionary, table: TableProtocol) -> RecordProtocol? {
+        return nil
+    }
+}
 
 
 

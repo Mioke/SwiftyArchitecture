@@ -40,3 +40,6 @@ class Server: NSObject {
 
 let kServer = Server(online: "http://115.29.175.210:8009", offline: "http://115.29.175.210:8009")
 
+protocol ServerDataProcessProtocol {
+    func handleData(data: AnyObject, inout shouldRetry: Bool) throws -> Void
+}

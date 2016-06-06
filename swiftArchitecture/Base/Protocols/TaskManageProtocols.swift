@@ -14,17 +14,17 @@ protocol _task: NSObjectProtocol {
 
 protocol sender: _task {
     
-    func doTask(task: () throws -> receiveDataType, identifier: String) -> Void
+//    func doTask(task: () throws -> receiveDataType, identifier: String) -> Void
     
-    func doTask(task: () throws -> receiveDataType, callBack: (receiveDataType) -> Void, failure: (ErrorResultType) -> Void) -> Void
+//    func doTask(task: () throws -> receiveDataType, callBack: (receiveDataType) -> Void, failure: (ErrorResultType) -> Void) -> Void
     
     //    func cancelTaskWithIdentifier(identifier: String) -> Bool
 }
 
 protocol receiver: _task {
     
-    func taskCancelledWithError(error: ErrorResultType, identifier: String) -> Void
+//    func taskCancelledWithError(error: ErrorResultType, identifier: String) -> Void
     
-    func finishTaskWithReuslt(result: receiveDataType, identifier: String) -> Void
+//    func finishTaskWithReuslt(result: receiveDataType, identifier: String) -> Void
 }
 

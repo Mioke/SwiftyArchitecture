@@ -59,6 +59,14 @@ class DatabaseCommand: NSObject {
         
         return sql
     }
+    
+    class func deleteCommandWithTable(table: TableProtocol, condition: DatabaseCommandCondition) -> String {
+        
+        var sql = "delete from \(table.tableName)"
+        condition.applyConditionToCommand(&sql)
+        
+        return sql
+    }
 }
 
 // MARK: - Command condition

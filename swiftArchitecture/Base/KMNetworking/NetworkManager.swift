@@ -9,6 +9,7 @@
 import Foundation
 import AFNetworking
 
+@available(iOS, unavailable, message="Not supported now")
 class NetworkManager: NSObject {
 
     class func sendRequestOfURL(url: NSURL, method: String, param: [String : AnyObject]?, timeout: NSTimeInterval?) -> AFHTTPRequestOperation {
@@ -43,11 +44,11 @@ class NetworkManager: NSObject {
         return operation
     }
     
-    class func dealError(error: ErrorResultType) -> Void {
-        
-        // do something like
-        if error.code == 1001 {
-            // ...
-        }
-    }
+//    class func dealError(error: ErrorResultType) -> Void {
+//        
+//        // do something like
+//        if error.code == 1001 {
+//            // ...
+//        }
+//    }
 }

@@ -21,4 +21,19 @@ protocol ApiInfoProtocol: NSObjectProtocol {
     var httpMethod: Alamofire.Method { get }
     
     var server: Server { get }
+    
+    func autoRetryMaxCountWithErrorCode(errorCode: Int) -> Int?
+    func retryTimeIntervalWithErrorCode(errorCode: Int) -> UInt64?
+}
+
+// Default setting
+extension ApiInfoProtocol {
+    
+    func autoRetryMaxCountWithErrorCode(errorCode: Int) -> Int? {
+        return nil
+    }
+
+    func retryTimeIntervalWithErrorCode(errorCode: Int) -> UInt64? {
+        return nil;
+    }
 }

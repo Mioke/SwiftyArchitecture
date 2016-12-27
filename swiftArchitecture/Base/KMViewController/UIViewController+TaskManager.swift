@@ -12,8 +12,8 @@ extension UIViewController: sender, receiver {
     
     typealias receiveDataType = AnyObject
     
-    func doTask(task: () throws -> receiveDataType, identifier: String) {
-        
+//    func doTask(_ task: () throws -> receiveDataType, identifier: String) {
+    
 //        let block =  {
 //            do {
 //                let result = try task()
@@ -29,7 +29,7 @@ extension UIViewController: sender, receiver {
 //            }
 //        }
 //        dispatch_async(dispatch_get_global_queue(0, 0), block)
-    }
+//    }
     
 //    @available(*, deprecated, message="尽量不要使用block回调，保证结构统一性。To make sure the unitarity of callback ,don't use this except neccesary")
 //    func doTask(task: () throws -> receiveDataType, callBack: (receiveDataType) -> Void, failure: (ErrorResultType) -> Void) {
@@ -61,9 +61,9 @@ extension UIViewController: sender, receiver {
      - parameter result:     Task execution's result. 任务执行返回的结果
      - parameter identifier: Task's identifier. 任务的标识
      */
-    func finishTaskWithReuslt(result: receiveDataType, identifier: String) {
-        
-    }
+//    func finishTaskWithReuslt(_ result: receiveDataType, identifier: String) {
+    
+//    }
 }
 
 

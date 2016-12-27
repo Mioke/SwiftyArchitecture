@@ -10,7 +10,7 @@ import Foundation
 
 class DatabaseCommand: NSObject {
     
-    class func createTable(table: TableProtocol, inDataBase database: KMPersistanceDatabase) -> Bool {
+    class func createTable(with table: TableProtocol, in database: KMPersistanceDatabase) -> Bool {
         
         //  TODO: If the table is already there, do nothing.
         //  Now execute the sql will cause an error of "table existes"
@@ -19,17 +19,17 @@ class DatabaseCommand: NSObject {
         let params = NSMutableArray()
         
         for key in table.tableColumnInfo.keys {
-            params.addObject("'\(key)' \(table.tableColumnInfo[key]!)")
+            params.add("'\(key)' \(table.tableColumnInfo[key]!)")
         }
         
-        let sql = "create table if not exists '\(table.tableName)' (\(params.componentsJoinedByString(",")))"
+        let sql = "create table if not exists '\(table.tableName)' (\(params.componentsJoined(by: ",")))"
         
         return database.execute(sql, withArgumentsInDictionary: nil)
     }
     
-    class func replaceCommandWithTable(table: TableProtocol, record: RecordProtocol) -> String {
+    class func replaceCommand(with table: TableProtocol, record: RecordProtocol) -> String {
         
-        guard let params = record.dictionaryRepresentationInTable(table) else {
+        guard let params = record.dictionaryRepresentation(in: table) else {
             assert(false, "DatabaseCommand REPLACE params should not be ampty")
             return ""
         }
@@ -39,31 +39,29 @@ class DatabaseCommand: NSObject {
         let values = NSMutableArray()
         
         for key in params.keys {
-            content.addObject("'\(key)'")
-            values.addObject(":\(key)")
+            content.add("'\(key)'")
+            values.add(":\(key)")
         }
-        sql += "\(content.componentsJoinedByString(","))) values (\(values.componentsJoinedByString(",")))"
+        sql += "\(content.componentsJoined(by: ","))) values (\(values.componentsJoined(by: ",")))"
         
         Log.debugPrintln(sql)
-        // TODO: Whether is needed to execute the sql here(the function of executing should be owned by Command?)
-//        table.database!.execute(sql, withArgumentsInDictionary: <#T##[String : AnyObject]?#>)
         
         return sql
     }
     
-    class func queryCommandWithTable(table: TableProtocol, select: String?, condition: DatabaseCommandCondition) -> String {
+    class func queryCommand(with table: TableProtocol, select: String?, condition: DatabaseCommandCondition) -> String {
         
         let selectSql = select == nil ? "*" : "'\(select!)'"
         var sql = "select \(selectSql) from \(table.tableName)"
-        condition.applyConditionToCommand(&sql)
+        condition.applyCondition(to: &sql)
         
         return sql
     }
     
-    class func deleteCommandWithTable(table: TableProtocol, condition: DatabaseCommandCondition) -> String {
+    class func deleteCommand(with table: TableProtocol, condition: DatabaseCommandCondition) -> String {
         
         var sql = "delete from \(table.tableName)"
-        condition.applyConditionToCommand(&sql)
+        condition.applyCondition(to: &sql)
         
         return sql
     }
@@ -83,22 +81,22 @@ class DatabaseCommandCondition: NSObject {
     var limit: Int?
     var isDistinct: Bool?
     
-    func applyConditionToCommand(inout command: String) {
+    func applyCondition(to command: inout String) {
         
         if self.whereConditions != nil/* && self.whereConditionsParams != nil */{
-            command.appendContentsOf(" where \(self.whereConditions!)")
+            command.append(" where \(self.whereConditions!)")
         }
         if self.orderBy != nil {
-            command.appendContentsOf(" order by \(self.orderBy!)")
+            command.append(" order by \(self.orderBy!)")
         }
         if self.isDESC != nil {
-            command.appendContentsOf(" \(self.isDESC! ? "DESC" : "ASC")")
+            command.append(" \(self.isDESC! ? "DESC" : "ASC")")
         }
         if self.limit != nil {
-            command.appendContentsOf(" limit \(self.limit!)")
+            command.append(" limit \(self.limit!)")
         }
-        if let isDistinct = self.isDistinct where isDistinct {
-            command.replaceRange(command.startIndex.advancedBy(6) ..< command.startIndex.advancedBy(6), with: " distinct")
+        if let isDistinct = self.isDistinct, isDistinct {
+            command.replaceSubrange(command.characters.index(command.startIndex, offsetBy: 6) ..< command.characters.index(command.startIndex, offsetBy: 6), with: " distinct")
         }
     }
 }

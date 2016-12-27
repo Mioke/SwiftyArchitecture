@@ -34,6 +34,9 @@ class InternalTestVC: UIViewController, ApiCallbackProtocol {
 //        a.heapSort()
         a.shellSort()
 //        a.insertionSort()
+        
+        let str =  "1234567890"
+        Log.debugPrintln(str[0..<2])
     }
 
     override func didReceiveMemoryWarning() {
@@ -59,33 +62,33 @@ extension InternalTestVC: UITableViewDelegate, UITableViewDataSource {
     
     // MARK: Header
     
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
     
-    func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 0.0
     }
     
-    func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         return nil
     }
     
     // MARK: Cell
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.tests.count
     }
     
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 44
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        var cell = tableView.dequeueReusableCellWithIdentifier("titleCell")
+        var cell = tableView.dequeueReusableCell(withIdentifier: "titleCell")
         if cell == nil {
-            cell = UITableViewCell(style: .Default, reuseIdentifier: "titleCell")
+            cell = UITableViewCell(style: .default, reuseIdentifier: "titleCell")
         }
         cell!.textLabel?.text = self.tests[indexPath.row]
         
@@ -94,14 +97,14 @@ extension InternalTestVC: UITableViewDelegate, UITableViewDataSource {
     
     // MARK: Action
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         switch indexPath.row {
         case 0:
             let table = UserTable()
             let newUser = UserModel(name: "Klein", uid: 310)
             
-            table.replaceRecord(newUser)
+            let _ = table.replace(newUser)
             
         case 1:
             let table = UserTable()
@@ -110,23 +113,24 @@ extension InternalTestVC: UITableViewDelegate, UITableViewDataSource {
             condition.whereConditions = "user_id >= 0"
             condition.orderBy = "user_name"
             
-            let result = table.queryRecordWithSelect(nil, condition: condition)
+            let result = table.queryRecord(with: nil, condition: condition)
             
             Log.debugPrintln(result)
         case 2:
             let api = ApiLogin()
             api.delegate = self
-            api.loadDataWithParams([
-                "ver": "i5.1.1",
-                "account": "1223@ss.com",
-                "password": "111111",
-                "device": "12345"
-            ])
+//            api.loadDataWithParams([
+//                "ver": "i5.1.1",
+//                "account": "1223@ss.com",
+//                "password": "111111",
+//                "device": "12345"
+//            ])
         case 3:
             SystemLog.activeDevelopUI()
         case 4:
-            let a = []
-            _ = a[1]
+//            let a = []
+//            _ = a[1]
+            break
         case 5:
             Log.debugPrintln(NetworkCache.memoryCache.size())
             
@@ -137,11 +141,11 @@ extension InternalTestVC: UITableViewDelegate, UITableViewDataSource {
     
     // MARK: - APICallbacks
     
-    func ApiManager(apiManager: BaseApiManager, finishWithOriginData data: AnyObject) {
+    func ApiManager(_ apiManager: BaseApiManager, finishWithOriginData data: AnyObject) {
         
     }
     
-    func ApiManager(apimanager: BaseApiManager, failedWithError error: NSError) {
+    func ApiManager(_ apimanager: BaseApiManager, failedWithError error: NSError) {
         
     }
 }

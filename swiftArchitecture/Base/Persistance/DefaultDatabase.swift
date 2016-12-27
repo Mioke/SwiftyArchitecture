@@ -11,7 +11,7 @@ import FMDB
 
 class DefaultDatabase: KMPersistanceDatabase, DatabaseManagerProtocol {
     
-    static var instance: KMPersistanceDatabase = DefaultDatabase()
+    static let instance: KMPersistanceDatabase = DefaultDatabase()
     
     var path: String
     var database: FMDatabaseQueue
@@ -20,7 +20,7 @@ class DefaultDatabase: KMPersistanceDatabase, DatabaseManagerProtocol {
     override init() {
 
         self.databaseName = "default.db"
-        self.path = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true).first! + "/" + self.databaseName
+        self.path = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first! + "/" + self.databaseName
         self.database = FMDatabaseQueue(path: self.path)
         
         super.init()

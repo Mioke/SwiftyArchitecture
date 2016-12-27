@@ -56,7 +56,7 @@ extension UIView {
     }
 }
 
-@available(iOS 2.0, *)
-public func CGRectGetCenter(rect: CGRect) -> CGPoint {
-    return CGPoint(x: CGRectGetMidX(rect), y: CGRectGetMidY(rect))
+
+public func CGRectGetCenter(_ rect: CGRect) -> CGPoint {
+    return CGPoint(x: rect.midX, y: rect.midY)
 }

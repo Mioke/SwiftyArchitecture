@@ -12,8 +12,8 @@ class Server: NSObject {
     
     static var online: Bool = true
 
-    private var onlineURL: String
-    private var offlineURL: String
+    fileprivate var onlineURL: String
+    fileprivate var offlineURL: String
     
     var url: String {
         get {
@@ -41,5 +41,5 @@ class Server: NSObject {
 let kServer = Server(online: "http://115.29.175.210:8009", offline: "http://115.29.175.210:8009")
 
 protocol ServerDataProcessProtocol {
-    func handleData(data: AnyObject, inout shouldRetry: Bool) throws -> Void
+    func handle(_ data: AnyObject, shouldRetry: inout Bool) throws -> Void
 }

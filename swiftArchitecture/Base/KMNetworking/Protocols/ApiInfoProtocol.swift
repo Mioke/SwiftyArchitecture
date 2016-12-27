@@ -18,22 +18,22 @@ protocol ApiInfoProtocol: NSObjectProtocol {
     
     var apiVersion: String { get }
     var apiName: String { get }
-    var httpMethod: Alamofire.Method { get }
+    var httpMethod: Alamofire.HTTPMethod { get }
     
     var server: Server { get }
     
-    func autoRetryMaxCountWithErrorCode(errorCode: Int) -> Int?
-    func retryTimeIntervalWithErrorCode(errorCode: Int) -> UInt64?
+    func autoRetryMaxCount(withErrorCode code: Int) -> Int?
+    func retryTimeInterval(withErrorCode code: Int) -> UInt64?
 }
 
 // Default setting
 extension ApiInfoProtocol {
     
-    func autoRetryMaxCountWithErrorCode(errorCode: Int) -> Int? {
+    func autoRetryMaxCount(withErrorCode code: Int) -> Int? {
         return nil
     }
 
-    func retryTimeIntervalWithErrorCode(errorCode: Int) -> UInt64? {
+    func retryTimeInterval(withErrorCode code: Int) -> UInt64? {
         return nil;
     }
 }

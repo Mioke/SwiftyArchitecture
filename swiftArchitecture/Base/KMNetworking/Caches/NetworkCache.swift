@@ -13,7 +13,7 @@ class NetworkCache: NSObject {
     
     static let memoryCache = NetworkCache()
     
-    private let cache = KMCache(type: .ReleaseByTime)
+    fileprivate let cache = KMCache(type: .releaseByTime)
     
     override init() {
         super.init()
@@ -21,12 +21,12 @@ class NetworkCache: NSObject {
         self.cache.maxCount = 20
     }
     
-    func setObject(object: NSObjectProtocol, forKey key: NSObjectProtocol) {
-        self.cache.setCacheObject(object, forKey: key)
+    func set(object: Any, forKey key: Any) {
+        self.cache.setCacheObject(object as! NSObjectProtocol, forKey: key as! NSObjectProtocol)
     }
     
-    func objectForKey(key: NSObjectProtocol) -> NSObjectProtocol? {
-        return self.cache.objectForKey(key)
+    func objectForKey(_ key: Any) -> Any? {
+        return self.cache.object(forKey: key)
     }
     
     func size() -> UInt {

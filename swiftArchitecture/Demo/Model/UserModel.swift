@@ -21,12 +21,11 @@ class UserModel: NSObject, RecordProtocol {
     }
     
     // MARK: - RecordProtocol delegate
-    func dictionaryRepresentationInTable(table: TableProtocol) -> [String : AnyObject]? {
-        
+    func dictionaryRepresentation(in table: TableProtocol) -> [String : AnyObject]? {
         if table is UserTable {
             return [
-                "user_name": self.userName,
-                "user_id": self.userID
+                "user_name": self.userName as AnyObject,
+                "user_id": self.userID as AnyObject
             ]
         }
         return nil

@@ -27,13 +27,13 @@ protocol DatabaseManagerProtocol: PersistanceManagerProtocol {
 
 class KMPersistanceDatabase: NSObject {
     
-    private weak var child: protocol<DatabaseManagerProtocol>?
+    fileprivate weak var child: (DatabaseManagerProtocol)?
     
     override init() {
         super.init()
         
-        if self is protocol<DatabaseManagerProtocol> {
-            self.child = self as? protocol<DatabaseManagerProtocol>
+        if self is DatabaseManagerProtocol {
+            self.child = self as? DatabaseManagerProtocol
             assert(self.child != nil, "KMPersistanceDatabase's database couldn't be nil")
         } else {
             assert(false, "KMPersistanceDatabase's subclass must follow the KMPersistanceProtocol")
@@ -56,7 +56,7 @@ class KMPersistanceDatabase: NSObject {
      
      - returns: result array
      */
-    func query(query: String, withArgumentsInArray args: [AnyObject]?) -> NSMutableArray {
+    func query(_ query: String, withArgumentsInArray args: [AnyObject]?) -> NSMutableArray {
         return DatabaseManager.database(self.child!.database, query: query, withArgumentsInArray: args)
     }
     
@@ -68,7 +68,7 @@ class KMPersistanceDatabase: NSObject {
      
      - returns: Whether succeed
      */
-    func execute(sql: String, withArgumentsInDictionary args: [String: AnyObject]!) -> Bool {
+    func execute(_ sql: String, withArgumentsInDictionary args: [String: AnyObject]!) -> Bool {
         return DatabaseManager.database(self.child!.database, execute: sql, withArgumentsInDictionary: args)
     }
     
@@ -80,7 +80,7 @@ class KMPersistanceDatabase: NSObject {
      
      - returns: Succeed or not
      */
-    func execute(sql: String, withArgumentsInArray args: [AnyObject]!) -> Bool {
+    func execute(_ sql: String, withArgumentsInArray args: [AnyObject]!) -> Bool {
         return DatabaseManager.database(self.child!.database, execute: sql, withArgumentsInArray: args)
     }
     
@@ -99,39 +99,38 @@ protocol TableProtocol: PersistanceManagerProtocol {
 
 class KMPersistanceTable: NSObject {
     
-    private weak var child: TableProtocol?
+    fileprivate weak var child: TableProtocol?
     
     override init() {
         super.init()
         if self is TableProtocol {
             self.child = (self as! TableProtocol)
-            DatabaseCommand.createTable(self.child!, inDataBase: self.child!.database!)
+            let _ = DatabaseCommand.createTable(with: self.child!, in: self.child!.database!)
         } else {
             assert(false, "KMPersistanceTable must conform to TableProtocol")
         }
     }
     
-    func replaceRecord(record: RecordProtocol) -> Bool {
+    func replace(_ record: RecordProtocol) -> Bool {
         
-        guard let params = record.dictionaryRepresentationInTable(self.child!)
-            where params.count != 0 else {
+        guard let params = record.dictionaryRepresentation(in: self.child!), params.count != 0 else {
             return false
         }
-        let sql = DatabaseCommand.replaceCommandWithTable(self.child!, record: record)
+        let sql = DatabaseCommand.replaceCommand(with: self.child!, record: record)
         
         return self.child!.database!.execute(sql, withArgumentsInDictionary: params)
     }
     
-    func queryRecordWithSelect(select: String?, condition: DatabaseCommandCondition) -> NSMutableArray {
+    func queryRecord(with select: String?, condition: DatabaseCommandCondition) -> NSMutableArray {
         
-        let sql = DatabaseCommand.queryCommandWithTable(self.child!, select: select, condition: condition)
+        let sql = DatabaseCommand.queryCommand(with: self.child!, select: select, condition: condition)
         
         return self.child!.database!.query(sql, withArgumentsInArray: nil)
     }
     
-    func deleteRecordWithCondition(condition: DatabaseCommandCondition) -> Bool {
+    func deleteRecord(with condition: DatabaseCommandCondition) -> Bool {
         
-        let sql = DatabaseCommand.deleteCommandWithTable(self.child!, condition: condition)
+        let sql = DatabaseCommand.deleteCommand(with: self.child!, condition: condition)
         
         return self.child!.database!.execute(sql, withArgumentsInArray: nil)
     }
@@ -140,35 +139,27 @@ class KMPersistanceTable: NSObject {
 // MARK: - Record
 
 protocol RecordProtocol: PersistanceManagerProtocol {
-    
-    func dictionaryRepresentationInTable(table: TableProtocol) -> [String: AnyObject]?
-    static func readFromQueryResultDictionary(dictionary: NSDictionary, table: TableProtocol) -> RecordProtocol?
+    /// For mapping between the column in table and the ivar of record class.
+    ///
+    /// - Parameter table: Which table that represent the map
+    /// - Returns: Map
+    func dictionaryRepresentation(in table: TableProtocol) -> [String: AnyObject]?
+    /// Todo:
+    ///
+    /// - Parameters:
+    ///   - dictionary: dictionary description
+    ///   - table: table description
+    /// - Returns: return value description
+    static func read(from dictionary: NSDictionary, table: TableProtocol) -> RecordProtocol?
 }
 
 // Default implementation, make this func optional-like
 extension RecordProtocol {
     
-    static func readFromQueryResultDictionary(dictionary: NSDictionary, table: TableProtocol) -> RecordProtocol? {
+    static func read(from dictionary: NSDictionary, table: TableProtocol) -> RecordProtocol? {
         return nil
     }
+    
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 

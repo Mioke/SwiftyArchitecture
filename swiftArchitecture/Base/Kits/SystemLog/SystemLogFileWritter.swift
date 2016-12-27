@@ -10,46 +10,46 @@ import UIKit
 
 class SystemLogFileWritter: NSObject {
 
-    private let formatter = NSDateFormatter()
-    private var fileName: String!
-    private var folderPath: String!
+    fileprivate let formatter = DateFormatter()
+    fileprivate var fileName: String!
+    fileprivate var folderPath: String!
     
     override init() {
         super.init()
         
         self.formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-        self.fileName = self.formatter.stringFromDate(NSDate())
-        self.folderPath = NSSearchPathForDirectoriesInDomains(.CachesDirectory, .UserDomainMask, true).first! + "SystemLog"
+        self.fileName = self.formatter.string(from: Date())
+        self.folderPath = NSSearchPathForDirectoriesInDomains(.cachesDirectory, .userDomainMask, true).first! + "SystemLog"
         
-        if !NSFileManager.defaultManager().fileExistsAtPath(self.folderPath) {
+        if !FileManager.default.fileExists(atPath: self.folderPath) {
 
             do {
-                try NSFileManager.defaultManager().createDirectoryAtPath(self.folderPath, withIntermediateDirectories: true, attributes: nil)
+                try FileManager.default.createDirectory(atPath: self.folderPath, withIntermediateDirectories: true, attributes: nil)
             } catch {
                 Log.debugPrintln("Create System Log folder failed")
             }
         }
     }
     
-    func writeText(text: String) -> Void {
+    func writeText(_ text: String) -> Void {
         
-        dispatch_async(dispatch_get_global_queue(0, 0)) { () -> Void in
+        DispatchQueue.global(qos: .default).async {
             
-            let content = "\(self.formatter.stringFromDate(NSDate())): \n--------------\n\(text)\n--------------\n\n"
+            let content = "\(self.formatter.string(from: Date())): \n--------------\n\(text)\n--------------\n\n"
             
-            if !NSFileManager.defaultManager().fileExistsAtPath(self.filePath()) {
+            if !FileManager.default.fileExists(atPath: self.filePath()) {
                 do {
-                    try content.writeToFile(self.filePath(), atomically: true, encoding: NSUTF8StringEncoding)
+                    try content.write(toFile: self.filePath(), atomically: true, encoding: String.Encoding.utf8)
                 } catch {
                     Log.debugPrintln("System log write to file fialed with error: \(error)")
                 }
                 return
             }
             
-            if let fileHandle = NSFileHandle(forWritingAtPath: self.filePath()), data = content.dataUsingEncoding(NSUTF8StringEncoding) {
+            if let fileHandle = FileHandle(forWritingAtPath: self.filePath()), let data = content.data(using: String.Encoding.utf8) {
 
                 fileHandle.seekToEndOfFile()
-                fileHandle.writeData(data)
+                fileHandle.write(data)
                 fileHandle.closeFile()
             }
         }
@@ -57,22 +57,22 @@ class SystemLogFileWritter: NSObject {
     
     func allLogFiles() -> [String]? {
         do {
-            return try NSFileManager.defaultManager().contentsOfDirectoryAtPath(self.folderPath)
+            return try FileManager.default.contentsOfDirectory(atPath: self.folderPath)
         } catch {
             Log.debugPrintln("System log get all files error: \(error)")
             return nil
         }
     }
     
-    func textOfFile(fileName: String) -> String? {
+    func textOfFile(_ fileName: String) -> String? {
         
-        if let data = NSFileManager.defaultManager().contentsAtPath("\(self.folderPath)/\(fileName)") {
-            return String(data: data, encoding: NSUTF8StringEncoding)
+        if let data = FileManager.default.contents(atPath: "\(self.folderPath)/\(fileName)") {
+            return String(data: data, encoding: String.Encoding.utf8)
         }
         return nil
     }
 
-    private func filePath() -> String {
+    fileprivate func filePath() -> String {
         return self.folderPath + "/" + self.fileName
     }
 }

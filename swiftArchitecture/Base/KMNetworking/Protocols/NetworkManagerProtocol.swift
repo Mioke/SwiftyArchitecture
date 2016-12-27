@@ -8,8 +8,8 @@
 
 import Foundation
 
-@available(iOS, unavailable, message="Not supported now")
-class ErrorResultType: NSObject, ErrorType {
+@available(iOS, unavailable, message: "Not supported now")
+class ErrorResultType: NSObject, Error {
     var desc: String = "Undefined error"
     var code: Int = 0
     
@@ -20,7 +20,7 @@ class ErrorResultType: NSObject, ErrorType {
         self.code = code
     }
 }
-@available(iOS, unavailable, message="Not supported now")
+@available(iOS, unavailable, message: "Not supported now")
 enum ResultType<T> {
 //    case Success(T)
 //    case Failed(ErrorResultType)

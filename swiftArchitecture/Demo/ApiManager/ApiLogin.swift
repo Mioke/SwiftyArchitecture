@@ -22,8 +22,8 @@ class ApiLogin: BaseApiManager, ApiInfoProtocol {
     var server: Server {
         get { return kServer }
     }
-    var httpMethod: Alamofire.Method {
-        get { return .GET }
+    var httpMethod: Alamofire.HTTPMethod {
+        get { return .get }
     }
     
     // If you want to do custom options, override the init().
@@ -39,7 +39,7 @@ class ApiLogin: BaseApiManager, ApiInfoProtocol {
         
         Log.debugPrintln(self.originData())
     }
-    override func loadingFailedWithError(error: NSError) {
+    override func loadingFailed(with error: NSError) {
         Log.debugPrintln(error)
     }
 }

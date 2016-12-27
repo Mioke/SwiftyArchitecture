@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import AFNetworking
 
 private let successKey = "success"
 private let errorKey = "error"
@@ -79,11 +78,11 @@ extension KMBaseService: _task {
      - parameter task:       task block
      - parameter completion: completion block
      */
-    func doTask(task: () -> AnyObject, completion: (result: AnyObject) -> Void) -> Void {
-        
-        dispatch_async(dispatch_get_global_queue(0, 0)) { 
+    func doTask(_ task: @escaping () -> AnyObject, completion: @escaping (_ result: AnyObject) -> Void) -> Void {
+    
+        DispatchQueue.global(qos: DispatchQoS.QoSClass.default).async {
             let result = task()
-            completion(result: result)
+            completion(result)
         }
     }
 }

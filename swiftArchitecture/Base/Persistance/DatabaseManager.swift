@@ -11,14 +11,17 @@ import FMDB
 
 class DatabaseManager: NSObject {
     
-    class func database(databaseQueue: FMDatabaseQueue, query: String, withArgumentsInArray args: [AnyObject]?) -> NSMutableArray {
+    class func database(_ databaseQueue: FMDatabaseQueue, query: String, withArgumentsInArray args: [AnyObject]?) -> NSMutableArray {
         
         let rstArray = NSMutableArray()
-        databaseQueue.inTransaction { (db: FMDatabase!, rollback: UnsafeMutablePointer<ObjCBool>) -> Void in
-            
-            if let rst = db.executeQuery(query, withArgumentsInArray: args) {
+        
+        databaseQueue.inTransaction { (db: FMDatabase?, roolback: UnsafeMutablePointer<ObjCBool>?) in
+            guard let db = db else {
+                return
+            }
+            if let rst = db.executeQuery(query, withArgumentsIn: args) {
                 while rst.next() {
-                    rstArray.addObject(rst.resultDictionary())
+                    rstArray.add(rst.resultDictionary())
                 }
                 rst.close()
             }
@@ -26,19 +29,25 @@ class DatabaseManager: NSObject {
         return rstArray
     }
     
-    class func database(databaseQueue: FMDatabaseQueue, execute: String, withArgumentsInDictionary args: [String: AnyObject]!) -> Bool {
+    class func database(_ databaseQueue: FMDatabaseQueue, execute: String, withArgumentsInDictionary args: [String: AnyObject]!) -> Bool {
         
         var isSuccess = false
-        databaseQueue.inTransaction { (db: FMDatabase!, rollback: UnsafeMutablePointer<ObjCBool>) -> Void in
+        databaseQueue.inTransaction { (db: FMDatabase?, roolback: UnsafeMutablePointer<ObjCBool>?) in
+            guard let db = db else {
+                return
+            }
             isSuccess = db.executeUpdate(execute, withParameterDictionary: args)
         }
         return isSuccess
     }
     
-    class func database(databaseQueue: FMDatabaseQueue, execute: String, withArgumentsInArray args: [AnyObject]!) -> Bool {
+    class func database(_ databaseQueue: FMDatabaseQueue, execute: String, withArgumentsInArray args: [AnyObject]!) -> Bool {
         var isSuccess = false
-        databaseQueue.inTransaction { (db: FMDatabase!, rollback: UnsafeMutablePointer<ObjCBool>) -> Void in
-            isSuccess = db.executeUpdate(execute, withArgumentsInArray: args)
+        databaseQueue.inTransaction { (db: FMDatabase?, roolback: UnsafeMutablePointer<ObjCBool>?) in
+            guard let db = db else {
+                return
+            }
+            isSuccess = db.executeUpdate(execute, withArgumentsIn: args)
         }
         return isSuccess
     }

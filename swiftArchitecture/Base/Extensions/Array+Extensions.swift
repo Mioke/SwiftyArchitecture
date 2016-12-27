@@ -11,7 +11,7 @@ import Foundation
 
 extension Array where Element: Comparable {
     
-    mutating func quickSort(from from: Int, to: Int) -> Void {
+    mutating func quickSort(from: Int, to: Int) -> Void {
         
         if from >= to {
             return
@@ -50,7 +50,7 @@ extension Array where Element: Comparable {
     
     mutating func heapSort() -> Void {
         
-        func heapAdjust(parent: Int, size: Int) -> Void {
+        func heapAdjust(_ parent: Int, size: Int) -> Void {
             
             var _parent = Int(parent);
             let element = self[_parent]

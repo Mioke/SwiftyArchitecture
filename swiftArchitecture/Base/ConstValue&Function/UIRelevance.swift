@@ -11,8 +11,8 @@ import UIKit
 /// UI相关
 class UI {
     /* 缓存相关属性，减少调用方法的次数 */
-    private static let screenHeight: CGFloat = UIScreen.mainScreen().bounds.size.height
-    private static let screenWidth: CGFloat = UIScreen.mainScreen().bounds.size.width
+    fileprivate static let screenHeight: CGFloat = UIScreen.main.bounds.size.height
+    fileprivate static let screenWidth: CGFloat = UIScreen.main.bounds.size.width
     
     class var SCREEN_HEIGHT: CGFloat {
         get {
@@ -29,7 +29,7 @@ class UI {
      
      - parameter size: Size of the font
      */
-    class func defaultFontWithSize(size: CGFloat) -> UIFont {
-        return UIFont.systemFontOfSize(size)
+    class func defaultFont(ofSize size: CGFloat) -> UIFont {
+        return UIFont.systemFont(ofSize: size)
     }
 }

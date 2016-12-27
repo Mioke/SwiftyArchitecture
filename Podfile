@@ -5,8 +5,8 @@ use_frameworks!
 target "SAD" do
 	pod 'Alamofire'
 
-	pod 'ReactiveCocoa', '~> 4.0.4-alpha-1'
-	pod "AFNetworking", "~> 2.0"
+#	pod 'ReactiveCocoa'
+#	pod "AFNetworking"
 
 	pod 'FMDB'
 	pod "KMCache"

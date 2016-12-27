@@ -12,23 +12,25 @@ import Alamofire
 class BaseApiManager: NSObject {
     
     // MARK: Statics
-    private static var keyNum: Int = 0
+    
+    /// For produce the unique key of caches
+    fileprivate static var keyNum: Int = 0
     
     // MARK: Privates
-    private weak var child: ApiInfoProtocol?
-    private var request: Request?
+    fileprivate weak var child: ApiInfoProtocol?
+    fileprivate var request: DataRequest?
     
-    private var retryTimes: Int = 0
-    private var shouldAutoRetry: Bool = true
-    private var autoProcessServerData: Bool = true
+    fileprivate var retryTimes: Int = 0
+    fileprivate var shouldAutoRetry: Bool = true
+    fileprivate var autoProcessServerData: Bool = true
     
-    private var data: [String: AnyObject]?
-    private var urlString: String?
-    private var cacheKey: String?
+    fileprivate var data: [String: AnyObject]?
+    fileprivate var urlString: String?
+    fileprivate var cacheKey: String?
     
     // MARK: Publics
     var isLoading = false
-    var timeoutInterval: NSTimeInterval = 20
+    var timeoutInterval: TimeInterval = 20
     var shouldAutoCacheResultWhenSucceed: Bool = false
     
     // MARK: Initialization
@@ -44,7 +46,7 @@ class BaseApiManager: NSObject {
     // MARK: - Actions
     weak var delegate: ApiCallbackProtocol?
     
-    func loadDataWithParams(params: [String: AnyObject]) -> Void {
+    func loadData(with params: [String: AnyObject]) -> Void {
         
         if self.isLoading {
             return
@@ -52,22 +54,21 @@ class BaseApiManager: NSObject {
         // If there is cached result then return it.
         
         if let key = self.cacheKey,
-            let value = NetworkCache.memoryCache.objectForKey(key) as? [String: AnyObject]
-            where self.shouldAutoCacheResultWhenSucceed {
+            let value = NetworkCache.memoryCache.objectForKey(key) as? [String: AnyObject], self.shouldAutoCacheResultWhenSucceed {
             
             self.data = value
             self.loadingComplete()
-            self.delegate?.ApiManager(self, finishWithOriginData: value)
+            self.delegate?.ApiManager(self, finishWithOriginData: value as AnyObject)
             return
         }
         
         self.isLoading = true
         self.cancel()
         
-        self.request = KMRequestGenerator.generateRequestWithAPI(self, method: self.child!.httpMethod, params: params)
+        self.request = KMRequestGenerator.generateRequest(with: self, method: self.child!.httpMethod, params: params)
         self.request?.session.configuration.timeoutIntervalForRequest = self.timeoutInterval
         
-        self.request?.responseJSON { (resp: Response<AnyObject, NSError>) -> Void in
+        self.request?.responseJSON(completionHandler: { (resp: DataResponse<Any>) in
             
             self.isLoading = false
             var err: NSError?
@@ -75,15 +76,15 @@ class BaseApiManager: NSObject {
             // HTTP request success
             if let value = resp.result.value as? [String: AnyObject] {
                 self.data = value
-                SystemLog.write("HTTP response:\n\tRESP:\(resp.response!)\n\tVALUE:\(value)")
+                SystemLog.write("HTTP response:\n\tRESP:\(resp.response!)\n\tVALUE:\(value)" as AnyObject?)
                 
                 // If the server has retry mechanism
-                if let server = self.child!.server as? ServerDataProcessProtocol
-                    where self.autoProcessServerData {
+                if let server = self.child!.server as? ServerDataProcessProtocol,
+                    self.autoProcessServerData {
                     
                     var shouldRetry = false
                     do {
-                        try server.handleData(value, shouldRetry: &shouldRetry)
+                        try server.handle(value as AnyObject, shouldRetry: &shouldRetry)
                         self.loadingComplete()
                     } catch {
                         err = error as NSError
@@ -94,25 +95,25 @@ class BaseApiManager: NSObject {
             }
             // HTTP request error
             else if let error = resp.result.error {
-                self.loadingFailedWithError(error)
-                err = error
+                self.loadingFailed(with: error as NSError)
+                err = error as NSError?
             }
             // Value is not a Dictionary
             else {
                 let error = NSError(domain: "Unknown domain", code: 1001, userInfo: nil)
-                self.loadingFailedWithError(error)
+                self.loadingFailed(with: error)
                 err = error
             }
             
-            if err != nil {
+            if let err = err {
                 // Retry operations
-                if let maxCount = self.child!.autoRetryMaxCountWithErrorCode(err!.code),
-                    let interval = self.child!.retryTimeIntervalWithErrorCode(err!.code) {
+                if let maxCount = self.child!.autoRetryMaxCount(withErrorCode: err.code),
+                    let interval = self.child!.retryTimeInterval(withErrorCode: err.code) {
                     
                     if self.shouldAutoRetry && self.retryTimes < maxCount {
                         
-                        dispatch_after(dispatch_time_t(interval * NSEC_PER_SEC), dispatch_get_global_queue(0, 0), {
-                            self.loadDataWithParams(params)
+                        DispatchQueue.global(qos: .default).asyncAfter(deadline: DispatchTime(uptimeNanoseconds: interval), execute: {
+                            self.loadData(with: params)
                         })
                         self.retryTimes += 1
                         return
@@ -120,11 +121,11 @@ class BaseApiManager: NSObject {
                 }
                 self.retryTimes = 0
                 self.doOnMainQueue({
-                    self.delegate?.ApiManager(self, failedWithError: err!)
+                    self.delegate?.ApiManager(self, failedWithError: err)
                 })
-                SystemLog.write("HTTP response:\n\tRESP:\(resp.response!)\n\tVALUE:\(err!)")
+                SystemLog.write("HTTP response:\n\tRESP:\(resp.response!)\n\tVALUE:\(err)" as AnyObject?)
             }
-        }
+        })
     }
     
     func cancel() -> Void {
@@ -135,7 +136,7 @@ class BaseApiManager: NSObject {
     func loadingComplete() -> Void {
         
         self.doOnMainQueue({
-            self.delegate?.ApiManager(self, finishWithOriginData: self.data!)
+            self.delegate?.ApiManager(self, finishWithOriginData: self.data! as AnyObject)
         })
         self.retryTimes = 0
         if self.shouldAutoCacheResultWhenSucceed {
@@ -143,11 +144,11 @@ class BaseApiManager: NSObject {
                 self.cacheKey = "\(self.child!.apiName)_\(BaseApiManager.keyNum)"
                 BaseApiManager.keyNum += 1
             }
-            NetworkCache.memoryCache.setObject(self.data!, forKey: self.child!.apiName)
+            NetworkCache.memoryCache.set(object: self.data!, forKey: self.child!.apiName)
         }
     }
     
-    func loadingFailedWithError(error: NSError) -> Void {
+    func loadingFailed(with error: NSError) -> Void {
         // TODO: Do something with general error like `if error.code == 1001 { ... }`
 
     }
@@ -173,7 +174,7 @@ class BaseApiManager: NSObject {
         return self.urlString!
     }
     
-    func doOnMainQueue(block: dispatch_block_t) -> Void {
-        dispatch_async(dispatch_get_main_queue(), block)
+    func doOnMainQueue(_ block: @escaping ()->()) -> Void {
+        DispatchQueue.main.async(execute: block)
     }
 }

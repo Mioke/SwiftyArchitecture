@@ -12,21 +12,21 @@ class SystemLog: NSObject {
     
     static let instance = SystemLog()
     
-    private let writter = SystemLogFileWritter()
-    private var enabled: Bool = true
+    fileprivate let writter = SystemLogFileWritter()
+    fileprivate var enabled: Bool = true
 
-    class func setEnable(enable: Bool) -> Void {
+    class func set(_ enable: Bool) -> Void {
         
         instance.enabled = enable
         
         if enable {
             NSSetUncaughtExceptionHandler({ (exception: NSException) -> Void in
-                SystemLog.write("\(exception)")
+                SystemLog.write("\(exception)" as AnyObject?)
             })
         }
     }
 
-    class func write(obj: AnyObject?) -> Void {
+    class func write(_ obj: AnyObject?) -> Void {
         
         if instance.enabled {
             
@@ -43,13 +43,13 @@ class SystemLog: NSObject {
         return instance.writter.allLogFiles()
     }
 
-    class func contentsOfFile(fileName: String) -> String? {
+    class func contentsOfFile(_ fileName: String) -> String? {
         return instance.writter.textOfFile(fileName)
     }
     
     class func activeDevelopUI() {
         let nav = UINavigationController(rootViewController: SystemLogFilesBrowser())
-        UIApplication.sharedApplication().windows.first?.rootViewController?.presentViewController(nav, animated: true, completion: nil)
+        UIApplication.shared.windows.first?.rootViewController?.present(nav, animated: true, completion: nil)
     }
 }
 

@@ -19,7 +19,7 @@ class ViewController: UIViewController {
         // Do any additional setup after loading the view, typically from a nib.
         
         scope("init UI") {
-            self.view.backgroundColor = UIColor.lightGrayColor()
+            self.view.backgroundColor = UIColor.lightGray
         }
         
         scope("init data") {
@@ -39,7 +39,7 @@ class ViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
 
-    @IBAction func clickButton(sender: AnyObject) {
+    @IBAction func clickButton(_ sender: AnyObject) {
         
 //        self.doTask({ () -> receiveDataType in
 //            
@@ -47,12 +47,12 @@ class ViewController: UIViewController {
 //            
 //        }, identifier: "LoginAction")
         
-        self.loginManager.loadDataWithParams([
-            "ver": "i5.1.1",
-            "account": "1223@ss.com",
-            "password": "111111",
-            "device": "12345"
-        ])
+//        self.loginManager.loadDataWithParams([
+//            "ver": "i5.1.1",
+//            "account": "1223@ss.com",
+//            "password": "111111",
+//            "device": "12345"
+//        ])
     }
     
 //    override func finishTaskWithReuslt(result: receiveDataType, identifier: String) {
@@ -74,14 +74,14 @@ class ViewController: UIViewController {
 
 extension ViewController: ApiCallbackProtocol {
     
-    func ApiManager(apiManager: BaseApiManager, finishWithOriginData data: AnyObject) {
+    func ApiManager(_ apiManager: BaseApiManager, finishWithOriginData data: AnyObject) {
         
         if let apiManager = apiManager as? ApiLogin {
             print("login success: \n \(apiManager.originData())")
         }
     }
     
-    func ApiManager(apimanager: BaseApiManager, failedWithError error: NSError) {
+    func ApiManager(_ apimanager: BaseApiManager, failedWithError error: NSError) {
         
     }
 }

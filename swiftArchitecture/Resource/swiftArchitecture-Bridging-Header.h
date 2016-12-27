@@ -3,7 +3,7 @@
 //
 
 #import <CommonCrypto/CommonCrypto.h>
-#import <AFNetworking/AFNetworking.h>
+//#import <AFNetworking/AFNetworking.h>
 
 #import "FMDB.h"
 //#import <KMCache/KMCache.h>

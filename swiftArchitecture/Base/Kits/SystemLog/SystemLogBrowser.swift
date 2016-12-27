@@ -22,22 +22,22 @@ class SystemLogBrowser: UIViewController {
         }
         
         self.title = self.fileName
-        self.view.backgroundColor = UIColor.whiteColor()
+        self.view.backgroundColor = UIColor.white
         
         if let content = SystemLog.contentsOfFile(self.fileName) {
             
             let scrollView = UIScrollView(frame: self.view.bounds)
             self.view.addSubview(scrollView)
             
-            let attributeText = NSAttributedString(string: content, attributes: [NSFontAttributeName: UIFont.systemFontOfSize(10)])
-            let height = attributeText.boundingRectWithSize(CGSizeMake(UIScreen.mainScreen().bounds.size.width - 30, 99999), options: .UsesLineFragmentOrigin, context: nil).height
+            let attributeText = NSAttributedString(string: content, attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 10)])
+            let height = attributeText.boundingRect(with: CGSize(width: UIScreen.main.bounds.size.width - 30, height: 99999), options: .usesLineFragmentOrigin, context: nil).height
             
-            let label = UILabel(frame: CGRectMake(15, 15, UIScreen.mainScreen().bounds.size.width - 30, height))
+            let label = UILabel(frame: CGRect(x: 15, y: 15, width: UIScreen.main.bounds.size.width - 30, height: height))
             label.numberOfLines = 0
             label.attributedText = attributeText
             
             scrollView.addSubview(label)
-            scrollView.contentSize = CGSizeMake(0, height + 15)
+            scrollView.contentSize = CGSize(width: 0, height: height + 15)
         }
     }
 

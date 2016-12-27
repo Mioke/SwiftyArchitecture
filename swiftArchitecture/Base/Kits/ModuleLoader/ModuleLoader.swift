@@ -11,10 +11,10 @@ import UIKit
 class ModuleLoader: NSObject {
     
     enum OperationLevel: Int {
-        case High; case Low; case Default
+        case high; case low; case `default`
     }
     
-    private static var defaultLoader: ModuleLoader? = ModuleLoader()
+    fileprivate static var defaultLoader: ModuleLoader? = ModuleLoader()
     
     class func loader() -> ModuleLoader {
         if ModuleLoader.defaultLoader == nil {
@@ -23,54 +23,55 @@ class ModuleLoader: NSObject {
         return ModuleLoader.defaultLoader!
     }
     
-    let group: dispatch_group_t = dispatch_group_create()
+    let group: DispatchGroup = DispatchGroup()
     
     var maxConcurrentNum: Int = 3
     var currentNum: Int = 0
     
-    private var operations: [OperationLevel: [() -> ()]]
+    fileprivate var operations: [ModuleLoader.OperationLevel: [() -> ()]]
     
     override init() {
-        operations = [.High: [], .Default: [], .Low: []]
+        operations = [.high: [], .default: [], .low: []]
         super.init()
 
-        dispatch_group_notify(group, dispatch_get_main_queue()) {
+        group.notify(queue: DispatchQueue.main) {
             self.currentNum = 0
             self.run()
         }
     }
     
-    func addOperation(level: ModuleLoader.OperationLevel = .Default, operation: () -> ()) -> Void {
-        
+    func add(_ level: ModuleLoader.OperationLevel = .default, operation: @escaping () -> ()) -> Void {
         operations[level]! += [operation]
     }
     
     func run() -> Void {
+        
         while currentNum < maxConcurrentNum {
             
             var op: (() -> ())? = nil
-            var priority: dispatch_queue_priority_t = DISPATCH_QUEUE_PRIORITY_DEFAULT
+            var priority: DispatchQoS = DispatchQoS.default
             
-            if operations[.High]!.count > 0 {
-                op = operations[.High]!.removeFirst()
-                priority = DISPATCH_QUEUE_PRIORITY_HIGH
+            if operations[.high]!.count > 0 {
+                op = operations[.high]!.removeFirst()
+                priority = .utility
                 
-            } else if operations[.Default]!.count > 0 {
-                op = operations[.Default]!.removeFirst()
-                priority = DISPATCH_QUEUE_PRIORITY_DEFAULT
+            } else if operations[.default]!.count > 0 {
+                op = operations[.default]!.removeFirst()
+                priority = .default
                 
-            } else if operations[.Low]!.count > 0 {
-                op = operations[.Low]!.removeFirst()
-                priority = DISPATCH_QUEUE_PRIORITY_BACKGROUND
+            } else if operations[.low]!.count > 0 {
+                op = operations[.low]!.removeFirst()
+                priority = .background
             }
             guard op != nil else {
                 ModuleLoader.defaultLoader = nil
                 return
             }
             self.currentNum += 1
-            dispatch_group_async(group, dispatch_get_global_queue(priority, 0), {
+            
+            DispatchQueue.global(qos: priority.qosClass).async {
                 op?()
-            })
+            }
         }
     }
 }

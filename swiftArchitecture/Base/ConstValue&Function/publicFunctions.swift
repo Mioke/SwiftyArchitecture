@@ -14,14 +14,14 @@ import Foundation
  - parameter name:    区块功能描述
  - parameter closure: 执行功能
  */
-func scope(name: String, closure: () -> ()) -> Void {
+func scope(_ name: String, closure: () -> ()) -> Void {
     closure()
 }
 
 /// Debug模式下打印
 class Log {
     
-    class func debugPrintln<T>(value: T) -> Void {
+    class func debugPrintln<T>(_ value: T) -> Void {
         #if DEBUG
             print(value)
         #endif

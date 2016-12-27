@@ -8,68 +8,68 @@
 
 import Foundation
 
-var dateFormatter: NSDateFormatter? = nil
+var dateFormatter: DateFormatter? = nil
 
-extension NSDate {
+extension Date {
     
     var year: Int {
         get {
-            return NSCalendar.currentCalendar().component(NSCalendarUnit.Year, fromDate: self)
+            return (Calendar.current as NSCalendar).component(NSCalendar.Unit.year, from: self)
         }
     }
     var month: Int {
         get {
-            return NSCalendar.currentCalendar().component(NSCalendarUnit.Month, fromDate: self)
+            return (Calendar.current as NSCalendar).component(NSCalendar.Unit.month, from: self)
         }
     }
     var day: Int {
         get {
-            return NSCalendar.currentCalendar().component(NSCalendarUnit.Day, fromDate: self)
+            return (Calendar.current as NSCalendar).component(NSCalendar.Unit.day, from: self)
         }
     }
     
     var weekday: Int {
         get {
-            return NSCalendar.currentCalendar().ordinalityOfUnit(NSCalendarUnit.Weekday, inUnit: NSCalendarUnit.WeekOfYear, forDate: self)
+            return (Calendar.current as NSCalendar).ordinality(of: NSCalendar.Unit.weekday, in: NSCalendar.Unit.weekOfYear, for: self)
         }
     }
     
     var weekOfMonth: Int {
         get {
-            return NSCalendar.currentCalendar().component(NSCalendarUnit.WeekOfMonth, fromDate: self)
+            return (Calendar.current as NSCalendar).component(NSCalendar.Unit.weekOfMonth, from: self)
         }
     }
     
-    func offsetMonth(offset: Int) -> NSDate {
+    func offsetMonth(_ offset: Int) -> Date {
         guard offset != 0 else { return self }
-        let comps = NSDateComponents()
+        var comps = DateComponents()
         comps.month = offset
-        return NSCalendar.currentCalendar().dateByAddingComponents(comps, toDate: self, options: NSCalendarOptions.WrapComponents)!
+        return (Calendar.current as NSCalendar).date(byAdding: comps, to: self, options: NSCalendar.Options.wrapComponents)!
     }
     
-    func offsetDay(offset: Int) -> NSDate {
+    func offsetDay(_ offset: Int) -> Date {
         guard offset != 0 else { return self }
-        let comps = NSDateComponents()
+        var comps = DateComponents()
         comps.day = offset
-        return NSCalendar.currentCalendar().dateByAddingComponents(comps, toDate: self, options: NSCalendarOptions.WrapComponents)!
+        return (Calendar.current as NSCalendar).date(byAdding: comps, to: self, options: NSCalendar.Options.wrapComponents)!
     }
     
-    func offsetWeek(offset: Int) -> NSDate {
+    func offsetWeek(_ offset: Int) -> Date {
         guard offset != 0 else { return self }
-        let comps = NSDateComponents()
+        var comps = DateComponents()
         comps.weekOfYear = offset
-        return NSCalendar.currentCalendar().dateByAddingComponents(comps, toDate: self, options: NSCalendarOptions.WrapComponents)!
+        return (Calendar.current as NSCalendar).date(byAdding: comps, to: self, options: NSCalendar.Options.wrapComponents)!
     }
     
-    class func numberOfDaysInMonth(date: NSDate) -> Int {
-        return NSCalendar.currentCalendar().rangeOfUnit(NSCalendarUnit.Day, inUnit: NSCalendarUnit.Month, forDate: date).length
+    static func numberOfDaysInMonth(_ date: Date) -> Int {
+        return (Calendar.current as NSCalendar).range(of: NSCalendar.Unit.day, in: NSCalendar.Unit.month, for: date).length
     }
     
     var firstWeekdayInMonth: Int {
         get {
-            let comps = NSCalendar.currentCalendar().components([NSCalendarUnit.Year, NSCalendarUnit.Month], fromDate: self)
+            var comps = (Calendar.current as NSCalendar).components([NSCalendar.Unit.year, NSCalendar.Unit.month], from: self)
             comps.day = 1
-            if let newDate = NSCalendar.currentCalendar().dateFromComponents(comps) {
+            if let newDate = Calendar.current.date(from: comps) {
                 return newDate.weekday
             }
             assert(false, "NSDate.firstWeekdayInMonth error, can't generate the first day in month")
@@ -77,43 +77,43 @@ extension NSDate {
         }
     }
     
-    func isMonthEqualToDate(date: NSDate) -> Bool {
-        let cal = NSCalendar.currentCalendar()
-        let selfComps = cal.components([NSCalendarUnit.Year, .Month], fromDate: self)
-        let other = cal.components([.Year, .Month], fromDate: date)
+    func isMonthEqualToDate(_ date: Date) -> Bool {
+        let cal = Calendar.current
+        let selfComps = (cal as NSCalendar).components([NSCalendar.Unit.year, .month], from: self)
+        let other = (cal as NSCalendar).components([.year, .month], from: date)
         
         return selfComps.year == other.year && selfComps.month == other.month
     }
     
-    func isDayEqualToDate(date: NSDate) -> Bool {
-        let cal = NSCalendar.currentCalendar()
-        let selfComps = cal.components([NSCalendarUnit.Year, .Month, .Day], fromDate: self)
-        let other = cal.components([.Year, .Month, .Day], fromDate: date)
+    func isDayEqualToDate(_ date: Date) -> Bool {
+        let cal = Calendar.current
+        let selfComps = (cal as NSCalendar).components([NSCalendar.Unit.year, .month, .day], from: self)
+        let other = (cal as NSCalendar).components([.year, .month, .day], from: date)
         
         return selfComps.year == other.year && selfComps.month == other.month && selfComps.day == other.day
     }
     
-    func isWeekEqualToDate(date: NSDate) -> Bool {
-        let cal = NSCalendar.currentCalendar()
-        let selfComps = cal.components([NSCalendarUnit.Year, .WeekOfYear, .YearForWeekOfYear], fromDate: self)
-        let other = cal.components([.Year, .Month, .YearForWeekOfYear], fromDate: date)
+    func isWeekEqualToDate(_ date: Date) -> Bool {
+        let cal = Calendar.current
+        let selfComps = (cal as NSCalendar).components([NSCalendar.Unit.year, .weekOfYear, .yearForWeekOfYear], from: self)
+        let other = (cal as NSCalendar).components([.year, .month, .yearForWeekOfYear], from: date)
         
         return selfComps.yearForWeekOfYear == other.yearForWeekOfYear && selfComps.weekOfYear == other.weekOfYear
     }
     
-    var originTimeOfDay: NSTimeInterval {
+    var originTimeOfDay: TimeInterval {
         get {
-            let comps = NSCalendar.currentCalendar().components([.Year, .Month, .Day], fromDate: self)
-            return NSCalendar.currentCalendar().dateFromComponents(comps)!.timeIntervalSince1970
+            let comps = (Calendar.current as NSCalendar).components([.year, .month, .day], from: self)
+            return Calendar.current.date(from: comps)!.timeIntervalSince1970
         }
     }
     
-    func stringWithFormat(format: String) -> String {
+    func stringWithFormat(_ format: String) -> String {
         
-        if dateFormatter == nil { dateFormatter = NSDateFormatter() }
+        if dateFormatter == nil { dateFormatter = DateFormatter() }
         
         let formatter = dateFormatter!
         formatter.dateFormat = format
-        return formatter.stringFromDate(self)
+        return formatter.string(from: self)
     }
 }

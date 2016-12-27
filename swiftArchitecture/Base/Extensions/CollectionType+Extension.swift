@@ -8,28 +8,28 @@
 
 import Foundation
 
-extension CollectionType where Generator.Element: Comparable {
+extension Collection where Iterator.Element: Comparable {
     
-    var isSorted: Bool {
-        
-        if self.count < 3 { return true }
-        
-        var compare: Int?
-        
-        for i in self.startIndex..<self.endIndex {
-            if compare == nil {
-                if self[i] > self[i.successor()] { compare = 0 }
-                else { compare = 1 }
-                continue
-            }
-            if compare! == 1 {
-                if self[i] > self[i.successor()] { return false }
-            } else {
-                if self[i] < self[i.successor()] { return false }
-            }
-        }
-        return true
-    }
+//    var isSorted: Bool {
+//        
+//        if self.count < 3 { return true }
+//        
+//        var compare: Int?
+//        
+//        for i in self.startIndex ..< self.endIndex {
+//            if compare == nil {
+//                if self[i] > self[Collection.index(after: i)] { compare = 0 }
+//                else { compare = 1 }
+//                continue
+//            }
+//            if compare! == 1 {
+//                if self[i] > self[Collection.index(after: i)] { return false }
+//            } else {
+//                if self[i] < self[Collection.index(after: i)] { return false }
+//            }
+//        }
+//        return true
+//    }
     
 }
 

@@ -21,12 +21,12 @@ class SystemLog: NSObject {
         
         if enable {
             NSSetUncaughtExceptionHandler({ (exception: NSException) -> Void in
-                SystemLog.write("\(exception)" as AnyObject?)
+                SystemLog.write("\(exception)")
             })
         }
     }
 
-    class func write(_ obj: AnyObject?) -> Void {
+    class func write(_ obj: Any) -> Void {
         
         if instance.enabled {
             

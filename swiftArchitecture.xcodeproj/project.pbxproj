@@ -25,7 +25,6 @@
 		A77BACE61C1548E800AF7A86 /* KMRequestGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77BACE51C1548E800AF7A86 /* KMRequestGenerator.swift */; };
 		A77BACE81C15638900AF7A86 /* ApiInfoProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77BACE71C15638900AF7A86 /* ApiInfoProtocol.swift */; };
 		A77BACEA1C15641700AF7A86 /* BaseApiManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77BACE91C15641700AF7A86 /* BaseApiManager.swift */; };
-		A77BACED1C157EEB00AF7A86 /* ApiLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77BACEC1C157EEB00AF7A86 /* ApiLogin.swift */; };
 		A77BACEF1C15810300AF7A86 /* ApiCallbackProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77BACEE1C15810300AF7A86 /* ApiCallbackProtocol.swift */; };
 		A77BACF11C16ABBF00AF7A86 /* UIColor+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77BACF01C16ABBF00AF7A86 /* UIColor+Extensions.swift */; };
 		A77BAD161C1927E500AF7A86 /* DatabaseCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77BAD151C1927E500AF7A86 /* DatabaseCommand.swift */; };
@@ -35,7 +34,6 @@
 		A7826F6C1C0D9011007AA18D /* DatabaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7826F6B1C0D9011007AA18D /* DatabaseManager.swift */; };
 		A7826F6F1C0EC657007AA18D /* String+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7826F6E1C0EC657007AA18D /* String+Extensions.swift */; };
 		A7826F761C0EF06A007AA18D /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7826F751C0EF06A007AA18D /* UserModel.swift */; };
-		A7826F781C102E06007AA18D /* Internal.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7826F771C102E06007AA18D /* Internal.swift */; };
 		A7826F7A1C112AF2007AA18D /* CollectionType+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7826F791C112AF2007AA18D /* CollectionType+Extension.swift */; };
 		A791C6B11C02E90000670017 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A791C6B01C02E90000670017 /* AppDelegate.swift */; };
 		A791C6B61C02E90000670017 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A791C6B41C02E90000670017 /* Main.storyboard */; };
@@ -44,6 +42,7 @@
 		A791C6BE1C02E90000670017 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A791C6BC1C02E90000670017 /* LaunchScreen.storyboard */; };
 		A791C6C91C02E90000670017 /* swiftArchitectureTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A791C6C81C02E90000670017 /* swiftArchitectureTests.swift */; };
 		A791C6D41C02E90000670017 /* swiftArchitectureUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A791C6D31C02E90000670017 /* swiftArchitectureUITests.swift */; };
+		AF158A541E14B63900FB0BAF /* TestAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF158A531E14B63900FB0BAF /* TestAPI.swift */; };
 		AF43F43D1CE4258A00E78DFF /* UIView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF43F43C1CE4258A00E78DFF /* UIView+Extensions.swift */; };
 		AF43F4431CE4395700E78DFF /* ModuleLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF43F4421CE4395700E78DFF /* ModuleLoader.swift */; };
 		AF78456E1CE9BD720020F6E8 /* NSDate+Extentsions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF78456D1CE9BD720020F6E8 /* NSDate+Extentsions.swift */; };
@@ -92,7 +91,6 @@
 		A77BACE51C1548E800AF7A86 /* KMRequestGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KMRequestGenerator.swift; sourceTree = "<group>"; };
 		A77BACE71C15638900AF7A86 /* ApiInfoProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApiInfoProtocol.swift; sourceTree = "<group>"; };
 		A77BACE91C15641700AF7A86 /* BaseApiManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseApiManager.swift; sourceTree = "<group>"; };
-		A77BACEC1C157EEB00AF7A86 /* ApiLogin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApiLogin.swift; sourceTree = "<group>"; };
 		A77BACEE1C15810300AF7A86 /* ApiCallbackProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApiCallbackProtocol.swift; sourceTree = "<group>"; };
 		A77BACF01C16ABBF00AF7A86 /* UIColor+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+Extensions.swift"; sourceTree = "<group>"; };
 		A77BAD151C1927E500AF7A86 /* DatabaseCommand.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatabaseCommand.swift; sourceTree = "<group>"; };
@@ -102,7 +100,6 @@
 		A7826F6B1C0D9011007AA18D /* DatabaseManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatabaseManager.swift; sourceTree = "<group>"; };
 		A7826F6E1C0EC657007AA18D /* String+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Extensions.swift"; sourceTree = "<group>"; };
 		A7826F751C0EF06A007AA18D /* UserModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
-		A7826F771C102E06007AA18D /* Internal.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Internal.swift; sourceTree = "<group>"; };
 		A7826F791C112AF2007AA18D /* CollectionType+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CollectionType+Extension.swift"; sourceTree = "<group>"; };
 		A791C6AD1C02E90000670017 /* SAD.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SAD.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A791C6B01C02E90000670017 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -117,6 +114,7 @@
 		A791C6CF1C02E90000670017 /* swiftArchitectureUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = swiftArchitectureUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A791C6D31C02E90000670017 /* swiftArchitectureUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = swiftArchitectureUITests.swift; sourceTree = "<group>"; };
 		A791C6D51C02E90000670017 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		AF158A531E14B63900FB0BAF /* TestAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestAPI.swift; sourceTree = "<group>"; };
 		AF43F43C1CE4258A00E78DFF /* UIView+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Extensions.swift"; sourceTree = "<group>"; };
 		AF43F4421CE4395700E78DFF /* ModuleLoader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModuleLoader.swift; sourceTree = "<group>"; };
 		AF78456D1CE9BD720020F6E8 /* NSDate+Extentsions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSDate+Extentsions.swift"; sourceTree = "<group>"; };
@@ -254,7 +252,6 @@
 			isa = PBXGroup;
 			children = (
 				A753A0A21C06FE5A00C9FBFE /* ViewController.swift */,
-				A7826F771C102E06007AA18D /* Internal.swift */,
 				A77BAD191C196DFD00AF7A86 /* InternalTestVC.swift */,
 			);
 			path = ViewController;
@@ -330,7 +327,7 @@
 		A77BACEB1C157EC100AF7A86 /* ApiManager */ = {
 			isa = PBXGroup;
 			children = (
-				A77BACEC1C157EEB00AF7A86 /* ApiLogin.swift */,
+				AF158A531E14B63900FB0BAF /* TestAPI.swift */,
 			);
 			path = ApiManager;
 			sourceTree = "<group>";
@@ -643,14 +640,13 @@
 				A791C6B11C02E90000670017 /* AppDelegate.swift in Sources */,
 				A7826F6C1C0D9011007AA18D /* DatabaseManager.swift in Sources */,
 				A753A0B21C0D79BA00C9FBFE /* KMPersistance.swift in Sources */,
-				A7826F781C102E06007AA18D /* Internal.swift in Sources */,
 				A77BAD1A1C196DFD00AF7A86 /* InternalTestVC.swift in Sources */,
 				AF43F4431CE4395700E78DFF /* ModuleLoader.swift in Sources */,
 				A7826F6F1C0EC657007AA18D /* String+Extensions.swift in Sources */,
 				AF43F43D1CE4258A00E78DFF /* UIView+Extensions.swift in Sources */,
 				A77BAD161C1927E500AF7A86 /* DatabaseCommand.swift in Sources */,
 				703FAA451C2A9AB6003AEDFC /* Array+Extensions.swift in Sources */,
-				A77BACED1C157EEB00AF7A86 /* ApiLogin.swift in Sources */,
+				AF158A541E14B63900FB0BAF /* TestAPI.swift in Sources */,
 				A753A0AA1C0C215E00C9FBFE /* publicFunctions.swift in Sources */,
 				A752DE311C02FA28008E3118 /* KMBaseService.swift in Sources */,
 				AFD7F07B1C8E5FE2005B379A /* SystemLogFilesBrowser.swift in Sources */,

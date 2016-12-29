@@ -12,7 +12,6 @@ import Alamofire
 class BaseApiManager: NSObject {
     
     // MARK: Statics
-    
     /// For produce the unique key of caches
     fileprivate static var keyNum: Int = 0
     
@@ -21,16 +20,18 @@ class BaseApiManager: NSObject {
     fileprivate var request: DataRequest?
     
     fileprivate var retryTimes: Int = 0
-    fileprivate var shouldAutoRetry: Bool = true
-    fileprivate var autoProcessServerData: Bool = true
     
-    fileprivate var data: [String: AnyObject]?
+    fileprivate var data: [String: Any]?
     fileprivate var urlString: String?
     fileprivate var cacheKey: String?
     
     // MARK: Publics
     var isLoading = false
     var timeoutInterval: TimeInterval = 20
+    var autoProcessServerData: Bool = true
+    
+    /// if this property is true, it will auto retry when all situations are eligible
+    var shouldAutoRetry: Bool = true
     var shouldAutoCacheResultWhenSucceed: Bool = false
     
     // MARK: Initialization
@@ -46,19 +47,20 @@ class BaseApiManager: NSObject {
     // MARK: - Actions
     weak var delegate: ApiCallbackProtocol?
     
-    func loadData(with params: [String: AnyObject]) -> Void {
+    public func loadData(with params: [String: Any]?) -> Void {
         
         if self.isLoading {
+            debugPrint("API manager current is requesting, if you want to reload, call cancel() and retry")
             return
         }
         // If there is cached result then return it.
         
         if let key = self.cacheKey,
-            let value = NetworkCache.memoryCache.objectForKey(key) as? [String: AnyObject], self.shouldAutoCacheResultWhenSucceed {
+            let value = NetworkCache.memoryCache.objectForKey(key) as? [String: Any], self.shouldAutoCacheResultWhenSucceed {
             
             self.data = value
             self.loadingComplete()
-            self.delegate?.ApiManager(self, finishWithOriginData: value as AnyObject)
+            self.delegate?.ApiManager(self, finishWithOriginData: value)
             return
         }
         
@@ -74,9 +76,9 @@ class BaseApiManager: NSObject {
             var err: NSError?
             
             // HTTP request success
-            if let value = resp.result.value as? [String: AnyObject] {
+            if let value = resp.result.value as? [String: Any] {
                 self.data = value
-                SystemLog.write("HTTP response:\n\tRESP:\(resp.response!)\n\tVALUE:\(value)" as AnyObject?)
+                SystemLog.write("HTTP response:\n\tRESP:\(resp.response!)\n\tVALUE:\(value)")
                 
                 // If the server has retry mechanism
                 if let server = self.child!.server as? ServerDataProcessProtocol,
@@ -84,24 +86,28 @@ class BaseApiManager: NSObject {
                     
                     var shouldRetry = false
                     do {
-                        try server.handle(value as AnyObject, shouldRetry: &shouldRetry)
+                        try server.handle(value, shouldRetry: &shouldRetry)
                         self.loadingComplete()
+                        self.successRoute()
                     } catch {
                         err = error as NSError
                     }
                 } else {
                     self.loadingComplete()
+                    self.successRoute()
                 }
             }
             // HTTP request error
             else if let error = resp.result.error {
                 self.loadingFailed(with: error as NSError)
+                self.failureRoute(with: error as NSError)
                 err = error as NSError?
             }
             // Value is not a Dictionary
             else {
                 let error = NSError(domain: "Unknown domain", code: 1001, userInfo: nil)
                 self.loadingFailed(with: error)
+                self.failureRoute(with: error)
                 err = error
             }
             
@@ -119,24 +125,24 @@ class BaseApiManager: NSObject {
                         return
                     }
                 }
+                // reset the retry count
                 self.retryTimes = 0
-                self.doOnMainQueue({
-                    self.delegate?.ApiManager(self, failedWithError: err)
-                })
-                SystemLog.write("HTTP response:\n\tRESP:\(resp.response!)\n\tVALUE:\(err)" as AnyObject?)
+                
+                self.loadingFailed(with: err)
+                self.failureRoute(with: err)
+                
+                SystemLog.write("HTTP response:\n\tRESP:\(resp.response!)\n\tVALUE:\(err)")
             }
         })
     }
     
-    func cancel() -> Void {
+    open func cancel() -> Void {
         self.request?.cancel()
     }
     
-    // MARK: - Callbacks
-    func loadingComplete() -> Void {
-        
+    private func successRoute() -> Void {
         self.doOnMainQueue({
-            self.delegate?.ApiManager(self, finishWithOriginData: self.data! as AnyObject)
+            self.delegate?.ApiManager(self, finishWithOriginData: self.data!)
         })
         self.retryTimes = 0
         if self.shouldAutoCacheResultWhenSucceed {
@@ -148,21 +154,39 @@ class BaseApiManager: NSObject {
         }
     }
     
-    func loadingFailed(with error: NSError) -> Void {
-        // TODO: Do something with general error like `if error.code == 1001 { ... }`
-
+    private func failureRoute(with error: NSError) -> Void {
+        self.doOnMainQueue({
+            self.delegate?.ApiManager(self, failedWithError: error)
+        })
+    }
+    
+    // MARK: - Callbacks
+    public func loadingComplete() -> Void {
+        // hook
+    }
+    
+    public func loadingFailed(with error: NSError) -> Void {
+        // hook
     }
     
     // MARK: - Others
-    func isSuccess() -> Bool {
+    
+    /// HTTP request is succeed or not
+    open func isSuccess() -> Bool {
         return self.data != nil && !self.isLoading
     }
     
-    func originData() -> [String: AnyObject]? {
+    /// Data which received from server and transformed to JSON
+    ///
+    /// - Returns: origin data
+    open func originData() -> [String: Any]? {
         return self.data
     }
     
-    func apiURLString() -> String {
+    /// Get url string including server url, API version and API name
+    ///
+    /// - Returns: URL string of request, doesn't include query parameters.
+    open func apiURLString() -> String {
         
         if self.urlString == nil {
             if self.child!.apiVersion.isEmpty {
@@ -174,7 +198,7 @@ class BaseApiManager: NSObject {
         return self.urlString!
     }
     
-    func doOnMainQueue(_ block: @escaping ()->()) -> Void {
+    private func doOnMainQueue(_ block: @escaping () -> ()) -> Void {
         DispatchQueue.main.async(execute: block)
     }
 }

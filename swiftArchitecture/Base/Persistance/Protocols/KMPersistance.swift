@@ -56,7 +56,7 @@ class KMPersistanceDatabase: NSObject {
      
      - returns: result array
      */
-    func query(_ query: String, withArgumentsInArray args: [AnyObject]?) -> NSMutableArray {
+    func query(_ query: String, withArgumentsInArray args: [Any]?) -> NSMutableArray {
         return DatabaseManager.database(self.child!.database, query: query, withArgumentsInArray: args)
     }
     
@@ -68,7 +68,7 @@ class KMPersistanceDatabase: NSObject {
      
      - returns: Whether succeed
      */
-    func execute(_ sql: String, withArgumentsInDictionary args: [String: AnyObject]!) -> Bool {
+    func execute(_ sql: String, withArgumentsInDictionary args: [String: Any]!) -> Bool {
         return DatabaseManager.database(self.child!.database, execute: sql, withArgumentsInDictionary: args)
     }
     
@@ -80,7 +80,7 @@ class KMPersistanceDatabase: NSObject {
      
      - returns: Succeed or not
      */
-    func execute(_ sql: String, withArgumentsInArray args: [AnyObject]!) -> Bool {
+    func execute(_ sql: String, withArgumentsInArray args: [Any]!) -> Bool {
         return DatabaseManager.database(self.child!.database, execute: sql, withArgumentsInArray: args)
     }
     
@@ -143,7 +143,7 @@ protocol RecordProtocol: PersistanceManagerProtocol {
     ///
     /// - Parameter table: Which table that represent the map
     /// - Returns: Map
-    func dictionaryRepresentation(in table: TableProtocol) -> [String: AnyObject]?
+    func dictionaryRepresentation(in table: TableProtocol) -> [String: Any]?
     /// Todo:
     ///
     /// - Parameters:

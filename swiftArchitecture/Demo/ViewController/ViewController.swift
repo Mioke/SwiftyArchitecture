@@ -12,7 +12,7 @@ class ViewController: UIViewController {
     
     let userService = UserService()
     
-    var loginManager: ApiLogin!
+    var baiduSearch = TestAPI()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,11 +23,7 @@ class ViewController: UIViewController {
         }
         
         scope("init data") {
-            self.loginManager = {
-                let manager = ApiLogin()
-                manager.delegate = self
-                return manager
-            }()
+            self.baiduSearch.loadData(with: nil)
         }
         
         let db = DefaultDatabase()
@@ -39,50 +35,24 @@ class ViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
 
-    @IBAction func clickButton(_ sender: AnyObject) {
+    @IBAction func clickButton(_ sender: Any) {
         
-//        self.doTask({ () -> receiveDataType in
-//            
-//            return try self.userService.login()
-//            
-//        }, identifier: "LoginAction")
-        
-//        self.loginManager.loadDataWithParams([
-//            "ver": "i5.1.1",
-//            "account": "1223@ss.com",
-//            "password": "111111",
-//            "device": "12345"
-//        ])
     }
-    
-//    override func finishTaskWithReuslt(result: receiveDataType, identifier: String) {
-    
-//        if identifier == "LoginAction" {
-//            
-//            if let result = result as? Bool where result {
-//                print("login success")
-//            } else {
-//                print("login failed")
-//            }
-//        }
-//    }
-    
-//    override func taskCancelledWithError(error: ErrorResultType, identifier: String) {
-//        super.taskCancelledWithError(error, identifier: identifier)
-//    }
 }
 
 extension ViewController: ApiCallbackProtocol {
     
-    func ApiManager(_ apiManager: BaseApiManager, finishWithOriginData data: AnyObject) {
+    func ApiManager(_ apiManager: BaseApiManager, finishWithOriginData data: Any) {
         
-        if let apiManager = apiManager as? ApiLogin {
-            print("login success: \n \(apiManager.originData())")
+        if apiManager == self.baiduSearch {
+            debugPrint(data)
         }
     }
     
-    func ApiManager(_ apimanager: BaseApiManager, failedWithError error: NSError) {
-        
+    func ApiManager(_ apiManager: BaseApiManager, failedWithError error: NSError) {
+        if apiManager == self.baiduSearch {
+            debugPrint(error)
+        }
     }
 }
 

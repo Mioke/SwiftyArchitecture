@@ -117,14 +117,12 @@ extension InternalTestVC: UITableViewDelegate, UITableViewDataSource {
             
             Log.debugPrintln(result)
         case 2:
-            let api = ApiLogin()
+            let api = TestAPI()
             api.delegate = self
-//            api.loadDataWithParams([
-//                "ver": "i5.1.1",
-//                "account": "1223@ss.com",
-//                "password": "111111",
-//                "device": "12345"
-//            ])
+            // you can't get any data from here because baidu.com 
+            // return a html page instead of json data.
+            api.loadData(with: nil)
+            break
         case 3:
             SystemLog.activeDevelopUI()
         case 4:
@@ -141,11 +139,11 @@ extension InternalTestVC: UITableViewDelegate, UITableViewDataSource {
     
     // MARK: - APICallbacks
     
-    func ApiManager(_ apiManager: BaseApiManager, finishWithOriginData data: AnyObject) {
-        
+    func ApiManager(_ apiManager: BaseApiManager, finishWithOriginData data: Any) {
+        debugPrint(data)
     }
     
-    func ApiManager(_ apimanager: BaseApiManager, failedWithError error: NSError) {
-        
+    func ApiManager(_ apiManager: BaseApiManager, failedWithError error: NSError) {
+        debugPrint(error)
     }
 }

@@ -69,7 +69,7 @@ class KMBaseService: NSObject {
 
 extension KMBaseService: _task {
     
-    typealias receiveDataType = AnyObject
+    typealias receiveDataType = Any
     /**
      Run a task for doing something,
      
@@ -78,7 +78,7 @@ extension KMBaseService: _task {
      - parameter task:       task block
      - parameter completion: completion block
      */
-    func doTask(_ task: @escaping () -> AnyObject, completion: @escaping (_ result: AnyObject) -> Void) -> Void {
+    func doTask(_ task: @escaping () -> receiveDataType, completion: @escaping (_ result: receiveDataType) -> Void) -> Void {
     
         DispatchQueue.global(qos: DispatchQoS.QoSClass.default).async {
             let result = task()

@@ -10,7 +10,7 @@ import Foundation
 
 protocol ApiCallbackProtocol: NSObjectProtocol {
 
-    func ApiManager(_ apiManager: BaseApiManager, finishWithOriginData data: AnyObject) -> Void
+    func ApiManager(_ apiManager: BaseApiManager, finishWithOriginData data: Any) -> Void
     
     /**
      If API returns error or undefined exception, will call this method in delegate. 
@@ -20,5 +20,5 @@ protocol ApiCallbackProtocol: NSObjectProtocol {
      - parameter apimanager:      API manager
      - parameter failedWithError: The error occured
      */
-    func ApiManager(_ apimanager: BaseApiManager, failedWithError error: NSError) -> Void
+    func ApiManager(_ apiManager: BaseApiManager, failedWithError error: NSError) -> Void
 }

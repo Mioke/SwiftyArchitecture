@@ -56,7 +56,7 @@ class KMPersistanceDatabase: NSObject {
      
      - returns: result array
      */
-    func query(_ query: String, withArgumentsInArray args: [Any]?) -> NSMutableArray {
+    func query(_ query: String, withArgumentsInArray args: [Any]?) -> Array<[AnyHashable: Any]> {
         return DatabaseManager.database(self.child!.database, query: query, withArgumentsInArray: args)
     }
     
@@ -121,7 +121,7 @@ class KMPersistanceTable: NSObject {
         return self.child!.database!.execute(sql, withArgumentsInDictionary: params)
     }
     
-    func queryRecord(with select: String?, condition: DatabaseCommandCondition) -> NSMutableArray {
+    func queryRecord(with select: String?, condition: DatabaseCommandCondition) -> Array<[AnyHashable: Any]> {
         
         let sql = DatabaseCommand.queryCommand(with: self.child!, select: select, condition: condition)
         
@@ -141,22 +141,22 @@ class KMPersistanceTable: NSObject {
 protocol RecordProtocol: PersistanceManagerProtocol {
     /// For mapping between the column in table and the ivar of record class.
     ///
-    /// - Parameter table: Which table that represent the map
+    /// - Parameter table: Which table that represent the maps
     /// - Returns: Map
     func dictionaryRepresentation(in table: TableProtocol) -> [String: Any]?
-    /// Todo:
+    /// Todo: For reading records from table and return in model directly.
     ///
     /// - Parameters:
     ///   - dictionary: dictionary description
     ///   - table: table description
     /// - Returns: return value description
-    static func read(from dictionary: NSDictionary, table: TableProtocol) -> RecordProtocol?
+    static func read(from dictionary: [AnyHashable: Any], table: TableProtocol) -> Self?
 }
 
 // Default implementation, make this func optional-like
 extension RecordProtocol {
-    
-    static func read(from dictionary: NSDictionary, table: TableProtocol) -> RecordProtocol? {
+
+    static func read(from dictionary: [AnyHashable: Any], table: TableProtocol) -> Self? {
         return nil
     }
     

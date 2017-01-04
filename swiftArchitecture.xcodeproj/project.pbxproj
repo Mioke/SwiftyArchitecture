@@ -43,6 +43,7 @@
 		A791C6C91C02E90000670017 /* swiftArchitectureTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A791C6C81C02E90000670017 /* swiftArchitectureTests.swift */; };
 		A791C6D41C02E90000670017 /* swiftArchitectureUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A791C6D31C02E90000670017 /* swiftArchitectureUITests.swift */; };
 		AF158A541E14B63900FB0BAF /* TestAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF158A531E14B63900FB0BAF /* TestAPI.swift */; };
+		AF158A561E1BB26700FB0BAF /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF158A551E1BB26700FB0BAF /* NotificationService.swift */; };
 		AF43F43D1CE4258A00E78DFF /* UIView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF43F43C1CE4258A00E78DFF /* UIView+Extensions.swift */; };
 		AF43F4431CE4395700E78DFF /* ModuleLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF43F4421CE4395700E78DFF /* ModuleLoader.swift */; };
 		AF78456E1CE9BD720020F6E8 /* NSDate+Extentsions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF78456D1CE9BD720020F6E8 /* NSDate+Extentsions.swift */; };
@@ -115,6 +116,7 @@
 		A791C6D31C02E90000670017 /* swiftArchitectureUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = swiftArchitectureUITests.swift; sourceTree = "<group>"; };
 		A791C6D51C02E90000670017 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AF158A531E14B63900FB0BAF /* TestAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestAPI.swift; sourceTree = "<group>"; };
+		AF158A551E1BB26700FB0BAF /* NotificationService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
 		AF43F43C1CE4258A00E78DFF /* UIView+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Extensions.swift"; sourceTree = "<group>"; };
 		AF43F4421CE4395700E78DFF /* ModuleLoader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModuleLoader.swift; sourceTree = "<group>"; };
 		AF78456D1CE9BD720020F6E8 /* NSDate+Extentsions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSDate+Extentsions.swift"; sourceTree = "<group>"; };
@@ -244,6 +246,7 @@
 			isa = PBXGroup;
 			children = (
 				A752DE421C03F23D008E3118 /* UserService.swift */,
+				AF158A551E1BB26700FB0BAF /* NotificationService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -643,6 +646,7 @@
 				A77BAD1A1C196DFD00AF7A86 /* InternalTestVC.swift in Sources */,
 				AF43F4431CE4395700E78DFF /* ModuleLoader.swift in Sources */,
 				A7826F6F1C0EC657007AA18D /* String+Extensions.swift in Sources */,
+				AF158A561E1BB26700FB0BAF /* NotificationService.swift in Sources */,
 				AF43F43D1CE4258A00E78DFF /* UIView+Extensions.swift in Sources */,
 				A77BAD161C1927E500AF7A86 /* DatabaseCommand.swift in Sources */,
 				703FAA451C2A9AB6003AEDFC /* Array+Extensions.swift in Sources */,

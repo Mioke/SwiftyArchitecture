@@ -11,9 +11,9 @@ import FMDB
 
 class DatabaseManager: NSObject {
     
-    class func database(_ databaseQueue: FMDatabaseQueue, query: String, withArgumentsInArray args: [Any]?) -> NSMutableArray {
+    class func database(_ databaseQueue: FMDatabaseQueue, query: String, withArgumentsInArray args: [Any]?) -> Array<[AnyHashable: Any]> {
         
-        let rstArray = NSMutableArray()
+        var rstArray = Array<[AnyHashable: Any]>()
         
         databaseQueue.inTransaction { (db: FMDatabase?, roolback: UnsafeMutablePointer<ObjCBool>?) in
             guard let db = db else {
@@ -21,7 +21,7 @@ class DatabaseManager: NSObject {
             }
             if let rst = db.executeQuery(query, withArgumentsIn: args) {
                 while rst.next() {
-                    rstArray.add(rst.resultDictionary())
+                    rstArray.append(rst.resultDictionary())
                 }
                 rst.close()
             }

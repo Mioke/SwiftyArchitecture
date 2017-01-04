@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import UserNotifications
 
 class InternalTestVC: UIViewController, ApiCallbackProtocol {
     
@@ -18,7 +19,7 @@ class InternalTestVC: UIViewController, ApiCallbackProtocol {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        self.tests = ["Record user model", "Read users", "Login", "Call Log UI", "Crash", "Cache size"]
+        self.tests = ["Record user model", "Read users", "Login", "Call Log UI", "Crash", "Cache size", "Push local notification"]
         
         self.tableView = {
             let view = UITableView(frame: self.view.bounds)
@@ -37,6 +38,16 @@ class InternalTestVC: UIViewController, ApiCallbackProtocol {
         
         let str =  "1234567890"
         Log.debugPrintln(str[0..<2])
+        
+        NotificationService.current().requestAuthorization()
+        
+        if #available(iOS 10.0, *) {
+            NotificationService.current().setRequestCompletion { (granted, error) in
+                
+            }
+        }
+        
+        
     }
 
     override func didReceiveMemoryWarning() {
@@ -126,11 +137,34 @@ extension InternalTestVC: UITableViewDelegate, UITableViewDataSource {
         case 3:
             SystemLog.activeDevelopUI()
         case 4:
-//            let a = []
+//            let a: [Any] = []
 //            _ = a[1]
             break
         case 5:
             Log.debugPrintln(NetworkCache.memoryCache.size())
+        case 6:
+            if #available(iOS 10.0, *) {
+                
+                let content = UNMutableNotificationContent()
+                content.title = "this is title"
+                content.body = "this's body"
+                content.subtitle = "this's subtitle"
+                content.sound = .default()
+                
+//                let date = Calendar.current.dateComponents(in: TimeZone.current, from: Date().addingTimeInterval(10))
+//                let trigger = UNCalendarNotificationTrigger(dateMatching: date, repeats: false)
+                
+                let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 4, repeats: false)
+                
+                let request = UNNotificationRequest(identifier: "test", content: content, trigger: trigger)
+                
+                UNUserNotificationCenter.current().add(request, withCompletionHandler: { (error: Error?) in
+                    print("\(error)")
+                })
+                
+            } else {
+                // Fallback on earlier versions
+            }
             
         default:
             break

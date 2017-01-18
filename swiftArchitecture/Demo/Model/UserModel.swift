@@ -34,7 +34,8 @@ class UserModel: NSObject, RecordProtocol {
     override required init() {
         super.init()
     }
-    static func read(from dictionary: [AnyHashable: Any], table: TableProtocol) -> Self? {
+    
+    static func generate(withDictionary dictionary: [AnyHashable: Any], fromTable table: TableProtocol) -> Self? {
         
         if table is UserTable {
             guard let uid = dictionary["user_id"] as? Int, let name = dictionary["user_name"] as? String else {

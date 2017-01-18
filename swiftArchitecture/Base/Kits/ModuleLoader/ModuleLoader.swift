@@ -41,7 +41,7 @@ class ModuleLoader: NSObject {
         }
     }
     
-    func add(_ level: ModuleLoader.OperationLevel = .default, operation: @escaping () -> ()) -> Void {
+    func add(level: ModuleLoader.OperationLevel = .default, operation: @escaping () -> ()) -> Void {
         operations[level]! += [operation]
     }
     

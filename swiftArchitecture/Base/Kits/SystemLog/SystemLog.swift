@@ -15,7 +15,7 @@ class SystemLog: NSObject {
     fileprivate let writter = SystemLogFileWritter()
     fileprivate var enabled: Bool = true
 
-    class func set(_ enable: Bool) -> Void {
+    class func set(enable: Bool) -> Void {
         
         instance.enabled = enable
         

@@ -41,5 +41,5 @@ class Server: NSObject {
 let kServer = Server(online: "https://www.baidu.com", offline: "https://www.baidu.com")
 
 protocol ServerDataProcessProtocol {
-    func handle(_ data: Any, shouldRetry: inout Bool) throws -> Void
+    func handle(data: Any, shouldRetry: inout Bool) throws -> Void
 }

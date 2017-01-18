@@ -25,7 +25,7 @@ class NetworkCache: NSObject {
         self.cache.setCacheObject(object as! NSObjectProtocol, forKey: key as! NSObjectProtocol)
     }
     
-    func objectForKey(_ key: Any) -> Any? {
+    func object(forKey key: Any) -> Any? {
         return self.cache.object(forKey: key)
     }
     

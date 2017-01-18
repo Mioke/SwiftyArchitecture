@@ -105,7 +105,7 @@ class KMPersistanceTable: NSObject {
         super.init()
         if self is TableProtocol {
             self.child = (self as! TableProtocol)
-            let _ = DatabaseCommand.createTable(with: self.child!, in: self.child!.database!)
+            let _ = DatabaseCommand.createTable(with: self.child!, inDatabase: self.child!.database!)
         } else {
             assert(false, "KMPersistanceTable must conform to TableProtocol")
         }
@@ -150,13 +150,13 @@ protocol RecordProtocol: PersistanceManagerProtocol {
     ///   - dictionary: dictionary description
     ///   - table: table description
     /// - Returns: return value description
-    static func read(from dictionary: [AnyHashable: Any], table: TableProtocol) -> Self?
+    static func generate(withDictionary dictionary: [AnyHashable: Any], fromTable table: TableProtocol) -> Self?
 }
 
 // Default implementation, make this func optional-like
 extension RecordProtocol {
 
-    static func read(from dictionary: [AnyHashable: Any], table: TableProtocol) -> Self? {
+    static func generate(withDictionary dictionary: [AnyHashable: Any], fromTable table: TableProtocol) -> Self? {
         return nil
     }
     

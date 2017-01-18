@@ -56,7 +56,7 @@ class BaseApiManager: NSObject {
         // If there is cached result then return it.
         
         if let key = self.cacheKey,
-            let value = NetworkCache.memoryCache.objectForKey(key) as? [String: Any], self.shouldAutoCacheResultWhenSucceed {
+            let value = NetworkCache.memoryCache.object(forKey: key) as? [String: Any], self.shouldAutoCacheResultWhenSucceed {
             
             self.data = value
             self.loadingComplete()
@@ -67,7 +67,7 @@ class BaseApiManager: NSObject {
         self.isLoading = true
         self.cancel()
         
-        self.request = KMRequestGenerator.generateRequest(with: self, method: self.child!.httpMethod, params: params)
+        self.request = KMRequestGenerator.generateRequest(withApi: self, method: self.child!.httpMethod, params: params)
         self.request?.session.configuration.timeoutIntervalForRequest = self.timeoutInterval
         
         self.request?.responseJSON(completionHandler: { (resp: DataResponse<Any>) in
@@ -86,7 +86,7 @@ class BaseApiManager: NSObject {
                     
                     var shouldRetry = false
                     do {
-                        try server.handle(value, shouldRetry: &shouldRetry)
+                        try server.handle(data: value, shouldRetry: &shouldRetry)
                         self.loadingComplete()
                         self.successRoute()
                     } catch {

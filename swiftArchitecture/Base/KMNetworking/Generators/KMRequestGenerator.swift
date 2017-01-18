@@ -11,7 +11,7 @@ import Alamofire
 
 class KMRequestGenerator: NSObject {
     
-    class func generateRequest(with api: BaseApiManager, method: HTTPMethod, params: [String: Any]?) -> DataRequest {
+    class func generateRequest(withApi api: BaseApiManager, method: HTTPMethod, params: [String: Any]?) -> DataRequest {
         
         let req = request(api.apiURLString(), method: method, parameters: params, encoding: URLEncoding.queryString, headers: nil)
 //        let request = Manager.sharedInstance.request(method, api.apiURLString(), parameters: params, encoding: .URL, headers: nil)

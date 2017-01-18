@@ -10,7 +10,7 @@ import Foundation
 
 class DatabaseCommand: NSObject {
     
-    class func createTable(with table: TableProtocol, in database: KMPersistanceDatabase) -> Bool {
+    class func createTable(with table: TableProtocol, inDatabase database: KMPersistanceDatabase) -> Bool {
         
         //  TODO: If the table is already there, do nothing.
         //  Now execute the sql will cause an error of "table existes"

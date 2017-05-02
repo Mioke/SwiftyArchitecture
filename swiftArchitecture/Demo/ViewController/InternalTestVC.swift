@@ -159,7 +159,7 @@ extension InternalTestVC: UITableViewDelegate, UITableViewDataSource {
                 let request = UNNotificationRequest(identifier: "test", content: content, trigger: trigger)
                 
                 UNUserNotificationCenter.current().add(request, withCompletionHandler: { (error: Error?) in
-                    print("\(error)")
+                    print("\(String(describing: error))")
                 })
                 
             } else {

@@ -17,8 +17,8 @@ class KMRequestGenerator: NSObject {
 //        let request = Manager.sharedInstance.request(method, api.apiURLString(), parameters: params, encoding: .URL, headers: nil)
         
         // FIXME: Do additional configuration or signature etc.
-        Log.debugPrintln("\n==================================\nSend request:\n\tURL:\(api.apiURLString())\n\tparam:\(params)\n==================================\n")
-        SystemLog.write("Send request:\n\tRequest Info:\(req.request!)\n\tParam:\(params)")
+        Log.debugPrintln("\n==================================\nSend request:\n\tURL:\(api.apiURLString())\n\tparam:\(String(describing: params))\n==================================\n")
+        SystemLog.write("Send request:\n\tRequest Info:\(req.request!)\n\tParam:\(String(describing: params))")
         
         return req
     }

@@ -45,8 +45,7 @@ open class Server: NSObject {
     }
 }
 
-public let kServer = Server(online: "https://www.baidu.com", offline: "https://www.baidu.com")
-
+/// Customize data process operation of server
 public protocol ServerDataProcessProtocol {
     func handle(data: Any, shouldRetry: inout Bool) throws -> Void
 }

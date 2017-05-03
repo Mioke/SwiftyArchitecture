@@ -26,7 +26,8 @@ extension TestAPI: ApiInfoProtocol {
         get { return "s" }
     }
     var server: Server {
-        get { return kServer }
+        get { return Server(online: "http://www.baidu.com",
+                            offline: "http://www.baidu.com") }
     }
     var httpMethod: Alamofire.HTTPMethod {
         get { return .get }

@@ -181,5 +181,5 @@ func handle(data: Any, shouldRetry: inout Bool) throws {
 - ~~Animations, Tools and Kits: TextKit like [YYText](https://github.com/ibireme/YYText), etc~~. (bais-ios won't provide those utilities, because base shouldn't have to.)
 - Refactoring, more functional and reative. Considering to use `Rx` or `ReactiveSwift`. Fully use genericity.
   
-#License
+# License
 All the source code is published under the MIT license. See LICENSE file for details.

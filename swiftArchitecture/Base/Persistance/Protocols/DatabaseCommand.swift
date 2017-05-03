@@ -11,6 +11,7 @@ import Foundation
 /// Database command generator.
 public class DatabaseCommand: NSObject {
     
+    @discardableResult
     public class func createTable(with table: TableProtocol, inDatabase database: KMPersistanceDatabase) -> Bool {
         
         //  TODO: If the table is already there, do nothing.

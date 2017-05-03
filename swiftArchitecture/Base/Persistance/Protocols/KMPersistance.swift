@@ -77,6 +77,7 @@ open class KMPersistanceDatabase: NSObject {
      
      - returns: Whether succeed
      */
+    @discardableResult
     public func execute(_ sql: String, withArgumentsInDictionary args: [String: Any]!) -> Bool {
         return DatabaseManager.database(self.child!.database, execute: sql, withArgumentsInDictionary: args)
     }
@@ -89,6 +90,7 @@ open class KMPersistanceDatabase: NSObject {
      
      - returns: Succeed or not
      */
+    @discardableResult
     public func execute(_ sql: String, withArgumentsInArray args: [Any]!) -> Bool {
         return DatabaseManager.database(self.child!.database, execute: sql, withArgumentsInArray: args)
     }
@@ -130,6 +132,7 @@ open class KMPersistanceTable: NSObject {
     ///
     /// - Parameter record: Record to add or replace.
     /// - Returns: Result of execution
+    @discardableResult
     public func replace(_ record: RecordProtocol) -> Bool {
         
         guard let params = record.dictionaryRepresentation(in: self.child!), params.count != 0 else {
@@ -157,6 +160,7 @@ open class KMPersistanceTable: NSObject {
     ///
     /// - Parameter condition: Database command condition
     /// - Returns: Execution result
+    @discardableResult
     public func deleteRecord(with condition: DatabaseCommandCondition) -> Bool {
         
         let sql = DatabaseCommand.deleteCommand(with: self.child!, condition: condition)

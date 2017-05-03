@@ -9,13 +9,13 @@
 import Foundation
 import FMDB
 
-class DefaultDatabase: KMPersistanceDatabase, DatabaseManagerProtocol {
+final public class DefaultDatabase: KMPersistanceDatabase, DatabaseManagerProtocol {
     
     static let instance: KMPersistanceDatabase = DefaultDatabase()
     
-    var path: String
-    var database: FMDatabaseQueue
-    var databaseName: String
+    public var path: String
+    public var database: FMDatabaseQueue
+    public var databaseName: String
 
     override init() {
 

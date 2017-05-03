@@ -17,7 +17,6 @@
 		A752DE431C03F23D008E3118 /* UserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A752DE421C03F23D008E3118 /* UserService.swift */; };
 		A753A0A31C06FE5A00C9FBFE /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A753A0A21C06FE5A00C9FBFE /* ViewController.swift */; };
 		A753A0A51C07054300C9FBFE /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A753A0A41C07054300C9FBFE /* NetworkManager.swift */; };
-		A753A0A71C080B6800C9FBFE /* UIViewController+TaskManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A753A0A61C080B6800C9FBFE /* UIViewController+TaskManager.swift */; };
 		A753A0AA1C0C215E00C9FBFE /* publicFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A753A0A91C0C215E00C9FBFE /* publicFunctions.swift */; };
 		A753A0AC1C0C30A700C9FBFE /* UIRelevance.swift in Sources */ = {isa = PBXBuildFile; fileRef = A753A0AB1C0C30A700C9FBFE /* UIRelevance.swift */; };
 		A753A0B21C0D79BA00C9FBFE /* KMPersistance.swift in Sources */ = {isa = PBXBuildFile; fileRef = A753A0B11C0D79BA00C9FBFE /* KMPersistance.swift */; };
@@ -84,7 +83,6 @@
 		A753A0A11C06FE3A00C9FBFE /* swiftArchitecture-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "swiftArchitecture-Bridging-Header.h"; sourceTree = "<group>"; };
 		A753A0A21C06FE5A00C9FBFE /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		A753A0A41C07054300C9FBFE /* NetworkManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
-		A753A0A61C080B6800C9FBFE /* UIViewController+TaskManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+TaskManager.swift"; sourceTree = "<group>"; };
 		A753A0A91C0C215E00C9FBFE /* publicFunctions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = publicFunctions.swift; sourceTree = "<group>"; };
 		A753A0AB1C0C30A700C9FBFE /* UIRelevance.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIRelevance.swift; sourceTree = "<group>"; };
 		A753A0B11C0D79BA00C9FBFE /* KMPersistance.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KMPersistance.swift; sourceTree = "<group>"; };
@@ -224,7 +222,6 @@
 		A752DE371C02FBED008E3118 /* UIViewControllerCategory */ = {
 			isa = PBXGroup;
 			children = (
-				A753A0A61C080B6800C9FBFE /* UIViewController+TaskManager.swift */,
 			);
 			name = UIViewControllerCategory;
 			path = KMViewController;
@@ -506,7 +503,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0710;
-				LastUpgradeCheck = 0810;
+				LastUpgradeCheck = 0830;
 				ORGANIZATIONNAME = KleinMioke;
 				TargetAttributes = {
 					A791C6AC1C02E90000670017 = {
@@ -658,7 +655,6 @@
 				A77BACE11C1542EE00AF7A86 /* Server.swift in Sources */,
 				AFD7F0771C8D6FCE005B379A /* SystemLog.swift in Sources */,
 				A77BACF11C16ABBF00AF7A86 /* UIColor+Extensions.swift in Sources */,
-				A753A0A71C080B6800C9FBFE /* UIViewController+TaskManager.swift in Sources */,
 				A77BACEA1C15641700AF7A86 /* BaseApiManager.swift in Sources */,
 				A77BACE61C1548E800AF7A86 /* KMRequestGenerator.swift in Sources */,
 				AF78456E1CE9BD720020F6E8 /* NSDate+Extentsions.swift in Sources */,

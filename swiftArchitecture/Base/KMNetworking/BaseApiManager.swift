@@ -9,7 +9,7 @@
 import Foundation
 import Alamofire
 
-class BaseApiManager: NSObject {
+open class BaseApiManager: NSObject {
     
     // MARK: Statics
     /// For produce the unique key of caches
@@ -26,16 +26,16 @@ class BaseApiManager: NSObject {
     fileprivate var cacheKey: String?
     
     // MARK: Publics
-    var isLoading = false
-    var timeoutInterval: TimeInterval = 20
-    var autoProcessServerData: Bool = true
+    public var isLoading = false
+    public var timeoutInterval: TimeInterval = 20
+    public var autoProcessServerData: Bool = true
     
     /// if this property is true, it will auto retry when all situations are eligible
-    var shouldAutoRetry: Bool = true
-    var shouldAutoCacheResultWhenSucceed: Bool = false
+    public var shouldAutoRetry: Bool = true
+    public var shouldAutoCacheResultWhenSucceed: Bool = false
     
     // MARK: Initialization
-    override init() {
+    public override init() {
         super.init()
         if self is ApiInfoProtocol {
             self.child = (self as! ApiInfoProtocol)
@@ -45,7 +45,7 @@ class BaseApiManager: NSObject {
     }
     
     // MARK: - Actions
-    weak var delegate: ApiCallbackProtocol?
+    public weak var delegate: ApiCallbackProtocol?
     
     public func loadData(with params: [String: Any]?) -> Void {
         
@@ -136,7 +136,7 @@ class BaseApiManager: NSObject {
         })
     }
     
-    open func cancel() -> Void {
+    public func cancel() -> Void {
         self.request?.cancel()
     }
     
@@ -161,11 +161,11 @@ class BaseApiManager: NSObject {
     }
     
     // MARK: - Callbacks
-    public func loadingComplete() -> Void {
+    open func loadingComplete() -> Void {
         // hook
     }
     
-    public func loadingFailed(with error: NSError) -> Void {
+    open func loadingFailed(with error: NSError) -> Void {
         // hook
     }
     

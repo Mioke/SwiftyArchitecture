@@ -17,7 +17,7 @@ private let errorKey = "error"
 //    func managerDidFinishWithError(error: ErrorResultType)
 //}
 
-class KMBaseService: NSObject {
+open class KMBaseService: NSObject {
     
 //    weak var delegate: ApiManagerDelegate?
 }
@@ -69,7 +69,7 @@ class KMBaseService: NSObject {
 
 extension KMBaseService: _task {
     
-    typealias receiveDataType = Any
+    public typealias receiveDataType = Any
     /**
      Run a task for doing something,
      
@@ -78,7 +78,7 @@ extension KMBaseService: _task {
      - parameter task:       task block
      - parameter completion: completion block
      */
-    func doTask(_ task: @escaping () -> receiveDataType, completion: @escaping (_ result: receiveDataType) -> Void) -> Void {
+    public func doTask(_ task: @escaping () -> receiveDataType, completion: @escaping (_ result: receiveDataType) -> Void) -> Void {
     
         DispatchQueue.global(qos: DispatchQoS.QoSClass.default).async {
             let result = task()

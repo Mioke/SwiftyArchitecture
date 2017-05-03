@@ -8,12 +8,12 @@
 
 import UIKit
 
-class SystemLogFilesBrowser: UIViewController, UITableViewDelegate, UITableViewDataSource {
+public class SystemLogFilesBrowser: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     let tableView: UITableView = UITableView()
     var files = [String]()
 
-    override func viewDidLoad() {
+    override public func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
@@ -27,27 +27,27 @@ class SystemLogFilesBrowser: UIViewController, UITableViewDelegate, UITableViewD
         self.navigationItem.setLeftBarButton(UIBarButtonItem(title: "Close", style: .plain, target: self, action: #selector(SystemLogFilesBrowser.close)), animated: false)
     }
     
-    func close() -> Void {
+    public func close() -> Void {
         self.dismiss(animated: true, completion: nil)
     }
 
 
-    override func didReceiveMemoryWarning() {
+    public override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
     
     // MARK: - TableView's delegate & datasource
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.files.count
     }
     
-    func numberOfSections(in tableView: UITableView) -> Int {
+    public func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
 
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         if let cell = tableView.dequeueReusableCell(withIdentifier: "cell") {
             cell.textLabel?.text = self.files[indexPath.row]
@@ -59,7 +59,7 @@ class SystemLogFilesBrowser: UIViewController, UITableViewDelegate, UITableViewD
         }
     }
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         let vc = SystemLogBrowser()
         vc.fileName = self.files[indexPath.row]

@@ -8,14 +8,14 @@
 
 import UIKit
 
-class SystemLog: NSObject {
+public class SystemLog: NSObject {
     
-    static let instance = SystemLog()
+    public static let instance = SystemLog()
     
     fileprivate let writter = SystemLogFileWritter()
     fileprivate var enabled: Bool = true
 
-    class func set(enable: Bool) -> Void {
+    public class func set(enable: Bool) -> Void {
         
         instance.enabled = enable
         
@@ -26,7 +26,7 @@ class SystemLog: NSObject {
         }
     }
 
-    class func write(_ obj: Any) -> Void {
+    public class func write(_ obj: Any) -> Void {
         
         if instance.enabled {
             
@@ -39,15 +39,15 @@ class SystemLog: NSObject {
         }  
     }
     
-    class func allLogFiles() -> [String]? {
+    public class func allLogFiles() -> [String]? {
         return instance.writter.allLogFiles()
     }
 
-    class func contentsOfFile(_ fileName: String) -> String? {
+    public class func contentsOfFile(_ fileName: String) -> String? {
         return instance.writter.textOfFile(fileName)
     }
     
-    class func activeDevelopUI() {
+    public class func activeDevelopUI() {
         let nav = UINavigationController(rootViewController: SystemLogFilesBrowser())
         UIApplication.shared.windows.first?.rootViewController?.present(nav, animated: true, completion: nil)
     }

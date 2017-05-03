@@ -12,7 +12,7 @@ import Alamofire
 /**
  *  Protocol that descripe what infomation should API provide,
  */
-protocol ApiInfoProtocol: NSObjectProtocol {
+public protocol ApiInfoProtocol: NSObjectProtocol {
 
     // Attention: apiVersion and apiName shouldn't begin and end with '/'. Just like "v2", "user/login" is good. If you don't have a versioned-API, return an empty string is ok.
     
@@ -29,11 +29,11 @@ protocol ApiInfoProtocol: NSObjectProtocol {
 // Default setting
 extension ApiInfoProtocol {
     
-    func autoRetryMaxCount(withErrorCode code: Int) -> Int? {
+    public func autoRetryMaxCount(withErrorCode code: Int) -> Int? {
         return nil
     }
 
-    func retryTimeInterval(withErrorCode code: Int) -> UInt64? {
+    public func retryTimeInterval(withErrorCode code: Int) -> UInt64? {
         return nil;
     }
 }

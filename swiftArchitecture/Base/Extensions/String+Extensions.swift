@@ -13,7 +13,7 @@ extension String {
     /**
      Be able to use range to get substring, e.x.: "abced"[0...1] = "ab"
      */
-    subscript (r: Range<Int>) -> String {
+    public subscript (r: Range<Int>) -> String {
         get {
             let startIndex = self.characters.index(self.startIndex, offsetBy: r.lowerBound)
             let endIndex = self.characters.index(startIndex, offsetBy: r.upperBound - r.lowerBound)
@@ -22,7 +22,7 @@ extension String {
         }
     }
     /// length of String, number of characters -- Swift 2.0
-    var length: Int {
+    public var length: Int {
         return self.characters.count
     }
     

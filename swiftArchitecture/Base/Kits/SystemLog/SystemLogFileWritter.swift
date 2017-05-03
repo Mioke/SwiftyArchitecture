@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SystemLogFileWritter: NSObject {
+public class SystemLogFileWritter: NSObject {
 
     fileprivate let formatter = DateFormatter()
     fileprivate var fileName: String!

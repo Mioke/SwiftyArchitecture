@@ -8,14 +8,14 @@
 
 import Foundation
 
-class Server: NSObject {
+open class Server: NSObject {
     
-    static var online: Bool = true
+    public static var online: Bool = true
 
-    fileprivate var onlineURL: String
-    fileprivate var offlineURL: String
+    public private(set) var onlineURL: String
+    public private(set) var offlineURL: String
     
-    var url: String {
+    public var url: String {
         get {
             if Server.online {
                 return self.onlineURL
@@ -31,15 +31,15 @@ class Server: NSObject {
      - parameter offline: The URL that offline or test server's site
      # Format is like _https://10.24.0.3:8001_ or something, don't end with '/' (I think this is big enough to warn you)
      */
-    init(online: String, offline: String) {
+    public init(online: String, offline: String) {
         self.onlineURL = online
         self.offlineURL = offline
         super.init()
     }
 }
 
-let kServer = Server(online: "https://www.baidu.com", offline: "https://www.baidu.com")
+public let kServer = Server(online: "https://www.baidu.com", offline: "https://www.baidu.com")
 
-protocol ServerDataProcessProtocol {
+public protocol ServerDataProcessProtocol {
     func handle(data: Any, shouldRetry: inout Bool) throws -> Void
 }

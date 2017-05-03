@@ -8,15 +8,15 @@
 
 import UIKit
 
-class ModuleLoader: NSObject {
+public class ModuleLoader: NSObject {
     
-    enum OperationLevel: Int {
+    public enum OperationLevel: Int {
         case high; case low; case `default`
     }
     
     fileprivate static var defaultLoader: ModuleLoader?
     
-    class func loader() -> ModuleLoader {
+    final public class func loader() -> ModuleLoader {
         if ModuleLoader.defaultLoader == nil {
             ModuleLoader.defaultLoader = ModuleLoader()
         }
@@ -41,11 +41,11 @@ class ModuleLoader: NSObject {
         }
     }
     
-    func add(level: ModuleLoader.OperationLevel = .default, operation: @escaping () -> ()) -> Void {
+    public func add(level: ModuleLoader.OperationLevel = .default, operation: @escaping () -> ()) -> Void {
         operations[level]! += [operation]
     }
     
-    func run() -> Void {
+    public func run() -> Void {
         
         self.queue.async {
             

@@ -11,7 +11,7 @@ import Foundation
 
 extension Array where Element: Comparable {
     
-    mutating func quickSort(from: Int, to: Int) -> Void {
+    public mutating func quickSort(from: Int, to: Int) -> Void {
         
         if from >= to {
             return
@@ -48,7 +48,7 @@ extension Array where Element: Comparable {
         self.quickSort(from: head + 1, to: to)
     }
     
-    mutating func heapSort() -> Void {
+    public mutating func heapSort() -> Void {
         
         func heapAdjust(_ parent: Int, size: Int) -> Void {
             
@@ -105,7 +105,7 @@ extension Array where Element: Comparable {
         }
     }
     
-    mutating func insertionSort() -> Void {
+    public mutating func insertionSort() -> Void {
         
         for i in 1 ..< self.count {
             var j = i - 1
@@ -122,7 +122,7 @@ extension Array where Element: Comparable {
         }
     }
     
-    mutating func shellSort() -> Void {
+    public mutating func shellSort() -> Void {
         
         var increment = self.count / 2
         Log.debugPrintln(self)

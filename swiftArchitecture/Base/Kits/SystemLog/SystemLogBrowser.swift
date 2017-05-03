@@ -8,11 +8,11 @@
 
 import UIKit
 
-class SystemLogBrowser: UIViewController {
+public class SystemLogBrowser: UIViewController {
     
     var fileName: String!
 
-    override func viewDidLoad() {
+    override public func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
@@ -41,7 +41,7 @@ class SystemLogBrowser: UIViewController {
         }
     }
 
-    override func didReceiveMemoryWarning() {
+    override public func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }

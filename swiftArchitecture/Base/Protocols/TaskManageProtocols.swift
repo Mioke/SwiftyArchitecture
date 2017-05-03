@@ -8,11 +8,11 @@
 
 import Foundation
 
-protocol _task: NSObjectProtocol {
+public protocol _task: NSObjectProtocol {
     associatedtype receiveDataType
 }
 
-protocol sender: _task {
+public protocol sender: _task {
     
 //    func doTask(task: () throws -> receiveDataType, identifier: String) -> Void
     
@@ -21,7 +21,7 @@ protocol sender: _task {
     //    func cancelTaskWithIdentifier(identifier: String) -> Bool
 }
 
-protocol receiver: _task {
+public protocol receiver: _task {
     
 //    func taskCancelledWithError(error: ErrorResultType, identifier: String) -> Void
     

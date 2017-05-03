@@ -8,7 +8,7 @@
 
 import Foundation
 
-protocol ApiCallbackProtocol: NSObjectProtocol {
+public protocol ApiCallbackProtocol: NSObjectProtocol {
 
     func ApiManager(_ apiManager: BaseApiManager, finishWithOriginData data: Any) -> Void
     

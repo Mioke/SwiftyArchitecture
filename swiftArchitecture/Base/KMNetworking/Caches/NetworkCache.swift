@@ -9,9 +9,9 @@
 import UIKit
 import KMCache
 
-class NetworkCache: NSObject {
+open class NetworkCache: NSObject {
     
-    static let memoryCache = NetworkCache()
+    public static let memoryCache = NetworkCache()
     
     fileprivate let cache = KMCache(type: .releaseByTime)
     
@@ -21,15 +21,15 @@ class NetworkCache: NSObject {
         self.cache.maxCount = 20
     }
     
-    func set(object: Any, forKey key: Any) {
+    open func set(object: Any, forKey key: Any) {
         self.cache.setCacheObject(object as! NSObjectProtocol, forKey: key as! NSObjectProtocol)
     }
     
-    func object(forKey key: Any) -> Any? {
+    open func object(forKey key: Any) -> Any? {
         return self.cache.object(forKey: key)
     }
     
-    func size() -> UInt {
+    open func size() -> UInt {
         return self.cache.size()
     }
 }

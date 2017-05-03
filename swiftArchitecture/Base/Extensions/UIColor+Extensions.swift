@@ -10,7 +10,7 @@ import UIKit
 
 extension UIColor {
     
-    class func colorFromHexString(_ hex: String) -> UIColor {
+    public class func colorFromHexString(_ hex: String) -> UIColor {
         
         let rgbValue: UnsafeMutablePointer<UInt32>? = nil
         let hexString = hex.replacingOccurrences(of: "#", with: "")

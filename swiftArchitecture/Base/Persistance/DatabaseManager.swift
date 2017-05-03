@@ -9,9 +9,9 @@
 import Foundation
 import FMDB
 
-class DatabaseManager: NSObject {
+final public class DatabaseManager: NSObject {
     
-    class func database(_ databaseQueue: FMDatabaseQueue, query: String, withArgumentsInArray args: [Any]?) -> Array<[AnyHashable: Any]> {
+    public class func database(_ databaseQueue: FMDatabaseQueue, query: String, withArgumentsInArray args: [Any]?) -> Array<[AnyHashable: Any]> {
         
         var rstArray = Array<[AnyHashable: Any]>()
         
@@ -29,7 +29,7 @@ class DatabaseManager: NSObject {
         return rstArray
     }
     
-    class func database(_ databaseQueue: FMDatabaseQueue, execute: String, withArgumentsInDictionary args: [String: Any]!) -> Bool {
+    public class func database(_ databaseQueue: FMDatabaseQueue, execute: String, withArgumentsInDictionary args: [String: Any]!) -> Bool {
         
         var isSuccess = false
         databaseQueue.inTransaction { (db: FMDatabase?, roolback: UnsafeMutablePointer<ObjCBool>?) in
@@ -41,7 +41,7 @@ class DatabaseManager: NSObject {
         return isSuccess
     }
     
-    class func database(_ databaseQueue: FMDatabaseQueue, execute: String, withArgumentsInArray args: [Any]!) -> Bool {
+    public class func database(_ databaseQueue: FMDatabaseQueue, execute: String, withArgumentsInArray args: [Any]!) -> Bool {
         var isSuccess = false
         databaseQueue.inTransaction { (db: FMDatabase?, roolback: UnsafeMutablePointer<ObjCBool>?) in
             guard let db = db else {

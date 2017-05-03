@@ -8,9 +8,9 @@
 
 import Foundation
 
-class DatabaseCommand: NSObject {
+public class DatabaseCommand: NSObject {
     
-    class func createTable(with table: TableProtocol, inDatabase database: KMPersistanceDatabase) -> Bool {
+    public class func createTable(with table: TableProtocol, inDatabase database: KMPersistanceDatabase) -> Bool {
         
         //  TODO: If the table is already there, do nothing.
         //  Now execute the sql will cause an error of "table existes"
@@ -27,7 +27,7 @@ class DatabaseCommand: NSObject {
         return database.execute(sql, withArgumentsInDictionary: nil)
     }
     
-    class func replaceCommand(with table: TableProtocol, record: RecordProtocol) -> String {
+    public class func replaceCommand(with table: TableProtocol, record: RecordProtocol) -> String {
         
         guard let params = record.dictionaryRepresentation(in: table) else {
             assert(false, "DatabaseCommand REPLACE params should not be ampty")
@@ -49,7 +49,7 @@ class DatabaseCommand: NSObject {
         return sql
     }
     
-    class func queryCommand(with table: TableProtocol, select: String?, condition: DatabaseCommandCondition) -> String {
+    public class func queryCommand(with table: TableProtocol, select: String?, condition: DatabaseCommandCondition) -> String {
         
         let selectSql = select == nil ? "*" : "'\(select!)'"
         var sql = "select \(selectSql) from \(table.tableName)"
@@ -58,7 +58,7 @@ class DatabaseCommand: NSObject {
         return sql
     }
     
-    class func deleteCommand(with table: TableProtocol, condition: DatabaseCommandCondition) -> String {
+    public class func deleteCommand(with table: TableProtocol, condition: DatabaseCommandCondition) -> String {
         
         var sql = "delete from \(table.tableName)"
         condition.applyCondition(to: &sql)
@@ -69,19 +69,19 @@ class DatabaseCommand: NSObject {
 
 // MARK: - Command condition
 
-class DatabaseCommandCondition: NSObject {
+public class DatabaseCommandCondition: NSObject {
     
-    var whereConditions: String?
+    public var whereConditions: String?
     // TODO: --- whereConditionsParams ---
 //    var whereConditionsParams: [String: AnyObject]?
     
-    var orderBy: String?
-    var isDESC: Bool?
+    public var orderBy: String?
+    public var isDESC: Bool?
     
-    var limit: Int?
-    var isDistinct: Bool?
+    public var limit: Int?
+    public var isDistinct: Bool?
     
-    func applyCondition(to command: inout String) {
+    public func applyCondition(to command: inout String) {
         
         if self.whereConditions != nil/* && self.whereConditionsParams != nil */{
             command.append(" where \(self.whereConditions!)")

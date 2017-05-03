@@ -8,10 +8,17 @@
 
 import UIKit
 
+/// 组件加载器，可在Application初始化时加载代码. Module loader, can be used to load code when application start running.
 public class ModuleLoader: NSObject {
-    
+    /// 加载操作优先级. The priorty of operation level
+    ///
+    /// - high: Highest level
+    /// - low: lowest level
+    /// - `default`: default level
     public enum OperationLevel: Int {
-        case high; case low; case `default`
+        case high;
+        case low; 
+        case `default`
     }
     
     fileprivate static var defaultLoader: ModuleLoader?
@@ -41,10 +48,16 @@ public class ModuleLoader: NSObject {
         }
     }
     
+    /// Add operation closure into operation queue
+    ///
+    /// - Parameters:
+    ///   - level: the priorty level of operation
+    ///   - operation: code going to run
     public func add(level: ModuleLoader.OperationLevel = .default, operation: @escaping () -> ()) -> Void {
         operations[level]! += [operation]
     }
     
+    /// Run the operation queue
     public func run() -> Void {
         
         self.queue.async {

@@ -9,7 +9,7 @@
 import Foundation
 
 /**
- 代码区块区分
+ 代码区块区分.
  
  - parameter name:    区块功能描述
  - parameter closure: 执行功能
@@ -18,7 +18,8 @@ public func scope(_ name: String, closure: () -> ()) -> Void {
     closure()
 }
 
-/// Debug模式下打印
+/// Debug模式下打印。
+/// Console log on `DEBUG` mode
 open class Log {
     
     public class func debugPrintln<T>(_ value: T) -> Void {

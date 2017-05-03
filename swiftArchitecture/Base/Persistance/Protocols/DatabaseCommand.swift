@@ -8,6 +8,7 @@
 
 import Foundation
 
+/// Database command generator.
 public class DatabaseCommand: NSObject {
     
     public class func createTable(with table: TableProtocol, inDatabase database: KMPersistanceDatabase) -> Bool {
@@ -69,16 +70,24 @@ public class DatabaseCommand: NSObject {
 
 // MARK: - Command condition
 
+/// Database command condition object.
 public class DatabaseCommandCondition: NSObject {
     
+    /// Where condition, like: `"uid=812, age>12"`
     public var whereConditions: String?
     // TODO: --- whereConditionsParams ---
 //    var whereConditionsParams: [String: AnyObject]?
     
+    /// For ordering result.
     public var orderBy: String?
+    
+    /// DESC or ASC
     public var isDESC: Bool?
     
+    /// For limiting result
     public var limit: Int?
+    
+    /// For distinct result
     public var isDistinct: Bool?
     
     public func applyCondition(to command: inout String) {

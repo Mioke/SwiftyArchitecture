@@ -72,27 +72,12 @@ extension Array where Element: Comparable {
             self[_parent] = element
         }
         
-//        for var i = self.count / 2 - 1; i >= 0; i -= 1 {
-//            heapAdjust(i, size: self.count)
-//            Log.debugPrintln(self) 
-//        }
-        
         for i in (self.count / 2 - 1) ... 0 {
             heapAdjust(i, size: self.count)
             Log.debugPrintln(self)
         }
         
         Log.debugPrintln("---------------")
-        
-//        for var i = self.count - 1; i > 0; i -= 1 {
-//            let temp  = self[0]
-//            self[0] = self[i]
-//            self[i] = temp
-//            
-//            heapAdjust(0, size: i)
-//            
-//            Log.debugPrintln(self)
-//        }
         
         for i in (self.count - 1) ..< 0 {
             let temp  = self[0]

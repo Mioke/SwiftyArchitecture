@@ -9,6 +9,7 @@
 import UIKit
 import Alamofire
 
+/// Generator of reuqest
 public class KMRequestGenerator: NSObject {
     
     public class func generateRequest(withApi api: BaseApiManager, method: HTTPMethod, params: [String: Any]?) -> DataRequest {

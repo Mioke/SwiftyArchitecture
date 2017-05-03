@@ -7,7 +7,7 @@
 //
 
 import UIKit
-
+/// A view controller for displaying content of a log file
 public class SystemLogBrowser: UIViewController {
     
     var fileName: String!

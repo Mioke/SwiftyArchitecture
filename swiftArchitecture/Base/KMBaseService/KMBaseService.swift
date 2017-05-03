@@ -17,7 +17,7 @@ private let errorKey = "error"
 //    func managerDidFinishWithError(error: ErrorResultType)
 //}
 
-open class KMBaseService: NSObject {
+open class BaseService: NSObject {
     
 //    weak var delegate: ApiManagerDelegate?
 }
@@ -67,7 +67,7 @@ open class KMBaseService: NSObject {
 //    }
 //}
 
-extension KMBaseService: _task {
+extension BaseService: _task {
     
     public typealias receiveDataType = Any
     /**

@@ -9,22 +9,30 @@
 import Foundation
 import FMDB
 
+/// Base protocol of presistance
 public protocol PersistanceManagerProtocol: NSObjectProtocol {
     
 }
 
 // MARK: - Database
 
+/// Database managerment protocol
 public protocol DatabaseManagerProtocol: PersistanceManagerProtocol {
     
+    /// Path of database
     var path: String { get }
     
+    /// The datebase instance
     var database: FMDatabaseQueue { get }
+    
+    /// The name of database
     var databaseName: String { get }
     
 //    static var instance: protocol<DatabaseManagerProtocol> { get set }
 }
 
+/// Base database manager.
+/// - attention: Don't use this class directly, subclass it.
 open class KMPersistanceDatabase: NSObject {
     
     fileprivate weak var child: (DatabaseManagerProtocol)?
@@ -44,6 +52,7 @@ open class KMPersistanceDatabase: NSObject {
         self.close()
     }
     
+    /// Close the database
     public func close() -> Void {
         self.child!.database.close()    
     }
@@ -88,15 +97,21 @@ open class KMPersistanceDatabase: NSObject {
 
 // MARK: - Table
 
+/// Information protocol of a table in database
 public protocol TableProtocol: PersistanceManagerProtocol {
     
+    /// Database which table is in
     weak var database: KMPersistanceDatabase? { get }
     
+    /// table's name
     var tableName: String { get }
     
+    /// column informatin of this table, for building table.
     var tableColumnInfo: [String: String] { get }
 }
 
+/// Base table manager class
+/// - attention: Don't use this classs directly, subclass it.
 open class KMPersistanceTable: NSObject {
     
     fileprivate weak var child: TableProtocol?
@@ -111,6 +126,10 @@ open class KMPersistanceTable: NSObject {
         }
     }
     
+    /// Excecute `replace` method. Add or replace the record in database.
+    ///
+    /// - Parameter record: Record to add or replace.
+    /// - Returns: Result of execution
     public func replace(_ record: RecordProtocol) -> Bool {
         
         guard let params = record.dictionaryRepresentation(in: self.child!), params.count != 0 else {
@@ -121,6 +140,12 @@ open class KMPersistanceTable: NSObject {
         return self.child!.database!.execute(sql, withArgumentsInDictionary: params)
     }
     
+    /// Query records with condition.
+    ///
+    /// - Parameters:
+    ///   - select: Select condition.
+    ///   - condition: Other database command condition.
+    /// - Returns: An array of result dictionary
     public func queryRecord(with select: String?, condition: DatabaseCommandCondition) -> Array<[AnyHashable: Any]> {
         
         let sql = DatabaseCommand.queryCommand(with: self.child!, select: select, condition: condition)
@@ -128,6 +153,10 @@ open class KMPersistanceTable: NSObject {
         return self.child!.database!.query(sql, withArgumentsInArray: nil)
     }
     
+    /// Delete record.
+    ///
+    /// - Parameter condition: Database command condition
+    /// - Returns: Execution result
     public func deleteRecord(with condition: DatabaseCommandCondition) -> Bool {
         
         let sql = DatabaseCommand.deleteCommand(with: self.child!, condition: condition)
@@ -138,6 +167,7 @@ open class KMPersistanceTable: NSObject {
 
 // MARK: - Record
 
+/// Record protocol for models stored in database
 public protocol RecordProtocol: PersistanceManagerProtocol {
     /// For mapping between the column in table and the ivar of record class.
     ///

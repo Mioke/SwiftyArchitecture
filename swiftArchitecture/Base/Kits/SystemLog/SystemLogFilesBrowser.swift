@@ -7,7 +7,7 @@
 //
 
 import UIKit
-
+/// A view controller for displaying log files's list
 public class SystemLogFilesBrowser: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     let tableView: UITableView = UITableView()

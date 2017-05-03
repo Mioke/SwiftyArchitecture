@@ -8,7 +8,8 @@
 
 import UIKit
 
-public class SystemLogFileWritter: NSObject {
+/// Utility of writing log
+internal class SystemLogFileWritter: NSObject {
 
     fileprivate let formatter = DateFormatter()
     fileprivate var fileName: String!
@@ -22,7 +23,6 @@ public class SystemLogFileWritter: NSObject {
         self.folderPath = NSSearchPathForDirectoriesInDomains(.cachesDirectory, .userDomainMask, true).first! + "SystemLog"
         
         if !FileManager.default.fileExists(atPath: self.folderPath) {
-
             do {
                 try FileManager.default.createDirectory(atPath: self.folderPath, withIntermediateDirectories: true, attributes: nil)
             } catch {

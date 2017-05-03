@@ -9,6 +9,7 @@
 import Foundation
 import Alamofire
 
+/// Concrete class of api manager, subclass from this class to use it and don't use this class directly.
 open class BaseApiManager: NSObject {
     
     // MARK: Statics
@@ -26,12 +27,20 @@ open class BaseApiManager: NSObject {
     fileprivate var cacheKey: String?
     
     // MARK: Publics
+    
+    /// Request is out-going and not receive the response, that means `YES`.
     public var isLoading = false
+    
+    /// Interval for request timeout
     public var timeoutInterval: TimeInterval = 20
+    
+    /// Whether process the reponse data from server.
     public var autoProcessServerData: Bool = true
     
-    /// if this property is true, it will auto retry when all situations are eligible
+    /// If this property is true, it will auto retry when all situations are eligible
     public var shouldAutoRetry: Bool = true
+    
+    /// As property name says
     public var shouldAutoCacheResultWhenSucceed: Bool = false
     
     // MARK: Initialization
@@ -45,8 +54,13 @@ open class BaseApiManager: NSObject {
     }
     
     // MARK: - Actions
+    
+    /// Callback delegate, for receiving response.
     public weak var delegate: ApiCallbackProtocol?
     
+    /// Send request (for GET, POST)
+    ///
+    /// - Parameter params: Parameters of request
     public func loadData(with params: [String: Any]?) -> Void {
         
         if self.isLoading {
@@ -136,6 +150,7 @@ open class BaseApiManager: NSObject {
         })
     }
     
+    /// Cancel current request if exists.
     public func cancel() -> Void {
         self.request?.cancel()
     }
@@ -161,10 +176,15 @@ open class BaseApiManager: NSObject {
     }
     
     // MARK: - Callbacks
+    
+    /// A hook of success request
     open func loadingComplete() -> Void {
         // hook
     }
     
+    /// A hook of failed request
+    ///
+    /// - Parameter error: Error that occured
     open func loadingFailed(with error: NSError) -> Void {
         // hook
     }

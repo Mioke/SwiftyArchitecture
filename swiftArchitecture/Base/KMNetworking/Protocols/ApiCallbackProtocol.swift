@@ -8,8 +8,14 @@
 
 import Foundation
 
+/// Describe callback of an api.
 public protocol ApiCallbackProtocol: NSObjectProtocol {
 
+    /// Success callback
+    ///
+    /// - Parameters:
+    ///   - apiManager: api manager which finished
+    ///   - data: Origin data of response
     func ApiManager(_ apiManager: BaseApiManager, finishWithOriginData data: Any) -> Void
     
     /**

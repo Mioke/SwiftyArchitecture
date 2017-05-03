@@ -117,6 +117,7 @@
 		AF158A551E1BB26700FB0BAF /* NotificationService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
 		AF43F43C1CE4258A00E78DFF /* UIView+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Extensions.swift"; sourceTree = "<group>"; };
 		AF43F4421CE4395700E78DFF /* ModuleLoader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModuleLoader.swift; sourceTree = "<group>"; };
+		AF47731E1EB9844800C147AB /* bais-ios.podspec */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; fileEncoding = 4; path = "bais-ios.podspec"; sourceTree = SOURCE_ROOT; };
 		AF78456D1CE9BD720020F6E8 /* NSDate+Extentsions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSDate+Extentsions.swift"; sourceTree = "<group>"; };
 		AFD7F0761C8D6FCE005B379A /* SystemLog.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SystemLog.swift; sourceTree = "<group>"; };
 		AFD7F0781C8D7001005B379A /* SystemLogFileWritter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SystemLogFileWritter.swift; sourceTree = "<group>"; };
@@ -260,6 +261,7 @@
 		A752DE441C03F287008E3118 /* Resource */ = {
 			isa = PBXGroup;
 			children = (
+				AF47731E1EB9844800C147AB /* bais-ios.podspec */,
 				A753A0A11C06FE3A00C9FBFE /* swiftArchitecture-Bridging-Header.h */,
 			);
 			path = Resource;

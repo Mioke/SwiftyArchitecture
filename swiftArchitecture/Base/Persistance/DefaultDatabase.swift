@@ -9,9 +9,10 @@
 import Foundation
 import FMDB
 
+/// Default database
 final public class DefaultDatabase: KMPersistanceDatabase, DatabaseManagerProtocol {
     
-    static let instance: KMPersistanceDatabase = DefaultDatabase()
+    public static let instance: KMPersistanceDatabase = DefaultDatabase()
     
     public var path: String
     public var database: FMDatabaseQueue

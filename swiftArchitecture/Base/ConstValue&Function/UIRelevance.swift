@@ -8,7 +8,7 @@
 
 import UIKit
 
-/// UI相关
+/// UI相关类，可以用extension添加App UI属性
 final public class UI {
     /* 缓存相关属性，减少调用方法的次数 */
     fileprivate static let screenHeight: CGFloat = UIScreen.main.bounds.size.height
@@ -24,12 +24,14 @@ final public class UI {
             return screenWidth
         }
     }
+    /// For changing the default font.
+    public static var _defaultFont: UIFont = UIFont.systemFont(ofSize: 12)
     /**
      Default font of application
      
      - parameter size: Size of the font
      */
     public class func defaultFont(ofSize size: CGFloat) -> UIFont {
-        return UIFont.systemFont(ofSize: size)
+        return self._defaultFont.withSize(size)
     }
 }

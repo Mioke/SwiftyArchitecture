@@ -8,13 +8,19 @@
 
 import Foundation
 
+/// Server model
 open class Server: NSObject {
     
+    /// Global setting, determine `Server` running in `DEBUG` or `RELEASE` model(Usaully ;)).
     public static var online: Bool = true
-
+    
+    /// URL of online state
     public private(set) var onlineURL: String
+    
+    /// URL of offline state
     public private(set) var offlineURL: String
     
+    /// Current URL
     public var url: String {
         get {
             if Server.online {
@@ -27,9 +33,10 @@ open class Server: NSObject {
     /**
      Initailize a server with online url and offline/test url
      
+     - attention: Format is something like _https://10.24.0.3:8001_, don't end with '/' (I think this is big enough to warn you)
+     
      - parameter online:  The URL that online server's site
      - parameter offline: The URL that offline or test server's site
-     # Format is like _https://10.24.0.3:8001_ or something, don't end with '/' (I think this is big enough to warn you)
      */
     public init(online: String, offline: String) {
         self.onlineURL = online

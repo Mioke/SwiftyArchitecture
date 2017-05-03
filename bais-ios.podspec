@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'bais-ios'
-  s.version          = '0.1.0'
+  s.version          = '0.1.2'
   s.summary          = 'Breezy architecture in Swift for building iOS applications.'
   s.description      = <<-DESC
                      * Breezy architecture in Swift for building iOS applications. It offers lots of functions which simple and easy to use for developer.

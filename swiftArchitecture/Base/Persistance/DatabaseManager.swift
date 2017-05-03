@@ -9,8 +9,10 @@
 import Foundation
 import FMDB
 
+/// Real database command executor
 final public class DatabaseManager: NSObject {
     
+    /// Query function
     public class func database(_ databaseQueue: FMDatabaseQueue, query: String, withArgumentsInArray args: [Any]?) -> Array<[AnyHashable: Any]> {
         
         var rstArray = Array<[AnyHashable: Any]>()
@@ -28,7 +30,7 @@ final public class DatabaseManager: NSObject {
         }
         return rstArray
     }
-    
+    /// execute with dictionary parameters
     public class func database(_ databaseQueue: FMDatabaseQueue, execute: String, withArgumentsInDictionary args: [String: Any]!) -> Bool {
         
         var isSuccess = false
@@ -40,7 +42,7 @@ final public class DatabaseManager: NSObject {
         }
         return isSuccess
     }
-    
+    /// execute with array parameters
     public class func database(_ databaseQueue: FMDatabaseQueue, execute: String, withArgumentsInArray args: [Any]!) -> Bool {
         var isSuccess = false
         databaseQueue.inTransaction { (db: FMDatabase?, roolback: UnsafeMutablePointer<ObjCBool>?) in

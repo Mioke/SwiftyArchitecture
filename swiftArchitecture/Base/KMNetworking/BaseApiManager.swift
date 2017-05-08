@@ -95,12 +95,11 @@ open class BaseApiManager: NSObject {
                 SystemLog.write("HTTP response:\n\tRESP:\(resp.response!)\n\tVALUE:\(value)")
                 
                 // If the server has retry mechanism
-                if let server = self.child!.server as? ServerDataProcessProtocol,
-                    self.autoProcessServerData {
-                    
-                    var shouldRetry = false
+                if self.autoProcessServerData,
+                    let server = self.child!.server as? ServerDataProcessProtocol {
+                
                     do {
-                        try server.handle(data: value, shouldRetry: &shouldRetry)
+                        try server.handle(data: value)
                         self.loadingComplete()
                         self.successRoute()
                     } catch {
@@ -113,24 +112,20 @@ open class BaseApiManager: NSObject {
             }
             // HTTP request error
             else if let error = resp.result.error {
-                self.loadingFailed(with: error as NSError)
-                self.failureRoute(with: error as NSError)
-                err = error as NSError?
+                err = error as NSError
             }
             // Value is not a Dictionary
             else {
-                let error = NSError(domain: "Unknown domain", code: 1001, userInfo: nil)
-                self.loadingFailed(with: error)
-                self.failureRoute(with: error)
-                err = error
+                err = NSError(domain: "Unknown domain", code: 1001, userInfo: nil)
             }
             
             if let err = err {
                 // Retry operations
-                if let maxCount = self.child!.autoRetryMaxCount(withErrorCode: err.code),
+                if self.shouldAutoRetry,
+                    let maxCount = self.child!.autoRetryMaxCount(withErrorCode: err.code),
                     let interval = self.child!.retryTimeInterval(withErrorCode: err.code) {
                     
-                    if self.shouldAutoRetry && self.retryTimes < maxCount {
+                    if self.retryTimes < maxCount {
                         
                         DispatchQueue.global(qos: .default).asyncAfter(deadline: DispatchTime(uptimeNanoseconds: interval), execute: {
                             self.loadData(with: params)

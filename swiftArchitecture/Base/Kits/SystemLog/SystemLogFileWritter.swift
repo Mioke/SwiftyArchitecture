@@ -36,6 +36,7 @@ internal class SystemLogFileWritter: NSObject {
         DispatchQueue.global(qos: .default).async {
             
             let content = "\(self.formatter.string(from: Date())): \n--------------\n\(text)\n--------------\n\n"
+            Log.debugPrintln(content)
             
             if !FileManager.default.fileExists(atPath: self.filePath()) {
                 do {
@@ -46,7 +47,8 @@ internal class SystemLogFileWritter: NSObject {
                 return
             }
             
-            if let fileHandle = FileHandle(forWritingAtPath: self.filePath()), let data = content.data(using: String.Encoding.utf8) {
+            if let fileHandle = FileHandle(forWritingAtPath: self.filePath()),
+                let data = content.data(using: String.Encoding.utf8) {
 
                 fileHandle.seekToEndOfFile()
                 fileHandle.write(data)

@@ -11,7 +11,7 @@ import Foundation
 /// Server model
 open class Server: NSObject {
     
-    /// Global setting, determine `Server` running in `DEBUG` or `RELEASE` model(Usaully ;)).
+    /// Global setting, determine `Server` running in `DEBUG` or `RELEASE` mode(Usaully ;)).
     public static var online: Bool = true
     
     /// URL of online state
@@ -47,5 +47,5 @@ open class Server: NSObject {
 
 /// Customize data process operation of server
 public protocol ServerDataProcessProtocol {
-    func handle(data: Any, shouldRetry: inout Bool) throws -> Void
+    func handle(data: Any) throws -> Void
 }

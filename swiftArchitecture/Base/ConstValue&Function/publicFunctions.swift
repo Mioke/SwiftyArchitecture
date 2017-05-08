@@ -22,22 +22,9 @@ public func scope(_ name: String, closure: () -> ()) -> Void {
 /// Console log on `DEBUG` mode
 open class Log {
     
-    public class func debugPrintln<T>(_ value: T) -> Void {
+    public class func debugPrintln(_ value: Any) -> Void {
         #if DEBUG
             print(value)
         #endif
     }
 }
-
-//public let kServer = "http://115.29.175.210:8009/"
-//
-//func ServerURLString(interface: String) -> String {
-//    return kServer + interface
-//}
-//
-//func ServerURLWithComponent(comp: String) -> NSURL? {
-//    return NSURL(string: ServerURLString(comp))
-//}
-
-
-

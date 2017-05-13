@@ -14,12 +14,11 @@ public class KMRequestGenerator: NSObject {
     
     public class func generateRequest(withApi api: BaseApiManager, method: HTTPMethod, params: [String: Any]?) -> DataRequest {
         
-        let req = request(api.apiURLString(), method: method, parameters: params, encoding: URLEncoding.queryString, headers: nil)
-//        let request = Manager.sharedInstance.request(method, api.apiURLString(), parameters: params, encoding: .URL, headers: nil)
+        let req = request(api.apiURLString, method: method, parameters: params, encoding: URLEncoding.default, headers: api.HTTPHeaders)
         
         // FIXME: Do additional configuration or signature etc.
-        Log.debugPrintln("\n==================================\nSend request:\n\tURL:\(api.apiURLString())\n\tparam:\(params ?? [:])\n==================================\n")
-        SystemLog.write("Send request:\n\tRequest Info:\(req.request!)\n\tParam:\(params ?? [:])")
+        //        Log.debugPrintln("\n==================================\nSend request:\n\tURL:\(api.apiURLString())\n\tparam:\(params ?? [:])\n==================================\n")
+        SystemLog.write("Send request:\n\tRequest Info:\(req.description)\n\tRequest Headers:\(req.request?.allHTTPHeaderFields ?? [:])\n\tParam:\(params ?? [:])")
         
         return req
     }

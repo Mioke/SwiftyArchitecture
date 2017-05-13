@@ -19,7 +19,7 @@ class InternalTestVC: UIViewController, ApiCallbackProtocol {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        self.tests = ["Record user model", "Read users", "Login", "Call Log UI", "Crash", "Cache size", "Push local notification"]
+        self.tests = ["Record user model", "Read users", "API test", "Call Log UI", "Crash", "Cache size", "Push local notification"]
         
         self.tableView = {
             let view = UITableView(frame: self.view.bounds)

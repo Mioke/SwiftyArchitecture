@@ -199,10 +199,7 @@ open class BaseApiManager: NSObject {
     }
     
     /// Get url string including server url, API version and API name
-    ///
-    /// - Returns: URL string of request, doesn't include query parameters.
-    open func apiURLString() -> String {
-        
+    open var apiURLString: String {
         if self.urlString == nil {
             if self.child!.apiVersion.isEmpty {
                 self.urlString = self.child!.server.url + "/" + self.child!.apiName
@@ -211,6 +208,11 @@ open class BaseApiManager: NSObject {
             }
         }
         return self.urlString!
+    }
+    
+    /// Get child's HTTP headers
+    public var HTTPHeaders: Alamofire.HTTPHeaders? {
+        return self.child?.headers()
     }
     
     private func doOnMainQueue(_ block: @escaping () -> ()) -> Void {

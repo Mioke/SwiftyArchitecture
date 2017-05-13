@@ -32,4 +32,7 @@ extension TestAPI: ApiInfoProtocol {
     var httpMethod: Alamofire.HTTPMethod {
         get { return .get }
     }
+    func headers() -> HTTPHeaders? {
+        return ["Cookie": "uid=123456"]
+    }
 }

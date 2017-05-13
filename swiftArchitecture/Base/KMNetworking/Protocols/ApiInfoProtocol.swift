@@ -11,7 +11,7 @@ import Alamofire
 
 /**
  *  Protocol that descripe what infomation should API provide,
- - attention: `apiVersion` and `apiName` __shouldn't begin and end with '/'__. Just like "v2", "user/login" is good. If you don't have a versioned-API, return an empty string is ok.
+ - attention: `apiVersion` and `apiName` __shouldn't begin and end with '/'__. Just like "v2", "user/login" is good. If you don't have a versioned-API, return an empty string.
  */
 public protocol ApiInfoProtocol: NSObjectProtocol {
     
@@ -38,6 +38,11 @@ public protocol ApiInfoProtocol: NSObjectProtocol {
     /// - Parameter code: Error's code
     /// - Returns: Time interval for the error
     func retryTimeInterval(withErrorCode code: Int) -> UInt64?
+    
+    /// HTTP headers of request
+    ///
+    /// - Returns: HTTP headers
+    func headers() -> Alamofire.HTTPHeaders?
 }
 
 extension ApiInfoProtocol {
@@ -45,8 +50,12 @@ extension ApiInfoProtocol {
     public func autoRetryMaxCount(withErrorCode code: Int) -> Int? {
         return nil
     }
-
+    
     public func retryTimeInterval(withErrorCode code: Int) -> UInt64? {
-        return nil;
+        return nil
+    }
+    
+    public func headers() -> Alamofire.HTTPHeaders? {
+        return nil
     }
 }

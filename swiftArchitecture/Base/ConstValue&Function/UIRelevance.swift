@@ -35,3 +35,33 @@ final public class UI {
         return self._defaultFont.withSize(size)
     }
 }
+
+
+public protocol ReusableView { }
+public protocol NibLoadableView: class { }
+
+extension ReusableView where Self: UITableViewCell {
+    public static var reusedIdentifier: String {
+        return String(describing: self.self)
+    }
+}
+
+extension NibLoadableView where Self: UIView {
+    
+    public static var NibName: String {
+        return String(describing: self.self)
+    }
+}
+
+extension UITableView {
+    public func registerNib<T: UITableViewCell>(_: T.Type) -> Void where T: ReusableView, T: NibLoadableView {
+        let nib = UINib(nibName: T.NibName, bundle: nil)
+        self.register(nib, forCellReuseIdentifier: T.reusedIdentifier)
+    }
+    public func dequeReusableCell<T: UITableViewCell>(forIndexPath ip: IndexPath) -> T where T: ReusableView {
+        guard let cell = self.dequeueReusableCell(withIdentifier: T.reusedIdentifier, for: ip) as? T else {
+            fatalError("couldn't deque cell with identifier: \(T.reusedIdentifier)")
+        }
+        return cell
+    }
+}

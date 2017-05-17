@@ -10,18 +10,18 @@ import UIKit
 
 extension UIColor {
     
-    public class func colorFromHexString(_ hex: String) -> UIColor {
+    public class func color(fromHexString hex: String) -> UIColor {
         
-        let rgbValue: UnsafeMutablePointer<UInt32>? = nil
         let hexString = hex.replacingOccurrences(of: "#", with: "")
         let scanner = Scanner(string: hexString)
         
-        scanner.scanHexInt32(rgbValue)
+        var rgbValue: UInt32 = 0
+        scanner.scanHexInt32(&rgbValue)
         
         return UIColor(
-            red:    CGFloat(rgbValue!.pointee & 0xFF0000 >> 16) / 255.0,
-            green:  CGFloat(rgbValue!.pointee & 0x00FF00 >> 8) / 255.0,
-            blue:   CGFloat(rgbValue!.pointee & 0xFF) / 255.0,
+            red:    CGFloat((rgbValue & 0xFF0000) >> 16) / 255.0,
+            green:  CGFloat((rgbValue & 0x00FF00) >> 8) / 255.0,
+            blue:   CGFloat(rgbValue & 0x0000FF) / 255.0,
             alpha:  1)
     }
 }

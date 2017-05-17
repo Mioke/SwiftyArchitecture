@@ -25,6 +25,8 @@ class InternalTestVC: UIViewController, ApiCallbackProtocol {
             let view = UITableView(frame: self.view.bounds)
             view.delegate = self
             view.dataSource = self
+            view.tableFooterView = UIView()
+            view.backgroundColor = UIColor.color(fromHexString: "#ff6262")
             
             self.view.addSubview(view)
             return view

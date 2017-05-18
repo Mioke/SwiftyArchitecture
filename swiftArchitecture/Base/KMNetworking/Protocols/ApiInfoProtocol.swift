@@ -43,6 +43,9 @@ public protocol ApiInfoProtocol: NSObjectProtocol {
     ///
     /// - Returns: HTTP headers
     func headers() -> Alamofire.HTTPHeaders?
+    
+    /// Encoding function of api's parameters, default is `Alamofire.URLEncoding.default`(aka `methodDependent`)
+    var encoding: Alamofire.ParameterEncoding { get }
 }
 
 extension ApiInfoProtocol {
@@ -57,5 +60,9 @@ extension ApiInfoProtocol {
     
     public func headers() -> Alamofire.HTTPHeaders? {
         return nil
+    }
+    
+    public var encoding: Alamofire.ParameterEncoding {
+        return URLEncoding.default
     }
 }

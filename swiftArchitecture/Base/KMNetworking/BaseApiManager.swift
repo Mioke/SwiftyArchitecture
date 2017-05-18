@@ -81,7 +81,10 @@ open class BaseApiManager: NSObject {
         self.isLoading = true
         self.cancel()
         
-        self.request = KMRequestGenerator.generateRequest(withApi: self, method: self.child!.httpMethod, params: params)
+        self.request = KMRequestGenerator.generateRequest(withApi: self,
+                                                          method: self.child!.httpMethod,
+                                                          params: params,
+                                                          encoding: self.child!.encoding)
         self.request?.session.configuration.timeoutIntervalForRequest = self.timeoutInterval
         
         self.request?.responseJSON(completionHandler: { (resp: DataResponse<Any>) in

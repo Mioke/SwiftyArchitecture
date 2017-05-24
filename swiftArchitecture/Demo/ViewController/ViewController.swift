@@ -42,7 +42,7 @@ class ViewController: UIViewController {
 
 extension ViewController: ApiCallbackProtocol {
     
-    func ApiManager(_ apiManager: BaseApiManager, finishWithOriginData data: Any) {
+    func ApiManager(_ apiManager: BaseApiManager, finishWithOriginData data: [String: Any]) {
         
         if apiManager == self.baiduSearch {
             debugPrint(data)

@@ -175,7 +175,7 @@ extension InternalTestVC: UITableViewDelegate, UITableViewDataSource {
     
     // MARK: - APICallbacks
     
-    func ApiManager(_ apiManager: BaseApiManager, finishWithOriginData data: Any) {
+    func ApiManager(_ apiManager: BaseApiManager, finishWithOriginData data: [String: Any]) {
         debugPrint(data)
     }
     

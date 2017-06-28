@@ -27,7 +27,7 @@ class ViewController: UIViewController {
         }
         
         let db = DefaultDatabase()
-        Log.debugPrintln(db.query("select * from tableDoesntExtist", withArgumentsInArray: nil))
+        Log.println(db.query("select * from tableDoesntExtist", withArgumentsInArray: nil))
     }
 
     override func didReceiveMemoryWarning() {

@@ -39,7 +39,7 @@ class InternalTestVC: UIViewController, ApiCallbackProtocol {
 //        a.insertionSort()
         
         let str =  "1234567890"
-        Log.debugPrintln(str[0..<2])
+        Log.println(str[0..<2])
         
         NotificationService.current().requestAuthorization()
         
@@ -128,7 +128,7 @@ extension InternalTestVC: UITableViewDelegate, UITableViewDataSource {
             
             let result = table.queryRecord(with: nil, condition: condition)
             
-            Log.debugPrintln(result)
+            Log.println(result)
         case 2:
             let api = TestAPI()
             api.delegate = self
@@ -143,7 +143,7 @@ extension InternalTestVC: UITableViewDelegate, UITableViewDataSource {
 //            _ = a[1]
             break
         case 5:
-            Log.debugPrintln(NetworkCache.memoryCache.size())
+            Log.println(NetworkCache.memoryCache.size())
         case 6:
             if #available(iOS 10.0, *) {
                 

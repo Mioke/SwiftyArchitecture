@@ -41,6 +41,8 @@
 		A791C6BE1C02E90000670017 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A791C6BC1C02E90000670017 /* LaunchScreen.storyboard */; };
 		A791C6C91C02E90000670017 /* swiftArchitectureTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A791C6C81C02E90000670017 /* swiftArchitectureTests.swift */; };
 		A791C6D41C02E90000670017 /* swiftArchitectureUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A791C6D31C02E90000670017 /* swiftArchitectureUITests.swift */; };
+		AF05BD6D1F038F22001DAA53 /* Errors.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF05BD6C1F038F22001DAA53 /* Errors.swift */; };
+		AF05BD6F1F0393B8001DAA53 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF05BD6E1F0393B8001DAA53 /* Constants.swift */; };
 		AF158A541E14B63900FB0BAF /* TestAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF158A531E14B63900FB0BAF /* TestAPI.swift */; };
 		AF158A561E1BB26700FB0BAF /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF158A551E1BB26700FB0BAF /* NotificationService.swift */; };
 		AF43F43D1CE4258A00E78DFF /* UIView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF43F43C1CE4258A00E78DFF /* UIView+Extensions.swift */; };
@@ -116,6 +118,8 @@
 		A791C6CF1C02E90000670017 /* swiftArchitectureUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = swiftArchitectureUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A791C6D31C02E90000670017 /* swiftArchitectureUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = swiftArchitectureUITests.swift; sourceTree = "<group>"; };
 		A791C6D51C02E90000670017 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		AF05BD6C1F038F22001DAA53 /* Errors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Errors.swift; sourceTree = "<group>"; };
+		AF05BD6E1F0393B8001DAA53 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		AF158A531E14B63900FB0BAF /* TestAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestAPI.swift; sourceTree = "<group>"; };
 		AF158A551E1BB26700FB0BAF /* NotificationService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
 		AF43F43C1CE4258A00E78DFF /* UIView+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Extensions.swift"; sourceTree = "<group>"; };
@@ -277,6 +281,7 @@
 			isa = PBXGroup;
 			children = (
 				A753A0A91C0C215E00C9FBFE /* publicFunctions.swift */,
+				AF05BD6E1F0393B8001DAA53 /* Constants.swift */,
 				A753A0AB1C0C30A700C9FBFE /* UIRelevance.swift */,
 				AF684A151ED59EA400F9D440 /* TextInputLimiter.swift */,
 			);
@@ -329,6 +334,7 @@
 			isa = PBXGroup;
 			children = (
 				A77BACE51C1548E800AF7A86 /* KMRequestGenerator.swift */,
+				AF05BD6C1F038F22001DAA53 /* Errors.swift */,
 			);
 			path = Generators;
 			sourceTree = "<group>";
@@ -671,6 +677,7 @@
 				A77BACEA1C15641700AF7A86 /* BaseApiManager.swift in Sources */,
 				A77BACE61C1548E800AF7A86 /* KMRequestGenerator.swift in Sources */,
 				AF78456E1CE9BD720020F6E8 /* NSDate+Extentsions.swift in Sources */,
+				AF05BD6F1F0393B8001DAA53 /* Constants.swift in Sources */,
 				A752DE361C02FAFE008E3118 /* NetworkManagerProtocol.swift in Sources */,
 				A753A0AC1C0C30A700C9FBFE /* UIRelevance.swift in Sources */,
 				7034C5CF1C32581100F1348F /* NetworkCache.swift in Sources */,
@@ -683,6 +690,7 @@
 				A753A0A31C06FE5A00C9FBFE /* ViewController.swift in Sources */,
 				A752DE3D1C030103008E3118 /* TaskManageProtocols.swift in Sources */,
 				A77BACEF1C15810300AF7A86 /* ApiCallbackProtocol.swift in Sources */,
+				AF05BD6D1F038F22001DAA53 /* Errors.swift in Sources */,
 				A7826F761C0EF06A007AA18D /* UserModel.swift in Sources */,
 				A7826F7A1C112AF2007AA18D /* CollectionType+Extension.swift in Sources */,
 				AF684A161ED59EA400F9D440 /* TextInputLimiter.swift in Sources */,

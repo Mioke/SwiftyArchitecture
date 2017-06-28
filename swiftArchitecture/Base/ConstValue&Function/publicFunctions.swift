@@ -15,6 +15,7 @@ import Foundation
  - parameter closure: 执行功能
  */
 public func scope(_ name: String, closure: () -> ()) -> Void {
+    Log.println("---------  \(name)  ---------")
     closure()
 }
 
@@ -22,9 +23,9 @@ public func scope(_ name: String, closure: () -> ()) -> Void {
 /// Console log on `DEBUG` mode
 open class Log {
     
-    public class func debugPrintln(_ value: Any) -> Void {
+    public class func println(_ item: Any..., separator: String = "", terminator: String = "") -> Void {
         #if DEBUG
-            print(value)
+            print(item, separator: separator, terminator: terminator)
         #endif
     }
 }

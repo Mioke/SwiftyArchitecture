@@ -74,10 +74,7 @@ extension Array where Element: Comparable {
         
         for i in (self.count / 2 - 1) ... 0 {
             heapAdjust(i, size: self.count)
-            Log.debugPrintln(self)
         }
-        
-        Log.debugPrintln("---------------")
         
         for i in (self.count - 1) ..< 0 {
             let temp  = self[0]
@@ -85,8 +82,6 @@ extension Array where Element: Comparable {
             self[i] = temp
             
             heapAdjust(0, size: i)
-            
-            Log.debugPrintln(self)
         }
     }
     
@@ -110,7 +105,6 @@ extension Array where Element: Comparable {
     public mutating func shellSort() -> Void {
         
         var increment = self.count / 2
-        Log.debugPrintln(self)
         while increment != 0 {
             
             for i in 0 ... increment {
@@ -132,8 +126,6 @@ extension Array where Element: Comparable {
                     loc += increment
                 }
             }
-                
-            Log.debugPrintln(self)
             increment = increment / 2
         }
     }

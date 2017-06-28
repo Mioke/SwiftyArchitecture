@@ -23,6 +23,7 @@ open class BaseApiManager: NSObject {
     fileprivate var retryTimes: Int = 0
     
     fileprivate var data: [String: Any]?
+    fileprivate var params: [String: Any]?
     fileprivate var urlString: String?
     fileprivate var cacheKey: String?
     
@@ -67,85 +68,109 @@ open class BaseApiManager: NSObject {
             debugPrint("API manager current is requesting, if you want to reload, call cancel() and retry")
             return
         }
-        // If there is cached result then return it.
-        
-        if let key = self.cacheKey,
-            let value = NetworkCache.memoryCache.object(forKey: key) as? [String: Any], self.shouldAutoCacheResultWhenSucceed {
-            
-            self.data = value
-            self.loadingComplete()
-            self.delegate?.ApiManager(self, finishWithOriginData: value)
-            return
-        }
-        
         self.isLoading = true
         self.cancel()
+        
+        // cache parameters
+        self.params = params
         
         self.request = KMRequestGenerator.generateRequest(withApi: self,
                                                           method: self.child!.httpMethod,
                                                           params: params,
                                                           encoding: self.child!.encoding)
-        self.request?.session.configuration.timeoutIntervalForRequest = self.timeoutInterval
         
-        self.request?.responseJSON(completionHandler: { (resp: DataResponse<Any>) in
-            
-            self.isLoading = false
-            var err: NSError?
-            
-            // HTTP request success
-            if let value = resp.result.value as? [String: Any] {
-                self.data = value
-                SystemLog.write("HTTP response:\n\tRESP:\(resp.response!)\n\tVALUE:\(value)")
-                
-                // If the server has retry mechanism
-                if self.autoProcessServerData,
-                    let server = self.child!.server as? ServerDataProcessProtocol {
-                
+        if let serializer = self.child?.responseSerializer {
+            self.request?.responseData(completionHandler: { (resp) in
+                switch resp.result {
+                case .success(_):
                     do {
-                        try server.handle(data: value)
-                        self.loadingComplete()
-                        self.successRoute()
+                        let result = try serializer(resp)
+                        self.deal(value: result, error: nil)
                     } catch {
-                        err = error as NSError
+                        self.deal(value: nil, error: error as NSError)
                     }
-                } else {
-                    self.loadingComplete()
-                    self.successRoute()
+                case .failure(let error):
+                    self.deal(value: nil, error: error as NSError)
                 }
-            }
-            // HTTP request error
-            else if let error = resp.result.error {
-                err = error as NSError
-            }
-            // Value is not a Dictionary
-            else {
-                err = NSError(domain: "Unknown domain", code: 1001, userInfo: nil)
-            }
-            
-            if let err = err {
-                // Retry operations
-                if self.shouldAutoRetry,
-                    let maxCount = self.child!.autoRetryMaxCount(withErrorCode: err.code),
-                    let interval = self.child!.retryTimeInterval(withErrorCode: err.code) {
-                    
-                    if self.retryTimes < maxCount {
-                        
-                        DispatchQueue.global(qos: .default).asyncAfter(deadline: DispatchTime(uptimeNanoseconds: interval), execute: {
-                            self.loadData(with: params)
-                        })
-                        self.retryTimes += 1
+            })
+        } else {
+            self.request?.responseJSON(completionHandler: { (resp) in
+                
+                if let value = resp.result.value {
+                    guard let data = value as? [String: Any] else {
+                        self.deal(value: nil, error: Errors.responseError)
                         return
                     }
+                    self.deal(value: data, error: nil)
+                    
+                } else {
+                    self.deal(value: nil, error: resp.result.error as NSError?)
                 }
-                // reset the retry count
-                self.retryTimes = 0
+            })
+        }
+    }
+    
+    /// Deal the response JSON object
+    ///
+    /// - Parameters:
+    ///   - value: Json value
+    ///   - error: If there's an error
+    private func deal(value: [String: Any]?, error: NSError?) {
+        self.isLoading = false
+        var err: NSError?
+        
+        // HTTP request success
+        if let value = value {
+            self.data = value
+            
+            // If the server has retry mechanism
+            if self.autoProcessServerData,
+                let server = self.child!.server as? ServerDataProcessProtocol {
                 
-                self.loadingFailed(with: err)
-                self.failureRoute(with: err)
-                
-                SystemLog.write("HTTP response:\n\tRESP:\(resp.response!)\n\tVALUE:\(err)")
+                do {
+                    try server.handle(data: value)
+                    self.loadingComplete()
+                    self.successRoute()
+                } catch {
+                    err = error as NSError
+                }
+            } else {
+                self.loadingComplete()
+                self.successRoute()
             }
-        })
+        }
+            // HTTP request error
+        else if let error = error {
+            err = error as NSError
+        }
+            // Value is not a Dictionary
+        else {
+            err = Errors.unknownError
+        }
+        
+        if let err = err {
+            // Retry operations
+            if self.shouldAutoRetry,
+                let maxCount = self.child!.autoRetryMaxCount(withErrorCode: err.code),
+                let interval = self.child!.retryTimeInterval(withErrorCode: err.code) {
+                
+                if self.retryTimes < maxCount {
+                    
+                    DispatchQueue
+                        .global(qos: .default)
+                        .asyncAfter(deadline: DispatchTime(uptimeNanoseconds: interval), execute: {
+                            self.loadData(with: self.params)
+                        })
+                    self.retryTimes += 1
+                    return
+                }
+            }
+            // reset the retry count
+            self.retryTimes = 0
+            
+            self.loadingFailed(with: err)
+            self.failureRoute(with: err)
+        }
     }
     
     /// Cancel current request if exists.

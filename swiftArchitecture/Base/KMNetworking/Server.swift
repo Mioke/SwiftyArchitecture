@@ -20,6 +20,9 @@ open class Server: NSObject {
     /// URL of offline state
     public private(set) var offlineURL: String
     
+    /// Whether URL is a https url
+    public private(set) var isHTTPs: Bool = false
+    
     /// Current URL
     public var url: String {
         get {
@@ -42,6 +45,10 @@ open class Server: NSObject {
         self.onlineURL = online
         self.offlineURL = offline
         super.init()
+        
+        if let first = url.components(separatedBy: "/").first {
+            isHTTPs = first.lowercased().contains("https")
+        }
     }
 }
 

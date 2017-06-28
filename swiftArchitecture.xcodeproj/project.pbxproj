@@ -43,13 +43,13 @@
 		A791C6D41C02E90000670017 /* swiftArchitectureUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A791C6D31C02E90000670017 /* swiftArchitectureUITests.swift */; };
 		AF05BD6D1F038F22001DAA53 /* Errors.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF05BD6C1F038F22001DAA53 /* Errors.swift */; };
 		AF05BD6F1F0393B8001DAA53 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF05BD6E1F0393B8001DAA53 /* Constants.swift */; };
+		AF05BD741F039AD7001DAA53 /* TextInputLimiter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF05BD731F039AD7001DAA53 /* TextInputLimiter.swift */; };
 		AF158A541E14B63900FB0BAF /* TestAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF158A531E14B63900FB0BAF /* TestAPI.swift */; };
 		AF158A561E1BB26700FB0BAF /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF158A551E1BB26700FB0BAF /* NotificationService.swift */; };
 		AF43F43D1CE4258A00E78DFF /* UIView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF43F43C1CE4258A00E78DFF /* UIView+Extensions.swift */; };
 		AF43F4431CE4395700E78DFF /* ModuleLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF43F4421CE4395700E78DFF /* ModuleLoader.swift */; };
 		AF684A131ED59D7A00F9D440 /* Double+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF684A111ED59D7A00F9D440 /* Double+Extension.swift */; };
 		AF684A141ED59D7A00F9D440 /* Dictionary+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF684A121ED59D7A00F9D440 /* Dictionary+Extension.swift */; };
-		AF684A161ED59EA400F9D440 /* TextInputLimiter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF684A151ED59EA400F9D440 /* TextInputLimiter.swift */; };
 		AF78456E1CE9BD720020F6E8 /* NSDate+Extentsions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF78456D1CE9BD720020F6E8 /* NSDate+Extentsions.swift */; };
 		AFD7F0771C8D6FCE005B379A /* SystemLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFD7F0761C8D6FCE005B379A /* SystemLog.swift */; };
 		AFD7F0791C8D7001005B379A /* SystemLogFileWritter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFD7F0781C8D7001005B379A /* SystemLogFileWritter.swift */; };
@@ -120,6 +120,7 @@
 		A791C6D51C02E90000670017 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AF05BD6C1F038F22001DAA53 /* Errors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Errors.swift; sourceTree = "<group>"; };
 		AF05BD6E1F0393B8001DAA53 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		AF05BD731F039AD7001DAA53 /* TextInputLimiter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextInputLimiter.swift; sourceTree = "<group>"; };
 		AF158A531E14B63900FB0BAF /* TestAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestAPI.swift; sourceTree = "<group>"; };
 		AF158A551E1BB26700FB0BAF /* NotificationService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
 		AF43F43C1CE4258A00E78DFF /* UIView+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Extensions.swift"; sourceTree = "<group>"; };
@@ -127,7 +128,6 @@
 		AF47731E1EB9844800C147AB /* bais-ios.podspec */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; fileEncoding = 4; path = "bais-ios.podspec"; sourceTree = SOURCE_ROOT; };
 		AF684A111ED59D7A00F9D440 /* Double+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Double+Extension.swift"; sourceTree = "<group>"; };
 		AF684A121ED59D7A00F9D440 /* Dictionary+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Dictionary+Extension.swift"; sourceTree = "<group>"; };
-		AF684A151ED59EA400F9D440 /* TextInputLimiter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextInputLimiter.swift; sourceTree = "<group>"; };
 		AF78456D1CE9BD720020F6E8 /* NSDate+Extentsions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSDate+Extentsions.swift"; sourceTree = "<group>"; };
 		AFD7F0761C8D6FCE005B379A /* SystemLog.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SystemLog.swift; sourceTree = "<group>"; };
 		AFD7F0781C8D7001005B379A /* SystemLogFileWritter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SystemLogFileWritter.swift; sourceTree = "<group>"; };
@@ -193,6 +193,7 @@
 		70F409BE1C5701DE005C9806 /* Kits */ = {
 			isa = PBXGroup;
 			children = (
+				AF05BD721F039AD7001DAA53 /* TextInputLimiter */,
 				AF43F43E1CE4390E00E78DFF /* ModuleLoader */,
 				AFD7F0721C8D6F0C005B379A /* SystemLog */,
 			);
@@ -283,7 +284,6 @@
 				A753A0A91C0C215E00C9FBFE /* publicFunctions.swift */,
 				AF05BD6E1F0393B8001DAA53 /* Constants.swift */,
 				A753A0AB1C0C30A700C9FBFE /* UIRelevance.swift */,
-				AF684A151ED59EA400F9D440 /* TextInputLimiter.swift */,
 			);
 			path = "ConstValue&Function";
 			sourceTree = "<group>";
@@ -432,6 +432,14 @@
 				A791C6D51C02E90000670017 /* Info.plist */,
 			);
 			path = swiftArchitectureUITests;
+			sourceTree = "<group>";
+		};
+		AF05BD721F039AD7001DAA53 /* TextInputLimiter */ = {
+			isa = PBXGroup;
+			children = (
+				AF05BD731F039AD7001DAA53 /* TextInputLimiter.swift */,
+			);
+			path = TextInputLimiter;
 			sourceTree = "<group>";
 		};
 		AF43F43E1CE4390E00E78DFF /* ModuleLoader */ = {
@@ -655,6 +663,7 @@
 			files = (
 				A753A0A51C07054300C9FBFE /* NetworkManager.swift in Sources */,
 				A791C6B11C02E90000670017 /* AppDelegate.swift in Sources */,
+				AF05BD741F039AD7001DAA53 /* TextInputLimiter.swift in Sources */,
 				A7826F6C1C0D9011007AA18D /* DatabaseManager.swift in Sources */,
 				A753A0B21C0D79BA00C9FBFE /* KMPersistance.swift in Sources */,
 				A77BAD1A1C196DFD00AF7A86 /* InternalTestVC.swift in Sources */,
@@ -693,7 +702,6 @@
 				AF05BD6D1F038F22001DAA53 /* Errors.swift in Sources */,
 				A7826F761C0EF06A007AA18D /* UserModel.swift in Sources */,
 				A7826F7A1C112AF2007AA18D /* CollectionType+Extension.swift in Sources */,
-				AF684A161ED59EA400F9D440 /* TextInputLimiter.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

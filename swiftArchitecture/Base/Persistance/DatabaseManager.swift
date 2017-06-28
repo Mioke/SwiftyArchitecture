@@ -21,9 +21,11 @@ final public class DatabaseManager: NSObject {
             guard let db = db else {
                 return
             }
-            if let rst = db.executeQuery(query, withArgumentsIn: args) {
+            if let rst = db.executeQuery(query, withArgumentsIn: args ?? []) {
                 while rst.next() {
-                    rstArray.append(rst.resultDictionary())
+                    if let dic = rst.resultDictionary {
+                        rstArray.append(dic)
+                    }
                 }
                 rst.close()
             }

@@ -24,7 +24,7 @@ Pod::Spec.new do |s|
   # s.libraries = 'c++', 'sqlite3'
   s.dependency 'Alamofire'
   s.dependency 'FMDB'
-  s.dependency 'KMCache'
+#  s.dependency 'KMCache'
 
   s.source_files = 'swiftArchitecture/Base/**/*.swift'
   

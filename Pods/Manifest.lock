@@ -1,20 +1,17 @@
 PODS:
-  - Alamofire (4.2.0)
-  - FMDB (2.6.2):
-    - FMDB/standard (= 2.6.2)
-  - FMDB/standard (2.6.2)
-  - KMCache (0.1.9)
+  - Alamofire (4.5.0)
+  - FMDB (2.7.2):
+    - FMDB/standard (= 2.7.2)
+  - FMDB/standard (2.7.2)
 
 DEPENDENCIES:
   - Alamofire
   - FMDB
-  - KMCache
 
 SPEC CHECKSUMS:
-  Alamofire: aa2e09d871c9160ac53c90e83c68064a94e3dfbe
-  FMDB: 854a0341b4726e53276f2a8996f06f1b80f9259a
-  KMCache: 831bdf92c764325d149626d07ba8e75018167eac
+  Alamofire: f28cdffd29de33a7bfa022cbd63ae95a27fae140
+  FMDB: 6198a90e7b6900cfc046e6bc0ef6ebb7be9236aa
 
-PODFILE CHECKSUM: a828376acfa93e44b5fd22ed6fcd8f1650bfd62d
+PODFILE CHECKSUM: dee599a0af9b07ce4a52814dda6ef04777299024
 
-COCOAPODS: 1.1.1
+COCOAPODS: 1.2.1

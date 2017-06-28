@@ -4,12 +4,12 @@ use_frameworks!
 
 target "SAD" do
 	pod 'Alamofire'
+    pod 'FMDB'
 
 #	pod 'ReactiveCocoa'
 #	pod "AFNetworking"
 
-	pod 'FMDB'
-	pod "KMCache"
+#	pod "KMCache"
 end
 
 # pod 'FMDB/FTS'   # FMDB with FTS

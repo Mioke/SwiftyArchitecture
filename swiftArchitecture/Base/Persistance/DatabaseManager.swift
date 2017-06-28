@@ -34,26 +34,26 @@ final public class DatabaseManager: NSObject {
     }
     /// execute with dictionary parameters
     @discardableResult
-    public class func database(_ databaseQueue: FMDatabaseQueue, execute: String, withArgumentsInDictionary args: [String: Any]!) -> Bool {
+    public class func database(_ databaseQueue: FMDatabaseQueue, execute: String, withArgumentsInDictionary args: [String: Any]?) -> Bool {
         
         var isSuccess = false
         databaseQueue.inTransaction { (db: FMDatabase?, roolback: UnsafeMutablePointer<ObjCBool>?) in
             guard let db = db else {
                 return
             }
-            isSuccess = db.executeUpdate(execute, withParameterDictionary: args)
+            isSuccess = db.executeUpdate(execute, withParameterDictionary: args ?? [:])
         }
         return isSuccess
     }
     /// execute with array parameters
     @discardableResult
-    public class func database(_ databaseQueue: FMDatabaseQueue, execute: String, withArgumentsInArray args: [Any]!) -> Bool {
+    public class func database(_ databaseQueue: FMDatabaseQueue, execute: String, withArgumentsInArray args: [Any]?) -> Bool {
         var isSuccess = false
         databaseQueue.inTransaction { (db: FMDatabase?, roolback: UnsafeMutablePointer<ObjCBool>?) in
             guard let db = db else {
                 return
             }
-            isSuccess = db.executeUpdate(execute, withArgumentsIn: args)
+            isSuccess = db.executeUpdate(execute, withArgumentsIn: args ?? [])
         }
         return isSuccess
     }

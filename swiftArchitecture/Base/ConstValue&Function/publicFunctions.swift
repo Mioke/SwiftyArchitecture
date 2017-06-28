@@ -23,7 +23,7 @@ public func scope(_ name: String, closure: () -> ()) -> Void {
 /// Console log on `DEBUG` mode
 open class Log {
     
-    public class func println(_ item: Any..., separator: String = "", terminator: String = "") -> Void {
+    public class func println(_ item: Any..., separator: String = "", terminator: String = "\n") -> Void {
         #if DEBUG
             print(item, separator: separator, terminator: terminator)
         #endif

@@ -49,7 +49,10 @@ class InternalTestVC: UIViewController, ApiCallbackProtocol {
             }
         }
         
-        
+        let b = [1, 2, 3]
+        print(a.intersection(with: b))
+        print(a.minus(with: b))
+        print(a.union(with: b))
     }
 
     override func didReceiveMemoryWarning() {

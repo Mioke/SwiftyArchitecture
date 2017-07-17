@@ -8,6 +8,33 @@
 
 import Foundation
 
+extension Array where Element: Equatable {
+    
+    public static func contains<T: Equatable>(in array: [T]) -> (T) -> Bool {
+        return { obj in
+            return (array.filter { $0 == obj }).count > 0
+        }
+    }
+    
+    public static func notContains<T: Equatable>(in array: [T]) -> (T) -> Bool {
+        return { obj in
+            return !contains(in: array)(obj)
+        }
+    }
+    
+    public func intersection(with other: [Element]) -> [Element] {
+        return self.filter(Array.contains(in: other))
+    }
+    
+    public func union(with other: [Element]) -> [Element] {
+        return other + self.minus(with: other)
+    }
+    
+    public func minus(with other: [Element]) -> [Element] {
+        return self.filter(Array.notContains(in: other))
+    }
+    
+}
 
 extension Array where Element: Comparable {
     

@@ -533,7 +533,7 @@
 				TargetAttributes = {
 					A791C6AC1C02E90000670017 = {
 						CreatedOnToolsVersion = 7.1;
-						DevelopmentTeam = 872ZA2UZGL;
+						DevelopmentTeam = GAM7WF67F4;
 						LastSwiftMigration = 0810;
 					};
 					A791C6C31C02E90000670017 = {
@@ -853,12 +853,13 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = GAM7WF67F4;
 				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/Pods/**";
 				INFOPLIST_FILE = swiftArchitecture/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_SWIFT_FLAGS = "$(inherited) \"-D\" \"COCOAPODS\" -D DEBUG";
-				PRODUCT_BUNDLE_IDENTIFIER = com.KleinMioke.swiftArchitecture;
+				PRODUCT_BUNDLE_IDENTIFIER = com.mioke.bios;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "swiftArchitecture/Resource/swiftArchitecture-Bridging-Header.h";
@@ -877,12 +878,13 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = GAM7WF67F4;
 				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/Pods/**";
 				INFOPLIST_FILE = swiftArchitecture/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_SWIFT_FLAGS = "$(inherited) \"-D\" \"COCOAPODS\" ";
-				PRODUCT_BUNDLE_IDENTIFIER = com.KleinMioke.swiftArchitecture;
+				PRODUCT_BUNDLE_IDENTIFIER = com.mioke.bios;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "swiftArchitecture/Resource/swiftArchitecture-Bridging-Header.h";

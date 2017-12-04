@@ -11,12 +11,9 @@
 		7034C5CF1C32581100F1348F /* NetworkCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7034C5CE1C32581100F1348F /* NetworkCache.swift */; };
 		703FAA451C2A9AB6003AEDFC /* Array+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 703FAA441C2A9AB6003AEDFC /* Array+Extensions.swift */; };
 		70F409C41C57025D005C9806 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 70F409C31C57025D005C9806 /* Security.framework */; };
-		A752DE311C02FA28008E3118 /* KMBaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A752DE301C02FA28008E3118 /* KMBaseService.swift */; };
 		A752DE361C02FAFE008E3118 /* NetworkManagerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = A752DE351C02FAFE008E3118 /* NetworkManagerProtocol.swift */; };
-		A752DE3D1C030103008E3118 /* TaskManageProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = A752DE3C1C030103008E3118 /* TaskManageProtocols.swift */; };
 		A752DE431C03F23D008E3118 /* UserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A752DE421C03F23D008E3118 /* UserService.swift */; };
 		A753A0A31C06FE5A00C9FBFE /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A753A0A21C06FE5A00C9FBFE /* ViewController.swift */; };
-		A753A0A51C07054300C9FBFE /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A753A0A41C07054300C9FBFE /* NetworkManager.swift */; };
 		A753A0AA1C0C215E00C9FBFE /* publicFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A753A0A91C0C215E00C9FBFE /* publicFunctions.swift */; };
 		A753A0AC1C0C30A700C9FBFE /* UIRelevance.swift in Sources */ = {isa = PBXBuildFile; fileRef = A753A0AB1C0C30A700C9FBFE /* UIRelevance.swift */; };
 		A753A0B21C0D79BA00C9FBFE /* KMPersistance.swift in Sources */ = {isa = PBXBuildFile; fileRef = A753A0B11C0D79BA00C9FBFE /* KMPersistance.swift */; };
@@ -51,6 +48,8 @@
 		AF684A131ED59D7A00F9D440 /* Double+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF684A111ED59D7A00F9D440 /* Double+Extension.swift */; };
 		AF684A141ED59D7A00F9D440 /* Dictionary+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF684A121ED59D7A00F9D440 /* Dictionary+Extension.swift */; };
 		AF78456E1CE9BD720020F6E8 /* NSDate+Extentsions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF78456D1CE9BD720020F6E8 /* NSDate+Extentsions.swift */; };
+		AFAC7FB41FD4EEEC0095FC0C /* RxExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFAC7FB31FD4EEEC0095FC0C /* RxExtension.swift */; };
+		AFAC7FB61FD4EF7F0095FC0C /* ApiDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFAC7FB51FD4EF7F0095FC0C /* ApiDelegate.swift */; };
 		AFD7F0771C8D6FCE005B379A /* SystemLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFD7F0761C8D6FCE005B379A /* SystemLog.swift */; };
 		AFD7F0791C8D7001005B379A /* SystemLogFileWritter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFD7F0781C8D7001005B379A /* SystemLogFileWritter.swift */; };
 		AFD7F07B1C8E5FE2005B379A /* SystemLogFilesBrowser.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFD7F07A1C8E5FE2005B379A /* SystemLogFilesBrowser.swift */; };
@@ -81,13 +80,10 @@
 		7034C5CE1C32581100F1348F /* NetworkCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkCache.swift; sourceTree = "<group>"; };
 		703FAA441C2A9AB6003AEDFC /* Array+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Array+Extensions.swift"; sourceTree = "<group>"; };
 		70F409C31C57025D005C9806 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
-		A752DE301C02FA28008E3118 /* KMBaseService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KMBaseService.swift; sourceTree = "<group>"; };
 		A752DE351C02FAFE008E3118 /* NetworkManagerProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkManagerProtocol.swift; sourceTree = "<group>"; };
-		A752DE3C1C030103008E3118 /* TaskManageProtocols.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TaskManageProtocols.swift; sourceTree = "<group>"; };
 		A752DE421C03F23D008E3118 /* UserService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserService.swift; sourceTree = "<group>"; };
 		A753A0A11C06FE3A00C9FBFE /* swiftArchitecture-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "swiftArchitecture-Bridging-Header.h"; sourceTree = "<group>"; };
 		A753A0A21C06FE5A00C9FBFE /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		A753A0A41C07054300C9FBFE /* NetworkManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		A753A0A91C0C215E00C9FBFE /* publicFunctions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = publicFunctions.swift; sourceTree = "<group>"; };
 		A753A0AB1C0C30A700C9FBFE /* UIRelevance.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIRelevance.swift; sourceTree = "<group>"; };
 		A753A0B11C0D79BA00C9FBFE /* KMPersistance.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KMPersistance.swift; sourceTree = "<group>"; };
@@ -129,6 +125,8 @@
 		AF684A111ED59D7A00F9D440 /* Double+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Double+Extension.swift"; sourceTree = "<group>"; };
 		AF684A121ED59D7A00F9D440 /* Dictionary+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Dictionary+Extension.swift"; sourceTree = "<group>"; };
 		AF78456D1CE9BD720020F6E8 /* NSDate+Extentsions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSDate+Extentsions.swift"; sourceTree = "<group>"; };
+		AFAC7FB31FD4EEEC0095FC0C /* RxExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RxExtension.swift; sourceTree = "<group>"; };
+		AFAC7FB51FD4EF7F0095FC0C /* ApiDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApiDelegate.swift; sourceTree = "<group>"; };
 		AFD7F0761C8D6FCE005B379A /* SystemLog.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SystemLog.swift; sourceTree = "<group>"; };
 		AFD7F0781C8D7001005B379A /* SystemLogFileWritter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SystemLogFileWritter.swift; sourceTree = "<group>"; };
 		AFD7F07A1C8E5FE2005B379A /* SystemLogFilesBrowser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SystemLogFilesBrowser.swift; sourceTree = "<group>"; };
@@ -203,40 +201,12 @@
 		A752DE2E1C02F868008E3118 /* Base */ = {
 			isa = PBXGroup;
 			children = (
-				70F409BE1C5701DE005C9806 /* Kits */,
-				A77BACDF1C1542D600AF7A86 /* KMNetworking */,
+				AFAC7FAA1FD4EA660095FC0C /* RxExtension */,
+				AFAC7FB71FD4F7750095FC0C /* Assistance */,
+				A77BACDF1C1542D600AF7A86 /* Networking */,
 				A753A0B01C0D797D00C9FBFE /* Persistance */,
-				A752DE321C02FA9A008E3118 /* Protocols */,
-				A752DE2F1C02F996008E3118 /* KMBaseService */,
-				A752DE371C02FBED008E3118 /* UIViewControllerCategory */,
-				A7826F6D1C0EC640007AA18D /* Extensions */,
-				A753A0A81C0C214700C9FBFE /* ConstValue&Function */,
 			);
 			path = Base;
-			sourceTree = "<group>";
-		};
-		A752DE2F1C02F996008E3118 /* KMBaseService */ = {
-			isa = PBXGroup;
-			children = (
-				A752DE301C02FA28008E3118 /* KMBaseService.swift */,
-			);
-			path = KMBaseService;
-			sourceTree = "<group>";
-		};
-		A752DE321C02FA9A008E3118 /* Protocols */ = {
-			isa = PBXGroup;
-			children = (
-				A752DE3C1C030103008E3118 /* TaskManageProtocols.swift */,
-			);
-			path = Protocols;
-			sourceTree = "<group>";
-		};
-		A752DE371C02FBED008E3118 /* UIViewControllerCategory */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = UIViewControllerCategory;
-			path = KMViewController;
 			sourceTree = "<group>";
 		};
 		A752DE3F1C031066008E3118 /* Demo */ = {
@@ -298,7 +268,7 @@
 			path = Persistance;
 			sourceTree = "<group>";
 		};
-		A77BACDF1C1542D600AF7A86 /* KMNetworking */ = {
+		A77BACDF1C1542D600AF7A86 /* Networking */ = {
 			isa = PBXGroup;
 			children = (
 				7034C5CD1C3257C900F1348F /* Caches */,
@@ -306,9 +276,9 @@
 				A77BACE31C15454700AF7A86 /* Protocols */,
 				A77BACE01C1542EE00AF7A86 /* Server.swift */,
 				A77BACE91C15641700AF7A86 /* BaseApiManager.swift */,
-				A753A0A41C07054300C9FBFE /* NetworkManager.swift */,
+				AFAC7FB51FD4EF7F0095FC0C /* ApiDelegate.swift */,
 			);
-			path = KMNetworking;
+			path = Networking;
 			sourceTree = "<group>";
 		};
 		A77BACE21C1544CA00AF7A86 /* Protocols */ = {
@@ -450,6 +420,24 @@
 			path = ModuleLoader;
 			sourceTree = "<group>";
 		};
+		AFAC7FAA1FD4EA660095FC0C /* RxExtension */ = {
+			isa = PBXGroup;
+			children = (
+				AFAC7FB31FD4EEEC0095FC0C /* RxExtension.swift */,
+			);
+			path = RxExtension;
+			sourceTree = "<group>";
+		};
+		AFAC7FB71FD4F7750095FC0C /* Assistance */ = {
+			isa = PBXGroup;
+			children = (
+				70F409BE1C5701DE005C9806 /* Kits */,
+				A7826F6D1C0EC640007AA18D /* Extensions */,
+				A753A0A81C0C214700C9FBFE /* ConstValue&Function */,
+			);
+			path = Assistance;
+			sourceTree = "<group>";
+		};
 		AFD7F0721C8D6F0C005B379A /* SystemLog */ = {
 			isa = PBXGroup;
 			children = (
@@ -528,7 +516,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0710;
-				LastUpgradeCheck = 0830;
+				LastUpgradeCheck = 0910;
 				ORGANIZATIONNAME = KleinMioke;
 				TargetAttributes = {
 					A791C6AC1C02E90000670017 = {
@@ -630,9 +618,28 @@
 			files = (
 			);
 			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-SAD/Pods-SAD-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
+				"${BUILT_PRODUCTS_DIR}/Differentiator/Differentiator.framework",
+				"${BUILT_PRODUCTS_DIR}/FMDB/FMDB.framework",
+				"${BUILT_PRODUCTS_DIR}/Realm/Realm.framework",
+				"${BUILT_PRODUCTS_DIR}/RealmSwift/RealmSwift.framework",
+				"${BUILT_PRODUCTS_DIR}/RxCocoa/RxCocoa.framework",
+				"${BUILT_PRODUCTS_DIR}/RxDataSources/RxDataSources.framework",
+				"${BUILT_PRODUCTS_DIR}/RxRealm/RxRealm.framework",
+				"${BUILT_PRODUCTS_DIR}/RxSwift/RxSwift.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Differentiator.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FMDB.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Realm.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RealmSwift.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxCocoa.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxDataSources.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxRealm.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxSwift.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -645,13 +652,16 @@
 			files = (
 			);
 			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
 			);
 			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-SAD-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -661,7 +671,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A753A0A51C07054300C9FBFE /* NetworkManager.swift in Sources */,
+				AFAC7FB41FD4EEEC0095FC0C /* RxExtension.swift in Sources */,
 				A791C6B11C02E90000670017 /* AppDelegate.swift in Sources */,
 				AF05BD741F039AD7001DAA53 /* TextInputLimiter.swift in Sources */,
 				A7826F6C1C0D9011007AA18D /* DatabaseManager.swift in Sources */,
@@ -676,13 +686,13 @@
 				703FAA451C2A9AB6003AEDFC /* Array+Extensions.swift in Sources */,
 				AF158A541E14B63900FB0BAF /* TestAPI.swift in Sources */,
 				A753A0AA1C0C215E00C9FBFE /* publicFunctions.swift in Sources */,
-				A752DE311C02FA28008E3118 /* KMBaseService.swift in Sources */,
 				AFD7F07B1C8E5FE2005B379A /* SystemLogFilesBrowser.swift in Sources */,
 				A752DE431C03F23D008E3118 /* UserService.swift in Sources */,
 				A77BACE11C1542EE00AF7A86 /* Server.swift in Sources */,
 				AFD7F0771C8D6FCE005B379A /* SystemLog.swift in Sources */,
 				AF684A141ED59D7A00F9D440 /* Dictionary+Extension.swift in Sources */,
 				A77BACF11C16ABBF00AF7A86 /* UIColor+Extensions.swift in Sources */,
+				AFAC7FB61FD4EF7F0095FC0C /* ApiDelegate.swift in Sources */,
 				A77BACEA1C15641700AF7A86 /* BaseApiManager.swift in Sources */,
 				A77BACE61C1548E800AF7A86 /* KMRequestGenerator.swift in Sources */,
 				AF78456E1CE9BD720020F6E8 /* NSDate+Extentsions.swift in Sources */,
@@ -697,7 +707,6 @@
 				A77BAD1D1C1971A300AF7A86 /* UserTable.swift in Sources */,
 				A791C6B91C02E90000670017 /* swiftArchitecture.xcdatamodeld in Sources */,
 				A753A0A31C06FE5A00C9FBFE /* ViewController.swift in Sources */,
-				A752DE3D1C030103008E3118 /* TaskManageProtocols.swift in Sources */,
 				A77BACEF1C15810300AF7A86 /* ApiCallbackProtocol.swift in Sources */,
 				AF05BD6D1F038F22001DAA53 /* Errors.swift in Sources */,
 				A7826F761C0EF06A007AA18D /* UserModel.swift in Sources */,
@@ -764,14 +773,20 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -811,14 +826,20 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;

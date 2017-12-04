@@ -8,7 +8,7 @@
 
 import Foundation
 
-class UserService: BaseService {
+class UserService: NSObject {
     
     // Singleton model
     static let currentUser = UserModel(name: "defaultUser", uid: 0)

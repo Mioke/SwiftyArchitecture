@@ -1,17 +1,44 @@
 PODS:
-  - Alamofire (4.5.0)
+  - Alamofire (4.6.0)
+  - Differentiator (3.0.2)
   - FMDB (2.7.2):
     - FMDB/standard (= 2.7.2)
   - FMDB/standard (2.7.2)
+  - Realm (3.0.2):
+    - Realm/Headers (= 3.0.2)
+  - Realm/Headers (3.0.2)
+  - RealmSwift (3.0.2):
+    - Realm (= 3.0.2)
+  - RxCocoa (4.0.0):
+    - RxSwift (~> 4.0)
+  - RxDataSources (3.0.2):
+    - Differentiator (~> 3.0)
+    - RxCocoa (~> 4.0)
+    - RxSwift (~> 4.0)
+  - RxRealm (0.7.5):
+    - RealmSwift (~> 3.0)
+    - RxSwift (~> 4.0)
+  - RxSwift (4.0.0)
 
 DEPENDENCIES:
   - Alamofire
   - FMDB
+  - RealmSwift
+  - RxDataSources
+  - RxRealm
+  - RxSwift
 
 SPEC CHECKSUMS:
-  Alamofire: f28cdffd29de33a7bfa022cbd63ae95a27fae140
+  Alamofire: f41a599bd63041760b26d393ec1069d9d7b917f4
+  Differentiator: a87be69eba49ec4ab460c7671143ee3a9eececfd
   FMDB: 6198a90e7b6900cfc046e6bc0ef6ebb7be9236aa
+  Realm: 6f23fd1f178a09342eac21bfa7c2bf4312a7a180
+  RealmSwift: 695393add1b8f9d5fa75dd16e6355cf3935f71e2
+  RxCocoa: d62846ca96495d862fa4c59ea7d87e5031d7340e
+  RxDataSources: cb7c31e652a87ebb919da45f716bbb87b3765f6b
+  RxRealm: a6c6c0a07cb61f34209969ca6657734edfdfff30
+  RxSwift: fd680d75283beb5e2559486f3c0ff852f0d35334
 
-PODFILE CHECKSUM: dee599a0af9b07ce4a52814dda6ef04777299024
+PODFILE CHECKSUM: 88d0cfdc539264eb016103670cea0aa688558e6a
 
-COCOAPODS: 1.2.1
+COCOAPODS: 1.3.1

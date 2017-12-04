@@ -3,7 +3,18 @@ platform :ios, '8.0'
 use_frameworks!
 
 target "SAD" do
+    # networking
 	pod 'Alamofire'
+    
+    # rx
+    pod 'RxSwift'
+    pod 'RxDataSources'
+    
+    # persistence
+    pod 'RxRealm'
+    pod 'RealmSwift'
+    
+    # or sqlite
     pod 'FMDB'
 
 #	pod 'ReactiveCocoa'

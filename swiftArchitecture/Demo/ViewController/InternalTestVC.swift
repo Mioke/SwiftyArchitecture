@@ -137,7 +137,7 @@ extension InternalTestVC: UITableViewDelegate, UITableViewDataSource {
             api.delegate = self
             // you can't get any data from here because baidu.com 
             // return a html page instead of json data.
-            api.loadData(with: nil)
+            _ = api.loadData(with: nil)
             break
         case 3:
             SystemLog.activeDevelopUI()

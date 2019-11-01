@@ -29,7 +29,7 @@ public class SystemLogBrowser: UIViewController {
             let scrollView = UIScrollView(frame: self.view.bounds)
             self.view.addSubview(scrollView)
             
-            let attributeText = NSAttributedString(string: content, attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 10)])
+            let attributeText = NSAttributedString(string: content, attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 10)])
             let height = attributeText.boundingRect(with: CGSize(width: UIScreen.main.bounds.size.width - 30, height: 99999), options: .usesLineFragmentOrigin, context: nil).height
             
             let label = UILabel(frame: CGRect(x: 15, y: 15, width: UIScreen.main.bounds.size.width - 30, height: height))

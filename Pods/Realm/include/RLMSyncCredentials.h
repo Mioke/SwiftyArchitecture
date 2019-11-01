@@ -45,6 +45,15 @@ extern RLMIdentityProvider const RLMIdentityProviderGoogle;
 /// A CloudKit account as an identity provider.
 extern RLMIdentityProvider const RLMIdentityProviderCloudKit;
 
+/// A JSON Web Token as an identity provider.
+extern RLMIdentityProvider const RLMIdentityProviderJWT;
+
+/// An Anonymous account as an identity provider.
+extern RLMIdentityProvider const RLMIdentityProviderAnonymous;
+
+/// A Nickname account as an identity provider.
+extern RLMIdentityProvider const RLMIdentityProviderNickname __deprecated_msg("Use RLMIdentityProviderUsernamePassword instead");
+
 /**
  Opaque credentials representing a specific Realm Object Server user.
  */
@@ -82,6 +91,21 @@ extern RLMIdentityProvider const RLMIdentityProviderCloudKit;
                                register:(BOOL)shouldRegister;
 
 /**
+ Construct and return credentials from a JSON Web Token.
+ */
++ (instancetype)credentialsWithJWT:(NSString *)token;
+
+/**
+ Construct and return anonymous credentials
+ */
++ (instancetype)anonymousCredentials;
+    
+/**
+ Construct and return credentials from a nickname
+ */
++ (instancetype)credentialsWithNickname:(NSString *)nickname isAdmin:(BOOL)isAdmin __deprecated_msg("Use +credentialsWithUsername instead");
+
+/**
  Construct and return special credentials representing a token that can
  be directly used to open a Realm. The identity is used to uniquely identify
  the user across application launches.
@@ -96,6 +120,24 @@ extern RLMIdentityProvider const RLMIdentityProviderCloudKit;
           URL, or none at all, every time you call the login method.
  */
 + (instancetype)credentialsWithAccessToken:(RLMServerToken)accessToken identity:(NSString *)identity;
+
+/**
+ Construct and return special credentials representing a token issued by an external entity
+ that will be used instead of a ROS refresh token.
+
+ @discussion Unlike other types of credentials, CustomRefreshToken credentials do not
+             participate in the regular login flow, because they take place of the refresh tokens login produces.
+             Instead, the token will be used to authorize each server operation such as opening a Realm or
+             editing permissions. When the token expires the SyncUser object will still be valid, but server operations will
+             fail until the token is updated.
+
+ @remark ROS must be configured to accept the external issuing identity as a refresh token validator.
+
+ @warning The values of @c identity and @c isAdmin are used for client-side validation only.
+          The server will compute their values based on the token string and the token validator configuration,
+          but it's important for  correct functioning that the values here match the server.
+ */
++ (instancetype)credentialsWithCustomRefreshToken:(NSString *)token identity:(NSString *)identity isAdmin:(BOOL)isAdmin;
 
 /**
  Construct and return credentials with a custom token string, identity provider string, and optional user info. In most

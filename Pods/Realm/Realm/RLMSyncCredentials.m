@@ -29,6 +29,10 @@ RLMIdentityProvider const RLMIdentityProviderFacebook               = @"facebook
 RLMIdentityProvider const RLMIdentityProviderTwitter                = @"twitter";
 RLMIdentityProvider const RLMIdentityProviderGoogle                 = @"google";
 RLMIdentityProvider const RLMIdentityProviderCloudKit               = @"cloudkit";
+RLMIdentityProvider const RLMIdentityProviderJWT                    = @"jwt";
+RLMIdentityProvider const RLMIdentityProviderAnonymous              = @"anonymous";
+RLMIdentityProvider const RLMIdentityProviderNickname               = @"nickname";
+RLMIdentityProvider const RLMIdentityProviderCustomRefreshToken     = @"customrefreshtoken";
 
 @interface RLMSyncCredentials ()
 
@@ -65,6 +69,20 @@ RLMIdentityProvider const RLMIdentityProviderCloudKit               = @"cloudkit
                                                kRLMSyncRegisterKey: @(shouldRegister)}];
 }
 
++ (instancetype)credentialsWithJWT:(NSString *)token {
+    return [[self alloc] initWithCustomToken:token provider:RLMIdentityProviderJWT userInfo:nil];
+}
+    
++ (instancetype)anonymousCredentials {
+    return [[self alloc] initWithCustomToken:@"" provider:RLMIdentityProviderAnonymous userInfo:nil];
+}
+    
++ (instancetype)credentialsWithNickname:(NSString *)nickname isAdmin:(BOOL)isAdmin {
+    return [[self alloc] initWithCustomToken:nickname
+                                    provider:RLMIdentityProviderNickname
+                                    userInfo:@{kRLMSyncIsAdminKey: @(isAdmin), kRLMSyncDataKey: nickname}];
+}
+
 /// Intended only for testing use. Will only work if the ROS is started with the `debug` provider enabled.
 + (instancetype)credentialsWithDebugUserID:(NSString *)userID isAdmin:(BOOL)isAdmin {
     return [[self alloc] initWithCustomToken:userID
@@ -76,6 +94,17 @@ RLMIdentityProvider const RLMIdentityProviderCloudKit               = @"cloudkit
     return [[self alloc] initWithCustomToken:accessToken
                                     provider:RLMIdentityProviderAccessToken
                                     userInfo:@{kRLMSyncIdentityKey: identity}];
+}
+
++ (instancetype)credentialsWithCustomRefreshToken:(NSString *)token identity:(NSString *)identity isAdmin:(BOOL)isAdmin {
+    NSDictionary *userInfo = @{
+        kRLMSyncIdentityKey: identity,
+        kRLMSyncIsAdminKey: @(isAdmin)
+    };
+    return [[self alloc] initWithCustomToken:token
+                                    provider:RLMIdentityProviderCustomRefreshToken
+                                    userInfo:userInfo];
+
 }
 
 - (BOOL)isEqual:(id)object {

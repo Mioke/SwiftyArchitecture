@@ -6,25 +6,25 @@
 //
 
 import Foundation
-import RxSwift
 import RealmSwift
+import RxSwift
 
 /**
  `RealmObserver` retains target realm object until it receives a .Completed or .Error event
-  or the observer is being deinitialized
+ or the observer is being deinitialized
  */
-class RealmObserver<E>: ObserverType {
+class RealmObserver<Element>: ObserverType {
     var realm: Realm?
     var configuration: Realm.Configuration?
     
-    let binding: (Realm?, E, Error?) -> Void
+    let binding: (Realm?, Element, Error?) -> Void
     
-    init(realm: Realm, binding: @escaping (Realm?, E, Error?) -> Void) {
+    init(realm: Realm, binding: @escaping (Realm?, Element, Error?) -> Void) {
         self.realm = realm
         self.binding = binding
     }
-
-    init(configuration: Realm.Configuration, binding: @escaping (Realm?, E, Error?) -> Void) {
+    
+    init(configuration: Realm.Configuration, binding: @escaping (Realm?, Element, Error?) -> Void) {
         self.configuration = configuration
         self.binding = binding
     }
@@ -32,9 +32,9 @@ class RealmObserver<E>: ObserverType {
     /**
      Binds next element
      */
-    func on(_ event: Event<E>) {
+    func on(_ event: Event<Element>) {
         switch event {
-        case .next(let element):
+        case let .next(element):
             //this will "cache" the realm on this thread, until completed/errored
             if let configuration = configuration, realm == nil {
                 do {
@@ -43,7 +43,7 @@ class RealmObserver<E>: ObserverType {
                 } catch let e {
                     binding(nil, element, e)
                 }
-                return;
+                return
             }
             
             guard let realm = realm else {
@@ -51,7 +51,7 @@ class RealmObserver<E>: ObserverType {
             }
             
             binding(realm, element, nil)
-        
+            
         case .error:
             realm = nil
         case .completed:
@@ -64,7 +64,7 @@ class RealmObserver<E>: ObserverType {
      
      - returns: AnyObserver, type erased observer
      */
-    func asObserver() -> AnyObserver<E> {
+    func asObserver() -> AnyObserver<Element> {
         return AnyObserver(eventHandler: on)
     }
     
@@ -72,3 +72,4 @@ class RealmObserver<E>: ObserverType {
         realm = nil
     }
 }
+

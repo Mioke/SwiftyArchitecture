@@ -27,7 +27,7 @@ public class SystemLogFilesBrowser: UIViewController, UITableViewDelegate, UITab
         self.navigationItem.setLeftBarButton(UIBarButtonItem(title: "Close", style: .plain, target: self, action: #selector(SystemLogFilesBrowser.close)), animated: false)
     }
     
-    public func close() -> Void {
+    @objc public func close() -> Void {
         self.dismiss(animated: true, completion: nil)
     }
 
@@ -53,7 +53,7 @@ public class SystemLogFilesBrowser: UIViewController, UITableViewDelegate, UITab
             cell.textLabel?.text = self.files[indexPath.row]
             return cell
         } else {
-            let cell = UITableViewCell(style: UITableViewCellStyle.default, reuseIdentifier: "cell")
+            let cell = UITableViewCell(style: .default, reuseIdentifier: "cell")
             cell.textLabel?.text = self.files[indexPath.row]
             return cell
         }

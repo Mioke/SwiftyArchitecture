@@ -11,13 +11,27 @@ import Foundation
 extension String {
     
     /**
-     Be able to use range to get substring, e.x.: "abced"[0...1] = "ab"
+     Be able to use range to get substring, e.x.: "abced"[0..<1] = "a"
      */
-    public subscript (r: Range<Int>) -> String {
+    subscript (r: Range<Int>) -> String {
         get {
-            let start = self.index(self.startIndex, offsetBy: r.lowerBound)
-            let end = self.index(startIndex, offsetBy: r.upperBound - r.lowerBound)
-            return self[start ..< end]
+            let startIndex = self.index(self.startIndex, offsetBy: r.lowerBound)
+            let endIndex = self.index(startIndex, offsetBy: r.upperBound - r.lowerBound)
+            
+            let substring = self.prefix(upTo: endIndex).suffix(from: startIndex)
+            return String.init(substring)
+        }
+    }
+    /**
+    Be able to use range to get substring, e.x.: "abced"[0...1] = "ab"
+    */
+    subscript (r: ClosedRange<Int>) -> String {
+        get {
+            let startIndex = self.index(self.startIndex, offsetBy: r.lowerBound)
+            let endIndex = self.index(startIndex, offsetBy: r.upperBound - r.lowerBound)
+            
+            let substring = self.prefix(through: endIndex).suffix(from: startIndex)
+            return String.init(substring)
         }
     }
     /// length of String, number of characters -- Swift 2.0

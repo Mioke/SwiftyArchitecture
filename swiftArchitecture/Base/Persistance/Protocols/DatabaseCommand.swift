@@ -106,7 +106,7 @@ public class DatabaseCommandCondition: NSObject {
             command.append(" limit \(self.limit!)")
         }
         if let isDistinct = self.isDistinct, isDistinct {
-            command.replaceSubrange(command.characters.index(command.startIndex, offsetBy: 6) ..< command.characters.index(command.startIndex, offsetBy: 6), with: " distinct")
+            command.replaceSubrange(command.index(command.startIndex, offsetBy: 6) ..< command.index(command.startIndex, offsetBy: 6), with: " distinct")
         }
     }
 }

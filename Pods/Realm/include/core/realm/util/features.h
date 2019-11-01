@@ -27,7 +27,9 @@
 #define NOMINMAX
 #endif
 
+#ifndef REALM_NO_CONFIG
 #include <realm/util/config.h>
+#endif
 
 /* The maximum number of elements in a B+-tree node. Applies to inner nodes and
  * to leaves. The minimum allowable value is 2.
@@ -61,6 +63,30 @@
 #else
 #define REALM_HAVE_CLANG_FEATURE(feature) 0
 #define REALM_HAVE_CLANG_WARNING(warning) 0
+#endif
+
+#ifdef __has_cpp_attribute
+#define REALM_HAS_CPP_ATTRIBUTE(attr) __has_cpp_attribute(attr)
+#else
+#define REALM_HAS_CPP_ATTRIBUTE(attr) 0
+#endif
+
+#if REALM_HAS_CPP_ATTRIBUTE(clang::fallthrough)
+#define REALM_FALLTHROUGH [[clang::fallthrough]]
+#elif REALM_HAS_CPP_ATTRIBUTE(gnu::fallthrough)
+#define REALM_FALLTHROUGH [[gnu::fallthrough]]
+#elif REALM_HAS_CPP_ATTRIBUTE(fallthrough)
+#define REALM_FALLTHROUGH [[fallthrough]]
+#else
+#define REALM_FALLTHROUGH
+#endif
+
+// This should be renamed to REALM_UNREACHABLE as soon as REALM_UNREACHABLE is renamed to
+// REALM_ASSERT_NOT_REACHED which will better reflect its nature
+#if defined(__GNUC__) || defined(__clang__)
+#define REALM_COMPILER_HINT_UNREACHABLE __builtin_unreachable
+#else
+#define REALM_COMPILER_HINT_UNREACHABLE abort
 #endif
 
 #if defined(__GNUC__) // clang or GCC
@@ -163,6 +189,16 @@
 #define REALM_NOINLINE __declspec(noinline)
 #else
 #define REALM_NOINLINE
+#endif
+
+
+// FIXME: Change this to use [[nodiscard]] in C++17.
+#if defined(__GNUC__) || defined(__HP_aCC)
+#define REALM_NODISCARD __attribute__((warn_unused_result))
+#elif defined(_MSC_VER)
+#define REALM_NODISCARD _Check_return_
+#else
+#define REALM_NODISCARD
 #endif
 
 
@@ -277,6 +313,32 @@
 #define REALM_ARCHITECTURE_X86_64 1
 #else
 #define REALM_ARCHITECTURE_X86_64 0
+#endif
+
+// Address Sanitizer
+#if defined(__has_feature) // Clang
+#  if __has_feature(address_sanitizer)
+#    define REALM_SANITIZE_ADDRESS 1
+#  else
+#    define REALM_SANITIZE_ADDRESS 0
+#  endif
+#elif defined(__SANITIZE_ADDRESS__) && __SANITIZE_ADDRESS__ // GCC
+#  define REALM_SANITIZE_ADDRESS 1
+#else
+#  define REALM_SANITIZE_ADDRESS 0
+#endif
+
+// Thread Sanitizer
+#if defined(__has_feature) // Clang
+#  if __has_feature(thread_sanitizer)
+#    define REALM_SANITIZE_THREAD 1
+#  else
+#    define REALM_SANITIZE_THREAD 0
+#  endif
+#elif defined(__SANITIZE_THREAD__) && __SANITIZE_THREAD__ // GCC
+#  define REALM_SANITIZE_THREAD 1
+#else
+#  define REALM_SANITIZE_THREAD 0
 #endif
 
 #endif /* REALM_UTIL_FEATURES_H */

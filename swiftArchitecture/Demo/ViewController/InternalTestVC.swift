@@ -154,7 +154,7 @@ extension InternalTestVC: UITableViewDelegate, UITableViewDataSource {
                 content.title = "this is title"
                 content.body = "this's body"
                 content.subtitle = "this's subtitle"
-                content.sound = .default()
+                content.sound = .default
                 
 //                let date = Calendar.current.dateComponents(in: TimeZone.current, from: Date().addingTimeInterval(10))
 //                let trigger = UNCalendarNotificationTrigger(dateMatching: date, repeats: false)

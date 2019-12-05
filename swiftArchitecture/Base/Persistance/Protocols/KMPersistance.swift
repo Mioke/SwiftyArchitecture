@@ -41,7 +41,7 @@ open class KMPersistanceDatabase: NSObject {
         super.init()
         
         if self is DatabaseManagerProtocol {
-            self.child = self as! DatabaseManagerProtocol
+            self.child = self as? DatabaseManagerProtocol
             assert(self.child != nil, "KMPersistanceDatabase's database couldn't be nil")
         } else {
             assert(false, "KMPersistanceDatabase's subclass must follow the KMPersistanceProtocol")

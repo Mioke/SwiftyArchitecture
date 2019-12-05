@@ -7,7 +7,7 @@ target "SAD" do
 	pod 'Alamofire'
     
     # rx
-    pod 'RxSwift'
+    pod 'RxSwift', '~> 5.0'
     pod 'RxDataSources'
     
     # persistence

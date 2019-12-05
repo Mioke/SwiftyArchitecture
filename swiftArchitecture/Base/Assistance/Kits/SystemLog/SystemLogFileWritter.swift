@@ -12,8 +12,8 @@ import UIKit
 internal class SystemLogFileWritter: NSObject {
 
     fileprivate let formatter = DateFormatter()
-    fileprivate var fileName: String!
-    fileprivate var folderPath: String!
+    fileprivate var fileName: String = ""
+    fileprivate var folderPath: String = ""
     
     override init() {
         super.init()

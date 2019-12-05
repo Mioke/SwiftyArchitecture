@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'bais-ios'
-  s.version          = '1.0.0'
+  s.version          = '1.0.1'
   s.summary          = 'Breezy architecture in Swift for building iOS applications.'
   s.description      = <<-DESC
                      * Breezy architecture in Swift for building iOS applications. It offers lots of functions which simple and easy to use for developer.
@@ -18,7 +18,8 @@ Pod::Spec.new do |s|
   s.author           = { 'Mioke Klein' => 'mioke0428@gmail.com' }
   s.source           = { :git => 'https://github.com/Mioke/SwiftArchitectureWithPOP.git', :tag => s.version.to_s }
 
-  s.ios.deployment_target = '8.0'
+  s.ios.deployment_target = '9.0'
+  s.swift_versions = '5.0'
 
 #  s.frameworks = 'UIKit', 'Foundation'
   # s.libraries = 'c++', 'sqlite3'
@@ -52,7 +53,7 @@ Pod::Spec.new do |s|
       ss.source_files = 'swiftArchitecture/Base/RxExtension/**/*.swift'
       ss.dependency 'bais-ios/Assistance'
       ss.dependency 'bais-ios/Networking'
-      ss.dependency 'RxSwift', '~> 3.0'
+      ss.dependency 'RxSwift', '~> 5.0'
   end
   
   # s.xcconfig = { "SWIFT_OBJC_BRIDGING_HEADER" => "swiftArchitecture/Resource/swiftArchitecture-Bridging-Header.h" }

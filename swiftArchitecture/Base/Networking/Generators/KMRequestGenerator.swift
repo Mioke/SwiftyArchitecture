@@ -38,7 +38,7 @@ public class KMRequestGenerator: NSObject {
     }()
     
     public class func generateRequest(
-        withApi api: BaseApiManager,
+        withApi api: API,
         method: HTTPMethod,
         params: [String: Any]?,
         encoding: ParameterEncoding = URLEncoding.default) -> DataRequest {

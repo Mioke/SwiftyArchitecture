@@ -10,7 +10,7 @@ import Foundation
 import Alamofire
 
 /// Concrete class of api manager, subclass from this class to use it and don't use this class directly.
-open class BaseApiManager: NSObject {
+open class API: NSObject {
     
     // MARK: Statics
     /// For produce the unique key of caches
@@ -186,13 +186,13 @@ open class BaseApiManager: NSObject {
     
     private func successRoute() -> Void {
         self.doOnMainQueue({
-            self.delegate?.ApiManager(self, finishWithOriginData: self.data!)
+            self.delegate?.API(self, finishedWithOriginData: self.data!)
         })
         self.retryTimes = 0
         if self.shouldAutoCacheResultWhenSucceed {
             if self.cacheKey == nil {
-                self.cacheKey = "\(self.child!.apiName)_\(BaseApiManager.keyNum)"
-                BaseApiManager.keyNum += 1
+                self.cacheKey = "\(self.child!.apiName)_\(API.keyNum)"
+                API.keyNum += 1
             }
             NetworkCache.memoryCache.set(object: self.data!, forKey: self.child!.apiName)
         }
@@ -200,7 +200,7 @@ open class BaseApiManager: NSObject {
     
     private func failureRoute(with error: NSError) -> Void {
         self.doOnMainQueue({
-            self.delegate?.ApiManager(self, failedWithError: error)
+            self.delegate?.API(self, failedWithError: error)
         })
     }
     

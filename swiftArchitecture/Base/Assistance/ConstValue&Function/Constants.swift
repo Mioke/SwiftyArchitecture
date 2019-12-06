@@ -12,3 +12,7 @@ public struct Constants {
     public static let defaultDomain = "com.klein.mioke"
     public static let networkingDomain = "com.klein.mioke.networking"
 }
+
+extension Constants {
+    public static let kitName = "bois"
+}

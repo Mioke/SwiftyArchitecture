@@ -9,7 +9,7 @@
 import Foundation
 import RxSwift
 
-extension Reactive where Base: BaseApiManager {
+extension Reactive where Base: API {
     public func loadData(with params: [String: Any]?) -> Observable<[String: Any]> {
         return Observable.create { observer in
             self.base.loadData(with: params).response({ (api, data, error) in

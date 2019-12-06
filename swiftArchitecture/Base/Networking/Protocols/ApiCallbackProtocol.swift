@@ -16,7 +16,7 @@ public protocol ApiCallbackProtocol: NSObjectProtocol {
     /// - Parameters:
     ///   - apiManager: api manager which finished
     ///   - data: Origin data of response
-    func ApiManager(_ apiManager: BaseApiManager, finishWithOriginData data: [String: Any]) -> Void
+    func API(_ api: API, finishedWithOriginData data: [String : Any]) -> Void
     
     /**
      If API returns error or undefined exception, will call this method in delegate. 
@@ -26,5 +26,5 @@ public protocol ApiCallbackProtocol: NSObjectProtocol {
      - parameter apimanager:      API manager
      - parameter failedWithError: The error occured
      */
-    func ApiManager(_ apiManager: BaseApiManager, failedWithError error: NSError) -> Void
+    func API(_ api: API, failedWithError error: NSError) -> Void
 }

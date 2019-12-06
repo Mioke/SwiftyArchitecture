@@ -41,16 +41,14 @@ class ViewController: UIViewController {
 }
 
 extension ViewController: ApiCallbackProtocol {
-    
-    func ApiManager(_ apiManager: BaseApiManager, finishWithOriginData data: [String: Any]) {
-        
-        if apiManager == self.baiduSearch {
+    func API(_ api: API, finishedWithOriginData data: [String : Any]) {
+        if api == self.baiduSearch {
             debugPrint(data)
         }
     }
     
-    func ApiManager(_ apiManager: BaseApiManager, failedWithError error: NSError) {
-        if apiManager == self.baiduSearch {
+    func API(_ api: API, failedWithError error: NSError) {
+        if api == self.baiduSearch {
             debugPrint(error)
         }
     }

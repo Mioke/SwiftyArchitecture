@@ -60,6 +60,15 @@ class InternalTestVC: UIViewController, ApiCallbackProtocol {
         // Dispose of any resources that can be recreated.
     }
     
+    // MARK: - APICallbacks
+       
+    func API(_ api: API, finishedWithOriginData data: [String : Any]) {
+        debugPrint(data)
+    }
+    
+    func API(_ api: API, failedWithError error: NSError) {
+        debugPrint(error)
+    }
 
     /*
     // MARK: - Navigation
@@ -174,15 +183,5 @@ extension InternalTestVC: UITableViewDelegate, UITableViewDataSource {
         default:
             break
         }
-    }
-    
-    // MARK: - APICallbacks
-    
-    func ApiManager(_ apiManager: BaseApiManager, finishWithOriginData data: [String: Any]) {
-        debugPrint(data)
-    }
-    
-    func ApiManager(_ apiManager: BaseApiManager, failedWithError error: NSError) {
-        debugPrint(error)
     }
 }

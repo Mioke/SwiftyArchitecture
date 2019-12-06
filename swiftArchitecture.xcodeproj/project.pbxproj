@@ -11,7 +11,6 @@
 		7034C5CF1C32581100F1348F /* NetworkCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7034C5CE1C32581100F1348F /* NetworkCache.swift */; };
 		703FAA451C2A9AB6003AEDFC /* Array+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 703FAA441C2A9AB6003AEDFC /* Array+Extensions.swift */; };
 		70F409C41C57025D005C9806 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 70F409C31C57025D005C9806 /* Security.framework */; };
-		A752DE361C02FAFE008E3118 /* NetworkManagerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = A752DE351C02FAFE008E3118 /* NetworkManagerProtocol.swift */; };
 		A752DE431C03F23D008E3118 /* UserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A752DE421C03F23D008E3118 /* UserService.swift */; };
 		A753A0A31C06FE5A00C9FBFE /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A753A0A21C06FE5A00C9FBFE /* ViewController.swift */; };
 		A753A0AA1C0C215E00C9FBFE /* publicFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A753A0A91C0C215E00C9FBFE /* publicFunctions.swift */; };
@@ -20,7 +19,7 @@
 		A77BACE11C1542EE00AF7A86 /* Server.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77BACE01C1542EE00AF7A86 /* Server.swift */; };
 		A77BACE61C1548E800AF7A86 /* KMRequestGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77BACE51C1548E800AF7A86 /* KMRequestGenerator.swift */; };
 		A77BACE81C15638900AF7A86 /* ApiInfoProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77BACE71C15638900AF7A86 /* ApiInfoProtocol.swift */; };
-		A77BACEA1C15641700AF7A86 /* BaseApiManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77BACE91C15641700AF7A86 /* BaseApiManager.swift */; };
+		A77BACEA1C15641700AF7A86 /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77BACE91C15641700AF7A86 /* API.swift */; };
 		A77BACEF1C15810300AF7A86 /* ApiCallbackProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77BACEE1C15810300AF7A86 /* ApiCallbackProtocol.swift */; };
 		A77BACF11C16ABBF00AF7A86 /* UIColor+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77BACF01C16ABBF00AF7A86 /* UIColor+Extensions.swift */; };
 		A77BAD161C1927E500AF7A86 /* DatabaseCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77BAD151C1927E500AF7A86 /* DatabaseCommand.swift */; };
@@ -80,7 +79,6 @@
 		7034C5CE1C32581100F1348F /* NetworkCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkCache.swift; sourceTree = "<group>"; };
 		703FAA441C2A9AB6003AEDFC /* Array+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Array+Extensions.swift"; sourceTree = "<group>"; };
 		70F409C31C57025D005C9806 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
-		A752DE351C02FAFE008E3118 /* NetworkManagerProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkManagerProtocol.swift; sourceTree = "<group>"; };
 		A752DE421C03F23D008E3118 /* UserService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserService.swift; sourceTree = "<group>"; };
 		A753A0A11C06FE3A00C9FBFE /* swiftArchitecture-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "swiftArchitecture-Bridging-Header.h"; sourceTree = "<group>"; };
 		A753A0A21C06FE5A00C9FBFE /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -90,7 +88,7 @@
 		A77BACE01C1542EE00AF7A86 /* Server.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Server.swift; sourceTree = "<group>"; };
 		A77BACE51C1548E800AF7A86 /* KMRequestGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KMRequestGenerator.swift; sourceTree = "<group>"; };
 		A77BACE71C15638900AF7A86 /* ApiInfoProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApiInfoProtocol.swift; sourceTree = "<group>"; };
-		A77BACE91C15641700AF7A86 /* BaseApiManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseApiManager.swift; sourceTree = "<group>"; };
+		A77BACE91C15641700AF7A86 /* API.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = "<group>"; };
 		A77BACEE1C15810300AF7A86 /* ApiCallbackProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApiCallbackProtocol.swift; sourceTree = "<group>"; };
 		A77BACF01C16ABBF00AF7A86 /* UIColor+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+Extensions.swift"; sourceTree = "<group>"; };
 		A77BAD151C1927E500AF7A86 /* DatabaseCommand.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatabaseCommand.swift; sourceTree = "<group>"; };
@@ -275,7 +273,7 @@
 				A77BACE41C15456F00AF7A86 /* Generators */,
 				A77BACE31C15454700AF7A86 /* Protocols */,
 				A77BACE01C1542EE00AF7A86 /* Server.swift */,
-				A77BACE91C15641700AF7A86 /* BaseApiManager.swift */,
+				A77BACE91C15641700AF7A86 /* API.swift */,
 				AFAC7FB51FD4EF7F0095FC0C /* ApiDelegate.swift */,
 			);
 			path = Networking;
@@ -293,7 +291,6 @@
 		A77BACE31C15454700AF7A86 /* Protocols */ = {
 			isa = PBXGroup;
 			children = (
-				A752DE351C02FAFE008E3118 /* NetworkManagerProtocol.swift */,
 				A77BACE71C15638900AF7A86 /* ApiInfoProtocol.swift */,
 				A77BACEE1C15810300AF7A86 /* ApiCallbackProtocol.swift */,
 			);
@@ -680,11 +677,10 @@
 				AF684A141ED59D7A00F9D440 /* Dictionary+Extension.swift in Sources */,
 				A77BACF11C16ABBF00AF7A86 /* UIColor+Extensions.swift in Sources */,
 				AFAC7FB61FD4EF7F0095FC0C /* ApiDelegate.swift in Sources */,
-				A77BACEA1C15641700AF7A86 /* BaseApiManager.swift in Sources */,
+				A77BACEA1C15641700AF7A86 /* API.swift in Sources */,
 				A77BACE61C1548E800AF7A86 /* KMRequestGenerator.swift in Sources */,
 				AF78456E1CE9BD720020F6E8 /* NSDate+Extentsions.swift in Sources */,
 				AF05BD6F1F0393B8001DAA53 /* Constants.swift in Sources */,
-				A752DE361C02FAFE008E3118 /* NetworkManagerProtocol.swift in Sources */,
 				A753A0AC1C0C30A700C9FBFE /* UIRelevance.swift in Sources */,
 				7034C5CF1C32581100F1348F /* NetworkCache.swift in Sources */,
 				A7826F6A1C0D842B007AA18D /* DefaultDatabase.swift in Sources */,

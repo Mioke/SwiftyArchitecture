@@ -8,7 +8,7 @@
 
 import UIKit
 
-public typealias ApiDelegateResponse = (_ api: BaseApiManager, _ data: Any?, _ error: NSError?) -> Void
+public typealias ApiDelegateResponse = (_ api: API, _ data: Any?, _ error: NSError?) -> Void
 
 open class ApiDelegate: NSObject {
     
@@ -22,10 +22,10 @@ open class ApiDelegate: NSObject {
 }
 
 extension ApiDelegate: ApiCallbackProtocol {
-    public func ApiManager(_ apiManager: BaseApiManager, failedWithError error: NSError) {
-        self.response?(apiManager, nil, error)
+    public func API(_ api: API, failedWithError error: NSError) {
+        self.response?(api, nil, error)
     }
-    public func ApiManager(_ apiManager: BaseApiManager, finishWithOriginData data: [String : Any]) {
-        self.response?(apiManager, data, nil)
+    public func API(_ api: API, finishedWithOriginData data: [String : Any]) {
+        self.response?(api, data, nil)
     }
 }

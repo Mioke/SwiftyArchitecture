@@ -26,7 +26,7 @@ internal class SystemLogFileWritter: NSObject {
             do {
                 try FileManager.default.createDirectory(atPath: self.folderPath, withIntermediateDirectories: true, attributes: nil)
             } catch {
-                Log.println("Create System Log folder failed")
+                print("Create System Log folder failed")
             }
         }
     }
@@ -36,13 +36,12 @@ internal class SystemLogFileWritter: NSObject {
         DispatchQueue.global(qos: .default).async {
             
             let content = "\(self.formatter.string(from: Date())): \n--------------\n\(text)\n--------------\n\n"
-            Log.println(content)
             
             if !FileManager.default.fileExists(atPath: self.filePath()) {
                 do {
                     try content.write(toFile: self.filePath(), atomically: true, encoding: String.Encoding.utf8)
                 } catch {
-                    Log.println("System log write to file fialed with error: \(error)")
+                    print("System log write to file fialed with error: \(error)")
                 }
                 return
             }
@@ -61,7 +60,7 @@ internal class SystemLogFileWritter: NSObject {
         do {
             return try FileManager.default.contentsOfDirectory(atPath: self.folderPath)
         } catch {
-            Log.println("System log get all files error: \(error)")
+            print("System log get all files error: \(error)")
             return nil
         }
     }

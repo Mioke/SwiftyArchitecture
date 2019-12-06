@@ -46,7 +46,7 @@ public class DatabaseCommand: NSObject {
         }
         sql += "\(content.componentsJoined(by: ","))) values (\(values.componentsJoined(by: ",")))"
         
-        Log.println(sql)
+        print(sql)
         
         return sql
     }

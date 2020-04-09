@@ -11,11 +11,21 @@ import UIKit
 public class Errors: NSObject {
     
     public static var unknownError: NSError {
-        return gennerate(with: -9999, domain: Constants.networkingDomain, message: "Unknown error")
+        return gennerate(with: -9999,
+                         domain: Constants.networkingDomain,
+                         message: "Unknown error")
     }
     
     public static var responseError: NSError {
-        return gennerate(with: -1, domain: Constants.networkingDomain, message: "Unsuspect response value")
+        return gennerate(with: -1,
+                         domain: Constants.networkingDomain,
+                         message: "Unexpected response value")
+    }
+    
+    public static var apiConstructionError: NSError {
+        return gennerate(with: -2,
+                         domain: Constants.networkingDomain,
+                         message: "Unexpected API construction result")
     }
 
     private static func gennerate(with code: Int, domain: String, message: String) -> NSError {

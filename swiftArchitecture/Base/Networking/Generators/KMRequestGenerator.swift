@@ -39,24 +39,23 @@ public class KMRequestGenerator: NSObject {
     
     public class func generateRequest(
         withApi api: API,
-        method: HTTPMethod,
-        params: [String: Any]?,
-        encoding: ParameterEncoding = URLEncoding.default) -> DataRequest {
+        params: [String: Any]?) throws -> DataRequest {
         
         guard let child = api as? ApiInfoProtocol else {
-            fatalError("API: \(api) must conform to protocol ApiInfoProtocol")
+            assert(false, "API: \(api) must conform to protocol ApiInfoProtocol")
+            throw Errors.apiConstructionError
         }
         
         let manager = child.server.isHTTPs ? httpsManager : defaultManager
         manager.session.configuration.timeoutIntervalForRequest = api.timeoutInterval
         
         let req = manager.request(api.apiURLString,
-                                  method: method,
+                                  method: child.httpMethod,
                                   parameters: params,
-                                  encoding: encoding,
+                                  encoding: child.encoding,
                                   headers: api.HTTPHeaders)
         
-        // FIXME: Do additional configuration or signature etc.
+        // TODO: Do additional configuration or signature etc.
         SystemLog.write("Send request:\n\tRequest Info:\(req.description)\n\tRequest Headers:\(req.request?.allHTTPHeaderFields ?? [:])\n\tParam:\(params ?? [:])")
         
         return req

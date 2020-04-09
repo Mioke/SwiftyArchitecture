@@ -60,7 +60,7 @@ open class API: NSObject {
     // MARK: - Actions
     
     /// Callback delegate, for receiving response.
-    public weak var delegate: ApiCallbackProtocol?
+    internal weak var delegate: ApiCallbackProtocol?
     
     /// Send request (for GET, POST)
     ///
@@ -78,10 +78,15 @@ open class API: NSObject {
         // cache parameters
         self.params = params
         
-        self.request = KMRequestGenerator.generateRequest(withApi: self,
-                                                          method: self.child!.httpMethod,
-                                                          params: params,
-                                                          encoding: self.child!.encoding)
+        do {
+            self.request = try KMRequestGenerator.generateRequest(withApi: self,
+                                                                  params: params)
+        } catch {
+            defer {
+                self.deal(value: nil, error: error as NSError)
+            }
+            return defaultDelegate
+        }
         
         if let serializer = self.child?.responseSerializer {
             self.request?.responseData(completionHandler: { (resp) in
@@ -130,7 +135,7 @@ open class API: NSObject {
             
             // If the server has retry mechanism
             if self.autoProcessServerData,
-                let server = self.child!.server as? ServerDataProcessProtocol {
+                let server = self.child?.server as? ServerDataProcessProtocol {
                 
                 do {
                     try server.handle(data: value)
@@ -156,8 +161,8 @@ open class API: NSObject {
         if let err = err {
             // Retry operations
             if self.shouldAutoRetry,
-                let maxCount = self.child!.autoRetryMaxCount(withErrorCode: err.code),
-                let interval = self.child!.retryTimeInterval(withErrorCode: err.code) {
+                let maxCount = self.child?.autoRetryMaxCount(withErrorCode: err.code),
+                let interval = self.child?.retryTimeInterval(withErrorCode: err.code) {
                 
                 if self.retryTimes < maxCount {
                     
@@ -191,10 +196,10 @@ open class API: NSObject {
         self.retryTimes = 0
         if self.shouldAutoCacheResultWhenSucceed {
             if self.cacheKey == nil {
-                self.cacheKey = "\(self.child!.apiName)_\(API.keyNum)"
+                self.cacheKey = "\(self.child?.apiName ?? "*")_\(API.keyNum)"
                 API.keyNum += 1
             }
-            NetworkCache.memoryCache.set(object: self.data!, forKey: self.child!.apiName)
+            NetworkCache.memoryCache.set(object: self.data!, forKey: self.child?.apiName)
         }
     }
     
@@ -234,14 +239,15 @@ open class API: NSObject {
     
     /// Get url string including server url, API version and API name
     open var apiURLString: String {
+        guard let child = self.child else { return self.urlString ?? "" }
         if self.urlString == nil {
-            if self.child!.apiVersion.isEmpty {
-                self.urlString = self.child!.server.url + "/" + self.child!.apiName
+            if child.apiVersion.isEmpty {
+                self.urlString = child.server.url + "/" + child.apiName
             } else {
-                self.urlString = self.child!.server.url + "/" + self.child!.apiVersion + "/" + self.child!.apiName
+                self.urlString = child.server.url + "/" + child.apiVersion + "/" + child.apiName
             }
         }
-        return self.urlString!
+        return self.urlString ?? ""
     }
     
     /// Get child's HTTP headers

@@ -9,7 +9,7 @@
 import UIKit
 import UserNotifications
 
-class InternalTestVC: UIViewController, ApiCallbackProtocol {
+class InternalTestVC: UIViewController {
     
     var tests: [String]!
     
@@ -53,6 +53,15 @@ class InternalTestVC: UIViewController, ApiCallbackProtocol {
         print(a.intersection(with: b))
         print(a.minus(with: b))
         print(a.union(with: b))
+        
+        let failureAPI = TestFailureAPI()
+        
+        failureAPI.loadData(with: nil)
+            .response { (api, data, error) in
+            
+        }
+        
+        print("end")
     }
 
     override func didReceiveMemoryWarning() {
@@ -60,15 +69,6 @@ class InternalTestVC: UIViewController, ApiCallbackProtocol {
         // Dispose of any resources that can be recreated.
     }
     
-    // MARK: - APICallbacks
-       
-    func API(_ api: API, finishedWithOriginData data: [String : Any]) {
-        debugPrint(data)
-    }
-    
-    func API(_ api: API, failedWithError error: NSError) {
-        debugPrint(error)
-    }
 
     /*
     // MARK: - Navigation
@@ -143,11 +143,11 @@ extension InternalTestVC: UITableViewDelegate, UITableViewDataSource {
             print(result)
         case 2:
             let api = TestAPI()
-            api.delegate = self
             // you can't get any data from here because baidu.com 
             // return a html page instead of json data.
-            _ = api.loadData(with: nil)
-            break
+            api.loadData(with: nil).response({ (api, result, error) in
+                
+            })
         case 3:
             SystemLog.activeDevelopUI()
         case 4:

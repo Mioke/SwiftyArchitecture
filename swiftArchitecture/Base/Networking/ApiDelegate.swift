@@ -14,10 +14,8 @@ open class ApiDelegate: NSObject {
     
     fileprivate var response: ApiDelegateResponse?
     
-    @discardableResult
-    open func response(_ resp: @escaping ApiDelegateResponse) -> ApiDelegate {
+    open func response(_ resp: @escaping ApiDelegateResponse) -> Void {
         self.response = resp
-        return self
     }
 }
 

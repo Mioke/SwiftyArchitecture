@@ -13,8 +13,6 @@ class TestAPI: API {
     // If you want to modify options, then override the init() function.
     override init() {
         super.init()
-        // like this, this option of setting is false by default, but you can change it when super.init() is done.
-        self.shouldAutoCacheResultWhenSucceed = true
     }
 }
 

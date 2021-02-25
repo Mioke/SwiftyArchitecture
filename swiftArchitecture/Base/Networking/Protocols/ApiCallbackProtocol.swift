@@ -9,7 +9,7 @@
 import Foundation
 
 /// Describe callback of an api.
-internal protocol ApiCallbackProtocol: NSObjectProtocol {
+public protocol ApiCallbackProtocol: NSObjectProtocol {
 
     /// Success callback
     ///

@@ -15,8 +15,8 @@ extension UIColor {
         let hexString = hex.replacingOccurrences(of: "#", with: "")
         let scanner = Scanner(string: hexString)
         
-        var rgbValue: UInt32 = 0
-        scanner.scanHexInt32(&rgbValue)
+        var rgbValue: UInt64 = 0
+        scanner.scanHexInt64(&rgbValue)
         
         return UIColor(
             red:    CGFloat((rgbValue & 0xFF0000) >> 16) / 255.0,

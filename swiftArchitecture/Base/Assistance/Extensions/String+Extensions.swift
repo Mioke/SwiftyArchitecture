@@ -13,7 +13,7 @@ extension String {
     /**
      Be able to use range to get substring, e.x.: "abced"[0..<1] = "a"
      */
-    subscript (r: Range<Int>) -> String {
+    public subscript (r: Range<Int>) -> String {
         get {
             let startIndex = self.index(self.startIndex, offsetBy: r.lowerBound)
             let endIndex = self.index(startIndex, offsetBy: r.upperBound - r.lowerBound)
@@ -25,7 +25,7 @@ extension String {
     /**
     Be able to use range to get substring, e.x.: "abced"[0...1] = "ab"
     */
-    subscript (r: ClosedRange<Int>) -> String {
+    public subscript (r: ClosedRange<Int>) -> String {
         get {
             let startIndex = self.index(self.startIndex, offsetBy: r.lowerBound)
             let endIndex = self.index(startIndex, offsetBy: r.upperBound - r.lowerBound)

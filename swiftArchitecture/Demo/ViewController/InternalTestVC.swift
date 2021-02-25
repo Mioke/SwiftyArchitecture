@@ -19,14 +19,14 @@ class InternalTestVC: UIViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        self.tests = ["Record user model", "Read users", "API test", "Call Log UI", "Crash", "Cache size", "Push local notification"]
+        self.tests = ["Record user model", "Read users", "API test", "Call Log UI", "Data center test", "-", "Push local notification"]
         
         self.tableView = {
             let view = UITableView(frame: self.view.bounds)
             view.delegate = self
             view.dataSource = self
             view.tableFooterView = UIView()
-            view.backgroundColor = UIColor.color(fromHexString: "#ff6262")
+            view.backgroundColor = UIColor.white
             
             self.view.addSubview(view)
             return view
@@ -54,14 +54,6 @@ class InternalTestVC: UIViewController {
         print(a.minus(with: b))
         print(a.union(with: b))
         
-        let failureAPI = TestFailureAPI()
-        
-        failureAPI.loadData(with: nil)
-            .response { (api, data, error) in
-            
-        }
-        
-        print("end")
     }
 
     override func didReceiveMemoryWarning() {
@@ -150,12 +142,15 @@ extension InternalTestVC: UITableViewDelegate, UITableViewDataSource {
             })
         case 3:
             SystemLog.activeDevelopUI()
+            
         case 4:
-//            let a: [Any] = []
-//            _ = a[1]
-            break
+            let vc = DataCenterTestVCViewController()
+            self.navigationController?.pushViewController(vc, animated: true)
+            
         case 5:
-            print(NetworkCache.memoryCache.size())
+//            print(NetworkCache.memoryCache.size())
+            break
+            
         case 6:
             if #available(iOS 10.0, *) {
                 

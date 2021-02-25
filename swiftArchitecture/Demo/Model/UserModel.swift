@@ -7,6 +7,9 @@
 //
 
 import UIKit
+import RxRealm
+import RealmSwift
+import RxSwift
 
 class UserModel: NSObject, RecordProtocol {
     
@@ -53,3 +56,37 @@ class UserModel: NSObject, RecordProtocol {
         return nil
     }
 }
+
+final class TestObj: Object {
+    // When using Realm from Swift, the Swift.reflect(_:) function is used to determine information
+    // about your models, which requires that calling init() succeed. This means that all
+    // non-optional properties must have a default value.
+    @objc dynamic var key: String = ""
+    @objc dynamic var value: Int = 0
+
+    init(with key: String) {
+        self.key = key
+        super.init()
+    }
+    
+    override class func primaryKey() -> String? {
+        return "key"
+    }
+    
+    required override init() {
+        super.init()
+    }
+    
+    func kopy() -> TestObj {
+        let obj = TestObj(with: key)
+        obj.value = self.value
+        return obj
+    }
+}
+
+extension TestObj: Comparable {
+    static func < (lhs: TestObj, rhs: TestObj) -> Bool {
+        return lhs.value < rhs.value
+    }
+}
+

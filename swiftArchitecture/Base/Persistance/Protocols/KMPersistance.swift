@@ -54,7 +54,7 @@ open class KMPersistanceDatabase: NSObject {
     
     /// Close the database
     public func close() -> Void {
-        self.child.database.close()
+        self.child?.database.close()
     }
     
     /**

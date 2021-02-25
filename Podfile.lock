@@ -1,30 +1,57 @@
 PODS:
   - Alamofire (4.9.1)
+  - BAIS (1.0.2):
+    - BAIS/AppDocker (= 1.0.2)
+    - BAIS/Assistance (= 1.0.2)
+    - BAIS/Networking (= 1.0.2)
+    - BAIS/Persistance (= 1.0.2)
+    - BAIS/RxExtension (= 1.0.2)
+  - BAIS/AppDocker (1.0.2):
+    - BAIS/Assistance
+    - RealmSwift
+    - RxRealm
+    - RxSwift (~> 5.0)
+  - BAIS/Assistance (1.0.2)
+  - BAIS/Networking (1.0.2):
+    - Alamofire
+    - BAIS/Assistance
+    - KMCache
+  - BAIS/Persistance (1.0.2):
+    - BAIS/Assistance
+    - FMDB
+  - BAIS/RxExtension (1.0.2):
+    - BAIS/Assistance
+    - BAIS/Networking
+    - RxSwift (~> 5.0)
   - Differentiator (4.0.1)
   - FMDB (2.7.5):
     - FMDB/standard (= 2.7.5)
   - FMDB/standard (2.7.5)
-  - Realm (4.1.1):
-    - Realm/Headers (= 4.1.1)
-  - Realm/Headers (4.1.1)
-  - RealmSwift (4.1.1):
-    - Realm (= 4.1.1)
-  - RxCocoa (5.0.1):
+  - KMCache (0.1.9)
+  - Realm (10.5.0):
+    - Realm/Headers (= 10.5.0)
+  - Realm/Headers (10.5.0)
+  - RealmSwift (10.5.0):
+    - Realm (= 10.5.0)
+  - RxCocoa (5.1.1):
     - RxRelay (~> 5)
     - RxSwift (~> 5)
   - RxDataSources (4.0.1):
     - Differentiator (~> 4.0)
     - RxCocoa (~> 5.0)
     - RxSwift (~> 5.0)
-  - RxRealm (2.0.0):
-    - RealmSwift (~> 4.0)
-    - RxSwift (~> 5.0)
-  - RxRelay (5.0.1):
+  - RxRealm (4.0.2):
+    - Realm (~> 10.2)
+    - RealmSwift (~> 10.2)
+    - RxCocoa (~> 5.1)
+    - RxSwift (~> 5.1)
+  - RxRelay (5.1.1):
     - RxSwift (~> 5)
-  - RxSwift (5.0.1)
+  - RxSwift (5.1.1)
 
 DEPENDENCIES:
   - Alamofire
+  - BAIS (from `./`)
   - FMDB
   - RealmSwift
   - RxDataSources
@@ -36,6 +63,7 @@ SPEC REPOS:
     - Alamofire
     - Differentiator
     - FMDB
+    - KMCache
     - Realm
     - RealmSwift
     - RxCocoa
@@ -44,18 +72,24 @@ SPEC REPOS:
     - RxRelay
     - RxSwift
 
+EXTERNAL SOURCES:
+  BAIS:
+    :path: "./"
+
 SPEC CHECKSUMS:
   Alamofire: 85e8a02c69d6020a0d734f6054870d7ecb75cf18
+  BAIS: 66b8d5e4329eb77baa218adca00ca0c03c1d7bb4
   Differentiator: 886080237d9f87f322641dedbc5be257061b0602
   FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
-  Realm: 25f0a8244cbb1c2271c922963ea8666fc2d8104d
-  RealmSwift: 9e2657b33764f80e4a4dffd6d440e24715782052
-  RxCocoa: e741b9749968e8a143e2b787f1dfbff2b63d0a5c
+  KMCache: 831bdf92c764325d149626d07ba8e75018167eac
+  Realm: e1c22c3d83b229afb70ebc10e1771c91e9542d12
+  RealmSwift: 6fc078d9d3fd7e58c71bfdbb694e252462f112a5
+  RxCocoa: 32065309a38d29b5b0db858819b5bf9ef038b601
   RxDataSources: efee07fa4de48477eca0a4611e6d11e2da9c1114
-  RxRealm: 900f5c7e6f0a2d6527b56eaf7283f3035ec1e8ba
-  RxRelay: 89d54507f4fd4d969e6ec1d4bd7f3673640b4640
-  RxSwift: e2dc62b366a3adf6a0be44ba9f405efd4c94e0c4
+  RxRealm: cc14831d5527f10fbfe547d0922cae129a07ba9d
+  RxRelay: d77f7d771495f43c556cbc43eebd1bb54d01e8e9
+  RxSwift: 81470a2074fa8780320ea5fe4102807cb7118178
 
-PODFILE CHECKSUM: 5b6814d3dd5a2207d01fc116716c11722665a8b3
+PODFILE CHECKSUM: 857979b6c70f9bd82c81d58922e4f7387bdb6a61
 
-COCOAPODS: 1.8.4
+COCOAPODS: 1.10.1

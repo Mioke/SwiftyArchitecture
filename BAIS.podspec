@@ -7,7 +7,7 @@
 #
 
 Pod::Spec.new do |s|
-  s.name             = 'bais-ios'
+  s.name             = 'BAIS'
   s.version          = '1.0.2'
   s.summary          = 'Breezy architecture in Swift for building iOS applications.'
   s.description      = <<-DESC
@@ -36,22 +36,32 @@ Pod::Spec.new do |s|
       ss.source_files = 'swiftArchitecture/Base/Networking/**/*.swift'
       ss.dependency 'Alamofire'
       ss.dependency 'KMCache'
-      ss.dependency 'bais-ios/Assistance'
+      ss.dependency 'BAIS/Assistance'
   end
   
   s.subspec 'Persistance' do |ss|
       ss.frameworks = 'UIKit', 'Foundation'
       ss.source_files = 'swiftArchitecture/Base/Persistance/**/*.swift'
       ss.dependency 'FMDB'
-      ss.dependency 'bais-ios/Assistance'
+      ss.dependency 'BAIS/Assistance'
   end
   
   s.subspec 'RxExtension' do |ss|
       ss.source_files = 'swiftArchitecture/Base/RxExtension/**/*.swift'
-      ss.dependency 'bais-ios/Assistance'
-      ss.dependency 'bais-ios/Networking'
+      ss.dependency 'BAIS/Assistance'
+      ss.dependency 'BAIS/Networking'
       ss.dependency 'RxSwift', '~> 5.0'
   end
+
+  s.subspec 'AppDocker' do |ss|
+      ss.source_files = 'swiftArchitecture/Base/AppDocker/**/*.swift'
+      ss.dependency 'BAIS/Assistance'
+      ss.dependency 'RxSwift', '~> 5.0'
+      ss.dependency 'RxRealm'
+      ss.dependency 'RealmSwift'
+  end
+  
+  
   
   # s.xcconfig = { "SWIFT_OBJC_BRIDGING_HEADER" => "swiftArchitecture/Resource/swiftArchitecture-Bridging-Header.h" }
   # s.module_map = 'swiftArchitecture/Resource/module.modulemap'

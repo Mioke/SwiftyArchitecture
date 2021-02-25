@@ -42,9 +42,6 @@ open class API: NSObject {
     /// If this property is true, it will auto retry when all situations are eligible
     public var shouldAutoRetry: Bool = true
     
-    /// As property name says
-    public var shouldAutoCacheResultWhenSucceed: Bool = false
-    
     // MARK: Initialization
     public override init() {
         defaultDelegate = ApiDelegate()
@@ -194,13 +191,6 @@ open class API: NSObject {
             self.delegate?.API(self, finishedWithOriginData: self.data!)
         })
         self.retryTimes = 0
-        if self.shouldAutoCacheResultWhenSucceed {
-            if self.cacheKey == nil {
-                self.cacheKey = "\(self.child?.apiName ?? "*")_\(API.keyNum)"
-                API.keyNum += 1
-            }
-            NetworkCache.memoryCache.set(object: self.data!, forKey: self.child?.apiName)
-        }
     }
     
     private func failureRoute(with error: NSError) -> Void {

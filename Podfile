@@ -29,3 +29,13 @@ end
 # pod 'FMDB/standalone'   # FMDB with latest SQLite amalgamation source
 # pod 'FMDB/standalone/FTS'   # FMDB with latest SQLite amalgamation source and FTS
 # pod 'FMDB/SQLCipher'   # FMDB with SQLCipher
+
+
+post_install do |installer_representation|
+  installer_representation.pods_project.targets.each do |target|
+    
+    target.build_configurations.each do |config|
+      config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '9.0'
+    end
+  end
+end

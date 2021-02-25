@@ -643,13 +643,15 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 433217ACA4419D9F793F7CD7 /* Pods-SAD.debug.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = GAM7WF67F4;
-				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/Pods/**";
+				HEADER_SEARCH_PATHS = (
+					"$(PROJECT_DIR)/Pods/**",
+					"$(inherited)",
+				);
 				INFOPLIST_FILE = swiftArchitecture/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -668,13 +670,15 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 4C6B0039AC2E3E258122BABE /* Pods-SAD.release.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = GAM7WF67F4;
-				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/Pods/**";
+				HEADER_SEARCH_PATHS = (
+					"$(PROJECT_DIR)/Pods/**",
+					"$(inherited)",
+				);
 				INFOPLIST_FILE = swiftArchitecture/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

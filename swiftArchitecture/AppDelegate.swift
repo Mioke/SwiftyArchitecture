@@ -10,7 +10,7 @@ import UIKit
 import CoreData
 import Alamofire
 
-@_exported import BAIS
+@_exported import MIOSwiftyArchitecture
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {

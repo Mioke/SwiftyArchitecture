@@ -7,7 +7,7 @@
 #
 
 Pod::Spec.new do |s|
-  s.name             = 'BAIS'
+  s.name             = 'MIOSwiftyArchitecture'
   s.version          = '1.0.2'
   s.summary          = 'Breezy architecture in Swift for building iOS applications.'
   s.description      = <<-DESC
@@ -36,29 +36,30 @@ Pod::Spec.new do |s|
       ss.source_files = 'swiftArchitecture/Base/Networking/**/*.swift'
       ss.dependency 'Alamofire'
       ss.dependency 'KMCache'
-      ss.dependency 'BAIS/Assistance'
+      ss.dependency 'MIOSwiftyArchitecture/Assistance'
   end
   
   s.subspec 'Persistance' do |ss|
       ss.frameworks = 'UIKit', 'Foundation'
       ss.source_files = 'swiftArchitecture/Base/Persistance/**/*.swift'
       ss.dependency 'FMDB'
-      ss.dependency 'BAIS/Assistance'
+      ss.dependency 'MIOSwiftyArchitecture/Assistance'
   end
   
   s.subspec 'RxExtension' do |ss|
       ss.source_files = 'swiftArchitecture/Base/RxExtension/**/*.swift'
-      ss.dependency 'BAIS/Assistance'
-      ss.dependency 'BAIS/Networking'
+      ss.dependency 'MIOSwiftyArchitecture/Assistance'
+      ss.dependency 'MIOSwiftyArchitecture/Networking'
       ss.dependency 'RxSwift', '~> 5.0'
   end
 
   s.subspec 'AppDocker' do |ss|
       ss.source_files = 'swiftArchitecture/Base/AppDocker/**/*.swift'
-      ss.dependency 'BAIS/Assistance'
+      ss.dependency 'MIOSwiftyArchitecture/Assistance'
       ss.dependency 'RxSwift', '~> 5.0'
       ss.dependency 'RxRealm'
       ss.dependency 'RealmSwift'
+      ss.dependency 'YYModel'
   end
   
   

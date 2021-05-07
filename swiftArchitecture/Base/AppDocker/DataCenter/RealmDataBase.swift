@@ -24,11 +24,13 @@ public class RealmDataBase: NSObject {
 
 extension Realm {
     
-    public func safeWrite(block: () throws -> Void) throws -> Void {
+    public func safeWrite(_ block: (Realm) throws -> Void) throws -> Void {
         if isInWriteTransaction {
-            try block()
+            try block(self)
         } else {
-            try self.write(block)
+            try self.write({
+                try block(self)
+            })
         }
     }
 }

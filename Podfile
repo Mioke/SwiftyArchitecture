@@ -17,8 +17,12 @@ target "SAD" do
     # or sqlite
     pod 'FMDB'
     
-    pod 'BAIS', :path => './'
+    pod 'MIOSwiftyArchitecture', :path => './'
 
+    
+    # kits for demo
+    pod 'YYModel'
+    
 #	pod 'ReactiveCocoa'
 #	pod "AFNetworking"
 

@@ -8,9 +8,16 @@
 
 import UIKit
 
+public let kAppContextChangedNotification = NSNotification.Name.init(rawValue: "kAppContextChangedNotification")
+
 public class AppContext: NSObject {
     
-    public static var current = DefaultAppContext()
+    public static var current = DefaultAppContext() {
+        didSet {
+            guard oldValue != current else { return }
+            NotificationCenter.default.post(name: kAppContextChangedNotification, object: current)
+        }
+    }
 
     public var currentUserId: String
     public var db: RealmDataBase!
@@ -23,9 +30,13 @@ public class AppContext: NSObject {
         self.db = try! RealmDataBase.init(with: self)
         self.dataCenter = DataCenter.init(with: self.db)
     }
+    
+    deinit {
+        self.db.realm.invalidate()
+    }
 }
 
-public class DefaultAppContext: AppContext {
+final public class DefaultAppContext: AppContext {
     
     init() {
         super.init(with: "__empty_user_id__")

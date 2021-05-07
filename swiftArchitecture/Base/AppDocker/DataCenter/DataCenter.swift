@@ -11,15 +11,20 @@ import RxRealm
 import RxSwift
 import RealmSwift
 
-
+// Note: We are not using a abstract layer for data APIs, because now we are strongly dependent on
+//       Realm database, so if there need to switch to other database one day, then consider to
+//       create a protocol of APIs as an abstract layer.
 public class DataCenter: NSObject {
     
     public var db: RealmDataBase
     
     public init(with db: RealmDataBase) {
         self.db = db
+        self.requestRecords = RequestRecords()
         super.init()
     }
+    
+    internal var requestRecords: RequestRecords
     
     // MARK: - QUERY
     

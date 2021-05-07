@@ -11,6 +11,7 @@ import RxDataSources
 import RxSwift
 import RxCocoa
 import RxRealm
+@_exported import MIOSwiftyArchitecture
 
 extension TestObj: IdentifiableType {
     typealias Identity = String
@@ -76,11 +77,17 @@ class DataCenterTestVCViewController: UIViewController {
         
         // Do any additional setup after loading the view.
         
-        let button = UIBarButtonItem(title: "Add",
-                                     style: UIBarButtonItem.Style.plain,
-                                     target: self,
-                                     action: #selector(addSomeObj))
-        self.navigationItem.rightBarButtonItem = button
+        let button = UIBarButtonItem(
+            title: "Add",
+            style: UIBarButtonItem.Style.plain,
+            target: self,
+            action: #selector(addSomeObj))
+        let refresh = UIBarButtonItem(
+            title: "Refresh",
+            style: .plain,
+            target: self,
+            action: #selector(refresh))
+        self.navigationItem.rightBarButtonItems = [button, refresh]
         
         tableView.register(DataCenterTestCell.self,
                            forCellReuseIdentifier: DataCenterTestCell.reusedIdentifier)
@@ -99,7 +106,7 @@ class DataCenterTestVCViewController: UIViewController {
                 vc.objectKey = key
                 self.navigationController?.pushViewController(vc, animated: true)
         }.disposed(by: self.disposeBag)
-        
+
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -150,6 +157,23 @@ class DataCenterTestVCViewController: UIViewController {
 //        humans.fastest()
     }
 
+    @objc func refresh() -> Void {
+        print("Show loading")
+        
+        let request = Request<TestObj>()
+        DataAccessObject<TestObj>
+            .update(with: request)
+            .debug()
+            .subscribe({ event in
+                switch event {
+                case .completed:
+                    print("Hide loading")
+                default:
+                    break
+                }
+            })
+            .disposed(by: self.disposeBag)
+    }
 
     /*
     // MARK: - Navigation

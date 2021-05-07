@@ -8,6 +8,7 @@
 
 import UIKit
 
+// TODO: - Refactor
 /// 组件加载器，可在Application初始化时加载代码. Module loader, can be used to load code when application start running.
 public class ModuleLoader: NSObject {
     /// 加载操作优先级. The priorty of operation level

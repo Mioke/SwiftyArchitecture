@@ -14,5 +14,5 @@ public struct Constants {
 }
 
 extension Constants {
-    public static let kitName = "bois"
+    public static let kitName = "MIOSwiftyArchitecture"
 }

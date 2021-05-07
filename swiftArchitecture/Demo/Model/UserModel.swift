@@ -10,6 +10,7 @@ import UIKit
 import RxRealm
 import RealmSwift
 import RxSwift
+import YYModel
 
 class UserModel: NSObject, RecordProtocol {
     
@@ -87,6 +88,23 @@ final class TestObj: Object {
 extension TestObj: Comparable {
     static func < (lhs: TestObj, rhs: TestObj) -> Bool {
         return lhs.value < rhs.value
+    }
+}
+
+extension TestObj: DataCenterManaged {
+    
+    typealias DatabaseObjectType = TestObj
+    
+    static var api: API {
+        return TestAPI()
+    }
+    
+    static func serialize(data: [String: Any]) throws -> TestObj {
+        if let obj = TestObj.yy_model(with: data) {
+            return obj
+        } else {
+            throw NSError(domain: "com.mioke.DEMO", code: 201, userInfo: nil)
+        }
     }
 }
 

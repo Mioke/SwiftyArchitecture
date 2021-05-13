@@ -10,7 +10,10 @@ import UIKit
 import RxRealm
 import RealmSwift
 import RxSwift
-import YYModel
+import Alamofire
+//import YYModel
+
+// ************* DEPRECATING BEGIN ****************
 
 class UserModel: NSObject, RecordProtocol {
     
@@ -58,6 +61,9 @@ class UserModel: NSObject, RecordProtocol {
     }
 }
 
+// ************* DEPRECATING END ****************
+
+
 final class TestObj: Object {
     // When using Realm from Swift, the Swift.reflect(_:) function is used to determine information
     // about your models, which requires that calling init() succeed. This means that all
@@ -93,18 +99,61 @@ extension TestObj: Comparable {
 
 extension TestObj: DataCenterManaged {
     
-    typealias DatabaseObjectType = TestObj
+    typealias APIInfo = TestAPI
+    typealias DatabaseObject = TestObj
     
-    static var api: API {
-        return TestAPI()
-    }
-    
-    static func serialize(data: [String: Any]) throws -> TestObj {
-        if let obj = TestObj.yy_model(with: data) {
-            return obj
-        } else {
+    static func serialize(data: [String : Any]) throws -> TestObj {
+//        if let obj = TestObj.yy_model(with: data) {
+//            return obj
+//        } else {
             throw NSError(domain: "com.mioke.DEMO", code: 201, userInfo: nil)
-        }
+//        }
     }
 }
 
+
+final class User: Object {
+    @objc dynamic var userId: String = ""
+    @objc dynamic var name: String = ""
+}
+
+extension User: JSONObject {
+    convenience init(jsonDictionary dictionary: [AnyHashable : Any]) throws {
+        self.init()
+        // do
+    }
+}
+
+final class UserAPI: NSObject, ApiInfoProtocol {
+    
+    typealias ResultType = User
+    
+    static var apiVersion: String {
+        get { return "" }
+    }
+    static var apiName: String {
+        get { return "s" }
+    }
+    static var server: Server {
+        get { return Server(online: "http://www.baidu.com",
+                            offline: "http://www.baidu.com") }
+    }
+    static var httpMethod: Alamofire.HTTPMethod {
+        get { return .get }
+    }
+    
+    static var responseSerializer: ResponseSerializer<User> {
+        return JSONResponseSerializer<User>()
+    }
+}
+
+extension User: DataCenterManaged {
+    
+    static func serialize(data: User) throws -> User {
+        return data
+    }
+    
+    typealias DatabaseObject = User
+    typealias APIInfo = UserAPI
+    
+}

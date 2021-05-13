@@ -31,39 +31,53 @@ public class DataAccessObject<T: Object> : NSObject {
 
 }
 
-//public enum CachePolicy: Int {
-//    case none
-//    case memory
-//    case disk
-//}
+public enum StorePolicy: Int {
+    case memoryCache
+    case diskCache
+    case persistance
+}
 
 public enum RequestFreshness {
     case none
     case seconds(Int)
 }
 
+/// Let data center handle your data, automaticaly request and save.
 public protocol DataCenterManaged {
     
-    associatedtype DatabaseObjectType
+    // The Object type in database
+    associatedtype DatabaseObject
     
-    static var api: API { get }
-     
-//    static var cachePolicy: CachePolicy { get }
+    // API information class for requesting data.
+    associatedtype APIInfo: ApiInfoProtocol
     
+    /// API instance
+    static var api: API<APIInfo> { get }
+    
+    /// set your data's cache policy
+    static var cachePolicy: StorePolicy { get }
+    
+    /// Refreshness for request
     static var requestFreshness: RequestFreshness { get }
     
-    static func serialize(data: [String: Any]) throws -> DatabaseObjectType
+    /// Serializing function for converting API's result to database Object.
+    /// - Parameter data: Api's result.
+    static func serialize(data: APIInfo.ResultType) throws -> DatabaseObject
 }
 
 // For default values
 extension DataCenterManaged {
     
-//    static public var cachePolicy: CachePolicy {
-//        return .none
-//    }
+    static public var cachePolicy: StorePolicy {
+        return .memoryCache
+    }
     
     static public var requestFreshness: RequestFreshness {
         return .none
+    }
+    
+    static public var api: API<APIInfo> {
+        return API<APIInfo>()
     }
 }
 

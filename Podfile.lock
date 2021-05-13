@@ -13,10 +13,10 @@ PODS:
     - MIOSwiftyArchitecture/RxExtension (= 1.0.2)
   - MIOSwiftyArchitecture/AppDocker (1.0.2):
     - MIOSwiftyArchitecture/Assistance
+    - Realm
     - RealmSwift
     - RxRealm
     - RxSwift (~> 5.0)
-    - YYModel
   - MIOSwiftyArchitecture/Assistance (1.0.2)
   - MIOSwiftyArchitecture/Networking (1.0.2):
     - Alamofire
@@ -29,11 +29,11 @@ PODS:
     - MIOSwiftyArchitecture/Assistance
     - MIOSwiftyArchitecture/Networking
     - RxSwift (~> 5.0)
-  - Realm (10.7.2):
-    - Realm/Headers (= 10.7.2)
-  - Realm/Headers (10.7.2)
-  - RealmSwift (10.7.2):
-    - Realm (= 10.7.2)
+  - Realm (10.7.5):
+    - Realm/Headers (= 10.7.5)
+  - Realm/Headers (10.7.5)
+  - RealmSwift (10.7.5):
+    - Realm (= 10.7.5)
   - RxCocoa (5.1.1):
     - RxRelay (~> 5)
     - RxSwift (~> 5)
@@ -49,7 +49,6 @@ PODS:
   - RxRelay (5.1.1):
     - RxSwift (~> 5)
   - RxSwift (5.1.2)
-  - YYModel (1.0.4)
 
 DEPENDENCIES:
   - Alamofire
@@ -59,7 +58,6 @@ DEPENDENCIES:
   - RxDataSources
   - RxRealm
   - RxSwift (~> 5.0)
-  - YYModel
 
 SPEC REPOS:
   https://github.com/CocoaPods/Specs.git:
@@ -74,7 +72,6 @@ SPEC REPOS:
     - RxRealm
     - RxRelay
     - RxSwift
-    - YYModel
 
 EXTERNAL SOURCES:
   MIOSwiftyArchitecture:
@@ -85,16 +82,15 @@ SPEC CHECKSUMS:
   Differentiator: 886080237d9f87f322641dedbc5be257061b0602
   FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
   KMCache: 831bdf92c764325d149626d07ba8e75018167eac
-  MIOSwiftyArchitecture: 67f2adb73aeb6ed8d7e3c549f356638dd47f7604
-  Realm: e523da9ade306c5ae87e85dc09fdef148d3e1cc1
-  RealmSwift: 4f6758c3adbdcc87f7b7777107226532a077f61c
+  MIOSwiftyArchitecture: 5b120f1ce80559d368c55a1731e13dce8698bf57
+  Realm: 06f5c67f87cb8c5f27b122218ce22e9a77314517
+  RealmSwift: b46535b52e69b9ed33912f0fcb3182ab0a5743ee
   RxCocoa: 32065309a38d29b5b0db858819b5bf9ef038b601
   RxDataSources: efee07fa4de48477eca0a4611e6d11e2da9c1114
   RxRealm: cc14831d5527f10fbfe547d0922cae129a07ba9d
   RxRelay: d77f7d771495f43c556cbc43eebd1bb54d01e8e9
   RxSwift: 1e2e1f9570186967f617e49128ed26ccf1bafc8e
-  YYModel: 2a7fdd96aaa4b86a824e26d0c517de8928c04b30
 
-PODFILE CHECKSUM: 2a18ebd021241264e0555a2d2025be5f82bd5390
+PODFILE CHECKSUM: ffe6b4d309d74831ecda70f57ae19648f76f82c9
 
 COCOAPODS: 1.10.1

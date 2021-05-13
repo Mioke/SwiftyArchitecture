@@ -8,29 +8,30 @@
 
 import UIKit
 import Alamofire
+import MIOSwiftyArchitecture
 
-class TestAPI: API {
-    // If you want to modify options, then override the init() function.
-    override init() {
-        super.init()
-    }
-}
-
-extension TestAPI: ApiInfoProtocol {
-    var apiVersion: String {
+class TestAPI: NSObject, ApiInfoProtocol {
+    
+    typealias ResultType = [String: Any]
+    
+    static var apiVersion: String {
         get { return "" }
     }
-    var apiName: String {
+    static var apiName: String {
         get { return "s" }
     }
-    var server: Server {
+    static var server: Server {
         get { return Server(online: "http://www.baidu.com",
                             offline: "http://www.baidu.com") }
     }
-    var httpMethod: Alamofire.HTTPMethod {
+    static var httpMethod: Alamofire.HTTPMethod {
         get { return .get }
     }
-    func headers() -> HTTPHeaders? {
+    static func headers() -> HTTPHeaders? {
         return ["Cookie": "uid=123456"]
+    }
+    
+    static var responseSerializer: ResponseSerializer<[String : Any]> {
+        return JSONResponseSerializer<[String : Any]>()
     }
 }

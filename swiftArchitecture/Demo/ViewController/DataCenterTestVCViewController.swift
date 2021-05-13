@@ -82,12 +82,12 @@ class DataCenterTestVCViewController: UIViewController {
             style: UIBarButtonItem.Style.plain,
             target: self,
             action: #selector(addSomeObj))
-        let refresh = UIBarButtonItem(
+        let refreshItem = UIBarButtonItem(
             title: "Refresh",
             style: .plain,
             target: self,
             action: #selector(refresh))
-        self.navigationItem.rightBarButtonItems = [button, refresh]
+        self.navigationItem.rightBarButtonItems = [button, refreshItem]
         
         tableView.register(DataCenterTestCell.self,
                            forCellReuseIdentifier: DataCenterTestCell.reusedIdentifier)

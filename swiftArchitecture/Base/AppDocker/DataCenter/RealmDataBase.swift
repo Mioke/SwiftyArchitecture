@@ -15,9 +15,20 @@ public class RealmDataBase: NSObject {
     
     public var realm: Realm
     
-    public init(with context: AppContext) throws {
+    public init(appContext context: AppContext) throws {
         let name = context.currentUserId + "RLM"
         self.realm = try Realm(fileURL: URL(fileURLWithPath: Path.docPath + name))
+    }
+    
+    public init(realm: Realm) {
+        self.realm = realm
+    }
+    
+    public static func inMemoryDatabase(appContext context: AppContext) -> RealmDataBase {
+        var config = Realm.Configuration.defaultConfiguration;
+        config.inMemoryIdentifier = "RLM.MEMORY.\(context.currentUserId)";
+        let realm = try! Realm(configuration: config)
+        return RealmDataBase(realm: realm)
     }
     
 }

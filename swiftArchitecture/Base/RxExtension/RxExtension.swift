@@ -9,14 +9,16 @@
 import Foundation
 import RxSwift
 
-extension Reactive where Base: API {
-    public func loadData(with params: [String: Any]?) -> Observable<[String: Any]> {
+extension Reactive  {
+    
+    public func loadData<T: ApiInfoProtocol>(with params: [String: Any]?)
+        -> Observable<T.ResultType> where Base: API<T> {
         return Observable.create { observer in
             self.base.loadData(with: params).response({ (api, data, error) in
                 if let error = error {
                     observer.onError(error)
                 }
-                else if let data = data as? [String: Any] {
+                else if let data = data {
                     observer.on(.next(data))
                     observer.onCompleted()
                 }

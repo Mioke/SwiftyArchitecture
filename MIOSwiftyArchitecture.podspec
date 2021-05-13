@@ -59,7 +59,7 @@ Pod::Spec.new do |s|
       ss.dependency 'RxSwift', '~> 5.0'
       ss.dependency 'RxRealm'
       ss.dependency 'RealmSwift'
-      ss.dependency 'YYModel'
+      ss.dependency "Realm"
   end
   
   

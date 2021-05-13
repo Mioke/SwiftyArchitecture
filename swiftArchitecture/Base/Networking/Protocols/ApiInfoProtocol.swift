@@ -16,60 +16,57 @@ import Alamofire
 public protocol ApiInfoProtocol: NSObjectProtocol {
     
     /// The version of api
-    var apiVersion: String { get }
+    static var apiVersion: String { get }
     
     /// The name of api
-    var apiName: String { get }
+    static var apiName: String { get }
     
     /// The HTTP method of this api
-    var httpMethod: Alamofire.HTTPMethod { get }
+    static var httpMethod: Alamofire.HTTPMethod { get }
     
     /// The server for this api to request
-    var server: Server { get }
+    static var server: Server { get }
     
     /// Max counts of auto retry machanism, you can return different counts for different error.
     ///
     /// - Parameter code: Error's code
     /// - Returns: Counts of auto retry machanism
-    func autoRetryMaxCount(withErrorCode code: Int) -> Int?
+    static func autoRetryMaxCount(withErrorCode code: Int) -> Int?
     
     /// The time of retry interval between two request
     ///
     /// - Parameter code: Error's code
     /// - Returns: Time interval for the error
-    func retryTimeInterval(withErrorCode code: Int) -> UInt64?
+    static func retryTimeInterval(withErrorCode code: Int) -> UInt64?
     
     /// HTTP headers of request
     ///
     /// - Returns: HTTP headers
-    func headers() -> Alamofire.HTTPHeaders?
+    static func headers() -> Alamofire.HTTPHeaders?
     
     /// Encoding function of api's parameters, default is `Alamofire.URLEncoding.default`(aka `methodDependent`)
-    var encoding: Alamofire.ParameterEncoding { get }
+    static var encoding: Alamofire.ParameterEncoding { get }
     
+    associatedtype ResultType
     /// Response serializer type, default is .JSON, that request will call `responseJSON` method when get response.
-    var responseSerializer: ((_ response: Alamofire.DataResponse<Data>) throws -> [String: Any])? { get }
+    static var responseSerializer: ResponseSerializer<ResultType> { get }
 }
 
 extension ApiInfoProtocol {
     
-    public func autoRetryMaxCount(withErrorCode code: Int) -> Int? {
+    public static func autoRetryMaxCount(withErrorCode code: Int) -> Int? {
         return nil
     }
     
-    public func retryTimeInterval(withErrorCode code: Int) -> UInt64? {
+    public static func retryTimeInterval(withErrorCode code: Int) -> UInt64? {
         return nil
     }
     
-    public func headers() -> Alamofire.HTTPHeaders? {
+    public static func headers() -> Alamofire.HTTPHeaders? {
         return nil
     }
     
-    public var encoding: Alamofire.ParameterEncoding {
+    public static var encoding: Alamofire.ParameterEncoding {
         return URLEncoding.default
-    }
-    
-    public var responseSerializer: ((_ response: DataResponse<Data>) throws -> [String: Any])? {
-        return nil
     }
 }

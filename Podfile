@@ -21,7 +21,7 @@ target "SAD" do
 
     
     # kits for demo
-    pod 'YYModel'
+#    pod 'YYModel'
     
 #	pod 'ReactiveCocoa'
 #	pod "AFNetworking"

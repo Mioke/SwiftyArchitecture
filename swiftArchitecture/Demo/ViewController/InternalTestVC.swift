@@ -134,7 +134,7 @@ extension InternalTestVC: UITableViewDelegate, UITableViewDataSource {
             
             print(result)
         case 2:
-            let api = TestAPI()
+            let api = API<TestAPI>()
             // you can't get any data from here because baidu.com 
             // return a html page instead of json data.
             api.loadData(with: nil).response({ (api, result, error) in

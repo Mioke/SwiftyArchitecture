@@ -27,8 +27,8 @@ public class AppContext: NSObject {
         self.currentUserId = userId
         super.init()
         
-        self.db = try! RealmDataBase.init(with: self)
-        self.dataCenter = DataCenter.init(with: self.db)
+        self.db = try! RealmDataBase(appContext: self)
+        self.dataCenter = DataCenter(appContext: self)
     }
     
     deinit {

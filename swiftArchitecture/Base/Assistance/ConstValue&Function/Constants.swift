@@ -16,3 +16,7 @@ public struct Constants {
 extension Constants {
     public static let kitName = "MIOSwiftyArchitecture"
 }
+
+internal func todo_error() -> NSError {
+    return NSError(domain: "", code: 777, userInfo: nil)
+}

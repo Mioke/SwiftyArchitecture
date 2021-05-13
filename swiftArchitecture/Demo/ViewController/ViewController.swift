@@ -7,12 +7,13 @@
 //
 
 import UIKit
+@_exported import MIOSwiftyArchitecture
 
 class ViewController: UIViewController {
     
     let userService = UserService()
     
-    var baiduSearch = TestAPI()
+    var baiduSearch = API<TestAPI>()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,7 +24,9 @@ class ViewController: UIViewController {
         }
         
         scope("init data") {
-            self.baiduSearch.loadData(with: nil)
+            self.baiduSearch.loadData(with: nil).response { (api, result, error) in
+                
+            }
         }
         
         let db = DefaultDatabase()
@@ -40,18 +43,5 @@ class ViewController: UIViewController {
     }
 }
 
-extension ViewController: ApiCallbackProtocol {
-    func API(_ api: API, finishedWithOriginData data: [String : Any]) {
-        if api == self.baiduSearch {
-            debugPrint(data)
-        }
-    }
-    
-    func API(_ api: API, failedWithError error: NSError) {
-        if api == self.baiduSearch {
-            debugPrint(error)
-        }
-    }
-}
 
 

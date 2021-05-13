@@ -17,10 +17,12 @@ import RealmSwift
 public class DataCenter: NSObject {
     
     public var db: RealmDataBase
+    public var memory: RealmDataBase
     
-    public init(with db: RealmDataBase) {
-        self.db = db
+    public init(appContext: AppContext) {
+        self.db = appContext.db
         self.requestRecords = RequestRecords()
+        self.memory = RealmDataBase.inMemoryDatabase(appContext: appContext)
         super.init()
     }
     

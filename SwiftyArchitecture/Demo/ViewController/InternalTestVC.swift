@@ -144,7 +144,7 @@ extension InternalTestVC: UITableViewDelegate, UITableViewDataSource {
             SystemLog.activeDevelopUI()
             
         case 4:
-            let vc = DataCenterTestVCViewController()
+            let vc = DataCenterTestViewController()
             self.navigationController?.pushViewController(vc, animated: true)
             
         case 5:

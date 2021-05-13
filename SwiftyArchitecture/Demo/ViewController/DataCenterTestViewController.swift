@@ -47,7 +47,7 @@ class DataCenterTestCell: UITableViewCell {
 extension DataCenterTestCell: ReusableView { }
 
 
-class DataCenterTestVCViewController: UIViewController {
+class DataCenterTestViewController: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
     typealias Section = RxTableViewSectionedAnimatedDataSource<AnimatableSectionModel<String, TestObj>>
@@ -163,11 +163,12 @@ class DataCenterTestVCViewController: UIViewController {
         let request = Request<TestObj>()
         DataAccessObject<TestObj>
             .update(with: request)
-            .debug()
             .subscribe({ event in
                 switch event {
                 case .completed:
                     print("Hide loading")
+                case .error(let error as NSError):
+                    print("Hide loading with error: \(error.localizedDescription)")
                 default:
                     break
                 }

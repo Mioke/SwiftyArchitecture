@@ -1,9 +1,10 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9059" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" initialViewController="01J-lp-oVM">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
+    <device id="retina6_0" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9049"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
         <!--View Controller-->
@@ -15,31 +16,36 @@
                         <viewControllerLayoutGuide type="bottom" id="xb3-aO-Qok"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="Ze5-6b-2t3">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fqK-yW-qNO">
-                                <rect key="frame" x="221" y="292" width="158" height="17"/>
-                                <animations/>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="launch_swifty_icon" adjustsImageSizeForAccessibilityContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="GuH-F0-FAC">
+                                <rect key="frame" x="155" y="342" width="80" height="80"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="80" id="Rrx-X0-aGb"/>
+                                    <constraint firstAttribute="width" constant="80" id="duR-7m-jof"/>
+                                </constraints>
+                                <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="default"/>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="itP-DR-chS">
+                                <rect key="frame" x="170" y="432" width="50" height="20"/>
                                 <attributedString key="attributedText">
-                                    <fragment content="Swift Architecture Demo">
+                                    <fragment content="Swifty">
                                         <attributes>
-                                            <color key="NSColor" red="0.015291740044810669" green="0.11336432864927651" blue="0.2297572527872942" alpha="1" colorSpace="calibratedRGB"/>
-                                            <font key="NSFont" size="24" name="DFWaWaSC-W5"/>
-                                            <font key="NSOriginalFont" size="17" name="HanziPenSC-W3"/>
+                                            <color key="NSColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <font key="NSFont" size="17" name="Baskerville-BoldItalic"/>
                                         </attributes>
                                     </fragment>
                                 </attributedString>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
-                        <animations/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="fqK-yW-qNO" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="Ze5-6b-2t3" secondAttribute="leadingMargin" constant="15" id="VqI-UY-6K5"/>
-                            <constraint firstItem="fqK-yW-qNO" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="ZCK-XD-JBk"/>
-                            <constraint firstItem="fqK-yW-qNO" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="gCS-gK-qwJ"/>
-                            <constraint firstAttribute="trailingMargin" relation="greaterThanOrEqual" secondItem="fqK-yW-qNO" secondAttribute="trailing" constant="15" id="jln-Cx-K0F"/>
+                            <constraint firstItem="itP-DR-chS" firstAttribute="top" secondItem="GuH-F0-FAC" secondAttribute="bottom" constant="10" id="5XF-A4-4UI"/>
+                            <constraint firstItem="GuH-F0-FAC" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" constant="-40" id="7Hs-nZ-wFi"/>
+                            <constraint firstItem="itP-DR-chS" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="99W-oD-3O8"/>
+                            <constraint firstItem="GuH-F0-FAC" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="l7L-eg-e0f"/>
                         </constraints>
                     </view>
                 </viewController>
@@ -48,4 +54,7 @@
             <point key="canvasLocation" x="53" y="375"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="launch_swifty_icon" width="256" height="256"/>
+    </resources>
 </document>

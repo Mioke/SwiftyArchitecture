@@ -96,6 +96,7 @@ extension DataAccessObject where T: DataCenterManaged {
                 .map({ rst in
                     return try T.serialize(data: rst) as! Object
                 })
+                .do(onError: { observer.onError($0) })
                 .subscribe(rlm.rx.add(update: .modified, onError: { _, error in
                     observer.onError(error)
                 }))

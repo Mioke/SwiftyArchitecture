@@ -20,8 +20,8 @@
 		A791C6BE1C02E90000670017 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A791C6BC1C02E90000670017 /* LaunchScreen.storyboard */; };
 		A791C6C91C02E90000670017 /* swiftArchitectureTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A791C6C81C02E90000670017 /* swiftArchitectureTests.swift */; };
 		A791C6D41C02E90000670017 /* swiftArchitectureUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A791C6D31C02E90000670017 /* swiftArchitectureUITests.swift */; };
-		AB35E654244476B400EC361A /* DataCenterTestVCViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB35E652244476B400EC361A /* DataCenterTestVCViewController.swift */; };
-		AB35E655244476B400EC361A /* DataCenterTestVCViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AB35E653244476B400EC361A /* DataCenterTestVCViewController.xib */; };
+		AB35E654244476B400EC361A /* DataCenterTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB35E652244476B400EC361A /* DataCenterTestViewController.swift */; };
+		AB35E655244476B400EC361A /* DataCenterTestViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AB35E653244476B400EC361A /* DataCenterTestViewController.xib */; };
 		ABC9EA872449AFD2009D044E /* TestObjModifyVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABC9EA852449AFD2009D044E /* TestObjModifyVC.swift */; };
 		ABC9EA882449AFD2009D044E /* TestObjModifyVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = ABC9EA862449AFD2009D044E /* TestObjModifyVC.xib */; };
 		ABF6CA9D243DB3C400D0849B /* TestFailureAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABF6CA9C243DB3C400D0849B /* TestFailureAPI.swift */; };
@@ -73,8 +73,8 @@
 		A791C6D31C02E90000670017 /* swiftArchitectureUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = swiftArchitectureUITests.swift; sourceTree = "<group>"; };
 		A791C6D51C02E90000670017 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AB35E63C243F35CA00EC361A /* pod_publish.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = pod_publish.sh; sourceTree = SOURCE_ROOT; };
-		AB35E652244476B400EC361A /* DataCenterTestVCViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataCenterTestVCViewController.swift; sourceTree = "<group>"; };
-		AB35E653244476B400EC361A /* DataCenterTestVCViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DataCenterTestVCViewController.xib; sourceTree = "<group>"; };
+		AB35E652244476B400EC361A /* DataCenterTestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataCenterTestViewController.swift; sourceTree = "<group>"; };
+		AB35E653244476B400EC361A /* DataCenterTestViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DataCenterTestViewController.xib; sourceTree = "<group>"; };
 		ABC9EA852449AFD2009D044E /* TestObjModifyVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestObjModifyVC.swift; sourceTree = "<group>"; };
 		ABC9EA862449AFD2009D044E /* TestObjModifyVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TestObjModifyVC.xib; sourceTree = "<group>"; };
 		ABF6CA9C243DB3C400D0849B /* TestFailureAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestFailureAPI.swift; sourceTree = "<group>"; };
@@ -145,8 +145,8 @@
 			children = (
 				A753A0A21C06FE5A00C9FBFE /* ViewController.swift */,
 				A77BAD191C196DFD00AF7A86 /* InternalTestVC.swift */,
-				AB35E652244476B400EC361A /* DataCenterTestVCViewController.swift */,
-				AB35E653244476B400EC361A /* DataCenterTestVCViewController.xib */,
+				AB35E652244476B400EC361A /* DataCenterTestViewController.swift */,
+				AB35E653244476B400EC361A /* DataCenterTestViewController.xib */,
 				ABC9EA852449AFD2009D044E /* TestObjModifyVC.swift */,
 				ABC9EA862449AFD2009D044E /* TestObjModifyVC.xib */,
 			);
@@ -364,7 +364,7 @@
 			files = (
 				A791C6BE1C02E90000670017 /* LaunchScreen.storyboard in Resources */,
 				A791C6BB1C02E90000670017 /* Assets.xcassets in Resources */,
-				AB35E655244476B400EC361A /* DataCenterTestVCViewController.xib in Resources */,
+				AB35E655244476B400EC361A /* DataCenterTestViewController.xib in Resources */,
 				A791C6B61C02E90000670017 /* Main.storyboard in Resources */,
 				ABC9EA882449AFD2009D044E /* TestObjModifyVC.xib in Resources */,
 			);
@@ -451,7 +451,7 @@
 				AF158A561E1BB26700FB0BAF /* NotificationService.swift in Sources */,
 				AF158A541E14B63900FB0BAF /* TestAPI.swift in Sources */,
 				A752DE431C03F23D008E3118 /* UserService.swift in Sources */,
-				AB35E654244476B400EC361A /* DataCenterTestVCViewController.swift in Sources */,
+				AB35E654244476B400EC361A /* DataCenterTestViewController.swift in Sources */,
 				ABF6CA9D243DB3C400D0849B /* TestFailureAPI.swift in Sources */,
 				A77BAD1D1C1971A300AF7A86 /* UserTable.swift in Sources */,
 				A791C6B91C02E90000670017 /* swiftArchitecture.xcdatamodeld in Sources */,

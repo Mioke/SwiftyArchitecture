@@ -4,14 +4,14 @@ A base architecture written in swift and protocol oriented.
 ### Install
 ##### Using cocoapods:
 ```ruby
-pod 'bais-ios'
+pod 'SwiftyArchitecture'
 # or choose on your need
-pod 'bais-ios/Persistance'
-pod 'bais-ios/Networking'
-pod 'bais-ios/RxExtension'
+pod 'SwiftyArchitecture/Persistance'
+pod 'SwiftyArchitecture/Networking'
+pod 'SwiftyArchitecture/RxExtension'
 ```
 ##### Manually
-Download `.zip` package and copy the `swiftAchitecture/Base` folder into you project.
+Download `.zip` package and copy the `SwiftyArchitecture/Base` folder into you project.
 
 ### What to provide
   
@@ -38,9 +38,9 @@ func handle(data: Any) throws -> Void {
 }
 ```
 
-- **ApiManager**
+- **API**
 
-  Now you can manager request with `ApiManager`, just sublass from `BaseApiManager` and conform to protocol `ApiInfoProtocol`. Only need to provide some infomation about the API and set where the callback is, you are already finished the configuration of an API.
+  Now you can manager request with `API<ApiInfoProtocol>`, creating a class conformed to `ApiInfoProtocol`, only need to provide some infomation about the API and set where the callback is, you are already finished the configuration of an API.  
   
 ```swift
     var apiVersion: String {
@@ -53,7 +53,7 @@ func handle(data: Any) throws -> Void {
         get { return mainServer }
     }
 ```
-  The BaseApiManager provide some basic method like:
+  The API provide some basic method like:
   
 ```swift
   public func loadData(with params: [String: Any]?) -> Void
@@ -170,10 +170,11 @@ api.rx.loadData(with: params)
 
 # TODO
 
-- Networking: ~~cache~~, origin data transform to Model or View's data, priority of request.
+- ~~Networking: ~~cache~~, origin data transform to Model or View's data, priority of request.~~ Done.
+- Mock of API's response.
 - Download and upload functions in API manager.
-- Persistance: transform data to model or View's data after query.
-- ~~Animations, Tools and Kits: TextKit like [YYText](https://github.com/ibireme/YYText), etc~~. (bais-ios won't provide those utilities, because base shouldn't have to.)
+- ~~Persistance: transform data to model or View's data after query.~~(don't need it now, using Realm)
+- ~~Animations, Tools and Kits: TextKit like [YYText](https://github.com/ibireme/YYText), etc~~. (SwiftyArchitecture won't provide those utilities, because base shouldn't have to.)
 - Refactoring, more functional and reative. Considering to use `Rx` or `ReactiveSwift`. Fully use genericity.
   
 # License

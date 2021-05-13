@@ -153,7 +153,7 @@ open class API<T: ApiInfoProtocol>: NSObject {
             // reset the retry count
             self.retryTimes = 0
             
-            self.loadingFailed(with: err)
+//            self.loadingFailed(with: err)
             self.failureRoute(with: err)
         }
         SystemLog.write("API response - name: \(T.apiName)\n data: \(String(describing: value))\n error: \(err.debugDescription)")

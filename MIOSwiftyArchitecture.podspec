@@ -24,16 +24,16 @@ Pod::Spec.new do |s|
 #  s.frameworks = 'UIKit', 'Foundation'
   # s.libraries = 'c++', 'sqlite3'
 
-#  s.source_files = 'swiftArchitecture/Base/**/*.swift'
+#  s.source_files = 'SwiftyArchitecture/Base/**/*.swift'
 
   s.subspec 'Assistance' do |ss|
       ss.frameworks = 'UIKit', 'Foundation'
-      ss.source_files = 'swiftArchitecture/Base/Assistance/**/*.swift'
+      ss.source_files = 'SwiftyArchitecture/Base/Assistance/**/*.swift'
   end
   
   s.subspec 'Networking' do |ss|
       ss.frameworks = 'UIKit', 'Foundation'
-      ss.source_files = 'swiftArchitecture/Base/Networking/**/*.swift'
+      ss.source_files = 'SwiftyArchitecture/Base/Networking/**/*.swift'
       ss.dependency 'Alamofire'
       ss.dependency 'KMCache'
       ss.dependency 'MIOSwiftyArchitecture/Assistance'
@@ -41,20 +41,20 @@ Pod::Spec.new do |s|
   
   s.subspec 'Persistance' do |ss|
       ss.frameworks = 'UIKit', 'Foundation'
-      ss.source_files = 'swiftArchitecture/Base/Persistance/**/*.swift'
+      ss.source_files = 'SwiftyArchitecture/Base/Persistance/**/*.swift'
       ss.dependency 'FMDB'
       ss.dependency 'MIOSwiftyArchitecture/Assistance'
   end
   
   s.subspec 'RxExtension' do |ss|
-      ss.source_files = 'swiftArchitecture/Base/RxExtension/**/*.swift'
+      ss.source_files = 'SwiftyArchitecture/Base/RxExtension/**/*.swift'
       ss.dependency 'MIOSwiftyArchitecture/Assistance'
       ss.dependency 'MIOSwiftyArchitecture/Networking'
       ss.dependency 'RxSwift', '~> 5.0'
   end
 
   s.subspec 'AppDocker' do |ss|
-      ss.source_files = 'swiftArchitecture/Base/AppDocker/**/*.swift'
+      ss.source_files = 'SwiftyArchitecture/Base/AppDocker/**/*.swift'
       ss.dependency 'MIOSwiftyArchitecture/Assistance'
       ss.dependency 'RxSwift', '~> 5.0'
       ss.dependency 'RxRealm'
@@ -64,7 +64,7 @@ Pod::Spec.new do |s|
   
   
   
-  # s.xcconfig = { "SWIFT_OBJC_BRIDGING_HEADER" => "swiftArchitecture/Resource/swiftArchitecture-Bridging-Header.h" }
-  # s.module_map = 'swiftArchitecture/Resource/module.modulemap'
+  # s.xcconfig = { "SWIFT_OBJC_BRIDGING_HEADER" => "SwiftyArchitecture/Resource/swiftArchitecture-Bridging-Header.h" }
+  # s.module_map = 'SwiftyArchitecture/Resource/module.modulemap'
 
 end

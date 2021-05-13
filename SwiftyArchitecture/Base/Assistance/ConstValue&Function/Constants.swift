@@ -9,8 +9,8 @@
 import UIKit
 
 public struct Constants {
-    public static let defaultDomain = "com.klein.mioke"
-    public static let networkingDomain = "com.klein.mioke.networking"
+    public static let defaultDomain = "swiftyarchitecture.default"
+    public static let networkingDomain = "swiftyarchitecture.networking"
 }
 
 extension Constants {

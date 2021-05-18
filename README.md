@@ -1,7 +1,7 @@
 # SwiftArchitectureWithPOP
 A base architecture written in swift and protocol oriented. 
 
-### Install
+### Installation
 ##### Using cocoapods:
 ```ruby
 pod 'SwiftyArchitecture'
@@ -90,6 +90,63 @@ func handle(data: Any) throws -> Void {
     }
   })
   ```
+  
+#### Data Center
+`SwiftyArchitecture` provides a data center, which can automatically manage your models, data and requests. This function is based on `Reactive Functional Programing`, and using `RxSwift`. The networking kit is using `API` and database is `Realm`.
+
+We provide a accessor called `DataAccessObject<Object>`, and all data or models can be read throught this DAO.
+
+Example:
+```swift
+final class User: Object {
+    @objc dynamic var userId: String = ""
+    @objc dynamic var name: String = ""
+}
+
+// read all users and display on table view.
+DataAccessObject<User>.all
+    .map { $0.sorted(by: <) }
+    .map { [AnimatableSectionModel(model: "", items: $0)] }
+    .bind(to: tableView.rx.items(dataSource: datasource))
+    .disposed(by: disposeBag)
+```
+
+For manage this `User` model, it must be conform to protocl `DataCenterManaged`, this protocol defines how data center should do with this model.
+
+```swift
+extension User: DataCenterManaged {
+    // defines how transform data from API to data base object.
+    static func serialize(data: User) throws -> User {
+        return data
+    }
+    // define data base object's type
+    typealias DatabaseObject = User
+    // define API's response type
+    typealias APIInfo = UserAPI
+}
+```
+
+And then you can update models throught request, and when data changed, the `Observable<User>` will notify observers the new model is coming. And data center will save the newest data to database. For developers of product, they should only need to forcus on models and actions. 
+
+```swift
+print("Show loading")
+
+let request = Request<User>()
+DataAccessObject<User>
+    .update(with: request)
+    .subscribe({ event in
+        switch event {
+        case .completed:
+            print("Hide loading")
+        case .error(let error as NSError):
+            print("Hide loading with error: \(error.localizedDescription)")
+        default:
+            break
+        }
+    })
+    .disposed(by: self.disposeBag)
+```
+  
 - **Rx supported**
 
 ApiManager provides an `Observable` for you, you can transfrom it or directly bind it to something:

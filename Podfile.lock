@@ -29,12 +29,12 @@ PODS:
     - MIOSwiftyArchitecture/Assistance
     - MIOSwiftyArchitecture/Networking
     - RxSwift (~> 5.0)
-  - Realm (10.7.5):
-    - Realm/Headers (= 10.7.5)
-  - Realm/Headers (10.7.5)
-  - RealmSwift (10.7.5):
-    - Realm (= 10.7.5)
-  - RxCocoa (5.1.1):
+  - Realm (10.15.1):
+    - Realm/Headers (= 10.15.1)
+  - Realm/Headers (10.15.1)
+  - RealmSwift (10.15.1):
+    - Realm (= 10.15.1)
+  - RxCocoa (5.1.3):
     - RxRelay (~> 5)
     - RxSwift (~> 5)
   - RxDataSources (4.0.1):
@@ -46,9 +46,9 @@ PODS:
     - RealmSwift (~> 10.2)
     - RxCocoa (~> 5.1)
     - RxSwift (~> 5.1)
-  - RxRelay (5.1.1):
+  - RxRelay (5.1.3):
     - RxSwift (~> 5)
-  - RxSwift (5.1.2)
+  - RxSwift (5.1.3)
 
 DEPENDENCIES:
   - Alamofire
@@ -83,13 +83,13 @@ SPEC CHECKSUMS:
   FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
   KMCache: 831bdf92c764325d149626d07ba8e75018167eac
   MIOSwiftyArchitecture: 911abcc2fd130ad1b2b278a0e406bf4fa123796c
-  Realm: 06f5c67f87cb8c5f27b122218ce22e9a77314517
-  RealmSwift: b46535b52e69b9ed33912f0fcb3182ab0a5743ee
-  RxCocoa: 32065309a38d29b5b0db858819b5bf9ef038b601
+  Realm: fbcbde2620d51623cc5b18e28f5b165c39abef52
+  RealmSwift: e4bea8e42efad3d543aea23b56504069c6faaea2
+  RxCocoa: e2ed092d5432e4296aa818021d27de4090ac0354
   RxDataSources: efee07fa4de48477eca0a4611e6d11e2da9c1114
   RxRealm: cc14831d5527f10fbfe547d0922cae129a07ba9d
-  RxRelay: d77f7d771495f43c556cbc43eebd1bb54d01e8e9
-  RxSwift: 1e2e1f9570186967f617e49128ed26ccf1bafc8e
+  RxRelay: 5a18c2eb2d68326ebaf0112f80d837ae41b92b97
+  RxSwift: 915abbdfb62214aa89ccd0b194d44fb478019b27
 
 PODFILE CHECKSUM: ffe6b4d309d74831ecda70f57ae19648f76f82c9
 

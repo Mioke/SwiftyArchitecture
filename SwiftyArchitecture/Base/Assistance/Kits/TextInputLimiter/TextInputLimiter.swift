@@ -8,7 +8,7 @@
 
 import UIKit
 
-@objc public protocol Inputer: class {
+@objc public protocol Inputer: AnyObject {
 }
 
 extension UITextField: Inputer { }

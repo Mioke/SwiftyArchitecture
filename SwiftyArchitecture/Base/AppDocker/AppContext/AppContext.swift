@@ -12,7 +12,8 @@ public let kAppContextChangedNotification = NSNotification.Name.init(rawValue: "
 
 public class AppContext: NSObject {
     
-    public static var current = DefaultAppContext() {
+    public static let standard = DefaultAppContext()
+    public static var current = standard {
         didSet {
             guard oldValue != current else { return }
             NotificationCenter.default.post(name: kAppContextChangedNotification, object: current)
@@ -39,6 +40,6 @@ public class AppContext: NSObject {
 final public class DefaultAppContext: AppContext {
     
     init() {
-        super.init(with: "__empty_user_id__")
+        super.init(with: "__standard__")
     }
 }

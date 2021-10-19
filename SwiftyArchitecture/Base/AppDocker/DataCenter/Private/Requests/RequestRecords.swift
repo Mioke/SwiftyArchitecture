@@ -19,7 +19,7 @@ struct RequestRecordNode {
     }
 }
 
-class RequestRecords: NSObject {
+internal class RequestRecords: NSObject {
     
     var map: [String: RequestRecordNode] = [:]
     

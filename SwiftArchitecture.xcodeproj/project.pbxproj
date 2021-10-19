@@ -191,8 +191,8 @@
 			isa = PBXGroup;
 			children = (
 				A791C6AF1C02E90000670017 /* SwiftyArchitecture */,
-				A791C6C71C02E90000670017 /* swiftArchitectureTests */,
-				A791C6D21C02E90000670017 /* swiftArchitectureUITests */,
+				A791C6C71C02E90000670017 /* SwiftArchitectureTests */,
+				A791C6D21C02E90000670017 /* SwiftArchitectureUITests */,
 				A791C6AE1C02E90000670017 /* Products */,
 				27B436A87306082FAA4D827C /* Frameworks */,
 				B41F4498FD05D386DBCFBEED /* Pods */,
@@ -224,22 +224,22 @@
 			path = SwiftyArchitecture;
 			sourceTree = "<group>";
 		};
-		A791C6C71C02E90000670017 /* swiftArchitectureTests */ = {
+		A791C6C71C02E90000670017 /* SwiftArchitectureTests */ = {
 			isa = PBXGroup;
 			children = (
 				A791C6C81C02E90000670017 /* swiftArchitectureTests.swift */,
 				A791C6CA1C02E90000670017 /* Info.plist */,
 			);
-			path = swiftArchitectureTests;
+			path = SwiftArchitectureTests;
 			sourceTree = "<group>";
 		};
-		A791C6D21C02E90000670017 /* swiftArchitectureUITests */ = {
+		A791C6D21C02E90000670017 /* SwiftArchitectureUITests */ = {
 			isa = PBXGroup;
 			children = (
 				A791C6D31C02E90000670017 /* swiftArchitectureUITests.swift */,
 				A791C6D51C02E90000670017 /* Info.plist */,
 			);
-			path = swiftArchitectureUITests;
+			path = SwiftArchitectureUITests;
 			sourceTree = "<group>";
 		};
 		B41F4498FD05D386DBCFBEED /* Pods */ = {

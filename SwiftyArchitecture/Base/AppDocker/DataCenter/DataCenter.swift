@@ -20,13 +20,18 @@ public class DataCenter: NSObject {
     public var memory: RealmDataBase
     
     public init(appContext: AppContext) {
-        self.db = appContext.db
-        self.requestRecords = RequestRecords()
+        self.db = try! RealmDataBase(appContext: appContext)
         self.memory = RealmDataBase.inMemoryDatabase(appContext: appContext)
+        self.requestRecords = RequestRecords()
         super.init()
     }
     
     internal var requestRecords: RequestRecords
+    
+    deinit {
+        self.db.realm.invalidate()
+        self.memory.realm.invalidate()
+    }
     
     // MARK: - QUERY
     

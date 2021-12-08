@@ -142,8 +142,8 @@ final class UserAPI: NSObject, ApiInfoProtocol {
         get { return .get }
     }
     
-    static var responseSerializer: ResponseSerializer<User> {
-        return JSONResponseSerializer<User>()
+    static var responseSerializer: MIOSwiftyArchitecture.ResponseSerializer<User> {
+        return MIOSwiftyArchitecture.JSONResponseSerializer<User>()
     }
 }
 

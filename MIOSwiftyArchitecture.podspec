@@ -18,7 +18,7 @@ Pod::Spec.new do |s|
   s.author           = { 'Mioke Klein' => 'mioke0428@gmail.com' }
   s.source           = { :git => 'https://github.com/Mioke/SwiftArchitectureWithPOP.git', :tag => s.version.to_s }
 
-  s.ios.deployment_target = '9.0'
+  s.ios.deployment_target = '11.0'
   s.swift_versions = '5.0'
 
 #  s.frameworks = 'UIKit', 'Foundation'
@@ -34,7 +34,7 @@ Pod::Spec.new do |s|
   s.subspec 'Networking' do |ss|
       ss.frameworks = 'UIKit', 'Foundation'
       ss.source_files = 'SwiftyArchitecture/Base/Networking/**/*.swift'
-      ss.dependency 'Alamofire'
+      ss.dependency 'Alamofire', '~> 5.4'
       ss.dependency 'KMCache'
       ss.dependency 'MIOSwiftyArchitecture/Assistance'
   end
@@ -50,16 +50,17 @@ Pod::Spec.new do |s|
       ss.source_files = 'SwiftyArchitecture/Base/RxExtension/**/*.swift'
       ss.dependency 'MIOSwiftyArchitecture/Assistance'
       ss.dependency 'MIOSwiftyArchitecture/Networking'
-      ss.dependency 'RxSwift', '~> 5.0'
+      ss.dependency 'RxSwift', '~> 6.2'
   end
 
   s.subspec 'AppDocker' do |ss|
       ss.source_files = 'SwiftyArchitecture/Base/AppDocker/**/*.swift'
       ss.dependency 'MIOSwiftyArchitecture/Assistance'
-      ss.dependency 'RxSwift', '~> 5.0'
-      ss.dependency 'RxRealm'
-      ss.dependency 'RealmSwift'
-      ss.dependency "Realm"
+      ss.dependency 'MIOSwiftyArchitecture/Networking'
+      ss.dependency 'RxSwift', '~> 6.2'
+      ss.dependency 'RxRealm', '~> 5.0'
+      ss.dependency 'RealmSwift', '~> 10.20.0'
+      ss.dependency "Realm", '~> 10.20.0'
   end
   
   

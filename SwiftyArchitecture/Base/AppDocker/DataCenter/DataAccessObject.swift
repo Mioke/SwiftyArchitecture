@@ -11,6 +11,8 @@ import RxSwift
 import RxRealm
 import RealmSwift
 
+typealias DAO = DataAccessObject
+
 public class DataAccessObject<T: Object> : NSObject {
     
     private static var dataCenter: DataCenter {

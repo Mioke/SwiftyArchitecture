@@ -41,7 +41,7 @@ class Path: NSObject {
     
     
     // 创建目录，如果已存在则返回true，不存在创建目录成功返回true，失败返回false
-    static func createDirIfNeed(at dirPath: URL) -> Bool {
+    static func createDirIfNeeded(at dirPath: URL) -> Bool {
         var isDir = ObjCBool(false)
         let exist = FileManager.default.fileExists(atPath: dirPath.absoluteString, isDirectory: &isDir)
         if exist && isDir.boolValue { // dir exists

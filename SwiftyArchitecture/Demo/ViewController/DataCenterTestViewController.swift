@@ -133,7 +133,7 @@ class DataCenterTestViewController: UIViewController {
         
         let obj = createObj()
         Observable.just(obj)
-            .bind(to: AppContext.current.db.realm.rx.add())
+            .bind(to: AppContextCurrentDatabase().rx.add())
             .disposed(by: self.disposeBag)
         
 //        try? AppContext.current.db.realm.write {
@@ -154,6 +154,7 @@ class DataCenterTestViewController: UIViewController {
         
         let humans = [Human]()
         humans.bla()
+        _ = (humans as [Racer]).fastest()
 //        humans.fastest()
     }
 

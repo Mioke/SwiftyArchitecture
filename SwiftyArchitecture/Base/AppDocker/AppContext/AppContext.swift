@@ -7,8 +7,9 @@
 //
 
 import UIKit
+import RealmSwift
 
-public let kAppContextChangedNotification = NSNotification.Name.init(rawValue: "kAppContextChangedNotification")
+public let kAppContextChangedNotification = NSNotification.Name(rawValue: "kAppContextChangedNotification")
 
 public class AppContext: NSObject {
     
@@ -21,19 +22,12 @@ public class AppContext: NSObject {
     }
 
     public var currentUserId: String
-    public var db: RealmDataBase!
     public var dataCenter: DataCenter!
     
     public init(with userId: String) {
         self.currentUserId = userId
         super.init()
-        
-        self.db = try! RealmDataBase(appContext: self)
         self.dataCenter = DataCenter(appContext: self)
-    }
-    
-    deinit {
-        self.db.realm.invalidate()
     }
 }
 
@@ -42,4 +36,13 @@ final public class DefaultAppContext: AppContext {
     init() {
         super.init(with: "__standard__")
     }
+}
+
+// MARK: - Convenience
+public func AppContextCurrentDatabase() -> Realm {
+    return AppContext.current.dataCenter.db.realm
+}
+
+public func AppContextCurrentMemory() -> Realm {
+    return AppContext.current.dataCenter.memory.realm
 }

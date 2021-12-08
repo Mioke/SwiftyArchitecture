@@ -31,7 +31,7 @@ class TestAPI: NSObject, ApiInfoProtocol {
         return ["Cookie": "uid=123456"]
     }
     
-    static var responseSerializer: ResponseSerializer<[String : Any]> {
-        return JSONResponseSerializer<[String : Any]>()
+    static var responseSerializer: MIOSwiftyArchitecture.ResponseSerializer<[String : Any]> {
+        return MIOSwiftyArchitecture.JSONResponseSerializer<[String : Any]>()
     }
 }

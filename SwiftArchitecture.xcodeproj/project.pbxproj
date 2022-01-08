@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 54;
+	objectVersion = 55;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -25,6 +25,7 @@
 		AB35E655244476B400EC361A /* DataCenterTestViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AB35E653244476B400EC361A /* DataCenterTestViewController.xib */; };
 		ABC9EA872449AFD2009D044E /* TestObjModifyVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABC9EA852449AFD2009D044E /* TestObjModifyVC.swift */; };
 		ABC9EA882449AFD2009D044E /* TestObjModifyVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = ABC9EA862449AFD2009D044E /* TestObjModifyVC.xib */; };
+		ABD632442727FE0E00AA775A /* Video.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD632432727FE0D00AA775A /* Video.swift */; };
 		ABF6CA9D243DB3C400D0849B /* TestFailureAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABF6CA9C243DB3C400D0849B /* TestFailureAPI.swift */; };
 		AF158A541E14B63900FB0BAF /* TestAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF158A531E14B63900FB0BAF /* TestAPI.swift */; };
 		AF158A561E1BB26700FB0BAF /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF158A551E1BB26700FB0BAF /* NotificationService.swift */; };
@@ -77,6 +78,7 @@
 		AB35E653244476B400EC361A /* DataCenterTestViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DataCenterTestViewController.xib; sourceTree = "<group>"; };
 		ABC9EA852449AFD2009D044E /* TestObjModifyVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestObjModifyVC.swift; sourceTree = "<group>"; };
 		ABC9EA862449AFD2009D044E /* TestObjModifyVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TestObjModifyVC.xib; sourceTree = "<group>"; };
+		ABD632432727FE0D00AA775A /* Video.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Video.swift; sourceTree = "<group>"; };
 		ABF6CA9C243DB3C400D0849B /* TestFailureAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestFailureAPI.swift; sourceTree = "<group>"; };
 		AF158A531E14B63900FB0BAF /* TestAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestAPI.swift; sourceTree = "<group>"; };
 		AF158A551E1BB26700FB0BAF /* NotificationService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
@@ -183,6 +185,7 @@
 			isa = PBXGroup;
 			children = (
 				A7826F751C0EF06A007AA18D /* UserModel.swift */,
+				ABD632432727FE0D00AA775A /* Video.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -191,8 +194,8 @@
 			isa = PBXGroup;
 			children = (
 				A791C6AF1C02E90000670017 /* SwiftyArchitecture */,
-				A791C6C71C02E90000670017 /* swiftArchitectureTests */,
-				A791C6D21C02E90000670017 /* swiftArchitectureUITests */,
+				A791C6C71C02E90000670017 /* SwiftArchitectureTests */,
+				A791C6D21C02E90000670017 /* SwiftArchitectureUITests */,
 				A791C6AE1C02E90000670017 /* Products */,
 				27B436A87306082FAA4D827C /* Frameworks */,
 				B41F4498FD05D386DBCFBEED /* Pods */,
@@ -224,22 +227,22 @@
 			path = SwiftyArchitecture;
 			sourceTree = "<group>";
 		};
-		A791C6C71C02E90000670017 /* swiftArchitectureTests */ = {
+		A791C6C71C02E90000670017 /* SwiftArchitectureTests */ = {
 			isa = PBXGroup;
 			children = (
 				A791C6C81C02E90000670017 /* swiftArchitectureTests.swift */,
 				A791C6CA1C02E90000670017 /* Info.plist */,
 			);
-			path = swiftArchitectureTests;
+			path = SwiftArchitectureTests;
 			sourceTree = "<group>";
 		};
-		A791C6D21C02E90000670017 /* swiftArchitectureUITests */ = {
+		A791C6D21C02E90000670017 /* SwiftArchitectureUITests */ = {
 			isa = PBXGroup;
 			children = (
 				A791C6D31C02E90000670017 /* swiftArchitectureUITests.swift */,
 				A791C6D51C02E90000670017 /* Info.plist */,
 			);
-			path = swiftArchitectureUITests;
+			path = SwiftArchitectureUITests;
 			sourceTree = "<group>";
 		};
 		B41F4498FD05D386DBCFBEED /* Pods */ = {
@@ -338,7 +341,7 @@
 				};
 			};
 			buildConfigurationList = A791C6A81C02E8FF00670017 /* Build configuration list for PBXProject "SwiftArchitecture" */;
-			compatibilityVersion = "Xcode 12.0";
+			compatibilityVersion = "Xcode 13.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -455,6 +458,7 @@
 				ABF6CA9D243DB3C400D0849B /* TestFailureAPI.swift in Sources */,
 				A77BAD1D1C1971A300AF7A86 /* UserTable.swift in Sources */,
 				A791C6B91C02E90000670017 /* swiftArchitecture.xcdatamodeld in Sources */,
+				ABD632442727FE0E00AA775A /* Video.swift in Sources */,
 				A753A0A31C06FE5A00C9FBFE /* ViewController.swift in Sources */,
 				A7826F761C0EF06A007AA18D /* UserModel.swift in Sources */,
 				ABC9EA872449AFD2009D044E /* TestObjModifyVC.swift in Sources */,
@@ -559,7 +563,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -610,7 +614,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;

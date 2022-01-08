@@ -8,13 +8,15 @@
 import UIKit
 import Alamofire
 
+public typealias DataResponse<T> = Alamofire.AFDataResponse<T>
+
 public protocol ResponseSerializerProtocol  {
     associatedtype SerializedObject
-    func serialize(data: Alamofire.DataResponse<Data>) throws -> SerializedObject
+    func serialize(data: DataResponse<Data>) throws -> SerializedObject
 }
 
 open class ResponseSerializer<SerializedObject>: NSObject, ResponseSerializerProtocol {
-    public func serialize(data: Alamofire.DataResponse<Data>) throws -> SerializedObject {
+    public func serialize(data: DataResponse<Data>) throws -> SerializedObject {
         throw todo_error()
     }
 }
@@ -45,10 +47,10 @@ extension JSONObject {
 extension Dictionary: JSONObject {
     public init(jsonDictionary dictionary: [AnyHashable : Any]) throws {
         self.init(uniqueKeysWithValues: dictionary.compactMap { (item) -> (key: Key, value: Value)? in
-            guard let key = item.key as? Key, let value = item.value as? Value else {
+            guard let item = item as? (key: Key, value: Value) else {
                 return nil
             }
-            return (key: key, value: value)
+            return item
         })
     }
 }
@@ -56,23 +58,19 @@ extension Dictionary: JSONObject {
 final public class JSONResponseSerializer<SerializedObject: JSONObject> : ResponseSerializer<SerializedObject> {
     
     public override func serialize(data: DataResponse<Data>) throws -> SerializedObject {
-        let result = Alamofire.Request.serializeResponseJSON(
-            options: JSONSerialization.ReadingOptions.allowFragments,
+        let serializer = Alamofire.JSONResponseSerializer()
+        let result = try serializer.serialize(
+            request: data.request,
             response: data.response,
             data: data.data,
             error: data.error)
         
-        switch result {
-        case .success(let value):
-            if let value = value as? [AnyHashable: Any] {
-                return try SerializedObject(jsonDictionary: value)
-            } else if let value = value as? [Any] {
-                return try SerializedObject(array: value)
-            } else {
-                throw todo_error()
-            }
-        case .failure(let error):
-            throw error
+        if let value = result as? [AnyHashable: Any] {
+            return try SerializedObject(jsonDictionary: value)
+        } else if let value = result as? [Any] {
+            return try SerializedObject(array: value)
+        } else {
+            throw todo_error()
         }
     }
 }

@@ -1,5 +1,5 @@
 source 'https://github.com/CocoaPods/Specs.git'
-platform :ios, '9.0'
+platform :ios, '11.0'
 use_frameworks!
 
 target "SAD" do
@@ -7,7 +7,7 @@ target "SAD" do
 	pod 'Alamofire'
     
     # rx
-    pod 'RxSwift', '~> 5.0'
+    pod 'RxSwift', '~> 6.0'
     pod 'RxDataSources'
     
     # persistence
@@ -39,7 +39,7 @@ post_install do |installer_representation|
   installer_representation.pods_project.targets.each do |target|
     
     target.build_configurations.each do |config|
-      config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '9.0'
+      config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '11.0'
     end
   end
 end

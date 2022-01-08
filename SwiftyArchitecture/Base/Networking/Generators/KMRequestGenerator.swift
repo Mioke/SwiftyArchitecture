@@ -14,27 +14,24 @@ public class KMRequestGenerator: NSObject {
     
     /// Session configuration for default HTTP request
     private static var defaultConfiguration: URLSessionConfiguration {
-        let configuration = URLSessionConfiguration.default
-        configuration.httpAdditionalHeaders = SessionManager.defaultHTTPHeaders
+        let configuration = URLSessionConfiguration.af.default
         return configuration
     }
     
     /// Session configurtion for default HTTPS request
     private static var httpsConfiguration: URLSessionConfiguration {
-        let configuration = URLSessionConfiguration.default
-        configuration.httpAdditionalHeaders = SessionManager.defaultHTTPHeaders
-        
+        let configuration = URLSessionConfiguration.af.default
         return configuration
     }
     
     /// Default session manager for HTTP requests
-    public static var defaultManager: SessionManager = {
-        return SessionManager(configuration: defaultConfiguration)
+    public static var defaultManager: Session = {
+        return Session(configuration: defaultConfiguration)
     }()
     
     /// Default session manager for HTTPs request, you can change it for customized
-    public static var httpsManager: SessionManager = {
-        return SessionManager(configuration: httpsConfiguration)
+    public static var httpsManager: Session = {
+        return Session(configuration: httpsConfiguration)
     }()
     
     public class func generateRequest<T: ApiInfoProtocol>(
@@ -43,7 +40,7 @@ public class KMRequestGenerator: NSObject {
         
         let manager = T.server.isHTTPs ? httpsManager : defaultManager
         manager.session.configuration.timeoutIntervalForRequest = api.timeoutInterval
-        
+            
         let req = manager.request(api.apiURLString,
                                   method: T.httpMethod,
                                   parameters: params,

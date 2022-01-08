@@ -11,6 +11,8 @@ import RxSwift
 import RxRealm
 import RealmSwift
 
+typealias DAO = DataAccessObject
+
 public class DataAccessObject<T: Object> : NSObject {
     
     private static var dataCenter: DataCenter {
@@ -46,7 +48,7 @@ public enum RequestFreshness {
 public protocol DataCenterManaged {
     
     // The Object type in database
-    associatedtype DatabaseObject
+    associatedtype DatabaseObject: Object
     
     // API information class for requesting data.
     associatedtype APIInfo: ApiInfoProtocol
@@ -91,10 +93,10 @@ extension DataAccessObject where T: DataCenterManaged {
         
         return Observable<Void>.create { observer in
             let api = T.api
-            let rlm = AppContext.current.dataCenter.db.realm
+            let rlm = self.stored.realm
             return api.rx.loadData(with: request.params)
                 .map({ rst in
-                    return try T.serialize(data: rst) as! Object
+                    return try T.serialize(data: rst) as Object
                 })
                 .do(onError: { observer.onError($0) })
                 .subscribe(rlm.rx.add(update: .modified, onError: { _, error in
@@ -113,6 +115,17 @@ extension DataAccessObject where T: DataCenterManaged {
             }
         default:
             return nil
+        }
+    }
+    
+    private static var stored: RealmDataBase {
+        switch T.cachePolicy {
+        case .memoryCache:
+            return AppContext.current.dataCenter.memory
+        case .diskCache:
+            return AppContext.current.dataCenter.db
+        case .persistance:
+            return AppContext.current.dataCenter.db
         }
     }
     

@@ -38,7 +38,7 @@ final public class UI {
 
 
 public protocol ReusableView { }
-public protocol NibLoadableView: class { }
+public protocol NibLoadableView: AnyObject { }
 
 extension ReusableView where Self: UITableViewCell {
     public static var reusedIdentifier: String {
@@ -47,7 +47,6 @@ extension ReusableView where Self: UITableViewCell {
 }
 
 extension NibLoadableView where Self: UIView {
-    
     public static var NibName: String {
         return String(describing: self.self)
     }

@@ -9,6 +9,7 @@
 import UIKit
 import CoreData
 import Alamofire
+import ApplicationProtocol
 
 @_exported import MIOSwiftyArchitecture
 
@@ -35,6 +36,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         ModuleLoader.loader().add {
             // some Module initialization operations
+        }
+        
+        if let url = Bundle.main.url(forResource: "ModulesRegistery", withExtension: ".plist") {
+            try! ModuleManager.default.registerModules(withConfigFilePath: url)
+        }
+        
+        if let applicationModule = try? ModuleManager.default.bridge.resolve(.application) as? ApplicationProtocol {
+            applicationModule.startApplication()
         }
         
         return true

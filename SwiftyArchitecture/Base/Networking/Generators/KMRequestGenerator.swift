@@ -25,13 +25,13 @@ public class KMRequestGenerator: NSObject {
     }
     
     /// Default session manager for HTTP requests
-    public static var defaultManager: Session = {
-        return Session(configuration: defaultConfiguration)
+    public static var defaultManager: Alamofire.Session = {
+        return Alamofire.Session(configuration: defaultConfiguration)
     }()
     
     /// Default session manager for HTTPs request, you can change it for customized
-    public static var httpsManager: Session = {
-        return Session(configuration: httpsConfiguration)
+    public static var httpsManager: Alamofire.Session = {
+        return Alamofire.Session(configuration: httpsConfiguration)
     }()
     
     public class func generateRequest<T: ApiInfoProtocol>(

@@ -11,61 +11,66 @@ Pod::Spec.new do |s|
   s.version          = '1.0.2'
   s.summary          = 'Breezy architecture in Swift for building iOS applications.'
   s.description      = <<-DESC
-                     * Breezy architecture in Swift for building iOS applications. It offers lots of functions which simple and easy to use for developer.
-                       DESC
+  * Breezy architecture in Swift for building iOS applications. It offers lots of functions which simple and easy to use for developer.
+  DESC
   s.homepage         = 'https://github.com/Mioke/SwiftArchitectureWithPOP'
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
   s.author           = { 'Mioke Klein' => 'mioke0428@gmail.com' }
   s.source           = { :git => 'https://github.com/Mioke/SwiftArchitectureWithPOP.git', :tag => s.version.to_s }
-
+  
   s.ios.deployment_target = '11.0'
   s.swift_versions = '5.0'
-
-#  s.frameworks = 'UIKit', 'Foundation'
+  
+  #  s.frameworks = 'UIKit', 'Foundation'
   # s.libraries = 'c++', 'sqlite3'
-
-#  s.source_files = 'SwiftyArchitecture/Base/**/*.swift'
-
+  
+  #  s.source_files = 'SwiftyArchitecture/Base/**/*.swift'
+  
   s.subspec 'Assistance' do |ss|
-      ss.frameworks = 'UIKit', 'Foundation'
-      ss.source_files = 'SwiftyArchitecture/Base/Assistance/**/*.swift'
+    ss.frameworks = 'UIKit', 'Foundation'
+    ss.source_files = 'SwiftyArchitecture/Base/Assistance/**/*.swift'
   end
   
   s.subspec 'Networking' do |ss|
-      ss.frameworks = 'UIKit', 'Foundation'
-      ss.source_files = 'SwiftyArchitecture/Base/Networking/**/*.swift'
-      ss.dependency 'Alamofire', '~> 5.4'
-      ss.dependency 'KMCache'
-      ss.dependency 'MIOSwiftyArchitecture/Assistance'
+    ss.frameworks = 'UIKit', 'Foundation'
+    ss.source_files = 'SwiftyArchitecture/Base/Networking/**/*.swift'
+    ss.dependency 'Alamofire', '~> 5.4'
+    ss.dependency 'KMCache'
+    ss.dependency 'MIOSwiftyArchitecture/Assistance'
   end
   
   s.subspec 'Persistance' do |ss|
-      ss.frameworks = 'UIKit', 'Foundation'
-      ss.source_files = 'SwiftyArchitecture/Base/Persistance/**/*.swift'
-      ss.dependency 'FMDB'
-      ss.dependency 'MIOSwiftyArchitecture/Assistance'
+    ss.frameworks = 'UIKit', 'Foundation'
+    ss.source_files = 'SwiftyArchitecture/Base/Persistance/**/*.swift'
+    ss.dependency 'FMDB'
+    ss.dependency 'MIOSwiftyArchitecture/Assistance'
   end
   
   s.subspec 'RxExtension' do |ss|
-      ss.source_files = 'SwiftyArchitecture/Base/RxExtension/**/*.swift'
-      ss.dependency 'MIOSwiftyArchitecture/Assistance'
-      ss.dependency 'MIOSwiftyArchitecture/Networking'
-      ss.dependency 'RxSwift', '~> 6.2'
-  end
-
-  s.subspec 'AppDocker' do |ss|
-      ss.source_files = 'SwiftyArchitecture/Base/AppDocker/**/*.swift'
-      ss.dependency 'MIOSwiftyArchitecture/Assistance'
-      ss.dependency 'MIOSwiftyArchitecture/Networking'
-      ss.dependency 'RxSwift', '~> 6.2'
-      ss.dependency 'RxRealm', '~> 5.0'
-      ss.dependency 'RealmSwift', '~> 10.20.0'
-      ss.dependency "Realm", '~> 10.20.0'
+    ss.source_files = 'SwiftyArchitecture/Base/RxExtension/**/*.swift'
+    ss.dependency 'MIOSwiftyArchitecture/Assistance'
+    ss.dependency 'MIOSwiftyArchitecture/Networking'
+    ss.dependency 'RxSwift', '~> 6.2'
   end
   
+  s.subspec 'AppDocker' do |ss|
+    ss.source_files = 'SwiftyArchitecture/Base/AppDocker/**/*.swift'
+    ss.dependency 'MIOSwiftyArchitecture/Assistance'
+    ss.dependency 'MIOSwiftyArchitecture/Networking'
+    ss.dependency 'RxSwift', '~> 6.2'
+    ss.dependency 'RxRealm', '~> 5.0'
+    ss.dependency 'RealmSwift', '~> 10.20.0'
+    ss.dependency "Realm", '~> 10.20.0'
+  end
+  
+  s.subspec 'Componentize' do |ss|
+    ss.source_files = 'SwiftyArchitecture/Base/Componentize/**/*.swift'
+    ss.dependency 'Swinject', '~> 2.8'
+    ss.dependency 'MIOSwiftyArchitecture/Assistance'
+  end
   
   
   # s.xcconfig = { "SWIFT_OBJC_BRIDGING_HEADER" => "SwiftyArchitecture/Resource/swiftArchitecture-Bridging-Header.h" }
   # s.module_map = 'SwiftyArchitecture/Resource/module.modulemap'
-
+  
 end

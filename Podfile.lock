@@ -1,6 +1,17 @@
 PODS:
-  - Alamofire (4.9.1)
-  - Differentiator (4.0.1)
+  - Alamofire (5.5.0)
+  - Application (0.0.1):
+    - ApplicationProtocol
+    - AuthProtocol
+    - MIOSwiftyArchitecture
+  - ApplicationProtocol (0.0.1):
+    - MIOSwiftyArchitecture
+  - Auth (0.0.1):
+    - AuthProtocol
+    - MIOSwiftyArchitecture
+  - AuthProtocol (0.0.1):
+    - MIOSwiftyArchitecture
+  - Differentiator (5.0.0)
   - FMDB (2.7.5):
     - FMDB/standard (= 2.7.5)
   - FMDB/standard (2.7.5)
@@ -8,18 +19,23 @@ PODS:
   - MIOSwiftyArchitecture (1.0.2):
     - MIOSwiftyArchitecture/AppDocker (= 1.0.2)
     - MIOSwiftyArchitecture/Assistance (= 1.0.2)
+    - MIOSwiftyArchitecture/Componentize (= 1.0.2)
     - MIOSwiftyArchitecture/Networking (= 1.0.2)
     - MIOSwiftyArchitecture/Persistance (= 1.0.2)
     - MIOSwiftyArchitecture/RxExtension (= 1.0.2)
   - MIOSwiftyArchitecture/AppDocker (1.0.2):
     - MIOSwiftyArchitecture/Assistance
-    - Realm
-    - RealmSwift
-    - RxRealm
-    - RxSwift (~> 5.0)
+    - MIOSwiftyArchitecture/Networking
+    - Realm (~> 10.20.0)
+    - RealmSwift (~> 10.20.0)
+    - RxRealm (~> 5.0)
+    - RxSwift (~> 6.2)
   - MIOSwiftyArchitecture/Assistance (1.0.2)
+  - MIOSwiftyArchitecture/Componentize (1.0.2):
+    - MIOSwiftyArchitecture/Assistance
+    - Swinject (~> 2.8)
   - MIOSwiftyArchitecture/Networking (1.0.2):
-    - Alamofire
+    - Alamofire (~> 5.4)
     - KMCache
     - MIOSwiftyArchitecture/Assistance
   - MIOSwiftyArchitecture/Persistance (1.0.2):
@@ -28,36 +44,41 @@ PODS:
   - MIOSwiftyArchitecture/RxExtension (1.0.2):
     - MIOSwiftyArchitecture/Assistance
     - MIOSwiftyArchitecture/Networking
-    - RxSwift (~> 5.0)
-  - Realm (10.7.6):
-    - Realm/Headers (= 10.7.6)
-  - Realm/Headers (10.7.6)
-  - RealmSwift (10.7.6):
-    - Realm (= 10.7.6)
-  - RxCocoa (5.1.1):
-    - RxRelay (~> 5)
-    - RxSwift (~> 5)
-  - RxDataSources (4.0.1):
-    - Differentiator (~> 4.0)
-    - RxCocoa (~> 5.0)
-    - RxSwift (~> 5.0)
-  - RxRealm (4.0.2):
-    - Realm (~> 10.2)
-    - RealmSwift (~> 10.2)
-    - RxCocoa (~> 5.1)
-    - RxSwift (~> 5.1)
-  - RxRelay (5.1.1):
-    - RxSwift (~> 5)
-  - RxSwift (5.1.2)
+    - RxSwift (~> 6.2)
+  - Realm (10.20.1):
+    - Realm/Headers (= 10.20.1)
+  - Realm/Headers (10.20.1)
+  - RealmSwift (10.20.1):
+    - Realm (= 10.20.1)
+  - RxCocoa (6.2.0):
+    - RxRelay (= 6.2.0)
+    - RxSwift (= 6.2.0)
+  - RxDataSources (5.0.0):
+    - Differentiator (~> 5.0)
+    - RxCocoa (~> 6.0)
+    - RxSwift (~> 6.0)
+  - RxRealm (5.0.3):
+    - Realm (~> 10.7)
+    - RealmSwift (~> 10.7)
+    - RxCocoa (~> 6.0)
+    - RxSwift (~> 6.0)
+  - RxRelay (6.2.0):
+    - RxSwift (= 6.2.0)
+  - RxSwift (6.2.0)
+  - Swinject (2.8.1)
 
 DEPENDENCIES:
   - Alamofire
+  - Application (from `./ComponentizeDemo/Application`)
+  - ApplicationProtocol (from `./ComponentizeDemo/Application`)
+  - Auth (from `./ComponentizeDemo/Auth`)
+  - AuthProtocol (from `./ComponentizeDemo/Auth`)
   - FMDB
   - MIOSwiftyArchitecture (from `./`)
   - RealmSwift
   - RxDataSources
   - RxRealm
-  - RxSwift (~> 5.0)
+  - RxSwift (~> 6.0)
 
 SPEC REPOS:
   https://github.com/CocoaPods/Specs.git:
@@ -72,25 +93,39 @@ SPEC REPOS:
     - RxRealm
     - RxRelay
     - RxSwift
+    - Swinject
 
 EXTERNAL SOURCES:
+  Application:
+    :path: "./ComponentizeDemo/Application"
+  ApplicationProtocol:
+    :path: "./ComponentizeDemo/Application"
+  Auth:
+    :path: "./ComponentizeDemo/Auth"
+  AuthProtocol:
+    :path: "./ComponentizeDemo/Auth"
   MIOSwiftyArchitecture:
     :path: "./"
 
 SPEC CHECKSUMS:
-  Alamofire: 85e8a02c69d6020a0d734f6054870d7ecb75cf18
-  Differentiator: 886080237d9f87f322641dedbc5be257061b0602
+  Alamofire: 1c4fb5369c3fe93d2857c780d8bbe09f06f97e7c
+  Application: 2ed8d615f5046910bf6ee977d07be6debc0b37a3
+  ApplicationProtocol: a15c0fc0048ab7c7a4d4774f890681b5c856f375
+  Auth: 84f8e34b538314dfa6ea928f1b797927b49f305d
+  AuthProtocol: 96085e4144f5393c85dade3d8d322856204d9d02
+  Differentiator: e8497ceab83c1b10ca233716d547b9af21b9344d
   FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
   KMCache: 831bdf92c764325d149626d07ba8e75018167eac
-  MIOSwiftyArchitecture: 911abcc2fd130ad1b2b278a0e406bf4fa123796c
-  Realm: ed860452717c8db8f4bf832b6807f7f2ce708839
-  RealmSwift: e31c4ddbcc42ac879313d656b86f9ca539f6f4f4
-  RxCocoa: 32065309a38d29b5b0db858819b5bf9ef038b601
-  RxDataSources: efee07fa4de48477eca0a4611e6d11e2da9c1114
-  RxRealm: cc14831d5527f10fbfe547d0922cae129a07ba9d
-  RxRelay: d77f7d771495f43c556cbc43eebd1bb54d01e8e9
-  RxSwift: 1e2e1f9570186967f617e49128ed26ccf1bafc8e
+  MIOSwiftyArchitecture: 2920e0833942e5983c7d728179af50d2339de853
+  Realm: fac5ecd031fcb81171627b74944c885662d4b266
+  RealmSwift: 9b02d25acb46a14756bde9893abb99e2e3675923
+  RxCocoa: 4baf94bb35f2c0ab31bc0cb9f1900155f646ba42
+  RxDataSources: aa47cc1ed6c500fa0dfecac5c979b723542d79cf
+  RxRealm: d9fedf16e3ead54b0be2077d2ff4a1b2dc27be39
+  RxRelay: e72dbfd157807478401ef1982e1c61c945c94b2f
+  RxSwift: d356ab7bee873611322f134c5f9ef379fa183d8f
+  Swinject: 97112918bd7e0785dc2df7036213f3c8cbba6586
 
-PODFILE CHECKSUM: ffe6b4d309d74831ecda70f57ae19648f76f82c9
+PODFILE CHECKSUM: 7d8e6c4ba0e69005562d348fcf4a7a245edd1591
 
-COCOAPODS: 1.10.1
+COCOAPODS: 1.11.2

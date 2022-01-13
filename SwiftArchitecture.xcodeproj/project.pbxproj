@@ -29,6 +29,7 @@
 		ABF6CA9D243DB3C400D0849B /* TestFailureAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABF6CA9C243DB3C400D0849B /* TestFailureAPI.swift */; };
 		AF158A541E14B63900FB0BAF /* TestAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF158A531E14B63900FB0BAF /* TestAPI.swift */; };
 		AF158A561E1BB26700FB0BAF /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF158A551E1BB26700FB0BAF /* NotificationService.swift */; };
+		AF437DD127898EB40052FEAE /* ModulesRegistery.plist in Resources */ = {isa = PBXBuildFile; fileRef = AF437DD027898EB40052FEAE /* ModulesRegistery.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -82,6 +83,7 @@
 		ABF6CA9C243DB3C400D0849B /* TestFailureAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestFailureAPI.swift; sourceTree = "<group>"; };
 		AF158A531E14B63900FB0BAF /* TestAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestAPI.swift; sourceTree = "<group>"; };
 		AF158A551E1BB26700FB0BAF /* NotificationService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
+		AF437DD027898EB40052FEAE /* ModulesRegistery.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = ModulesRegistery.plist; path = Demo/ModulesRegistery.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -222,6 +224,7 @@
 				A791C6BC1C02E90000670017 /* LaunchScreen.storyboard */,
 				A791C6BF1C02E90000670017 /* Info.plist */,
 				A791C6B71C02E90000670017 /* swiftArchitecture.xcdatamodeld */,
+				AF437DD027898EB40052FEAE /* ModulesRegistery.plist */,
 				A752DE441C03F287008E3118 /* Resource */,
 			);
 			path = SwiftyArchitecture;
@@ -320,7 +323,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0710;
-				LastUpgradeCheck = 1120;
+				LastUpgradeCheck = 1310;
 				ORGANIZATIONNAME = KleinMioke;
 				TargetAttributes = {
 					A791C6AC1C02E90000670017 = {
@@ -368,6 +371,7 @@
 				A791C6BE1C02E90000670017 /* LaunchScreen.storyboard in Resources */,
 				A791C6BB1C02E90000670017 /* Assets.xcassets in Resources */,
 				AB35E655244476B400EC361A /* DataCenterTestViewController.xib in Resources */,
+				AF437DD127898EB40052FEAE /* ModulesRegistery.plist in Resources */,
 				A791C6B61C02E90000670017 /* Main.storyboard in Resources */,
 				ABC9EA882449AFD2009D044E /* TestObjModifyVC.xib in Resources */,
 			);

@@ -3,23 +3,23 @@ platform :ios, '11.0'
 use_frameworks!
 
 target "SAD" do
-    # networking
-	pod 'Alamofire'
-    
-    # rx
-    pod 'RxSwift', '~> 6.0'
-    pod 'RxDataSources'
-    
-    # persistence
-    pod 'RxRealm'
-    pod 'RealmSwift'
-    
-    # or sqlite
-    pod 'FMDB'
-    
-    pod 'MIOSwiftyArchitecture', :path => './'
-
-    
+  # networking
+  pod 'Alamofire'
+  
+  # rx
+  pod 'RxSwift', '~> 6.0'
+  pod 'RxDataSources'
+  
+  # persistence
+  pod 'RxRealm'
+  pod 'RealmSwift'
+  
+  # or sqlite
+  pod 'FMDB'
+  
+  pod 'MIOSwiftyArchitecture', :path => './'
+  
+  
     # kits for demo
 #    pod 'YYModel'
     
@@ -27,6 +27,16 @@ target "SAD" do
 #	pod "AFNetworking"
 
 #	pod "KMCache"
+
+  # componentize
+  pod 'Application', :path => './ComponentizeDemo/Application'
+  pod 'ApplicationProtocol', :path => './ComponentizeDemo/Application'
+  
+  pod 'Auth', :path => './ComponentizeDemo/Auth'
+  pod 'AuthProtocol', :path => './ComponentizeDemo/Auth'
+  
+#  pod 'Notification', :path => './ComponentizeDemo/Notification'
+#  pod 'NotificationProtocol', :path => './ComponentizeDemo/Notification'
 end
 
 # pod 'FMDB/FTS'   # FMDB with FTS

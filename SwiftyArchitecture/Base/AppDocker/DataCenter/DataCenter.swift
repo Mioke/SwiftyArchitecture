@@ -34,29 +34,48 @@ public class DataCenter: NSObject {
     }
     
     // MARK: - QUERY
-    
-    public func object<KeyType, Element: Object>(with key: KeyType, type: Element.Type) -> Observable<Element>? {
-        if let obj = self.db.realm.object(ofType: type, forPrimaryKey: key) {
-            return Observable.from(object: obj)
+    public func object<KeyType, Element: Object>(with key: KeyType, type: Element.Type) -> Observable<Element?> {
+        return Observable<Element?>.create { observer in
+            observer.onNext(self.db.realm.object(ofType: type, forPrimaryKey: key))
+            observer.onCompleted()
+            return Disposables.create()
         }
-        return nil
     }
     
     public func objects<Element: Object>(with type: Element.Type) -> Observable<[Element]> {
-        let result = self.db.realm.objects(type)
-        return Observable.array(from: result)
+        return Observable<[Element]>.create { observer in
+            observer.onNext(self.db.realm.objects(type).toArray())
+            observer.onCompleted()
+            return Disposables.create()
+        }
     }
     
     public func objects<Element: Object>(with type: Element.Type, predicate: NSPredicate) -> Observable<[Element]> {
-        let result = self.db.realm.objects(type).filter(predicate)
-        return Observable.array(from: result)
+        return Observable<[Element]>.create { observer in
+            observer.onNext(self.db.realm.objects(type).filter(predicate).toArray())
+            observer.onCompleted()
+            return Disposables.create()
+        }
     }
     
-    public func objects<Element: Object>(with type: Element.Type, isIncluded: (Element) -> Bool) -> Observable<[Element]> {
-        let result = self.db.realm.objects(type).filter(isIncluded)
-        return Observable.from(optional: result)
+    public func objects<Element: Object>(with type: Element.Type, isIncluded: @escaping (Element) -> Bool) -> Observable<[Element]> {
+        return Observable<[Element]>.create { observer in
+            observer.onNext(self.db.realm.objects(type).filter(isIncluded))
+            observer.onCompleted()
+            return Disposables.create()
+        }
     }
     
     // MARK: - WRITE
+    
+    public func upsert<Element: Object>(object: Element) -> Observable<Void> {
+        return .create { ob in
+            return Observable.just(object).subscribe(
+                self.db.realm.rx.add(update: .modified, onError: { _, error in
+                    ob.onError(error)
+                })
+            )
+        }
+    }
 
 }

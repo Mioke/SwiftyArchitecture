@@ -35,7 +35,6 @@ Pod::Spec.new do |s|
     ss.frameworks = 'UIKit', 'Foundation'
     ss.source_files = 'SwiftyArchitecture/Base/Networking/**/*.swift'
     ss.dependency 'Alamofire', '~> 5.4'
-    ss.dependency 'KMCache'
     ss.dependency 'MIOSwiftyArchitecture/Assistance'
   end
   

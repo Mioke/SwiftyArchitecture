@@ -31,9 +31,7 @@ class TestObjModifyVC: UIViewController {
     }
     
     func bindData() -> Void {
-        guard let obj = AppContext.current.dataCenter.object(with: objectKey, type: TestObj.self) else {
-            return
-        }
+        let obj = AppContext.current.dataCenter.object(with: objectKey, type: TestObj.self).compactMap { $0 }
         
         obj.map { $0.key }
             .bind(to: self.keyLabel.rx.text)

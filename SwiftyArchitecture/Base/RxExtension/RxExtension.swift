@@ -10,7 +10,6 @@ import Foundation
 import RxSwift
 
 extension Reactive  {
-    
     public func loadData<T: ApiInfoProtocol>(with params: [String: Any]?)
         -> Observable<T.ResultType> where Base: API<T> {
         return Observable.create { observer in
@@ -25,5 +24,11 @@ extension Reactive  {
             })
             return Disposables.create(with: self.base.cancel)
         }
+    }
+}
+
+extension BehaviorSubject {
+    public var value: Element? {
+        return try? value()
     }
 }

@@ -23,7 +23,7 @@ public class DataAccessObject<T: Object> : NSObject {
         return dataCenter.objects(with: T.self)
     }
     
-    public static func object<KeyType>(with key: KeyType) -> Observable<T>? {
+    public static func object<KeyType>(with key: KeyType) -> Observable<T?> {
         return dataCenter.object(with: key, type:T.self)
     }
     

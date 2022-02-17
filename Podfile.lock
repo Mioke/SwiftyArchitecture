@@ -15,7 +15,6 @@ PODS:
   - FMDB (2.7.5):
     - FMDB/standard (= 2.7.5)
   - FMDB/standard (2.7.5)
-  - KMCache (0.1.9)
   - MIOSwiftyArchitecture (1.0.2):
     - MIOSwiftyArchitecture/AppDocker (= 1.0.2)
     - MIOSwiftyArchitecture/Assistance (= 1.0.2)
@@ -36,7 +35,6 @@ PODS:
     - Swinject (~> 2.8)
   - MIOSwiftyArchitecture/Networking (1.0.2):
     - Alamofire (~> 5.4)
-    - KMCache
     - MIOSwiftyArchitecture/Assistance
   - MIOSwiftyArchitecture/Persistance (1.0.2):
     - FMDB
@@ -85,7 +83,6 @@ SPEC REPOS:
     - Alamofire
     - Differentiator
     - FMDB
-    - KMCache
     - Realm
     - RealmSwift
     - RxCocoa
@@ -115,8 +112,7 @@ SPEC CHECKSUMS:
   AuthProtocol: 96085e4144f5393c85dade3d8d322856204d9d02
   Differentiator: e8497ceab83c1b10ca233716d547b9af21b9344d
   FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
-  KMCache: 831bdf92c764325d149626d07ba8e75018167eac
-  MIOSwiftyArchitecture: 2920e0833942e5983c7d728179af50d2339de853
+  MIOSwiftyArchitecture: 036d853a132a3ed4980e14c02a9d9847ea93786e
   Realm: fac5ecd031fcb81171627b74944c885662d4b266
   RealmSwift: 9b02d25acb46a14756bde9893abb99e2e3675923
   RxCocoa: 4baf94bb35f2c0ab31bc0cb9f1900155f646ba42

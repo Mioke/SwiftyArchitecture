@@ -34,32 +34,23 @@ public class AuthController: NSObject {
     
     private let disposeBag = DisposeBag()
     
+    private let writeSchedule: SerialDispatchQueueScheduler = .init(internalSerialQueueName: "com.authcontroller.write")
+    
     init(configuration: Configuration) {
         self.configuration = configuration
     }
     
-    func loadPreviousSession(appContext: AppContext) throws {
-        guard appContext.user.authState.value == .unauthenticated else {
-            return
-        }
-        switch self.configuration.archiveLocation {
-        case .file(let path):
-            let data = try Data(contentsOf: URL(fileURLWithPath: path))
-            appContext.user.archivableInfo = try appContext.user.archivableInfoType.decode(data)
-            appContext.user.authState.onNext(.presession)
-        case .database:
-            // TODO: - here should read the previous user's data center.
-            appContext.dataCenter.object(with: appContext.user.userId, type: UserArchiveData.self)
-                .subscribe(onNext: { data in
-                    guard let data = data,
-                          let decoded = try? appContext.user.archivableInfoType.decode(data.archivedData) else {
-                              return
-                          }
-                    appContext.user.archivableInfo = decoded
-                    appContext.user.authState.onNext(.presession)
-                })
-                .disposed(by: disposeBag)
-        }
+    func loadArchivedData(appContext: AppContext) -> Observable<Bool> {
+        return appContext.dataCenter.object(with: appContext.user.id, type: UserArchiveData.self)
+            .flatMapLatest { data -> Observable<Bool> in
+                guard let data = data else { return .just(true) }
+                guard let decoded = try? type(of: appContext.user.archivableInfo).decode(data.archivedData) else {
+                    return .just(false)
+                }
+                appContext.user.archivableInfo = decoded
+                appContext.user.authState.onNext(.presession)
+                return .just(true)
+            }
     }
     
     func auth(appContext: AppContext) throws -> Observable<Void> {
@@ -88,6 +79,7 @@ public class AuthController: NSObject {
                 return self.archiveInDatabase(data: data, appContext: appContext, observer: observer)
             }
         }
+        .subscribe(on: writeSchedule)
     }
     
     func archiveInDatabase(data: Data, appContext: AppContext, observer: AnyObserver<Void>) -> Disposable {
@@ -116,10 +108,9 @@ public class AuthController: NSObject {
             .take(1)
             .map { _ in () }
     }
-    
 }
 
-private class UserArchiveData: Object {
+class UserArchiveData: Object {
     @Persisted(primaryKey: true) var userId: String
     @Persisted var archivedData: Data
 }

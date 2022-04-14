@@ -34,13 +34,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         self.window?.rootViewController = nav
         self.window?.makeKeyAndVisible()
         
-        ModuleLoader.loader().add {
-            // some Module initialization operations
-        }
-        
         if let url = Bundle.main.url(forResource: "ModulesRegistery", withExtension: ".plist") {
             try! ModuleManager.default.registerModules(withConfigFilePath: url)
         }
+        try! ModuleManager.default.initiator.start()
         
         if let applicationModule = try? ModuleManager.default.bridge.resolve(.application) as? ApplicationProtocol {
             applicationModule.startApplication()

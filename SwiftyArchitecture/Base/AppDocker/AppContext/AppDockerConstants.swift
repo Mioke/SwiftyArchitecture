@@ -10,23 +10,25 @@ import Foundation
 public let AppDockerDomain = "com.mioke.appdocker"
 
 public struct AppDockerError {
-    static let noDelegateError: NSError = error(code: .noDelegateError, message: .noDelegate)
+    struct Info {
+        let code: Int
+        let message: String
+    }
 }
 
-public enum AppDockerErrorCode: Int {
-    case noDelegateError = 1
-}
-
-public enum AppDockerErrorMessage: String {
-    case noDelegate = "The delegate of this function hasn't been set yet."
+extension AppDockerError {
+    private static var noDelegate: Info {
+        .init(code: 1, message: "The delegate of this function hasn't been set yet.")
+    }
+    public static let noDelegateError: NSError = error(info: noDelegate)
 }
 
 // MARK: - Convenience & Private
 
-func error(code: AppDockerErrorCode, message: AppDockerErrorMessage) -> NSError {
+func error(info: AppDockerError.Info) -> NSError {
     return .init(
         domain: AppDockerDomain,
-        code: code.rawValue,
-        userInfo: [NSLocalizedDescriptionKey: message]
+        code: info.code,
+        userInfo: [NSLocalizedDescriptionKey: info.message]
     )
 }

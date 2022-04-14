@@ -14,9 +14,19 @@ class AuthModule: ModuleProtocol, AuthProtocol {
     }
     
     func authenticate(completion: @escaping (User) -> ()) throws {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-            let me = User(id: "15780", name: "Klein")
-            completion(me)
+        let user = User(id: "15780")
+        ModuleManager.default.beginUserSession(with: user.id)
+        self.markAsReleasing()
+    }
+    
+    func refreshAuthenticationIfNeeded(completion: @escaping (User) -> ()) {
+        if let previousUID = AppContext.standard.previousLaunchedUserId {
+            let previousUser = User(id: previousUID)
+            let previousContext = AppContext(user: previousUser)
+            // get token from previous context data center, like:
+            // let credential = previousContext.dataCenter.object(with: previousUID, type: Credential.Type)
+            print(previousContext)
+            // and then do some refresh token logic here.
         }
     }
     

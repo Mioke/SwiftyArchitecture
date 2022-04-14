@@ -2,6 +2,7 @@ import Foundation
 import MIOSwiftyArchitecture
 import ApplicationProtocol
 import AuthProtocol
+import RxSwift
 
 class ApplicationModule: ModuleProtocol, ApplicationProtocol {
     
@@ -10,6 +11,8 @@ class ApplicationModule: ModuleProtocol, ApplicationProtocol {
     }
     required init() { }
     
+    let disposeBag = DisposeBag()
+    
     func moduleDidLoad(with manager: ModuleManager) {
         if let user = manager.session?.userID {
             print(user)
@@ -17,13 +20,20 @@ class ApplicationModule: ModuleProtocol, ApplicationProtocol {
     }
     
     func startApplication() {
-        guard let authModule = try? moduleManager?.bridge.resolve(.auth) as? AuthProtocol else {
-            fatalError()
-        }
-        try? authModule.authenticate { [unowned self] user in
-            ModuleManager.default.beginUserSession(with: user.id)
-            self.markAsReleasing()
-        }
+        AppContext.standard
+            .setup()
+            .subscribe { finished in
+                print(AppContext.standard.previousLaunchedUserId as Any)
+                guard let authModule = try? self.moduleManager?.bridge.resolve(.auth) as? AuthProtocol else {
+                    fatalError()
+                }
+                if let _ = AppContext.standard.previousLaunchedUserId {
+                    authModule.refreshAuthenticationIfNeeded(completion: { user in
+                        print(user)
+                    })
+                }
+            }
+            .disposed(by: disposeBag)
     }
     
 }

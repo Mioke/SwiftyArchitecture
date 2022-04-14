@@ -14,8 +14,8 @@ public let kAppContextChangedNotification = NSNotification.Name(rawValue: "kAppC
 
 public class AppContext: NSObject {
     
-    public static let standard = DefaultAppContext()
-    public static var current = standard {
+    public static let standard: StandardAppContext = .init()
+    public static var current: AppContext = standard {
         didSet {
             guard oldValue != current else { return }
             NotificationCenter.default.post(name: kAppContextChangedNotification, object: current)
@@ -26,7 +26,7 @@ public class AppContext: NSObject {
     public internal(set) var user: UserProtocol
     
     public var userId: String {
-        return user.userId
+        return user.id
     }
     
     public init(user: UserProtocol) {
@@ -48,19 +48,20 @@ public class AppContext: NSObject {
     public var dataCenter: DataCenter!
 }
 
-public protocol UserAchivableInfoProtocol: Codable {
+public protocol UserArchivableInfoProtocol: Codable {
     static func decode(_ data: Data) throws -> Self
     func encode() throws -> Data
 }
 
 public protocol UserProtocol {
-    var userId: String { get set }
+    
+    var id: String { get set }
+    
     var authState: BehaviorSubject<AuthState> { get set }
     
     var authConfiguration: AuthController.Configuration { get }
     
-    var archivableInfoType: UserAchivableInfoProtocol.Type { get }
-    var archivableInfo: UserAchivableInfoProtocol { get set }
+    var archivableInfo: UserArchivableInfoProtocol { get set }
 }
 
 public enum AuthState {
@@ -69,37 +70,57 @@ public enum AuthState {
     case presession
 }
 
-final public class DefaultAppContext: AppContext {
+final public class StandardAppContext: AppContext {
     
     convenience init() {
         self.init(user: DefaultUser())
     }
     
+    public let resourceBag: DisposeBag = .init()
+    
+    private var isInfoLoaded: Bool = false
+    
     private override init(user: UserProtocol) {
         super.init(user: user)
     }
+    
+    public func setup() -> Observable<Bool> {
+        return authController.loadArchivedData(appContext: self)
+            .do { self.isInfoLoaded = $0 }
+    }
+    
+    var defaultUser: DefaultUser {
+        return self.user as! DefaultUser
+    }
+    
+    public var previousLaunchedUserId: String? {
+        return isInfoLoaded ? defaultUser._archivableInfo.previousLaunchedUserId : nil
+    }
 }
 
-private struct DefaultUser: UserProtocol {
+class DefaultUser: UserProtocol {
     var authConfiguration: AuthController.Configuration = .init(archiveLocation: .database)
     
     var authState: BehaviorSubject<AuthState> = .init(value: .authenticated)
-    var userId: String = "__standard__"
+    var id: String = "__standard__"
     
-    var archivableInfoType: UserAchivableInfoProtocol.Type {
-        return type(of: userId)
+    var archivableInfo: UserArchivableInfoProtocol {
+        get { return _archivableInfo }
+        set {
+            guard let newValue = newValue as? DefaultUserArchivableInfo else { return }
+            _archivableInfo = newValue
+        }
     }
-    var archivableInfo: UserAchivableInfoProtocol {
-        get { return userId }
-        set { }
-    }
+    
+    lazy var _archivableInfo: DefaultUserArchivableInfo = .init(previousLaunchedUserId: id)
 }
 
-extension String: UserAchivableInfoProtocol {
-    public static func decode(_ data: Data) throws -> String {
+struct DefaultUserArchivableInfo: UserArchivableInfoProtocol {
+    let previousLaunchedUserId: String
+
+    static func decode(_ data: Data) throws -> DefaultUserArchivableInfo {
         try JSONDecoder().decode(self, from: data)
     }
-    
     public func encode() throws -> Data {
         try JSONEncoder().encode(self)
     }

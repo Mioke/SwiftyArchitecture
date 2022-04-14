@@ -47,7 +47,7 @@ public final class ModuleManager: NSObject {
     
     public var session: UserSession? = nil
     
-    private var moduleList: ModuleList? {
+    internal var moduleList: ModuleList? {
         didSet {
             guard let moduleList = moduleList else {
                 moduleMap = [:]
@@ -71,6 +71,8 @@ public final class ModuleManager: NSObject {
         moduleList = try decoder.decode(ModuleList.self, from: content)
     }
     
+    // MARK: - Initiator
+    public lazy var initiator: Initiator = .init(moduleManager: self)
 }
 
 public enum ModuleError: Error {

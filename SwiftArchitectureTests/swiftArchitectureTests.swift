@@ -7,7 +7,7 @@
 //
 
 import XCTest
-@testable import swiftArchitecture
+@testable import SAD
 
 class swiftArchitectureTests: XCTestCase {
     

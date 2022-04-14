@@ -9,12 +9,15 @@
 import UIKit
 import UserNotifications
 import MIOSwiftyArchitecture
+import Swinject
 
 class InternalTestVC: UIViewController {
     
     var tests: [String]!
     
     var tableView: UITableView!
+    
+    var testObj = true
 
     override func viewDidLoad() {
         super.viewDidLoad()

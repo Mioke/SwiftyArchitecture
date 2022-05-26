@@ -185,8 +185,8 @@ class TaskGraphBuilder {
         existing[task.identifier] = newNode
         visited.update(with: task)
         
-        if let dependencies = task.afterItems, dependencies.count > 0 {
-            let dependentNodes = dependencies.compactMap { id -> DirectedGraphNode<Initiator.Task>? in
+        if task.dependencies.count > 0 {
+            let dependentNodes = task.dependencies.compactMap { id -> DirectedGraphNode<Initiator.Task>? in
                 if let exist = existing[id] {
                     return exist
                 } else {

@@ -1,6 +1,7 @@
 import Foundation
 import MIOSwiftyArchitecture
 import AuthProtocol
+import appli
 
 class AuthModule: ModuleProtocol, AuthServiceProtocol {
     
@@ -35,5 +36,16 @@ class AuthModule: ModuleProtocol, AuthServiceProtocol {
     
     func deauthenticate(completion: @escaping (Error?) -> Void) {
         
+    }
+}
+
+extension AuthModule: ModuleInitiatorProtocol {
+    static var identifier: String { moduleIdentifier }
+    static var priority: Initiator.Priority { .high }
+    static var dependencies: [String] { [ModuleIdentifier.application] }
+    static var operation: Initiator.Operation {
+        return {
+            // do something
+        }
     }
 }

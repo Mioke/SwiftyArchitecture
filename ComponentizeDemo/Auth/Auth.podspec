@@ -29,6 +29,8 @@ Pod::Spec.new do |s|
   s.dependency 'AuthProtocol'
   s.dependency 'MIOSwiftyArchitecture'
   
+  s.dependency 'ApplicationProtocol'
+  
   # s.xcconfig = { "SWIFT_OBJC_BRIDGING_HEADER" => "SwiftyArchitecture/Resource/swiftArchitecture-Bridging-Header.h" }
   # s.module_map = 'SwiftyArchitecture/Resource/module.modulemap'
   

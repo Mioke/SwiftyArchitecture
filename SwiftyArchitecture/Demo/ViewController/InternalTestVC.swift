@@ -191,6 +191,11 @@ extension InternalTestVC: UITableViewDelegate, UITableViewDataSource {
             api.loadData(with: nil).response({ (api, result, error) in
                 
             })
+            
+            let userAPI = API<UserAPI>()
+            userAPI.loadData(with: ["id": "someuserid"]).response { api, user, error in
+                
+            }
         case 3:
             SystemLog.activeDevelopUI()
             

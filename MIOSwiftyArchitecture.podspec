@@ -85,6 +85,7 @@ Pod::Spec.new do |s|
     test_spec.dependency 'MIOSwiftyArchitecture/Networking'
     test_spec.dependency 'MIOSwiftyArchitecture/AppDocker'
     test_spec.dependency 'MIOSwiftyArchitecture/Componentize'
+    test_spec.dependency 'MIOSwiftyArchitecture/Testable'
   end
   
   # s.xcconfig = { "SWIFT_OBJC_BRIDGING_HEADER" => "SwiftyArchitecture/Resource/swiftArchitecture-Bridging-Header.h" }

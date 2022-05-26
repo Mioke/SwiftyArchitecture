@@ -56,48 +56,85 @@ final public class Initiator {
         self.moduleManager = moduleManager
     }
     
-    private let bag: DisposeBag = .init()
+    var taskMap: [Priority: [Initiator.Task]]?
+    
+    var highTasksFinished: BehaviorSubject<Bool> = .init(value: false)
+    private let cancel: DisposeBag = .init()
     
     public func start() throws -> Void {
         guard let list = moduleManager.moduleList else {
             throw todo_error()
         }
-        let taskMap = list.internalModules
+        taskMap = list.internalModules
             .compactMap { $0.initiator() }
             .reduce(into: [Priority: [Task]](), { partialResult, type in
                 partialResult[type.priority] = partialResult[type.priority] ?? []
                 + [Initiator.Task(id: type.identifier, dependencies: type.dependencies, operation: type.operation)]
             })
         
-        Observable.just(taskMap[.high])
-            .flatMapLatest { tasks -> Observable<Void> in
-                guard let tasks = tasks else { return .just(()) }
-                return self.createList(with: tasks, schedule: MainScheduler.instance)
+        let zipTasks = { (ts: [Task]?, scheduler: SchedulerType, id: String) -> Observable<Void> in
+            guard let tasks = ts else { return .just(()) }
+            return self.createList(with: tasks, schedule: scheduler, id: id)
+        }
+        
+        zipTasks(taskMap?[.high], MainScheduler.instance, "High")
+            .flatMapLatest { [weak self] _ -> Observable<Void> in
+                guard let self = self else { return .never() }
+                return zipTasks(self.taskMap?[.asyncHigh],
+                                ConcurrentDispatchQueueScheduler(queue: self.asyncHighPriorityQueue),
+                                "Async hight")
             }
-            .flatMapLatest { _ in
-                return Observable.just(taskMap[.asyncHigh])
-                    .flatMapLatest { tasks -> Observable<Void> in
-                        guard let tasks = tasks else { return .just(()) }
-                        return self.createList(with: tasks, schedule: ConcurrentDispatchQueueScheduler.init(queue: self.asyncHighPriorityQueue))
-                    }
+            .subscribe { [weak self] _ in
+                self?.highTasksFinished.onNext(true)
             }
-            .subscribe { _ in
-                print("high and async high is finished")
-            } onError: { e in
-                print("high and async high is interrupted by \(e)")
-            } onCompleted: {
-                print("high and async high is completed")
-            } onDisposed: {
-                print("high and async high is disposed")
-            }
-            .disposed(by: bag)
+            .disposed(by: cancel)
     }
     
-    func createList(with tasks: [Task], schedule: ImmediateSchedulerType) -> Observable<Void> {
-        let list = InitiatorList(tasks: tasks)
-        var results: [Observable<Void>] = []
-        list.forEach { results.append($0.producer.subscribe(on: schedule)) }
-        return Observable<Void>.merge(results)
+    func createList(with tasks: [Task],
+                    schedule: ImmediateSchedulerType,
+                    id: String)
+    -> Observable<Void> {
+        let results = TaskGraphBuilder.buildGraph(with: tasks).dfsMap({ node in
+            node.value.producer.subscribe(on: schedule)
+        })
+        return Observable<Void>.zip(results)
+            .map { _ in () }
+            .do(onCompleted:  {
+                print("Level [\(id)] tasks have finished.")
+            })
+    }
+    
+    var presentedFirstPage: BehaviorSubject<Bool> = .init(value: false)
+    
+    public func setPresentedFirstPage() {
+        presentedFirstPage.onNext(true)
+        presentedFirstPage.onCompleted()
+    }
+    
+    func subscribePresentAction() {
+        Observable.zip(highTasksFinished, presentedFirstPage)
+            .take(1)
+            .filter { $0.0 && $0.1 }
+            .subscribe { [weak self] _ in
+                self?.startAfterPresentedTasks()
+            }
+            .disposed(by: cancel)
+    }
+    
+    func startAfterPresentedTasks() {
+        guard let afterFirstPage = taskMap?[.afterFirstPage] else { return }
+        createList(with: afterFirstPage,
+                   schedule: ConcurrentDispatchQueueScheduler(queue: asyncHighPriorityQueue),
+                   id: "After first page present")
+            .flatMapLatest({ [weak self] _ -> Observable<Void> in
+                guard let self = self, let low = self.taskMap?[.low] else { return .just(()) }
+                return self.createList(
+                    with: low,
+                    schedule: ConcurrentDispatchQueueScheduler(queue: self.lowPriorityQueue),
+                    id: "Low")
+            })
+            .subscribe { _ in }
+            .disposed(by: cancel)
     }
 }
 
@@ -117,4 +154,55 @@ extension Observable where Element == Void {
             return Disposables.create()
         }
     }
+}
+
+extension Initiator.Task: Hashable {
+    func hash(into hasher: inout Hasher) {
+        self.identifier.hash(into: &hasher)
+    }
+}
+
+class TaskGraphBuilder {
+    
+    static func buildGraph(with tasks: [Initiator.Task]) -> DirectedGraph<Initiator.Task> {
+        var nodes: [String: DirectedGraphNode<Initiator.Task>] = [:]
+        var visited: Set<Initiator.Task> = []
+        
+        while let pickone = tasks.filter({ !visited.contains($0) }).first {
+            let _ = add(task: pickone, visited: &visited, existing: &nodes, tasks: tasks)
+        }
+        
+        return .init(nodes: .init(nodes.values))
+    }
+    
+    static func add(task: Initiator.Task,
+                    visited: inout Set<Initiator.Task>,
+                    existing: inout [String: DirectedGraphNode<Initiator.Task>],
+                    tasks: [Initiator.Task])
+    -> DirectedGraphNode<Initiator.Task> {
+        
+        let newNode = DirectedGraphNode<Initiator.Task>.init(value: task)
+        existing[task.identifier] = newNode
+        visited.update(with: task)
+        
+        if let dependencies = task.afterItems, dependencies.count > 0 {
+            let dependentNodes = dependencies.compactMap { id -> DirectedGraphNode<Initiator.Task>? in
+                if let exist = existing[id] {
+                    return exist
+                } else {
+                    guard let find = tasks.first(where: { $0.identifier == id }) else {
+                        print("Error!")
+                        return nil
+                    }
+                    return add(task: find, visited: &visited, existing: &existing, tasks: tasks)
+                }
+            }
+            newNode.out = .init(dependentNodes)
+            dependentNodes.forEach { node in
+                node.in.update(with: newNode)
+            }
+        }
+        return newNode
+    }
+    
 }

@@ -1,5 +1,5 @@
 source 'https://github.com/CocoaPods/Specs.git'
-platform :ios, '11.0'
+platform :ios, '15.0'
 use_frameworks!
 
 target "SAD" do
@@ -17,7 +17,8 @@ target "SAD" do
   # or sqlite
   pod 'FMDB'
   
-  pod 'MIOSwiftyArchitecture', :path => './'
+  pod 'MIOSwiftyArchitecture', :path => './', :testspecs => ['Tests']
+  pod 'MIOSwiftyArchitecture/Testable', :path => './'
   
   
     # kits for demo
@@ -37,6 +38,17 @@ target "SAD" do
   
 #  pod 'Notification', :path => './ComponentizeDemo/Notification'
 #  pod 'NotificationProtocol', :path => './ComponentizeDemo/Notification'
+
+  pod 'Swinject'
+  pod 'SwinjectAutoregistration'
+  
+  target 'SwiftArchitectureTests' do
+    
+  end
+  
+  target 'SwiftArchitectureUITests' do
+    
+  end
 end
 
 # pod 'FMDB/FTS'   # FMDB with FTS
@@ -49,7 +61,7 @@ post_install do |installer_representation|
   installer_representation.pods_project.targets.each do |target|
     
     target.build_configurations.each do |config|
-      config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '11.0'
+      config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '15.0'
     end
   end
 end

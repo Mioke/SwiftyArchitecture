@@ -10,6 +10,8 @@ import UIKit
 import UserNotifications
 import MIOSwiftyArchitecture
 import Swinject
+import RxSwift
+import AuthProtocol
 
 class InternalTestVC: UIViewController {
     
@@ -18,6 +20,14 @@ class InternalTestVC: UIViewController {
     var tableView: UITableView!
     
     var testObj = true
+    
+    let queue1 = DispatchQueue.init(label: "Queue1")
+    let queue2 = DispatchQueue.init(label: "Queue2")
+    
+    lazy var schedule1 = SerialDispatchQueueScheduler(queue: self.queue1, internalSerialQueueName: "schedule.queue1")
+    lazy var schedule2 = SerialDispatchQueueScheduler(queue: self.queue2, internalSerialQueueName: "schedule.queue2")
+    
+    let cancel: DisposeBag = .init()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -65,6 +75,36 @@ class InternalTestVC: UIViewController {
             """
         let video = try? JSONDecoder().decode(Video.self, from: json.data(using: .utf8)!)
         print(video as Any)
+        
+        ModuleManager.default.initiator.setPresentedFirstPage()
+        
+        Observable<Int>.create { observer in
+            dispatchPrecondition(condition: .onQueue(self.queue1))
+            observer.onNext(1)
+            observer.onCompleted()
+            return Disposables.create()
+        }
+        .subscribe(on: schedule1)
+        .observe(on: schedule2)
+        .flatMapLatest({ value -> Observable<Int> in
+            dispatchPrecondition(condition: .onQueue(self.queue2))
+            return Observable<Int>.just(value + 1)
+        })
+        .subscribe(on: schedule2) // not work as expected
+        .subscribe { event in
+            print(event)
+            dispatchPrecondition(condition: .onQueue(self.queue2))
+        }
+        .disposed(by: cancel)
+        
+        let user = AuthProtocol.User.init(id: "123123")
+        let clazzName = String(describing: type(of: user))
+        let objcClazzName = NSStringFromClass(type(of: user))
+        print(":", clazzName, objcClazzName, String(reflecting: user), String(reflecting: type(of: user)))
+        // : User AuthProtocol.User AuthProtocol.User AuthProtocol.User
+        print(Bundle.main.classNamed(objcClazzName) as Any) // x
+        print(Bundle.allBundles.compactMap { $0.classNamed(clazzName) }) // x
+        print(NSClassFromString(objcClazzName) as Any) // only this worked for frameworks?
     }
 
     override func didReceiveMemoryWarning() {
@@ -189,5 +229,26 @@ extension InternalTestVC: UITableViewDelegate, UITableViewDataSource {
         default:
             break
         }
+    }
+}
+
+protocol ColorTheme {
+    var primary: UIColor { get }
+}
+
+struct LightTheme: ColorTheme {
+    var primary: UIColor {
+        return .white
+    }
+}
+
+class TestCase1 {
+    func getColor(keyPath: KeyPath<ColorTheme, UIColor>) -> UIColor {
+        return LightTheme()[keyPath: keyPath]
+    }
+    
+    func usage() {
+        let primary = getColor(keyPath: \ColorTheme.primary)
+        print(primary)
     }
 }

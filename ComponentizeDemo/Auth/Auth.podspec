@@ -14,7 +14,7 @@ Pod::Spec.new do |s|
   * Breezy architecture in Swift for building iOS applications. It offers lots of functions which simple and easy to use for developer.
   DESC
   s.homepage         = 'https://github.com/Mioke/SwiftArchitectureWithPOP'
-  s.license          = { :type => 'MIT', :file => 'LICENSE' }
+#  s.license          = { :type => 'MIT', :file => 'LICENSE' }
   s.author           = { 'Mioke Klein' => 'mioke0428@gmail.com' }
   s.source           = { :git => 'https://github.com/Mioke/SwiftArchitectureWithPOP.git', :tag => s.version.to_s }
   

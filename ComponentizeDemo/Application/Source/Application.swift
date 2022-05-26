@@ -24,7 +24,7 @@ class ApplicationModule: ModuleProtocol, ApplicationProtocol {
             .setup()
             .subscribe { finished in
                 print(AppContext.standard.previousLaunchedUserId as Any)
-                guard let authModule = try? self.moduleManager?.bridge.resolve(.auth) as? AuthProtocol else {
+                guard let authModule = try? self.moduleManager?.bridge.resolve(.auth) as? AuthServiceProtocol else {
                     fatalError()
                 }
                 if let _ = AppContext.standard.previousLaunchedUserId {

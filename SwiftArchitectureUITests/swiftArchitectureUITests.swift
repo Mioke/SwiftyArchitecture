@@ -7,6 +7,8 @@
 //
 
 import XCTest
+@testable import MIOSwiftyArchitecture
+import ApplicationProtocol
 
 class swiftArchitectureUITests: XCTestCase {
         
@@ -21,6 +23,10 @@ class swiftArchitectureUITests: XCTestCase {
         XCUIApplication().launch()
 
         // In UI tests it’s important to set the initial state - such as interface orientation - required for your tests before they run. The setUp method is a good place to do this.
+        let auth = MockAuth()
+        guard ModuleManager.default.bridge.inject(instance: auth) else {
+            fatalError()
+        }
     }
     
     override func tearDown() {

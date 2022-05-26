@@ -7,6 +7,7 @@
 
 import UIKit
 import Alamofire
+import ObjectMapper
 
 public typealias DataResponse<T> = Alamofire.AFDataResponse<T>
 
@@ -58,12 +59,14 @@ extension Dictionary: JSONObject {
 final public class JSONResponseSerializer<SerializedObject: JSONObject> : ResponseSerializer<SerializedObject> {
     
     public override func serialize(data: DataResponse<Data>) throws -> SerializedObject {
-        let serializer = Alamofire.JSONResponseSerializer()
-        let result = try serializer.serialize(
-            request: data.request,
-            response: data.response,
-            data: data.data,
-            error: data.error)
+        if let resp = data.response, resp.statusCode != 200 {
+            throw todo_error()
+        }
+        if let error = data.error {
+            throw error
+        }
+        guard let data = data.data else { throw todo_error() }
+        let result = try JSONSerialization.jsonObject(with: data, options: .fragmentsAllowed)
         
         if let value = result as? [AnyHashable: Any] {
             return try SerializedObject(jsonDictionary: value)
@@ -92,15 +95,34 @@ open class ProtocResponseSerializer<SerializedObject>: ResponseSerializer<Serial
     }
 }
 
+/// A wrapper of new type `DecodableResponseSerializer` in Alamofire provided from 5.0
 final public class JSONCodableResponseSerializer<SerializedObject: Decodable>: ResponseSerializer<SerializedObject> {
     public override func serialize(data: DataResponse<Data>) throws -> SerializedObject {
+        let serializer = Alamofire.DecodableResponseSerializer<SerializedObject>()
+        let result = try serializer.serialize(
+            request: data.request,
+            response: data.response,
+            data: data.data,
+            error: data.error)
+        return result
+    }
+}
+
+final public class JSONMappableResponseSerializer<T: Mappable>: ResponseSerializer<T> {
+    public override func serialize(data: DataResponse<Data>) throws -> SerializedObject {
+        if let resp = data.response, resp.statusCode != 200 {
+            throw todo_error()
+        }
         if let error = data.error {
             throw error
         }
-        guard let data = data.data else {
+        guard let data = data.data,
+              let jsonString = String(data: data, encoding: .utf8),
+              let result = T.init(JSONString: jsonString, context: nil)
+        else {
             throw todo_error()
         }
-        let decoder = JSONDecoder()
-        return try decoder.decode(SerializedObject.self, from: data)
+        return result
     }
 }
+

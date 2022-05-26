@@ -33,7 +33,6 @@ public class AppContext: NSObject {
         self.user = user
         authController = .init(configuration: user.authConfiguration)
         super.init()
-        self.dataCenter = DataCenter(appContext: self)
     }
     
     let authController: AuthController
@@ -45,7 +44,7 @@ public class AppContext: NSObject {
     }
     
     // MARK: - Data Center
-    public var dataCenter: DataCenter!
+    public lazy var dataCenter: DataCenter = DataCenter(appContext: self)
 }
 
 public protocol UserArchivableInfoProtocol: Codable {
@@ -115,10 +114,10 @@ class DefaultUser: UserProtocol {
     lazy var _archivableInfo: DefaultUserArchivableInfo = .init(previousLaunchedUserId: id)
 }
 
-struct DefaultUserArchivableInfo: UserArchivableInfoProtocol {
+public struct DefaultUserArchivableInfo: UserArchivableInfoProtocol {
     let previousLaunchedUserId: String
 
-    static func decode(_ data: Data) throws -> DefaultUserArchivableInfo {
+    public static func decode(_ data: Data) throws -> DefaultUserArchivableInfo {
         try JSONDecoder().decode(self, from: data)
     }
     public func encode() throws -> Data {

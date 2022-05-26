@@ -23,7 +23,7 @@ class UserArchiveInfo: UserArchivableInfoProtocol {
     }
 }
 
-public protocol AuthProtocol {
+public protocol AuthServiceProtocol {
     func authenticate(completion: @escaping (User) -> ()) throws
     func deauthenticate(completion: @escaping (Error?) -> Void)
     func refreshAuthenticationIfNeeded(completion: @escaping (User) -> ()) -> Void

@@ -117,8 +117,12 @@ public class ModuleBridge: NSObject {
         self.manager = manager
     }
     
-    public
-    func resolve(_ moduleIdentifier: ModuleIdentifier) throws -> ModuleProtocol? {
+    var injected: [ModuleIdentifier: ModuleProtocol] = [:]
+    
+    public func resolve(_ moduleIdentifier: ModuleIdentifier) throws -> ModuleProtocol? {
+        if let injected = injected[moduleIdentifier] {
+            return injected
+        }
         if let cached = manager.moduleCache[moduleIdentifier] {
             return cached
         }

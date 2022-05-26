@@ -1,25 +1,40 @@
-import Foundation
-import MIOSwiftyArchitecture
-import AuthProtocol
+//
+//  MockComponents.swift
+//  SwiftArchitectureUITests
+//
+//  Created by KelanJiang on 2022/5/24.
+//  Copyright © 2022 KleinMioke. All rights reserved.
+//
 
-class AuthModule: ModuleProtocol, AuthServiceProtocol {
+import Foundation
+@testable import MIOSwiftyArchitecture
+import AuthProtocol
+import Auth
+import ApplicationProtocol
+import Application
+
+
+class MockAuth: ModuleProtocol {
+    
+    func moduleDidLoad(with manager: ModuleManager) {
+        // mocked module will never running this method.
+    }
     
     static var moduleIdentifier: ModuleIdentifier {
         return .auth
     }
-    required init() { }
     
-    func moduleDidLoad(with manager: ModuleManager) {
+    required init() {
         
     }
+}
+
+extension MockAuth: AuthServiceProtocol {
     
     func authenticate(completion: @escaping (User) -> ()) throws {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-            let user = User(id: "15780")
-            ModuleManager.default.beginUserSession(with: user.id)
-            self.markAsReleasing()
-            completion(user)
-        }
+        let user = User(id: "15780")
+        ModuleManager.default.beginUserSession(with: user.id)
+        self.markAsReleasing()
     }
     
     func refreshAuthenticationIfNeeded(completion: @escaping (User) -> ()) {

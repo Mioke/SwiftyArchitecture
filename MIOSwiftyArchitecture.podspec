@@ -25,6 +25,7 @@ Pod::Spec.new do |s|
   # s.libraries = 'c++', 'sqlite3'
   
   #  s.source_files = 'SwiftyArchitecture/Base/**/*.swift'
+  s.default_subspecs = 'Assistance', 'Networking', 'Persistance', 'RxExtension', 'AppDocker', 'Componentize'
   
   s.subspec 'Assistance' do |ss|
     ss.frameworks = 'UIKit', 'Foundation'
@@ -35,6 +36,7 @@ Pod::Spec.new do |s|
     ss.frameworks = 'UIKit', 'Foundation'
     ss.source_files = 'SwiftyArchitecture/Base/Networking/**/*.swift'
     ss.dependency 'Alamofire', '~> 5.4'
+    ss.dependency 'ObjectMapper', '~> 4.2'
     ss.dependency 'MIOSwiftyArchitecture/Assistance'
   end
   
@@ -68,6 +70,22 @@ Pod::Spec.new do |s|
     ss.dependency 'MIOSwiftyArchitecture/Assistance'
   end
   
+  s.subspec 'Testable' do |ss|
+    ss.source_files = 'SwiftyArchitecture/Base/Testable/**/*.swift'
+    ss.dependency 'MIOSwiftyArchitecture/Assistance'
+    ss.dependency 'MIOSwiftyArchitecture/Networking'
+    ss.dependency 'MIOSwiftyArchitecture/AppDocker'
+    ss.dependency 'MIOSwiftyArchitecture/Componentize'
+  end
+  
+  s.test_spec 'Tests' do |test_spec|
+    test_spec.source_files = 'SwiftyArchitecture/Base/Tests/**/*.swift'
+#    test_spec.dependency 'OCMock' # This dependency will only be linked with your tests.
+    test_spec.dependency 'MIOSwiftyArchitecture/Assistance'
+    test_spec.dependency 'MIOSwiftyArchitecture/Networking'
+    test_spec.dependency 'MIOSwiftyArchitecture/AppDocker'
+    test_spec.dependency 'MIOSwiftyArchitecture/Componentize'
+  end
   
   # s.xcconfig = { "SWIFT_OBJC_BRIDGING_HEADER" => "SwiftyArchitecture/Resource/swiftArchitecture-Bridging-Header.h" }
   # s.module_map = 'SwiftyArchitecture/Resource/module.modulemap'

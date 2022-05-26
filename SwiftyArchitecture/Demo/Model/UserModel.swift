@@ -112,16 +112,14 @@ extension TestObj: DataCenterManaged {
 }
 
 
-final class User: Object {
+final class _User: Object {
     @objc dynamic var userId: String = ""
     @objc dynamic var name: String = ""
 }
 
-extension User: JSONObject {
-    convenience init(jsonDictionary dictionary: [AnyHashable : Any]) throws {
-        self.init()
-        // do
-    }
+final class User: Codable {
+    var userId: String = ""
+    var name: String = ""
 }
 
 final class UserAPI: NSObject, ApiInfoProtocol {
@@ -143,17 +141,20 @@ final class UserAPI: NSObject, ApiInfoProtocol {
     }
     
     static var responseSerializer: MIOSwiftyArchitecture.ResponseSerializer<User> {
-        return MIOSwiftyArchitecture.JSONResponseSerializer<User>()
+        return MIOSwiftyArchitecture.JSONCodableResponseSerializer<User>()
     }
 }
 
 extension User: DataCenterManaged {
     
-    static func serialize(data: User) throws -> User {
-        return data
-    }
-    
-    typealias DatabaseObject = User
+    typealias DatabaseObject = _User
     typealias APIInfo = UserAPI
+    
+    static func serialize(data: User) throws -> _User {
+        let user = _User()
+        user.name = data.name
+        user.userId = data.userId
+        return user
+    }
     
 }

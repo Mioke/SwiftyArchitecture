@@ -8,12 +8,16 @@
 
 import XCTest
 @testable import SAD
+@testable import MIOSwiftyArchitecture
+@testable import Auth
+@testable import AuthProtocol
 
 class swiftArchitectureTests: XCTestCase {
     
     override func setUp() {
         super.setUp()
         // Put setup code here. This method is called before the invocation of each test method in the class.
+        
     }
     
     override func tearDown() {

@@ -29,19 +29,20 @@ public class AuthController: NSObject {
         }
     }
     
-    let configuration: Configuration
+    let configuration: AuthController.Configuration
     weak var delegate: AuthControllerDelegate?
     
     private let disposeBag = DisposeBag()
     
     private let writeSchedule: SerialDispatchQueueScheduler = .init(internalSerialQueueName: "com.authcontroller.write")
     
-    init(configuration: Configuration) {
+    init(configuration: AuthController.Configuration) {
         self.configuration = configuration
     }
     
     func loadArchivedData(appContext: AppContext) -> Observable<Bool> {
         return appContext.dataCenter.object(with: appContext.user.id, type: UserArchiveData.self)
+//            .observe(on: <#T##ImmediateSchedulerType#>)
             .flatMapLatest { data -> Observable<Bool> in
                 guard let data = data else { return .just(true) }
                 guard let decoded = try? type(of: appContext.user.archivableInfo).decode(data.archivedData) else {

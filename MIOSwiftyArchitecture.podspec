@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'MIOSwiftyArchitecture'
-  s.version          = '1.0.2'
+  s.version          = '2.0.0'
   s.summary          = 'Breezy architecture in Swift for building iOS applications.'
   s.description      = <<-DESC
   * Breezy architecture in Swift for building iOS applications. It offers lots of functions which simple and easy to use for developer.

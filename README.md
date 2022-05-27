@@ -60,7 +60,7 @@ func handle(data: Any) throws -> Void {
     var server: Server {
         get { return mainServer }
     }
-    typealias ResultType = User
+    typealias ResultType = _User
     static var responseSerializer: MIOSwiftyArchitecture.ResponseSerializer<User> {
         return MIOSwiftyArchitecture.JSONResponseSerializer<User>()
     }
@@ -332,7 +332,7 @@ So, this function should depend on the situation of your team. `;)`
 
 # TODO
 
-- [x] ~~Networking: ~~cache~~, origin data transform to Model or View's data, priority of request.~~ Done.
+- [x] Networking: cache, origin data transform to Model or View's data, priority of request.
 - [ ] Mock of API's response.
 - [ ] Download and upload functions in API manager.
 - [x] ~~Persistance: transform data to model or View's data after query.~~(don't need it now, using Realm)

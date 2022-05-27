@@ -1,41 +1,107 @@
 PODS:
-  - Alamofire (4.9.1)
-  - Differentiator (4.0.1)
+  - Alamofire (5.5.0)
+  - Application (0.0.1):
+    - ApplicationProtocol
+    - AuthProtocol
+    - MIOSwiftyArchitecture
+  - ApplicationProtocol (0.0.1):
+    - MIOSwiftyArchitecture
+  - Auth (0.0.1):
+    - AuthProtocol
+    - MIOSwiftyArchitecture
+  - AuthProtocol (0.0.1):
+    - MIOSwiftyArchitecture
+  - Differentiator (5.0.0)
   - FMDB (2.7.5):
     - FMDB/standard (= 2.7.5)
   - FMDB/standard (2.7.5)
-  - Realm (4.1.1):
-    - Realm/Headers (= 4.1.1)
-  - Realm/Headers (4.1.1)
-  - RealmSwift (4.1.1):
-    - Realm (= 4.1.1)
-  - RxCocoa (5.0.1):
-    - RxRelay (~> 5)
-    - RxSwift (~> 5)
-  - RxDataSources (4.0.1):
-    - Differentiator (~> 4.0)
-    - RxCocoa (~> 5.0)
-    - RxSwift (~> 5.0)
-  - RxRealm (2.0.0):
-    - RealmSwift (~> 4.0)
-    - RxSwift (~> 5.0)
-  - RxRelay (5.0.1):
-    - RxSwift (~> 5)
-  - RxSwift (5.0.1)
+  - MIOSwiftyArchitecture (1.0.2):
+    - MIOSwiftyArchitecture/AppDocker (= 1.0.2)
+    - MIOSwiftyArchitecture/Assistance (= 1.0.2)
+    - MIOSwiftyArchitecture/Componentize (= 1.0.2)
+    - MIOSwiftyArchitecture/Networking (= 1.0.2)
+    - MIOSwiftyArchitecture/Persistance (= 1.0.2)
+    - MIOSwiftyArchitecture/RxExtension (= 1.0.2)
+  - MIOSwiftyArchitecture/AppDocker (1.0.2):
+    - MIOSwiftyArchitecture/Assistance
+    - MIOSwiftyArchitecture/Networking
+    - Realm (~> 10.20.0)
+    - RealmSwift (~> 10.20.0)
+    - RxRealm (~> 5.0)
+    - RxSwift (~> 6.2)
+  - MIOSwiftyArchitecture/Assistance (1.0.2)
+  - MIOSwiftyArchitecture/Componentize (1.0.2):
+    - MIOSwiftyArchitecture/Assistance
+    - Swinject (~> 2.8)
+  - MIOSwiftyArchitecture/Networking (1.0.2):
+    - Alamofire (~> 5.4)
+    - MIOSwiftyArchitecture/Assistance
+    - ObjectMapper (~> 4.2)
+  - MIOSwiftyArchitecture/Persistance (1.0.2):
+    - FMDB
+    - MIOSwiftyArchitecture/Assistance
+  - MIOSwiftyArchitecture/RxExtension (1.0.2):
+    - MIOSwiftyArchitecture/Assistance
+    - MIOSwiftyArchitecture/Networking
+    - RxSwift (~> 6.2)
+  - MIOSwiftyArchitecture/Testable (1.0.2):
+    - MIOSwiftyArchitecture/AppDocker
+    - MIOSwiftyArchitecture/Assistance
+    - MIOSwiftyArchitecture/Componentize
+    - MIOSwiftyArchitecture/Networking
+  - MIOSwiftyArchitecture/Tests (1.0.2):
+    - MIOSwiftyArchitecture/AppDocker
+    - MIOSwiftyArchitecture/Assistance
+    - MIOSwiftyArchitecture/Componentize
+    - MIOSwiftyArchitecture/Networking
+  - ObjectMapper (4.2.0)
+  - Realm (10.20.1):
+    - Realm/Headers (= 10.20.1)
+  - Realm/Headers (10.20.1)
+  - RealmSwift (10.20.1):
+    - Realm (= 10.20.1)
+  - RxCocoa (6.2.0):
+    - RxRelay (= 6.2.0)
+    - RxSwift (= 6.2.0)
+  - RxDataSources (5.0.0):
+    - Differentiator (~> 5.0)
+    - RxCocoa (~> 6.0)
+    - RxSwift (~> 6.0)
+  - RxRealm (5.0.3):
+    - Realm (~> 10.7)
+    - RealmSwift (~> 10.7)
+    - RxCocoa (~> 6.0)
+    - RxSwift (~> 6.0)
+  - RxRelay (6.2.0):
+    - RxSwift (= 6.2.0)
+  - RxSwift (6.2.0)
+  - Swinject (2.8.1)
+  - SwinjectAutoregistration (2.7.0):
+    - Swinject (~> 2.7)
 
 DEPENDENCIES:
   - Alamofire
+  - Application (from `./ComponentizeDemo/Application`)
+  - ApplicationProtocol (from `./ComponentizeDemo/Application`)
+  - Auth (from `./ComponentizeDemo/Auth`)
+  - AuthProtocol (from `./ComponentizeDemo/Auth`)
   - FMDB
+  - MIOSwiftyArchitecture (from `./`)
+  - MIOSwiftyArchitecture/Testable (from `./`)
+  - MIOSwiftyArchitecture/Tests (from `./`)
   - RealmSwift
   - RxDataSources
   - RxRealm
-  - RxSwift (~> 5.0)
+  - RxSwift (~> 6.0)
+  - Swinject
+  - SwinjectAutoregistration
 
 SPEC REPOS:
   https://github.com/CocoaPods/Specs.git:
     - Alamofire
     - Differentiator
     - FMDB
+    - ObjectMapper
     - Realm
     - RealmSwift
     - RxCocoa
@@ -43,19 +109,41 @@ SPEC REPOS:
     - RxRealm
     - RxRelay
     - RxSwift
+    - Swinject
+    - SwinjectAutoregistration
+
+EXTERNAL SOURCES:
+  Application:
+    :path: "./ComponentizeDemo/Application"
+  ApplicationProtocol:
+    :path: "./ComponentizeDemo/Application"
+  Auth:
+    :path: "./ComponentizeDemo/Auth"
+  AuthProtocol:
+    :path: "./ComponentizeDemo/Auth"
+  MIOSwiftyArchitecture:
+    :path: "./"
 
 SPEC CHECKSUMS:
-  Alamofire: 85e8a02c69d6020a0d734f6054870d7ecb75cf18
-  Differentiator: 886080237d9f87f322641dedbc5be257061b0602
+  Alamofire: 1c4fb5369c3fe93d2857c780d8bbe09f06f97e7c
+  Application: dd4fd31f4118552d2623f56cb55ab79f4db07853
+  ApplicationProtocol: 3270de550fcbb5ad68ebdf9b42245159d51b0e77
+  Auth: fe82b6cdf4397decf9672755ede649caa9aef67e
+  AuthProtocol: 699414ec99eb060731d49ec1092901fc1ae55e3e
+  Differentiator: e8497ceab83c1b10ca233716d547b9af21b9344d
   FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
-  Realm: 25f0a8244cbb1c2271c922963ea8666fc2d8104d
-  RealmSwift: 9e2657b33764f80e4a4dffd6d440e24715782052
-  RxCocoa: e741b9749968e8a143e2b787f1dfbff2b63d0a5c
-  RxDataSources: efee07fa4de48477eca0a4611e6d11e2da9c1114
-  RxRealm: 900f5c7e6f0a2d6527b56eaf7283f3035ec1e8ba
-  RxRelay: 89d54507f4fd4d969e6ec1d4bd7f3673640b4640
-  RxSwift: e2dc62b366a3adf6a0be44ba9f405efd4c94e0c4
+  MIOSwiftyArchitecture: 04be5fdfbd1794ef2f9789f03756d8c535d4a407
+  ObjectMapper: 1eb41f610210777375fa806bf161dc39fb832b81
+  Realm: fac5ecd031fcb81171627b74944c885662d4b266
+  RealmSwift: 9b02d25acb46a14756bde9893abb99e2e3675923
+  RxCocoa: 4baf94bb35f2c0ab31bc0cb9f1900155f646ba42
+  RxDataSources: aa47cc1ed6c500fa0dfecac5c979b723542d79cf
+  RxRealm: d9fedf16e3ead54b0be2077d2ff4a1b2dc27be39
+  RxRelay: e72dbfd157807478401ef1982e1c61c945c94b2f
+  RxSwift: d356ab7bee873611322f134c5f9ef379fa183d8f
+  Swinject: 97112918bd7e0785dc2df7036213f3c8cbba6586
+  SwinjectAutoregistration: 330f5012642a8b5c89a8a4adb0c5e52df07382c0
 
-PODFILE CHECKSUM: 5b6814d3dd5a2207d01fc116716c11722665a8b3
+PODFILE CHECKSUM: 66466cf7b78a70dd1be8410a106ee79e9058df94
 
-COCOAPODS: 1.8.4
+COCOAPODS: 1.11.3

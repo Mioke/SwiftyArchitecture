@@ -131,7 +131,7 @@ extension DataAccessObject where T: DataCenterManaged {
     
 }
 
-final public class Request<T: Object> : NSObject {
+final public class Request<T: DataCenterManaged> : NSObject {
     
     public var params: [String: Any]?
     

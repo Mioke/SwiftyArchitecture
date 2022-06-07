@@ -7,6 +7,7 @@ PODS:
   - ApplicationProtocol (0.0.1):
     - MIOSwiftyArchitecture
   - Auth (0.0.1):
+    - ApplicationProtocol
     - AuthProtocol
     - MIOSwiftyArchitecture
   - AuthProtocol (0.0.1):
@@ -15,45 +16,51 @@ PODS:
   - FMDB (2.7.5):
     - FMDB/standard (= 2.7.5)
   - FMDB/standard (2.7.5)
-  - MIOSwiftyArchitecture (1.0.2):
-    - MIOSwiftyArchitecture/AppDocker (= 1.0.2)
-    - MIOSwiftyArchitecture/Assistance (= 1.0.2)
-    - MIOSwiftyArchitecture/Componentize (= 1.0.2)
-    - MIOSwiftyArchitecture/Networking (= 1.0.2)
-    - MIOSwiftyArchitecture/Persistance (= 1.0.2)
-    - MIOSwiftyArchitecture/RxExtension (= 1.0.2)
-  - MIOSwiftyArchitecture/AppDocker (1.0.2):
+  - MIOSwiftyArchitecture (2.0.0):
+    - MIOSwiftyArchitecture/AppDocker (= 2.0.0)
+    - MIOSwiftyArchitecture/Assistance (= 2.0.0)
+    - MIOSwiftyArchitecture/Componentize (= 2.0.0)
+    - MIOSwiftyArchitecture/Networking (= 2.0.0)
+    - MIOSwiftyArchitecture/Persistance (= 2.0.0)
+    - MIOSwiftyArchitecture/RxExtension (= 2.0.0)
+  - MIOSwiftyArchitecture/AppDocker (2.0.0):
     - MIOSwiftyArchitecture/Assistance
     - MIOSwiftyArchitecture/Networking
+    - MIOSwiftyArchitecture/RxExtension
     - Realm (~> 10.20.0)
     - RealmSwift (~> 10.20.0)
     - RxRealm (~> 5.0)
     - RxSwift (~> 6.2)
-  - MIOSwiftyArchitecture/Assistance (1.0.2)
-  - MIOSwiftyArchitecture/Componentize (1.0.2):
+  - MIOSwiftyArchitecture/Assistance (2.0.0)
+  - MIOSwiftyArchitecture/Componentize (2.0.0):
     - MIOSwiftyArchitecture/Assistance
+    - RxSwift (~> 6.2)
     - Swinject (~> 2.8)
-  - MIOSwiftyArchitecture/Networking (1.0.2):
+  - MIOSwiftyArchitecture/Networking (2.0.0):
     - Alamofire (~> 5.4)
     - MIOSwiftyArchitecture/Assistance
     - ObjectMapper (~> 4.2)
-  - MIOSwiftyArchitecture/Persistance (1.0.2):
+  - MIOSwiftyArchitecture/Persistance (2.0.0):
     - FMDB
     - MIOSwiftyArchitecture/Assistance
-  - MIOSwiftyArchitecture/RxExtension (1.0.2):
+  - MIOSwiftyArchitecture/RxExtension (2.0.0):
     - MIOSwiftyArchitecture/Assistance
     - MIOSwiftyArchitecture/Networking
     - RxSwift (~> 6.2)
-  - MIOSwiftyArchitecture/Testable (1.0.2):
+  - MIOSwiftyArchitecture/Testable (2.0.0):
     - MIOSwiftyArchitecture/AppDocker
     - MIOSwiftyArchitecture/Assistance
     - MIOSwiftyArchitecture/Componentize
     - MIOSwiftyArchitecture/Networking
-  - MIOSwiftyArchitecture/Tests (1.0.2):
+    - MIOSwiftyArchitecture/RxExtension
+  - MIOSwiftyArchitecture/Tests (2.0.0):
     - MIOSwiftyArchitecture/AppDocker
     - MIOSwiftyArchitecture/Assistance
     - MIOSwiftyArchitecture/Componentize
     - MIOSwiftyArchitecture/Networking
+    - MIOSwiftyArchitecture/RxExtension
+    - MIOSwiftyArchitecture/Testable
+    - RxSwift (~> 6.2)
   - ObjectMapper (4.2.0)
   - Realm (10.20.1):
     - Realm/Headers (= 10.20.1)
@@ -128,11 +135,11 @@ SPEC CHECKSUMS:
   Alamofire: 1c4fb5369c3fe93d2857c780d8bbe09f06f97e7c
   Application: dd4fd31f4118552d2623f56cb55ab79f4db07853
   ApplicationProtocol: 3270de550fcbb5ad68ebdf9b42245159d51b0e77
-  Auth: fe82b6cdf4397decf9672755ede649caa9aef67e
+  Auth: 5659f3a716fb6e046dac47c6b0000c259233eb4e
   AuthProtocol: 699414ec99eb060731d49ec1092901fc1ae55e3e
   Differentiator: e8497ceab83c1b10ca233716d547b9af21b9344d
   FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
-  MIOSwiftyArchitecture: 04be5fdfbd1794ef2f9789f03756d8c535d4a407
+  MIOSwiftyArchitecture: 013b955874684ff4ec74401c6400746b29a5b96a
   ObjectMapper: 1eb41f610210777375fa806bf161dc39fb832b81
   Realm: fac5ecd031fcb81171627b74944c885662d4b266
   RealmSwift: 9b02d25acb46a14756bde9893abb99e2e3675923
@@ -144,6 +151,6 @@ SPEC CHECKSUMS:
   Swinject: 97112918bd7e0785dc2df7036213f3c8cbba6586
   SwinjectAutoregistration: 330f5012642a8b5c89a8a4adb0c5e52df07382c0
 
-PODFILE CHECKSUM: 66466cf7b78a70dd1be8410a106ee79e9058df94
+PODFILE CHECKSUM: 23aa4b542c2b826493aa87894612c1f3f494821c
 
 COCOAPODS: 1.11.3

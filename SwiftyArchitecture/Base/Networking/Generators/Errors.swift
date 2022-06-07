@@ -8,27 +8,23 @@
 
 import UIKit
 
-public class Errors: NSObject {
+extension KitErrors {
     
-    public static var unknownError: NSError {
-        return gennerate(with: -9999,
-                         domain: Constants.networkingDomain,
-                         message: "Unknown error")
+    static var responseErrorInfo: Info {
+        return .init(code: .responseError, message: "Unexpected response value")
     }
     
-    public static var responseError: NSError {
-        return gennerate(with: -1,
-                         domain: Constants.networkingDomain,
-                         message: "Unexpected response value")
+    static var apiConstructionInfo: Info {
+        return .init(code: .apiConstructionFailed, message: "Unexpected API construction result")
     }
     
-    public static var apiConstructionError: NSError {
-        return gennerate(with: -2,
-                         domain: Constants.networkingDomain,
-                         message: "Unexpected API construction result")
+    // Errors
+    
+    static var responseError: NSError {
+        return error(domain: Consts.networkingDomain, info: responseErrorInfo)
     }
-
-    private static func gennerate(with code: Int, domain: String, message: String) -> NSError {
-        return NSError(domain: domain, code: code, userInfo: [NSLocalizedDescriptionKey: message])
+    
+    static var apiConstructionError: NSError {
+        return error(domain: Consts.networkingDomain, info: apiConstructionInfo)
     }
 }

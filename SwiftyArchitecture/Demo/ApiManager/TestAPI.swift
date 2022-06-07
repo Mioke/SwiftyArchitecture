@@ -10,6 +10,12 @@ import UIKit
 import Alamofire
 import MIOSwiftyArchitecture
 
+let MioDemoServer: Server = .init(live: URL(string: "https://www.baidu.com")!,
+                                  customEnvironments: [
+                                    .custom("Dev"): URL(string: "https://www.baidu.com")!,
+                                    .custom("Staging"): URL(string: "https://www.baidu.com")!,
+                                  ])
+
 class TestAPI: NSObject, ApiInfoProtocol {
     
     typealias ResultType = [String: Any]
@@ -21,8 +27,7 @@ class TestAPI: NSObject, ApiInfoProtocol {
         get { return "s" }
     }
     static var server: Server {
-        get { return Server(online: "http://www.baidu.com",
-                            offline: "http://www.baidu.com") }
+        get { return MioDemoServer }
     }
     static var httpMethod: Alamofire.HTTPMethod {
         get { return .get }

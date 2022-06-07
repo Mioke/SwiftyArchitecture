@@ -37,19 +37,21 @@ public class KMRequestGenerator: NSObject {
     public class func generateRequest<T: ApiInfoProtocol>(
         withApi api: API<T>,
         params: [String: Any]?) throws -> DataRequest {
-        
-        let manager = T.server.isHTTPs ? httpsManager : defaultManager
-        manager.session.configuration.timeoutIntervalForRequest = api.timeoutInterval
             
-        let req = manager.request(api.apiURLString,
-                                  method: T.httpMethod,
-                                  parameters: params,
-                                  encoding: T.encoding,
-                                  headers: api.HTTPHeaders)
-        
-        // TODO: Do additional configuration or signature etc.
-        SystemLog.write("Send request:\n\tRequest Info:\(req.description)\n\tRequest Headers:\(req.request?.allHTTPHeaderFields ?? [:])\n\tParam:\(params ?? [:])")
-        
-        return req
-    }
+            let manager = T.server.supportHTTPS ? httpsManager : defaultManager
+            manager.session.configuration.timeoutIntervalForRequest = api.timeoutInterval
+            
+            let req = manager.request(api.apiURL,
+                                      method: T.httpMethod,
+                                      parameters: params,
+                                      encoding: T.encoding,
+                                      headers: api.HTTPHeaders)
+            
+            // TODO: Do additional configuration or signature etc.
+            KitLogger.log(
+                level: .info,
+                message: "Send request:\n\tRequest Info:\(req.description)\n\tRequest Headers:\(req.request?.allHTTPHeaderFields ?? [:])\n\tParam:\(params ?? [:])")
+            
+            return req
+        }
 }

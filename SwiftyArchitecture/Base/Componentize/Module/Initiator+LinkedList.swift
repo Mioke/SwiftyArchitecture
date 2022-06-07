@@ -169,7 +169,7 @@ class DirectedGraph<T: Hashable> {
         handler: ((DirectedGraphNode<T>) -> Void)? = nil) throws {
             
             if stack.contains(node) {
-                throw NSError(domain: AppDockerDomain, code: -10, userInfo: nil)
+                throw KitErrors.graphCycle
             }
             
             guard !visited.contains(node) else { return }

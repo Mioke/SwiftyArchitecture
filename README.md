@@ -27,10 +27,15 @@ Download `.zip` package and copy the `SwiftyArchitecture/Base` folder into you p
 
 - **Server**
 
-  Provide some basic functionality of a server like onlieURL, offlineURL, isOnline etc. In test Mode, offline the server. 
+  Provide some basic functionalities of a server like url configuation, environments switch etc. In test Mode, offline the server. 
 ```swift
+  let server: Server = .init(live: cdn.config.liveURL,
+                             customEnvironments: [
+                              .custom("Dev"): cdn.config.devURL,
+                              .custom("Staging"): cdn.config.stagingURL,
+                            ])
   #if DEBUG
-    Server.online = false
+      server.switch(to: .custom("Dev"))
   #endif
 ```
 
@@ -38,10 +43,12 @@ You can comstomize the operation of dealing response data now, just subclass fro
 ```swift
 func handle(data: Any) throws -> Void {
     
-    if  let dic = data as? [String: Any],
-        let errorCode = dic["error_code"] as? Int,
-        errorCode != 0 {
-        throw NSError(domain: kYourErrorDomain, code: errorCode, userInfo: [NSLocalizedDescriptionKey: message])
+    if let dic = data as? [String: Any],
+       let errorCode = dic["error_code"] as? Int,
+       errorCode != 0 {
+        throw NSError(domain: kYourErrorDomain, 
+                      code: errorCode, 
+                      userInfo: [NSLocalizedDescriptionKey: message])
     }
 }
 ```
@@ -60,9 +67,11 @@ func handle(data: Any) throws -> Void {
     var server: Server {
         get { return mainServer }
     }
+
     typealias ResultType = _User
-    static var responseSerializer: MIOSwiftyArchitecture.ResponseSerializer<User> {
-        return MIOSwiftyArchitecture.JSONResponseSerializer<User>()
+
+    static var responseSerializer: ResponseSerializer<_User> {
+        return JSONResponseSerializer<_User>()
     }
 ```
   The API provide some basic method like:
@@ -326,7 +335,7 @@ So, this function should depend on the situation of your team. `;)`
 
 - Custom extensions and categories.
 - UI relevant class for easy accessing global UI settings.
-- `SystemLog` can write log to files, and stored in sandbox.
+- ~~`SystemLog` can write log to files, and stored in sandbox.~~ (Refactoring)
 
 > Almost done `>w<!`
 

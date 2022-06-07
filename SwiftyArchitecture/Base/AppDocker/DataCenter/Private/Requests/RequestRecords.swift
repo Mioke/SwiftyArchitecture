@@ -11,7 +11,7 @@ struct RequestRecordNode {
     let requestTime: CFAbsoluteTime
     let freshness: RequestFreshness
     
-    var expirationtime: CFAbsoluteTime {
+    var expirationDate: CFAbsoluteTime {
         guard case .seconds(let seconds) = freshness else {
             return 0
         }
@@ -53,7 +53,7 @@ internal class RequestRecords: NSObject {
         guard let info = self.last(ofRequest: request) else {
             return true
         }
-        let should = info.node.expirationtime < CFAbsoluteTimeGetCurrent()
+        let should = info.node.expirationDate < CFAbsoluteTimeGetCurrent()
         if should {
             map[info.key] = nil
         }

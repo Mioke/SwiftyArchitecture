@@ -133,8 +133,7 @@ final class UserAPI: NSObject, ApiInfoProtocol {
         get { return "s" }
     }
     static var server: Server {
-        get { return Server(online: "http://www.baidu.com",
-                            offline: "http://www.baidu.com") }
+        get { return MioDemoServer }
     }
     static var httpMethod: Alamofire.HTTPMethod {
         get { return .get }

@@ -20,11 +20,11 @@ open class API<T: ApiInfoProtocol>: NSObject {
     fileprivate var retryTimes: Int = 0
     
     fileprivate var result: Swift.Result<T.ResultType, NSError>?
-    fileprivate var params: [String: Any]?
-    fileprivate var urlString: String?
     fileprivate var defaultDelegate: ApiDelegate<T>
     
     // MARK: Publics
+    /// Parameters cache.
+    public private(set) var params: [String: Any]?
     
     /// Request is out-going and not receive the response, that means `YES`.
     public var isLoading = false
@@ -62,35 +62,17 @@ open class API<T: ApiInfoProtocol>: NSObject {
             return defaultDelegate
         }
         self.isLoading = true
-        self.cancel()
         
         // cache parameters
         self.params = params
         
-        do {
-            self.request = try KMRequestGenerator.generateRequest(withApi: self,
-                                                                  params: params)
-        } catch {
-            defer {
+        defer {
+            do {
+                try APIRouterContainer.shared.router(withType: T.self).route(api: self)
+            } catch {
                 self.deal(value: nil, error: error as NSError)
             }
-            return defaultDelegate
         }
-        
-        let serializer = T.responseSerializer
-        self.request?.responseData(completionHandler: { (resp) in
-            switch resp.result {
-            case .success(_):
-                do {
-                    let result = try serializer.serialize(data: resp)
-                    self.deal(value: result, error: nil)
-                } catch {
-                    self.deal(value: nil, error: error as NSError)
-                }
-            case .failure(let error):
-                self.deal(value: nil, error: error as NSError)
-            }
-        })
         
         return defaultDelegate
     }
@@ -100,7 +82,7 @@ open class API<T: ApiInfoProtocol>: NSObject {
     /// - Parameters:
     ///   - value: Json value
     ///   - error: If there's an error
-    private func deal(value: T.ResultType?, error: NSError?) {
+    fileprivate func deal(value: T.ResultType?, error: NSError?) {
         self.isLoading = false
         var err: NSError?
         
@@ -114,35 +96,31 @@ open class API<T: ApiInfoProtocol>: NSObject {
                 
                 do {
                     try server.handle(data: value)
-                    self.loadingComplete()
                     self.successRoute()
                 } catch {
                     err = error as NSError
                 }
             } else {
-                self.loadingComplete()
                 self.successRoute()
             }
         }
-            // HTTP request error
+        // HTTP request error
         else if let error = error {
             err = error as NSError
         }
-            // Value is not a Dictionary
+        // Either no value and error
         else {
-            err = Errors.unknownError
+            err = KitErrors.unknown
         }
         
         if let err = err {
             // Retry operations
             if self.shouldAutoRetry,
-                let maxCount = T.autoRetryMaxCount(withErrorCode: err.code),
-                let interval = T.retryTimeInterval(withErrorCode: err.code) {
+               let maxCount = T.autoRetryMaxCount(withErrorCode: err.code),
+               let interval = T.retryTimeInterval(withErrorCode: err.code) {
                 
                 if self.retryTimes < maxCount {
-                    
-                    DispatchQueue
-                        .global(qos: .default)
+                    DispatchQueue.global(qos: .default)
                         .asyncAfter(deadline: DispatchTime(uptimeNanoseconds: interval), execute: {
                             self.loadData(with: self.params)
                         })
@@ -152,47 +130,34 @@ open class API<T: ApiInfoProtocol>: NSObject {
             }
             // reset the retry count
             self.retryTimes = 0
-            
-//            self.loadingFailed(with: err)
             self.failureRoute(with: err)
         }
-        SystemLog.write("API response - name: \(T.apiName)\n data: \(String(describing: value))\n error: \(err.debugDescription)")
+        
+        let logMessage = "API response - name: \(T.apiName)\n data: \(String(describing: value))\n error: \(err.debugDescription)"
+        KitLogger.log(level: .info, message: logMessage)
     }
     
     /// Cancel current request if exists.
     public func cancel() -> Void {
         self.request?.cancel()
+        self.isLoading = false
     }
     
     private func successRoute() -> Void {
-        self.doOnMainQueue({
+        doOnMainQueue({
             if let result = self.originData() {
                 self.delegate?.API(self, finishedWithResult: result)
             }
-        })
+        }, async: true)
         self.retryTimes = 0
     }
     
     private func failureRoute(with error: NSError) -> Void {
-        self.doOnMainQueue({
+        doOnMainQueue({
             self.delegate?.API(self, failedWithError: error)
-        })
+        }, async: true)
     }
-    
-    // MARK: - Callbacks
-    
-    /// A hook of success request
-    open func loadingComplete() -> Void {
-        // hook
-    }
-    
-    /// A hook of failed request
-    ///
-    /// - Parameter error: Error that occured
-    open func loadingFailed(with error: NSError) -> Void {
-        // hook
-    }
-    
+
     // MARK: - Others
     
     /// HTTP request is succeed or not
@@ -216,23 +181,55 @@ open class API<T: ApiInfoProtocol>: NSObject {
     }
     
     /// Get url string including server url, API version and API name
-    open var apiURLString: String {
-        if self.urlString == nil {
-            if T.apiVersion.isEmpty {
-                self.urlString = T.server.url + "/" + T.apiName
-            } else {
-                self.urlString = T.server.url + "/" + T.apiVersion + "/" + T.apiName
-            }
-        }
-        return self.urlString ?? ""
+    open var apiURL: URL {
+        return T.server.url
+            .appendingPathComponent(T.apiVersion)
+            .appendingPathComponent(T.apiName)
     }
     
     /// Get child's HTTP headers
     public var HTTPHeaders: Alamofire.HTTPHeaders? {
         return T.headers()
     }
+}
+
+// MARK: - API Routers
+
+class BuiltinAPIRouter: APIRouter {
     
-    private func doOnMainQueue(_ block: @escaping () -> ()) -> Void {
-        DispatchQueue.main.async(execute: block)
+    func route<T>(api: API<T>) throws where T : ApiInfoProtocol {
+        api.request = try KMRequestGenerator.generateRequest(withApi: api,
+                                                             params: api.params)
+        let serializer = T.responseSerializer
+        api.request?.responseData(completionHandler: { [weak api] (resp) in
+            guard let api = api else { return }
+            switch resp.result {
+            case .success(_):
+                do {
+                    let result = try serializer.serialize(data: resp)
+                    api.deal(value: result, error: nil)
+                } catch {
+                    api.deal(value: nil, error: error as NSError)
+                }
+            case .failure(let error):
+                api.deal(value: nil, error: error as NSError)
+            }
+        })
+    }
+}
+
+class APIRouterMocker: APIRouter {
+    
+    weak var datasource: APIRouterMokerDataSource?
+    
+    func route<T>(api: API<T>) throws where T : ApiInfoProtocol {
+        guard let datasource = datasource else {
+            return
+        }
+        guard let constructer = datasource.construct(type: T.self) else {
+            throw todo_error()
+        }
+        let result = constructer(api.params)
+        api.deal(value: result, error: nil)
     }
 }

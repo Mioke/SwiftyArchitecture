@@ -12,7 +12,7 @@ public typealias ApiDelegateResponse<T: ApiInfoProtocol> = (_ api: API<T>, _ dat
 
 open class ApiDelegate<T: ApiInfoProtocol>: NSObject {
     
-    fileprivate var response: ApiDelegateResponse<T>?
+    private var response: ApiDelegateResponse<T>?
     
     open func response(_ resp: @escaping ApiDelegateResponse<T>) -> Void {
         self.response = resp

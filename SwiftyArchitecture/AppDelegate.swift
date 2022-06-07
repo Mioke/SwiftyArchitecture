@@ -25,7 +25,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //        AFNetworkActivityIndicatorManager.sharedManager().enabled = true
         
         #if DEBUG
-            Server.online = false
+            try? MioDemoServer.switch(to: "DEV")
         #endif
         
         let root = InternalTestVC()

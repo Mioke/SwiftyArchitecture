@@ -56,7 +56,7 @@ public class AuthController: NSObject {
     
     func auth(appContext: AppContext) throws -> Observable<Void> {
         guard let delegate = delegate else {
-            throw AppDockerError.noDelegateError
+            throw KitErrors.noDelegateError
         }
         return delegate.authenticate().flatMapLatest {
             return self.changeUserState(to: .authenticated, appContext: appContext)

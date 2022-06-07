@@ -153,14 +153,10 @@ extension InternalTestVC: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
-        var cell = tableView.dequeueReusableCell(withIdentifier: "titleCell")
-        if cell == nil {
-            cell = UITableViewCell(style: .default, reuseIdentifier: "titleCell")
-        }
-        cell!.textLabel?.text = self.tests[indexPath.row]
-        
-        return cell!
+        let cell = tableView.dequeueReusableCell(withIdentifier: "titleCell") ??
+            UITableViewCell(style: .default, reuseIdentifier: "titleCell")
+        cell.textLabel?.text = self.tests[indexPath.row]
+        return cell
     }
     
     // MARK: Action
@@ -191,13 +187,12 @@ extension InternalTestVC: UITableViewDelegate, UITableViewDataSource {
             api.loadData(with: nil).response({ (api, result, error) in
                 
             })
-            
-            let userAPI = API<UserAPI>()
-            userAPI.loadData(with: ["id": "someuserid"]).response { api, user, error in
-                
-            }
         case 3:
-            SystemLog.activeDevelopUI()
+            KitLogger.log(level: .info, message: "Info messages.")
+            KitLogger.log(level: .debug, message: "Debug messages.")
+            KitLogger.log(level: .error, message: "Error messages.")
+            KitLogger.log(level: .verbose, message: "Verbose messages.")
+            break
             
         case 4:
             let vc = DataCenterTestViewController()

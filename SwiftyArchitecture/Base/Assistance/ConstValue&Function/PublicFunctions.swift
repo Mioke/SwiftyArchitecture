@@ -17,3 +17,11 @@ import Foundation
 public func scope(_ name: String, closure: () -> ()) -> Void {
     closure()
 }
+
+public func doOnMainQueue(_ block: @escaping () -> (), async: Bool = false) -> Void {
+    if !async && Thread.current.isMainThread {
+        block()
+    } else {
+        DispatchQueue.main.async(execute: block)
+    }
+}

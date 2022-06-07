@@ -1,6 +1,7 @@
 source 'https://github.com/CocoaPods/Specs.git'
 platform :ios, '15.0'
 use_frameworks!
+install! 'cocoapods', :preserve_pod_file_structure => true
 
 target "SAD" do
   # networking
@@ -21,13 +22,6 @@ target "SAD" do
   pod 'MIOSwiftyArchitecture/Testable', :path => './'
   
   
-    # kits for demo
-#    pod 'YYModel'
-    
-#	pod 'ReactiveCocoa'
-#	pod "AFNetworking"
-
-#	pod "KMCache"
 
   # componentize
   pod 'Application', :path => './ComponentizeDemo/Application'

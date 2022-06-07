@@ -11,48 +11,81 @@ import Foundation
 /// Server model
 open class Server: NSObject {
     
-    /// Global setting, determine `Server` running in `DEBUG` or `RELEASE` mode(Usaully ;)).
-    public static var online: Bool = true
+    /// The environment model, describe different running environment of the same server logic.
+    public enum Environment: Hashable {
+        case live
+        case custom(String)
+    }
     
-    /// URL of online state
-    public private(set) var onlineURL: String
+    /// Initiate configuration of a server.
+    public struct Configuration {
+        public let liveURL: URL
+        public var customURLs: [Server.Environment: URL]
+    }
     
-    /// URL of offline state
-    public private(set) var offlineURL: String
-    
-    /// Whether URL is a https url
-    public private(set) var isHTTPs: Bool = false
-    
-    /// Current URL
-    public var url: String {
-        get {
-            if Server.online {
-                return self.onlineURL
-            } else {
-                return self.offlineURL
+    /// The current environment option for this server.
+    public private(set) var currentEnvironment: Server.Environment = .live {
+        didSet {
+            if oldValue != currentEnvironment {
+                // need notification?
             }
         }
     }
-    /**
-     Initailize a server with online url and offline/test url
-     
-     - attention: Format is something like _https://10.24.0.3:8001_, don't end with '/' (I think this is big enough to warn you)
-     
-     - parameter online:  The URL that online server's site
-     - parameter offline: The URL that offline or test server's site
-     */
-    public init(online: String, offline: String) {
-        self.onlineURL = online
-        self.offlineURL = offline
-        super.init()
-        
-        if let first = url.components(separatedBy: "/").first {
-            isHTTPs = first.lowercased().contains("https")
+    
+    var configuratoin: Server.Configuration
+    
+    public init(configuation: Server.Configuration) {
+        self.configuratoin = configuation
+    }
+    
+    /// Get the url of current environment.
+    public var url: URL {
+        switch currentEnvironment {
+        case .live:
+            return configuratoin.liveURL
+        case .custom(_):
+            return configuratoin.customURLs[currentEnvironment]!
         }
     }
+    
+    public func `switch`(to customID: String) throws {
+        let newEnv = Environment.custom(customID)
+        guard let _ = configuratoin.customURLs[newEnv] else {
+            throw todo_error()
+        }
+        currentEnvironment = newEnv
+    }
+    
+    public func `switch`(to env: Server.Environment) throws {
+        guard env == .live || configuratoin.customURLs[env] != nil else {
+            throw todo_error()
+        }
+        currentEnvironment = env
+    }
+    
 }
 
 /// Customize data process operation of server
 public protocol ServerDataProcessProtocol {
     func handle(data: Any) throws -> Void
+}
+
+extension Server {
+    
+    /// Whether current environment support HTTPS, judged by the scheme of url is `https`.
+    var supportHTTPS: Bool {
+        self.url.scheme?.lowercased().contains("https") ?? false
+    }
+}
+
+extension Server {
+    
+    /// Initialize method.
+    /// - Parameters:
+    ///   - live: The server url of live environment.
+    ///   - customEnvironments: Custom environments urls.
+    public convenience init(live: URL, customEnvironments: [Server.Environment: URL]) {
+        let configuation: Server.Configuration = .init(liveURL: live, customURLs: customEnvironments)
+        self.init(configuation: configuation)
+    }
 }

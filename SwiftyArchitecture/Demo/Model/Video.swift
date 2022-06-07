@@ -15,20 +15,21 @@ struct Video: Decodable {
     
     let name: String
     
-    @CodableDefault
-    var state: Video.State?
+    @CodableDefault(defaultValue: .unknown)
+    var state: Video.State
 }
 
 @propertyWrapper class CodableDefault<T: Decodable>: Decodable {
+    var `default`: T
     var value: T?
     
     var wrappedValue: T {
-        get { return value! }
+        get { return value ?? `default` }
         set { self.value = newValue }
     }
     // This would be called when Codable object initializing.
-    init(wrappedValue: T) {
-        self.value = wrappedValue
+    init(defaultValue: T) {
+        self.default = defaultValue
     }
 }
 

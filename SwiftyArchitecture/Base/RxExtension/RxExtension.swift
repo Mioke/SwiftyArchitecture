@@ -9,7 +9,7 @@
 import Foundation
 import RxSwift
 
-extension Reactive  {
+extension Reactive {
     public func loadData<T: ApiInfoProtocol>(with params: [String: Any]?)
         -> Observable<T.ResultType> where Base: API<T> {
         return Observable.create { observer in

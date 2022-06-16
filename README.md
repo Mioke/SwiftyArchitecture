@@ -233,7 +233,7 @@ DataAccessObject<User>
   
 ### Modulize or Componentize
 
-Support using `cocoapods` for modulize your project. You can separate some part of code which is indepence enough, and put the code into a `pod` repo. And finally the main project maybe have no code any more, when building your app, the `cocoapods` will install all the dependencies together and generate your app.
+Support using `cocoapods` to modulize your project. You can separate some part of code which is indepence enough, and put the code into a `pod` repo. And finally the main project maybe have no code any more, when building your app, the `cocoapods` will install all the dependencies together and generate your app.
 
 The good things of `modulization` or `componentization` are
 - modules are closed between each other, and there's no way to visit the detail from another module; 

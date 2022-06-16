@@ -63,6 +63,12 @@ struct User: Codable {
     var name: String
 }
 
+let MioDemoServer: Server = .init(live: URL(string: "https://www.baidu.com")!,
+                                  customEnvironments: [
+                                    .custom("Dev"): URL(string: "https://www.baidu.com")!,
+                                    .custom("Staging"): URL(string: "https://www.baidu.com")!,
+                                  ])
+
 final class UserAPI: NSObject, ApiInfoProtocol {
     
     typealias ResultType = User
@@ -74,8 +80,7 @@ final class UserAPI: NSObject, ApiInfoProtocol {
         get { return "s" }
     }
     static var server: Server {
-        get { return Server(online: "http://www.mioke.com",
-                            offline: "http://www.mioke.com") }
+        get { return MioDemoServer }
     }
     static var httpMethod: Alamofire.HTTPMethod {
         get { return .get }

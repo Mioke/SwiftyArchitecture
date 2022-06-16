@@ -200,7 +200,22 @@ extension InternalTestVC: UITableViewDelegate, UITableViewDataSource {
             
         case 5:
 //            print(NetworkCache.memoryCache.size())
-            break
+            let signal =
+            Observable<Int>.create { observer in
+                print(1)
+                observer.onNext(2)
+                return Disposables.create()
+            }
+            .subscribe(on: schedule1)
+            .observe(on: MainScheduler.instance)
+            .flatMapLatest { value -> Observable<Int> in
+                print(2)
+                dispatchPrecondition(condition: .onQueue(DispatchQueue.main))
+                return .just(3)
+            }
+            
+            signal.subscribe().disposed(by: cancel)
+            print(3)
             
         case 6:
             if #available(iOS 10.0, *) {

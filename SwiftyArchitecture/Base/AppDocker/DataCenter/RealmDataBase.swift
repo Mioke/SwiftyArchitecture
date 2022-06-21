@@ -17,7 +17,7 @@ public class RealmDataBase: NSObject {
     
     public init(appContext context: AppContext) throws {
         let name = context.userId + "RLM"
-        self.realm = try Realm(fileURL: URL(fileURLWithPath: Path.docPath + name))
+        self.realm = try Realm(fileURL: URL(fileURLWithPath: Path.docPath).appendingPathComponent(name))
     }
     
     public init(realm: Realm) {

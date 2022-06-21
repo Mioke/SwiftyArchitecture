@@ -40,7 +40,7 @@ class InternalTestVC: UIViewController {
             view.delegate = self
             view.dataSource = self
             view.tableFooterView = UIView()
-            view.backgroundColor = UIColor.white
+            view.backgroundColor = ThemeUI.current.resource.background
             
             self.view.addSubview(view)
             return view
@@ -200,22 +200,25 @@ extension InternalTestVC: UITableViewDelegate, UITableViewDataSource {
             
         case 5:
 //            print(NetworkCache.memoryCache.size())
-            let signal =
-            Observable<Int>.create { observer in
-                print(1)
-                observer.onNext(2)
-                return Disposables.create()
-            }
-            .subscribe(on: schedule1)
-            .observe(on: MainScheduler.instance)
-            .flatMapLatest { value -> Observable<Int> in
-                print(2)
-                dispatchPrecondition(condition: .onQueue(DispatchQueue.main))
-                return .just(3)
-            }
+//            let signal =
+//            Observable<Int>.create { observer in
+//                print(1)
+//                observer.onNext(2)
+//                return Disposables.create()
+//            }
+//            .subscribe(on: schedule1)
+//            .observe(on: MainScheduler.instance)
+//            .flatMapLatest { value -> Observable<Int> in
+//                print(2)
+//                dispatchPrecondition(condition: .onQueue(DispatchQueue.main))
+//                return .just(3)
+//            }
+//
+//            signal.subscribe().disposed(by: cancel)
+//            print(3)
             
-            signal.subscribe().disposed(by: cancel)
-            print(3)
+            let vc = ThemeTestViewController(nibName: nil, bundle: nil)
+            self.navigationController?.pushViewController(vc, animated: true)
             
         case 6:
             if #available(iOS 10.0, *) {

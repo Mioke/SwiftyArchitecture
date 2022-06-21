@@ -26,6 +26,9 @@
 		AB0BF5D9283CD28500418569 /* MockComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB0BF5D8283CD28500418569 /* MockComponents.swift */; };
 		AB35E654244476B400EC361A /* DataCenterTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB35E652244476B400EC361A /* DataCenterTestViewController.swift */; };
 		AB35E655244476B400EC361A /* DataCenterTestViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AB35E653244476B400EC361A /* DataCenterTestViewController.xib */; };
+		AB6781362861C0B7007740FA /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6781352861C0B7007740FA /* Theme.swift */; };
+		AB6781392861C8CD007740FA /* ThemeTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6781372861C8CD007740FA /* ThemeTestViewController.swift */; };
+		AB67813A2861C8CD007740FA /* ThemeTestViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AB6781382861C8CD007740FA /* ThemeTestViewController.xib */; };
 		ABC9EA872449AFD2009D044E /* TestObjModifyVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABC9EA852449AFD2009D044E /* TestObjModifyVC.swift */; };
 		ABC9EA882449AFD2009D044E /* TestObjModifyVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = ABC9EA862449AFD2009D044E /* TestObjModifyVC.xib */; };
 		ABD632442727FE0E00AA775A /* Video.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD632432727FE0D00AA775A /* Video.swift */; };
@@ -87,6 +90,9 @@
 		AB35E63C243F35CA00EC361A /* pod_publish.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = pod_publish.sh; sourceTree = SOURCE_ROOT; };
 		AB35E652244476B400EC361A /* DataCenterTestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataCenterTestViewController.swift; sourceTree = "<group>"; };
 		AB35E653244476B400EC361A /* DataCenterTestViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DataCenterTestViewController.xib; sourceTree = "<group>"; };
+		AB6781352861C0B7007740FA /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
+		AB6781372861C8CD007740FA /* ThemeTestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeTestViewController.swift; sourceTree = "<group>"; };
+		AB6781382861C8CD007740FA /* ThemeTestViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ThemeTestViewController.xib; sourceTree = "<group>"; };
 		ABC9EA852449AFD2009D044E /* TestObjModifyVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestObjModifyVC.swift; sourceTree = "<group>"; };
 		ABC9EA862449AFD2009D044E /* TestObjModifyVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TestObjModifyVC.xib; sourceTree = "<group>"; };
 		ABD632432727FE0D00AA775A /* Video.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Video.swift; sourceTree = "<group>"; };
@@ -140,6 +146,7 @@
 		A752DE3F1C031066008E3118 /* Demo */ = {
 			isa = PBXGroup;
 			children = (
+				AB6781342861C08A007740FA /* Appearance */,
 				A77BACEB1C157EC100AF7A86 /* ApiManager */,
 				A7826F741C0EF058007AA18D /* Model */,
 				A77BAD1B1C19715F00AF7A86 /* Persistance */,
@@ -167,6 +174,8 @@
 				AB35E653244476B400EC361A /* DataCenterTestViewController.xib */,
 				ABC9EA852449AFD2009D044E /* TestObjModifyVC.swift */,
 				ABC9EA862449AFD2009D044E /* TestObjModifyVC.xib */,
+				AB6781372861C8CD007740FA /* ThemeTestViewController.swift */,
+				AB6781382861C8CD007740FA /* ThemeTestViewController.xib */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -263,6 +272,14 @@
 			path = SwiftArchitectureUITests;
 			sourceTree = "<group>";
 		};
+		AB6781342861C08A007740FA /* Appearance */ = {
+			isa = PBXGroup;
+			children = (
+				AB6781352861C0B7007740FA /* Theme.swift */,
+			);
+			path = Appearance;
+			sourceTree = "<group>";
+		};
 		B41F4498FD05D386DBCFBEED /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -351,7 +368,6 @@
 				TargetAttributes = {
 					A791C6AC1C02E90000670017 = {
 						CreatedOnToolsVersion = 7.1;
-						DevelopmentTeam = GAM7WF67F4;
 						LastSwiftMigration = 0810;
 					};
 					A791C6C31C02E90000670017 = {
@@ -395,6 +411,7 @@
 				A791C6BB1C02E90000670017 /* Assets.xcassets in Resources */,
 				AB35E655244476B400EC361A /* DataCenterTestViewController.xib in Resources */,
 				AF437DD127898EB40052FEAE /* ModulesRegistery.plist in Resources */,
+				AB67813A2861C8CD007740FA /* ThemeTestViewController.xib in Resources */,
 				A791C6B61C02E90000670017 /* Main.storyboard in Resources */,
 				ABC9EA882449AFD2009D044E /* TestObjModifyVC.xib in Resources */,
 			);
@@ -555,6 +572,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A791C6B11C02E90000670017 /* AppDelegate.swift in Sources */,
+				AB6781392861C8CD007740FA /* ThemeTestViewController.swift in Sources */,
 				A77BAD1A1C196DFD00AF7A86 /* InternalTestVC.swift in Sources */,
 				AF158A561E1BB26700FB0BAF /* NotificationService.swift in Sources */,
 				AF158A541E14B63900FB0BAF /* TestAPI.swift in Sources */,
@@ -567,6 +585,7 @@
 				A753A0A31C06FE5A00C9FBFE /* ViewController.swift in Sources */,
 				A7826F761C0EF06A007AA18D /* UserModel.swift in Sources */,
 				ABC9EA872449AFD2009D044E /* TestObjModifyVC.swift in Sources */,
+				AB6781362861C0B7007740FA /* Theme.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -739,7 +758,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = GAM7WF67F4;
+				DEVELOPMENT_TEAM = 56R85U86AZ;
 				HEADER_SEARCH_PATHS = (
 					"$(PROJECT_DIR)/Pods/**",
 					"$(inherited)",
@@ -769,7 +788,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = GAM7WF67F4;
+				DEVELOPMENT_TEAM = 56R85U86AZ;
 				HEADER_SEARCH_PATHS = (
 					"$(PROJECT_DIR)/Pods/**",
 					"$(inherited)",

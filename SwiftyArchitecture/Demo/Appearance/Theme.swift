@@ -49,7 +49,7 @@ class DynamicColors: Colors {
     var currentSetting: Settings = .followSystem {
         didSet {
             UIView.animate(withDuration: 0.2, delay: 0, options: []) {
-                UIApplication.shared.windows.forEach { window in
+                UIApplication.availableWindows.forEach { window in
                     window.overrideUserInterfaceStyle = self.currentSetting.toStyle()
                 }
             }

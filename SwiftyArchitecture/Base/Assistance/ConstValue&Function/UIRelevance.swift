@@ -69,3 +69,18 @@ extension UITableView {
         return cell
     }
 }
+
+public extension UIApplication {
+    
+    /// Get all windows from all scenes.
+    static var availableWindows: [UIWindow] {
+        if #available(iOS 13, *) {
+            return UIApplication.shared.connectedScenes.flatMap { scene -> [UIWindow] in
+                guard let windowScene = scene as? UIWindowScene else { return [] }
+                return windowScene.windows
+            }
+        } else {
+            return UIApplication.shared.windows
+        }
+    }
+}

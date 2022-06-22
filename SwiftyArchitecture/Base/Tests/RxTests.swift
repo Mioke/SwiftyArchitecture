@@ -170,5 +170,30 @@ class RxTestCase: XCTestCase {
         
         wait(for: [expect], timeout: 5)
     }
+    
+    func testDelayWorker() {
+        let work = Observable<Int>.create { observer in
+            observer.onNext(1)
+            observer.onCompleted()
+            return Disposables.create()
+        }
+        
+        let expect = XCTestExpectation()
+        
+        DelayWorker.delay(work: work, interval: .seconds(3))
+            .debug(#function + "1", trimOutput: true)
+            .do(onCompleted: {
+                expect.fulfill()
+            })
+            .subscribe()
+            .disposed(by: cancel)
+        
+        DelayWorker.delay(work: work, interval: .microseconds(0))
+            .debug(#function + "2", trimOutput: true)
+            .subscribe()
+            .disposed(by: cancel)
+        
+        wait(for: [expect], timeout: 5)
+    }
 }
 

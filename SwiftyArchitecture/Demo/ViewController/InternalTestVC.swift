@@ -33,7 +33,7 @@ class InternalTestVC: UIViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        self.tests = ["Record user model", "Read users", "API test", "Call Log UI", "Data center test", "-", "Push local notification"]
+        self.tests = ["Record user model", "Read users", "API test", "Call Log UI", "Data center test", "Theme", "Push local notification"]
         
         self.tableView = {
             let view = UITableView(frame: self.view.bounds)

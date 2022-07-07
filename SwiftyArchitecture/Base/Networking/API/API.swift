@@ -9,6 +9,28 @@
 import Foundation
 import Alamofire
 
+/// API configuration for running requests and logic.
+public struct APIConfiguration {
+    
+    /// The default configuration for all APIs.
+    public static var `default`: APIConfiguration = {
+        let reportQueue: DispatchQueue = .init(
+            label: "com.mioke.swiftyarchitecture.networking.default-reporting",
+            qos: .default,
+            attributes: .concurrent)
+        let internalQueue: DispatchQueue = .init(label: "com.mioke.swiftyarchitecture.networking.internal")
+        return .init(reportingQueue: reportQueue, internalQueue: internalQueue)
+    }()
+    
+    /// The queue of callback handler running.
+    @Atomic
+    var reportingQueue: DispatchQueue
+    
+    /// The queue of request sender running.
+    var internalQueue: DispatchQueue
+}
+
+
 /// Concrete class of api manager, subclass from this class to use it and don't use this class directly.
 open class API<T: ApiInfoProtocol>: NSObject {
     
@@ -21,6 +43,10 @@ open class API<T: ApiInfoProtocol>: NSObject {
     
     fileprivate var result: Swift.Result<T.ResultType, NSError>?
     fileprivate var defaultDelegate: ApiDelegate<T>
+    
+    private var configuration: APIConfiguration {
+        return customizedConfiguration ?? APIConfiguration.default
+    }
     
     // MARK: Publics
     /// Parameters cache.
@@ -37,6 +63,9 @@ open class API<T: ApiInfoProtocol>: NSObject {
     
     /// If this property is true, it will auto retry when all situations are eligible
     public var shouldAutoRetry: Bool = true
+    
+    /// Override the APIConfiguration.default if this property is not empty
+    public var customizedConfiguration: APIConfiguration?
     
     // MARK: Initialization
     public override init() {
@@ -56,24 +85,21 @@ open class API<T: ApiInfoProtocol>: NSObject {
     /// - Parameter params: Parameters of request
     @discardableResult
     public func loadData(with params: [String: Any]?) -> ApiDelegate<T> {
-        
-        if self.isLoading {
-            debugPrint("API manager current is requesting, if you want to reload, call cancel() and retry")
-            return defaultDelegate
-        }
-        self.isLoading = true
-        
-        // cache parameters
-        self.params = params
-        
-        defer {
+        configuration.internalQueue.async {
+            guard self.isLoading else {
+                debugPrint("API manager current is requesting, if you want to reload, call cancel() and retry")
+                return
+//                return defaultDelegate
+            }
+            self.isLoading = true
+            // cache parameters
+            self.params = params
             do {
                 try APIRouterContainer.shared.router(withType: T.self).route(api: self)
             } catch {
                 self.deal(value: nil, error: error as NSError)
             }
         }
-        
         return defaultDelegate
     }
     
@@ -120,8 +146,9 @@ open class API<T: ApiInfoProtocol>: NSObject {
                let interval = T.retryTimeInterval(withErrorCode: err.code) {
                 
                 if self.retryTimes < maxCount {
-                    DispatchQueue.global(qos: .default)
-                        .asyncAfter(deadline: DispatchTime(uptimeNanoseconds: interval), execute: {
+                    configuration.internalQueue.asyncAfter(
+                        deadline: .now() + .seconds(Int(interval)),
+                        execute: {
                             self.loadData(with: self.params)
                         })
                     self.retryTimes += 1
@@ -144,31 +171,21 @@ open class API<T: ApiInfoProtocol>: NSObject {
     }
     
     private func successRoute() -> Void {
-        doOnMainQueue({
+        configuration.reportingQueue.async {
             if let result = self.originData() {
                 self.delegate?.API(self, finishedWithResult: result)
             }
-        }, async: true)
+        }
         self.retryTimes = 0
     }
     
     private func failureRoute(with error: NSError) -> Void {
-        doOnMainQueue({
+        configuration.reportingQueue.async {
             self.delegate?.API(self, failedWithError: error)
-        }, async: true)
+        }
     }
 
     // MARK: - Others
-    
-    /// HTTP request is succeed or not
-    open func isSuccess() -> Bool {
-        switch self.result {
-        case .success(_):
-            return !self.isLoading
-        default:
-            return false
-        }
-    }
     
     /// Data which received from server and transformed to JSON
     ///

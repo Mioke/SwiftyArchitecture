@@ -22,7 +22,13 @@ struct Theme<T> {
 }
 
 class ThemeUI {
+    static var themeDidChange: Notification.Name = .init(rawValue: "SwiftyArchitecture.ThemeUI.themeDidChange")
     static var current: Theme<Colors> = .init(resource: DynamicColors())
+    
+    static func update(resource: Colors) {
+        current = .init(resource: resource)
+        NotificationCenter.default.post(name: themeDidChange, object: nil)
+    }
 }
 
 protocol Colors {
@@ -48,7 +54,7 @@ class DynamicColors: Colors {
     
     var currentSetting: Settings = .followSystem {
         didSet {
-            UIView.animate(withDuration: 0.2, delay: 0, options: []) {
+            UIView.animate(withDuration: 0.15, delay: 0, options: []) {
                 UIApplication.availableWindows.forEach { window in
                     window.overrideUserInterfaceStyle = self.currentSetting.toStyle()
                 }

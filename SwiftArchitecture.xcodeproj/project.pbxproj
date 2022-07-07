@@ -91,7 +91,7 @@
 		AB35E63C243F35CA00EC361A /* pod_publish.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = pod_publish.sh; sourceTree = SOURCE_ROOT; };
 		AB35E652244476B400EC361A /* DataCenterTestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataCenterTestViewController.swift; sourceTree = "<group>"; };
 		AB35E653244476B400EC361A /* DataCenterTestViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DataCenterTestViewController.xib; sourceTree = "<group>"; };
-		AB6781352861C0B7007740FA /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
+		AB6781352861C0B7007740FA /* Theme.swift */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; usesTabs = 0; };
 		AB6781372861C8CD007740FA /* ThemeTestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeTestViewController.swift; sourceTree = "<group>"; };
 		AB6781382861C8CD007740FA /* ThemeTestViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ThemeTestViewController.xib; sourceTree = "<group>"; };
 		AB67813B2862BB74007740FA /* SceneDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };

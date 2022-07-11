@@ -40,7 +40,7 @@ class InternalTestVC: UIViewController {
             view.delegate = self
             view.dataSource = self
             view.tableFooterView = UIView()
-            view.backgroundColor = ThemeUI.current.resource.background
+            view.backgroundColor = ThemeUI.current.color.background
             
             self.view.addSubview(view)
             return view

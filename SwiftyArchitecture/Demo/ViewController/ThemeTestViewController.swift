@@ -24,8 +24,8 @@ class ThemeTestViewController: UIViewController {
         
         tableView.reloadData()
         
-        guard let dynamic = ThemeUI.current.transform(to: DynamicColors.self) else { fatalError() }
-        selection.selectedSegmentIndex = dynamic.resource.currentSetting.rawValue
+        guard let dynamic = ThemeUI.current as? DynamicResource else { fatalError() }
+        selection.selectedSegmentIndex = dynamic.currentSetting.rawValue
     }
 
     var dataSource: [String] = {
@@ -45,18 +45,18 @@ class ThemeTestViewController: UIViewController {
 
     @IBAction func selectionDidChange(_ sender: Any) {
         guard let segment = sender as? UISegmentedControl,
-              let selection = DynamicColors.Settings.init(rawValue: segment.selectedSegmentIndex),
-              let dynamic = ThemeUI.current.transform(to: DynamicColors.self)
+              let selection = DynamicResource.Settings.init(rawValue: segment.selectedSegmentIndex),
+              let dynamic = ThemeUI.current as? DynamicResource
         else { return }
         
-        dynamic.update(setting: selection)
+        dynamic.currentSetting = selection
     }
 }
 
 extension ThemeTestViewController: UITableViewDelegate, UITableViewDataSource {
     
     static var textAtrributes: [NSAttributedString.Key : Any] = [
-        .foregroundColor: ThemeUI.current.resource.text,
+        .foregroundColor: ThemeUI.current.color.text,
         .font: UIFont.systemFont(ofSize: 16)
     ]
     
@@ -85,10 +85,10 @@ class ThemeTestCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
         self.contentView.addSubview(self.label)
-        self.label.textColor = ThemeUI.current.resource.text
+        self.label.textColor = ThemeUI.current.color.text
         self.label.font = .systemFont(ofSize: 16)
         
-        self.backgroundColor = ThemeUI.current.resource.background
+        self.backgroundColor = ThemeUI.current.color.background
         
         self.label.leftAnchor.constraint(equalTo: self.contentView.leftAnchor, constant: 16).isActive = true
         self.label.centerYAnchor.constraint(equalTo: self.contentView.centerYAnchor).isActive = true

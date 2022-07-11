@@ -73,7 +73,7 @@ final public class Initiator {
             })
         
         let zipTasks = { (ts: [Task]?, scheduler: SchedulerType, id: String) -> Observable<Void> in
-            guard let tasks = ts else { return .just(()) }
+            guard let tasks = ts, !tasks.isEmpty else { return .just(()) }
             return self.createList(with: tasks, schedule: scheduler, id: id)
         }
         

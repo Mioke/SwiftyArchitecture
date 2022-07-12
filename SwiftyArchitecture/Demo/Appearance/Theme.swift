@@ -11,7 +11,7 @@ import SwiftUI
 
 class ThemeUI {
     static var themeDidChange: Notification.Name = .init(rawValue: "SwiftyArchitecture.ThemeUI.themeDidChange")
-    static var current: some Resource = DynamicResource() {
+    static var current: Resource = DynamicResource() {
         didSet { NotificationCenter.default.post(name: themeDidChange, object: nil) }
     }
 }
@@ -26,14 +26,17 @@ protocol Icons {
 }
 
 protocol Resource {
-    associatedtype Color: Colors
-    associatedtype Icon: Icons
-    
-    var color: Color { get }
-    var icon: Icon { get }
+    var color: Colors { get }
+    var icon: Icons { get }
 }
 
 class DynamicColors: Colors {
+    
+    unowned var resource: DynamicResource?
+    
+    init(resource: DynamicResource) {
+        self.resource = resource
+    }
     
     var text: UIColor {
         return create(light: .label, dark: .white)
@@ -43,12 +46,10 @@ class DynamicColors: Colors {
         return create(light: .white, dark: .black)
     }
     
-    var currentSetting: DynamicResource.Settings = .followSystem
-    
     func create(light: UIColor, dark: UIColor) -> UIColor {
         return UIColor.init { [weak self] trait in
-            guard let self = self else { return light }
-            switch self.currentSetting {
+            guard let resource = self?.resource else { return light }
+            switch resource.currentSetting {
             case .light:
                 return light
             case .dark:
@@ -61,7 +62,12 @@ class DynamicColors: Colors {
 }
 
 class DynamicIcons: Icons {
-    var currentSetting: DynamicResource.Settings = .followSystem
+    
+    unowned var resource: DynamicResource?
+    
+    init(resource: DynamicResource) {
+        self.resource = resource
+    }
     
     var appIcon: UIImage {
         return .init(named: "launch_swifty_icon")!
@@ -69,11 +75,8 @@ class DynamicIcons: Icons {
 }
 
 class DynamicResource: Resource {
-    typealias Color = DynamicColors
-    typealias Icon = DynamicIcons
-
-    var color: DynamicColors = .init()
-    var icon: DynamicIcons = .init()
+    lazy var color: Colors = DynamicColors.init(resource: self)
+    lazy var icon: Icons = DynamicIcons.init(resource: self)
     
     enum Settings: Int {
         case followSystem = 0
@@ -91,14 +94,39 @@ class DynamicResource: Resource {
     
     var currentSetting: Settings = .followSystem {
         didSet {
-            self.color.currentSetting = currentSetting
-            self.icon.currentSetting = currentSetting
-            
             UIView.animate(withDuration: 0.15, delay: 0, options: []) {
                 UIApplication.availableWindows.forEach { window in
                     window.overrideUserInterfaceStyle = self.currentSetting.toStyle()
                 }
             }
         }
+    }
+}
+
+// MARK: - example for other static resource
+
+class DefaultColors: Colors {
+    var text: UIColor {
+        return .label
+    }
+    var background: UIColor {
+        return .white
+    }
+}
+
+class DefaultIcons: Icons {
+    var appIcon: UIImage {
+        return .init(named: "launch_swifty_icon")!
+    }
+}
+
+class DefaultResource: Resource {
+    var color: Colors = DefaultColors()
+    var icon: Icons = DefaultIcons()
+}
+
+class TestCaseResources {
+    func testSwitchResource() -> Void {
+        ThemeUI.current = DefaultResource()
     }
 }

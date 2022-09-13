@@ -42,3 +42,21 @@ private extension LogLevel {
         }
     }
 }
+
+public extension KitLogger {
+    static func debug(_ message: String, file: String = #file, line: Int = #line) {
+        log(level: .debug, message: message, file: file, line: line)
+    }
+    
+    static func info(_ message: String, file: String = #file, line: Int = #line) {
+        log(level: .info, message: message, file: file, line: line)
+    }
+    
+    static func verbose(_ message: String, file: String = #file, line: Int = #line) {
+        log(level: .verbose, message: message, file: file, line: line)
+    }
+    
+    static func error(_ message: String, file: String = #file, line: Int = #line) {
+        log(level: .error, message: message, file: file, line: line)
+    }
+}

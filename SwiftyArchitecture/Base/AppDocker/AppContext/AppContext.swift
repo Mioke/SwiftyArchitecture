@@ -31,105 +31,47 @@ public class AppContext: NSObject {
     
     public init(user: UserProtocol) {
         self.user = user
-        authController = .init(configuration: user.authConfiguration)
         super.init()
     }
     
-    let authController: AuthController
+    public static var authController: AuthController = .init(delegate: nil)
     
-    public weak var authDelegate: AuthControllerDelegate? {
-        didSet {
-            authController.delegate = authDelegate
+    /// Start a new app context.
+    /// - Parameter user: the user of this context.
+    public static func startAppContext(with user: UserProtocol) -> Void {
+        let appContext = AppContext(user: user)
+        if let value = user.authState.value, value != .authenticated {
+            user.authState.onNext(.authenticated)
         }
+        AppContext.current = appContext
+        AppContext.standard.archive(appContext: appContext)
+            .then(AppContext.standard.createOrUpdateUserMata(with: appContext.user.id))
+            .subscribe()
+            .disposed(by: AppContext.standard.disposables)
+    }
+    
+    @discardableResult
+    /// Any changes of the user should call this function to update the context.
+    /// - Parameter user: The new users.
+    /// - Returns: Handling signal.
+    public func update(user: UserProtocol) -> Observable<Void> {
+        guard user.id == self.user.id else {
+            fatalError("Update user must use the same user id.")
+        }
+        KitLogger.info("Updating user of id: \(user.id)")
+        self.user = user
+        return AppContext.standard.archive(appContext: self)
     }
     
     // MARK: - Data Center
-    public lazy var dataCenter: DataCenter = DataCenter(appContext: self)
-}
-
-public protocol UserArchivableInfoProtocol: Codable {
-    static func decode(_ data: Data) throws -> Self
-    func encode() throws -> Data
-}
-
-public protocol UserProtocol {
-    
-    var id: String { get set }
-    
-    var authState: BehaviorSubject<AuthState> { get set }
-    
-    var authConfiguration: AuthController.Configuration { get }
-    
-    var archivableInfo: UserArchivableInfoProtocol { get set }
-}
-
-public enum AuthState {
-    case unauthenticated
-    case authenticated
-    case presession
-}
-
-final public class StandardAppContext: AppContext {
-    
-    convenience init() {
-        self.init(user: DefaultUser())
-    }
-    
-    public let resourceBag: DisposeBag = .init()
-    
-    private var isInfoLoaded: Bool = false
-    
-    private override init(user: UserProtocol) {
-        super.init(user: user)
-    }
-    
-    public func setup() -> Observable<Bool> {
-        return authController.loadArchivedData(appContext: self)
-            .do { self.isInfoLoaded = $0 }
-    }
-    
-    var defaultUser: DefaultUser {
-        return self.user as! DefaultUser
-    }
-    
-    public var previousLaunchedUserId: String? {
-        return isInfoLoaded ? defaultUser._archivableInfo.previousLaunchedUserId : nil
-    }
-}
-
-class DefaultUser: UserProtocol {
-    var authConfiguration: AuthController.Configuration = .init(archiveLocation: .database)
-    
-    var authState: BehaviorSubject<AuthState> = .init(value: .authenticated)
-    var id: String = "__standard__"
-    
-    var archivableInfo: UserArchivableInfoProtocol {
-        get { return _archivableInfo }
-        set {
-            guard let newValue = newValue as? DefaultUserArchivableInfo else { return }
-            _archivableInfo = newValue
-        }
-    }
-    
-    lazy var _archivableInfo: DefaultUserArchivableInfo = .init(previousLaunchedUserId: id)
-}
-
-public struct DefaultUserArchivableInfo: UserArchivableInfoProtocol {
-    let previousLaunchedUserId: String
-
-    public static func decode(_ data: Data) throws -> DefaultUserArchivableInfo {
-        try JSONDecoder().decode(self, from: data)
-    }
-    public func encode() throws -> Data {
-        try JSONEncoder().encode(self)
-    }
+    public lazy var store: Store = Store(appContext: self)
 }
 
 // MARK: - Convenience
 public func AppContextCurrentDatabase() -> Realm {
-    return AppContext.current.dataCenter.db.realm
+    return AppContext.current.store.db.realm
 }
 
 public func AppContextCurrentMemory() -> Realm {
-    return AppContext.current.dataCenter.memory.realm
+    return AppContext.current.store.memory.realm
 }

@@ -31,7 +31,7 @@ class TestObjModifyVC: UIViewController {
     }
     
     func bindData() -> Void {
-        let obj = AppContext.current.dataCenter.object(with: objectKey, type: TestObj.self).compactMap { $0 }
+        let obj = AppContext.current.store.object(with: objectKey, type: TestObj.self).compactMap { $0 }
         
         obj.map { $0.key }
             .bind(to: self.keyLabel.rx.text)
@@ -63,7 +63,7 @@ class TestObjModifyVC: UIViewController {
             .combineLatest(obj, editingEnd)
             .subscribe(onNext: { [weak self] (testObj, text) in
                 if let text = text, let value = Int(text) {
-                    try? AppContext.current.dataCenter.db.realm.safeWrite { rlm in
+                    try? AppContext.current.store.db.realm.safeWrite { rlm in
                         testObj.value = value
                     }
                 } else {

@@ -23,14 +23,14 @@ class AuthModule: ModuleProtocol, AuthServiceProtocol {
     }
     
     func refreshAuthenticationIfNeeded(completion: @escaping (User) -> ()) {
-        if let previousUID = AppContext.standard.previousLaunchedUserId {
-            let previousUser = User(id: previousUID)
-            let previousContext = AppContext(user: previousUser)
-            // get token from previous context data center, like:
-            // let credential = previousContext.dataCenter.object(with: previousUID, type: Credential.Type)
-            print(previousContext)
-            // and then do some refresh token logic here.
-        }
+//        if let previousUID = AppContext.standard.previousLaunchedUserId {
+//            let previousUser = User(id: previousUID)
+//            let previousContext = AppContext(user: previousUser)
+//            // get token from previous context data center, like:
+//            // let credential = previousContext.store.object(with: previousUID, type: Credential.Type)
+//            print(previousContext)
+//            // and then do some refresh token logic here.
+//        }
     }
     
     func deauthenticate(completion: @escaping (Error?) -> Void) {

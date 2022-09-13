@@ -15,15 +15,14 @@ public struct APIConfiguration {
     /// The default configuration for all APIs.
     public static var `default`: APIConfiguration = {
         let reportQueue: DispatchQueue = .init(
-            label: "com.mioke.swiftyarchitecture.networking.default-reporting",
+            label: Consts.networkingDomain + ".default-reporting",
             qos: .default,
             attributes: .concurrent)
-        let internalQueue: DispatchQueue = .init(label: "com.mioke.swiftyarchitecture.networking.internal")
+        let internalQueue: DispatchQueue = .init(label: Consts.networkingDomain + ".internal")
         return .init(reportingQueue: reportQueue, internalQueue: internalQueue)
     }()
     
     /// The queue of callback handler running.
-    @Atomic
     var reportingQueue: DispatchQueue
     
     /// The queue of request sender running.

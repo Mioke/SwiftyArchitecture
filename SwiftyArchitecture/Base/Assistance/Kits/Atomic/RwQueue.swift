@@ -7,11 +7,13 @@
 
 import Foundation
 
+/// The `RwQueue` is only be used in a simple way because it's a heavy work when enqueue actions and switch the threads.
+/// So if `RwQueue` contains huge amount of work to do, it may leads to unexpected behavior and bad performance.
 public class RwQueue {
     
-    private let queue: DispatchQueue
+    public let queue: DispatchQueue
     
-    public init(qos: DispatchQoS, label: String? = nil) {
+    public init(qos: DispatchQoS = .default, label: String? = nil) {
         self.queue = .init(label: "com.mioke.swiftyarchitecture.rwqueue" + (!label.isEmpty ? ".\(label!)" : ""),
                            qos: qos,
                            attributes: .concurrent)
@@ -29,8 +31,8 @@ public class RwQueue {
         return try queue.sync(execute: closure)
     }
     
-    public func syncWrite(_ closure: () throws -> Void) rethrows {
-        try queue.sync(flags: .barrier, execute: closure)
+    public func syncWrite<T>(_ closure: () throws -> T) rethrows -> T {
+        return try queue.sync(flags: .barrier, execute: closure)
     }
 }
 

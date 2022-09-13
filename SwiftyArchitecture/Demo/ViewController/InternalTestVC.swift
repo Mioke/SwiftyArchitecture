@@ -19,8 +19,6 @@ class InternalTestVC: UIViewController {
     
     var tableView: UITableView!
     
-    var testObj = true
-    
     let queue1 = DispatchQueue.init(label: "Queue1")
     let queue2 = DispatchQueue.init(label: "Queue2")
     
@@ -31,9 +29,22 @@ class InternalTestVC: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+//        self.navigationItem.titleView = {
+//            let v = UIView(frame: .init(x: 0, y: 0, width: 200, height: 88))
+//            let label = UILabel()
+//            label.font = UIFont(name: "Snell Roundhand", size: 32)
+//            label.text = "Swifty"
+//            v.addSubview(label)
+//
+//            label.centerYAnchor.constraint(equalTo: v.centerYAnchor).isActive = true
+//            label.centerXAnchor.constraint(equalTo: v.centerXAnchor).isActive = true
+//            return v
+//        }()
+        
         // Do any additional setup after loading the view.
-        self.tests = ["Record user model", "Read users", "API test", "Call Log", "Data center test", "Theme", "Push local notification"]
+        self.tests = ["Record user model", "Read users", "API test", "Call Log", "Data center test", "Theme",
+                      "Push local notification", "Auth Tests"]
         
         self.tableView = {
             let view = UITableView(frame: self.view.bounds)
@@ -243,7 +254,9 @@ extension InternalTestVC: UITableViewDelegate, UITableViewDataSource {
             } else {
                 // Fallback on earlier versions
             }
-            
+        case 7:
+            let vc = AuthTestViewController(nibName: nil, bundle: nil)
+            self.navigationController?.pushViewController(vc, animated: true)
         default:
             break
         }

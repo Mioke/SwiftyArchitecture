@@ -32,3 +32,15 @@ extension BehaviorSubject {
         return try? value()
     }
 }
+
+public extension Observable {
+    func mapToVoid() -> Observable<Void> {
+        return self.map { _ in () }
+    }
+    
+    func then<T>(_ observale: Observable<T>) -> Observable<T> {
+        return self.flatMapLatest { _ -> Observable<T> in
+            return observale
+        }
+    }
+}

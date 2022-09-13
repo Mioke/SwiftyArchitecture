@@ -10,6 +10,7 @@ import UIKit
 import CoreData
 import Alamofire
 import ApplicationProtocol
+import RxSwift
 
 @_exported import MIOSwiftyArchitecture
 
@@ -17,15 +18,13 @@ import ApplicationProtocol
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-    
+    let bag: DisposeBag = .init()
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         
-//        AFNetworkActivityIndicatorManager.sharedManager().enabled = true
-        
         #if DEBUG
-            try? MioDemoServer.switch(to: "DEV")
+        try? MioDemoServer.switch(to: "DEV")
         #endif
         
         print(#function)
@@ -36,6 +35,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         self.window?.rootViewController = nav
         self.window?.makeKeyAndVisible()
         
+        // App Context
+        if let standardContext = AppContext.current as? StandardAppContext {
+            standardContext.setup(authDelegate: UserService.shared)
+        }
+//        UserService.shared.login()
+        
+        // Modulization setup
         if let url = Bundle.main.url(forResource: "ModulesRegistery", withExtension: ".plist") {
             try! ModuleManager.default.registerModules(withConfigFilePath: url)
         }

@@ -11,24 +11,28 @@ import RxSwift
 import RxRealm
 import RealmSwift
 
-typealias DAO = DataAccessObject
+public typealias DAO = DataAccessObject
 
-public class DataAccessObject<T: Object> : NSObject {
+public class DataAccessObject<T: Object> {
     
-    private static var dataCenter: DataCenter {
-        return AppContext.current.dataCenter
+    private static var store: Store {
+        return AppContext.current.store
     }
     
     public static var all: Observable<[T]> {
-        return dataCenter.objects(with: T.self)
+        return store.objects(with: T.self)
     }
     
     public static func object<KeyType>(with key: KeyType) -> Observable<T?> {
-        return dataCenter.object(with: key, type:T.self)
+        return store.object(with: key, type:T.self)
     }
     
-    public static func objects(with predicate: NSPredicate) -> Observable<[T]>? {
-        return dataCenter.objects(with: T.self, predicate: predicate)
+    public static func objects(with predicate: NSPredicate) -> Observable<[T]> {
+        return store.objects(with: T.self, predicate: predicate)
+    }
+    
+    public static func objects(with query: @escaping (Query<T>) -> Query<T>) -> Observable<[T]> {
+        return store.objects(with: T.self, where: query)
     }
 
 }
@@ -95,9 +99,11 @@ extension DataAccessObject where T: DataCenterManaged {
             let api = T.api
             let rlm = self.stored.realm
             return api.rx.loadData(with: request.params)
-                .map({ rst in
-                    return try T.serialize(data: rst) as Object
-                })
+            // TODO: - update the scheduler
+                .subscribe(on: MainScheduler.instance)
+                .map {
+                    try T.serialize(data: $0) as Object
+                }
                 .do(onError: { observer.onError($0) })
                 .subscribe(rlm.rx.add(update: .modified, onError: { _, error in
                     observer.onError(error)
@@ -108,7 +114,7 @@ extension DataAccessObject where T: DataCenterManaged {
     private static func checkFreshness(with request: Request<T>) -> Observable<Void>? {
         switch T.requestFreshness {
         case .seconds(_):
-            if AppContext.current.dataCenter.requestRecords.shouldSend(request: request) {
+            if AppContext.current.store.requestRecords.shouldSend(request: request) {
                 return nil
             } else {
                 return Observable<Void>.just(())
@@ -121,11 +127,11 @@ extension DataAccessObject where T: DataCenterManaged {
     private static var stored: RealmDataBase {
         switch T.cachePolicy {
         case .memoryCache:
-            return AppContext.current.dataCenter.memory
+            return AppContext.current.store.memory
         case .diskCache:
-            return AppContext.current.dataCenter.db
+            return AppContext.current.store.db
         case .persistance:
-            return AppContext.current.dataCenter.db
+            return AppContext.current.store.db
         }
     }
     

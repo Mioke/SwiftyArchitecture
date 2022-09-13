@@ -7,8 +7,12 @@
 //
 
 import Foundation
+import MIOSwiftyArchitecture
+import RxSwift
 
 class UserService: NSObject {
+    
+    static let shared: UserService = .init()
     
     // Singleton model
     static let currentUser = UserModel(name: "defaultUser", uid: 0)
@@ -17,24 +21,68 @@ class UserService: NSObject {
         get { return UserService.currentUser }
     }
     
-//    func login() throws -> Bool {
-//        
-//        let api = "auth/login/?os=iphone"
-//        let param = [
-//            "ver": "i5.1.1",
-//            "account": "1223@ss.com",
-//            "password": "111111",
-//            "device": "12345"
-//        ]
-//        
-//        let result = try self.sendRequestWithApiName(api, param: param, timeout: nil)
-//        
-//        print(result)
-//        
-//        if let success = result.successData()?["success"] as? Int where success == 1 {
-//            return true
-//        }
-//        return false
-//    }
+    @discardableResult
+    func login() -> Bool {
+        AppContext.startAppContext(
+            with: TestUser(id: "test_user",
+                           age: 11,
+                           token: self.genRandomToken())
+        )
+        return true
+    }
 
+    func genRandomToken() -> String {
+        let len = 12
+        let codec = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-="
+        
+        return (0..<len).map { _ in
+            String(codec.randomElement()!)
+        }
+        .joined()
+    }
+}
+
+class TestUser: UserProtocol, Codable {
+    var id: String
+    var age: Int
+    var token: String
+    var authState: BehaviorSubject<AuthState> = .init(value: .unauthenticated)
+    var contextConfiguration: StandardAppContext.Configuration = .init(archiveLocation: .database)
+    
+    enum CodingKeys: CodingKey {
+        case id
+        case age
+        case token
+    }
+    
+    init(id: String, age: Int, token: String) {
+        self.id = id
+        self.age = age
+        self.token = token
+    }
+}
+
+extension TestUser {
+    var customDebugDescription: String {
+        return "id - \(id), age - \(age)\ntoken: \(token)"
+    }
+}
+
+extension UserService: AuthControllerDelegate {
+    func shouldRefreshAuthentication(with user: UserProtocol) -> Bool {
+        return true
+    }
+    
+    func refreshAuthentication(with user: UserProtocol) -> Observable<UserProtocol> {
+        return .just(TestUser(id: "test_user", age: 12, token: UserService.shared.genRandomToken()))
+            .delay(.seconds(3), scheduler: SerialDispatchQueueScheduler.init(qos: .default))
+    }
+    
+    func deauthenticate() -> Observable<Void> {
+        return .just(())
+    }
+}
+
+enum UserServiceError: Error {
+    case unknown
 }

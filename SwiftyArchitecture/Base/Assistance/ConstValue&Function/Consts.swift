@@ -10,8 +10,10 @@ import UIKit
 import SwiftUI
 
 public struct Consts {
-    public static let defaultDomain = "com.mioke.swiftyarchitecture.default"
-    public static let networkingDomain = "com.mioke.swiftyarchitecture.networking"
+    public static let domainPrefix = "com.mioke.swiftyarchitecture"
+    
+    public static let defaultDomain = domainPrefix + ".default"
+    public static let networkingDomain = domainPrefix + ".networking"
 }
 
 extension Consts {

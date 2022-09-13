@@ -21,6 +21,7 @@ struct RequestRecordNode {
 
 internal class RequestRecords: NSObject {
     
+    @ThreadSafe
     var map: [String: RequestRecordNode] = [:]
     
     func key<T: DataCenterManaged>(ofType t: Request<T>) -> String {

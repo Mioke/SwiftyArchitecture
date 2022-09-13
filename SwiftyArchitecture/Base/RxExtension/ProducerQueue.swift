@@ -23,12 +23,11 @@ open class ProducerQueue<Value> {
     
     private let idGen: IdGenerator = .init()
     private var producers: [ProducerWrapper] = []
-    private let queue: DispatchQueue = .init(label: "com.mioke.swifyarchitecture.producerqueue", qos: .utility)
+    private let queue: DispatchQueue = .init(label: Consts.domainPrefix + ".producerqueue", qos: .utility)
     private let cancel: DisposeBag = .init()
     private let subject: PublishSubject<ResultWrapper> = .init()
     
-    @Atomic
-    private var isProcessing: Bool = false
+    private var isProcessing: Atomic<Bool> = .init(value: false)
     
     public func enqueue(producer: Observable<Value>) -> Observable<Value> {
         let id = idGen.gen()
@@ -53,29 +52,33 @@ open class ProducerQueue<Value> {
                 self.producers.append(wrapper)
             }
             
-            guard !self.isProcessing, let next = self.producers.first else { return }
+            guard !self.isProcessing.value, let next = self.producers.first else { return }
             
             let id = next.id
-            self.isProcessing = true
+            self.isProcessing.swap(true)
             self.producers.removeFirst()
             
-            next.producer.subscribe({ event in
-                var result: ResultWrapper? = nil
-                switch event {
-                case .next(let value):
-                    result = ResultWrapper(id: id, result: .success(value))
-                case .error(let error):
-                    result = ResultWrapper(id: id, result: .failure(error))
-                    self.isProcessing = false
-                    self.check()
-                case .completed:
-                    self.isProcessing = false
-                    self.check()
-                }
-                if let result = result {
-                    self.subject.onNext(result)
-                }
-            }).disposed(by: self.cancel)
+            next.producer
+            // This place shouldn't change the queue, because producer may have it's own queue and we shouldn't change
+            // the expectation of users.
+                .subscribe({ event in
+                    var result: ResultWrapper? = nil
+                    switch event {
+                    case .next(let value):
+                        result = ResultWrapper(id: id, result: .success(value))
+                    case .error(let error):
+                        result = ResultWrapper(id: id, result: .failure(error))
+                        self.isProcessing.swap(false)
+                        self.check()
+                    case .completed:
+                        self.isProcessing.swap(false)
+                        self.check()
+                    }
+                    if let result = result {
+                        self.subject.onNext(result)
+                    }
+                })
+                .disposed(by: self.cancel)
         }
     }
     

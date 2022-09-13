@@ -30,6 +30,8 @@
 		AB6781392861C8CD007740FA /* ThemeTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6781372861C8CD007740FA /* ThemeTestViewController.swift */; };
 		AB67813A2861C8CD007740FA /* ThemeTestViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AB6781382861C8CD007740FA /* ThemeTestViewController.xib */; };
 		AB67813C2862BB74007740FA /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB67813B2862BB74007740FA /* SceneDelegate.swift */; };
+		ABAFE34F28C1EAAF00D023A2 /* AuthTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABAFE34D28C1EAAE00D023A2 /* AuthTestViewController.swift */; };
+		ABAFE35028C1EAAF00D023A2 /* AuthTestViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = ABAFE34E28C1EAAE00D023A2 /* AuthTestViewController.xib */; };
 		ABC9EA872449AFD2009D044E /* TestObjModifyVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABC9EA852449AFD2009D044E /* TestObjModifyVC.swift */; };
 		ABC9EA882449AFD2009D044E /* TestObjModifyVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = ABC9EA862449AFD2009D044E /* TestObjModifyVC.xib */; };
 		ABD632442727FE0E00AA775A /* Video.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD632432727FE0D00AA775A /* Video.swift */; };
@@ -95,6 +97,8 @@
 		AB6781372861C8CD007740FA /* ThemeTestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeTestViewController.swift; sourceTree = "<group>"; };
 		AB6781382861C8CD007740FA /* ThemeTestViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ThemeTestViewController.xib; sourceTree = "<group>"; };
 		AB67813B2862BB74007740FA /* SceneDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		ABAFE34D28C1EAAE00D023A2 /* AuthTestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthTestViewController.swift; sourceTree = "<group>"; };
+		ABAFE34E28C1EAAE00D023A2 /* AuthTestViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AuthTestViewController.xib; sourceTree = "<group>"; };
 		ABC9EA852449AFD2009D044E /* TestObjModifyVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestObjModifyVC.swift; sourceTree = "<group>"; };
 		ABC9EA862449AFD2009D044E /* TestObjModifyVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TestObjModifyVC.xib; sourceTree = "<group>"; };
 		ABD632432727FE0D00AA775A /* Video.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Video.swift; sourceTree = "<group>"; };
@@ -170,6 +174,7 @@
 		A752DE411C031066008E3118 /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
+				ABAFE34C28C1EA8800D023A2 /* Auth */,
 				A753A0A21C06FE5A00C9FBFE /* ViewController.swift */,
 				A77BAD191C196DFD00AF7A86 /* InternalTestVC.swift */,
 				AB35E652244476B400EC361A /* DataCenterTestViewController.swift */,
@@ -281,6 +286,15 @@
 				AB6781352861C0B7007740FA /* Theme.swift */,
 			);
 			path = Appearance;
+			sourceTree = "<group>";
+		};
+		ABAFE34C28C1EA8800D023A2 /* Auth */ = {
+			isa = PBXGroup;
+			children = (
+				ABAFE34D28C1EAAE00D023A2 /* AuthTestViewController.swift */,
+				ABAFE34E28C1EAAE00D023A2 /* AuthTestViewController.xib */,
+			);
+			path = Auth;
 			sourceTree = "<group>";
 		};
 		B41F4498FD05D386DBCFBEED /* Pods */ = {
@@ -414,6 +428,7 @@
 				A791C6BB1C02E90000670017 /* Assets.xcassets in Resources */,
 				AB35E655244476B400EC361A /* DataCenterTestViewController.xib in Resources */,
 				AF437DD127898EB40052FEAE /* ModulesRegistery.plist in Resources */,
+				ABAFE35028C1EAAF00D023A2 /* AuthTestViewController.xib in Resources */,
 				AB67813A2861C8CD007740FA /* ThemeTestViewController.xib in Resources */,
 				A791C6B61C02E90000670017 /* Main.storyboard in Resources */,
 				ABC9EA882449AFD2009D044E /* TestObjModifyVC.xib in Resources */,
@@ -574,6 +589,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ABAFE34F28C1EAAF00D023A2 /* AuthTestViewController.swift in Sources */,
 				A791C6B11C02E90000670017 /* AppDelegate.swift in Sources */,
 				AB6781392861C8CD007740FA /* ThemeTestViewController.swift in Sources */,
 				A77BAD1A1C196DFD00AF7A86 /* InternalTestVC.swift in Sources */,

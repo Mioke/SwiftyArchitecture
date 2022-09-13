@@ -11,16 +11,41 @@ import RxRealm
 import RxSwift
 import RealmSwift
 
-public class RealmDataBase: NSObject {
+public typealias RealmMigrationBlock = RealmSwift.MigrationBlock
+
+public final class RealmDataBase: NSObject {
     
-    public var realm: Realm
-    
-    public init(appContext context: AppContext) throws {
-        let name = context.userId + "RLM"
-        self.realm = try Realm(fileURL: URL(fileURLWithPath: Path.docPath).appendingPathComponent(name))
+    public enum `Type` {
+        case file
+        case memory
     }
     
-    public init(realm: Realm) {
+    public static let schemaVersion: UInt64 = 1
+    
+    /// This instance is created on main thread, so only write on main thread is allowed. If the code is not sure which
+    /// thread would the code running, you can use `getRealmOnOtherThread()` to get a new instance on current thread.
+    public var realm: Realm
+    public private(set) var type: RealmDataBase.`Type` = .file
+    
+    private var fileURL: URL?
+    private var inMemoryIdentifier: String?
+    
+    /// Create a file type database using an app context's information.
+    /// - Parameters:
+    ///   - context: The app context contains user information.
+    ///   - migration: The customize migration handler.
+    public init(appContext context: AppContext, migration: @escaping RealmMigrationBlock) throws {
+        fileURL = URL(fileURLWithPath: Path.docPath).appendingPathComponent(context.userId + "_RLM")
+        let config = Realm.Configuration(
+            fileURL: fileURL,
+            schemaVersion: RealmDataBase.schemaVersion,
+            migrationBlock: migration,
+            deleteRealmIfMigrationNeeded: true
+        )
+        self.realm = try Realm(configuration: config)
+    }
+    
+    init(realm: Realm) {
         self.realm = realm
     }
     
@@ -28,9 +53,27 @@ public class RealmDataBase: NSObject {
         var config = Realm.Configuration.defaultConfiguration;
         config.inMemoryIdentifier = "RLM.MEMORY.\(context.userId)";
         let realm = try! Realm(configuration: config)
-        return RealmDataBase(realm: realm)
+        let db = RealmDataBase(realm: realm)
+        db.type = .memory
+        db.inMemoryIdentifier = "RLM.MEMORY.\(context.userId)"
+        return db
     }
     
+    public func getRealmOnOtherThread() -> Realm {
+        switch self.type {
+        case .file:
+            let config = Realm.Configuration(
+                fileURL: fileURL,
+                schemaVersion: RealmDataBase.schemaVersion,
+                deleteRealmIfMigrationNeeded: true
+            )
+            return try! Realm(configuration: config)
+        case .memory:
+            var config = Realm.Configuration.defaultConfiguration;
+            config.inMemoryIdentifier = self.inMemoryIdentifier;
+            return try! Realm(configuration: config)
+        }
+    }
 }
 
 extension Realm {
@@ -39,9 +82,7 @@ extension Realm {
         if isInWriteTransaction {
             try block(self)
         } else {
-            try self.write({
-                try block(self)
-            })
+            try self.write { try block(self) }
         }
     }
 }

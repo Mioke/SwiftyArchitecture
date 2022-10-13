@@ -54,7 +54,7 @@ extension KitErrors {
         
         // persistance
         
-        // app docker
+        // app dock
         
         // componentize
         case graphCycle = 4000

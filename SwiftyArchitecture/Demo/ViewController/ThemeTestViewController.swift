@@ -9,7 +9,7 @@
 import UIKit
 import MIOSwiftyArchitecture
 
-class ThemeTestViewController: UIViewController {
+class ThemeTestViewController: ViewController {
 
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var selection: UISegmentedControl!

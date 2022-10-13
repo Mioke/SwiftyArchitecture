@@ -1,4 +1,4 @@
-#  SwiftyArchitecture - App Docker
+#  SwiftyArchitecture - App Dock
 
 ## App Context
 

@@ -17,13 +17,13 @@ PODS:
     - FMDB/standard (= 2.7.5)
   - FMDB/standard (2.7.5)
   - MIOSwiftyArchitecture (2.0.0):
-    - MIOSwiftyArchitecture/AppDocker (= 2.0.0)
+    - MIOSwiftyArchitecture/AppDock (= 2.0.0)
     - MIOSwiftyArchitecture/Assistance (= 2.0.0)
     - MIOSwiftyArchitecture/Componentize (= 2.0.0)
     - MIOSwiftyArchitecture/Networking (= 2.0.0)
     - MIOSwiftyArchitecture/Persistance (= 2.0.0)
     - MIOSwiftyArchitecture/RxExtension (= 2.0.0)
-  - MIOSwiftyArchitecture/AppDocker (2.0.0):
+  - MIOSwiftyArchitecture/AppDock (2.0.0):
     - MIOSwiftyArchitecture/Assistance
     - MIOSwiftyArchitecture/Networking
     - MIOSwiftyArchitecture/RxExtension
@@ -48,13 +48,13 @@ PODS:
     - MIOSwiftyArchitecture/Networking
     - RxSwift (~> 6.2)
   - MIOSwiftyArchitecture/Testable (2.0.0):
-    - MIOSwiftyArchitecture/AppDocker
+    - MIOSwiftyArchitecture/AppDock
     - MIOSwiftyArchitecture/Assistance
     - MIOSwiftyArchitecture/Componentize
     - MIOSwiftyArchitecture/Networking
     - MIOSwiftyArchitecture/RxExtension
   - MIOSwiftyArchitecture/Tests (2.0.0):
-    - MIOSwiftyArchitecture/AppDocker
+    - MIOSwiftyArchitecture/AppDock
     - MIOSwiftyArchitecture/Assistance
     - MIOSwiftyArchitecture/Componentize
     - MIOSwiftyArchitecture/Networking
@@ -139,7 +139,7 @@ SPEC CHECKSUMS:
   AuthProtocol: 699414ec99eb060731d49ec1092901fc1ae55e3e
   Differentiator: e8497ceab83c1b10ca233716d547b9af21b9344d
   FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
-  MIOSwiftyArchitecture: 013b955874684ff4ec74401c6400746b29a5b96a
+  MIOSwiftyArchitecture: 630881ed75a01b7ee670043a3a5b15cc72c71fc1
   ObjectMapper: 1eb41f610210777375fa806bf161dc39fb832b81
   Realm: fac5ecd031fcb81171627b74944c885662d4b266
   RealmSwift: 9b02d25acb46a14756bde9893abb99e2e3675923

@@ -13,7 +13,7 @@ import Swinject
 import RxSwift
 import AuthProtocol
 
-class InternalTestVC: UIViewController {
+class InternalTestVC: ViewController {
     
     var tests: [String]!
     
@@ -44,7 +44,7 @@ class InternalTestVC: UIViewController {
         
         // Do any additional setup after loading the view.
         self.tests = ["Record user model", "Read users", "API test", "Call Log", "Data center test", "Theme",
-                      "Push local notification", "Auth Tests"]
+                      "Push local notification", "Auth Tests", "TableView Test"]
         
         self.tableView = {
             let view = UITableView(frame: self.view.bounds)
@@ -256,6 +256,10 @@ extension InternalTestVC: UITableViewDelegate, UITableViewDataSource {
             }
         case 7:
             let vc = AuthTestViewController(nibName: nil, bundle: nil)
+            self.navigationController?.pushViewController(vc, animated: true)
+            
+        case 8:
+            let vc = InfiniteTableViewController()
             self.navigationController?.pushViewController(vc, animated: true)
         default:
             break

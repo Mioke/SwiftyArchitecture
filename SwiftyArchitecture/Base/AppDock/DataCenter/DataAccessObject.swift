@@ -98,7 +98,7 @@ extension DataAccessObject where T: DataCenterManaged {
         return Observable<Void>.create { observer in
             let api = T.api
             let rlm = self.stored.realm
-            return api.rx.loadData(with: request.params)
+            return api.rxLoadData(with: request.params)
             // TODO: - update the scheduler
                 .subscribe(on: MainScheduler.instance)
                 .map {

@@ -9,11 +9,14 @@
 import Foundation
 import RxSwift
 
-extension Reactive {
-    public func loadData<T: ApiInfoProtocol>(with params: [String: Any]?)
-        -> Observable<T.ResultType> where Base: API<T> {
-        return Observable.create { observer in
-            self.base.loadData(with: params).response({ (api, data, error) in
+public extension API {
+    func rxLoadData(with params: [String: Any]?) -> Observable<T.ResultType> {
+        return Observable.create { [weak self] observer in
+            guard let self = self else {
+                observer.onCompleted()
+                return Disposables.create()
+            }
+            self.loadData(with: params).response({ (api, data, error) in
                 if let error = error {
                     observer.onError(error)
                 }
@@ -22,7 +25,7 @@ extension Reactive {
                     observer.onCompleted()
                 }
             })
-            return Disposables.create(with: self.base.cancel)
+            return Disposables.create(with: self.cancel)
         }
     }
 }

@@ -25,7 +25,7 @@ Pod::Spec.new do |s|
   # s.libraries = 'c++', 'sqlite3'
   
   #  s.source_files = 'SwiftyArchitecture/Base/**/*.swift'
-  s.default_subspecs = 'Assistance', 'Networking', 'Persistance', 'RxExtension', 'AppDocker', 'Componentize'
+  s.default_subspecs = 'Assistance', 'Networking', 'Persistance', 'RxExtension', 'AppDock', 'Componentize'
   
   s.subspec 'Assistance' do |ss|
     ss.frameworks = 'UIKit', 'Foundation'
@@ -54,8 +54,8 @@ Pod::Spec.new do |s|
     ss.dependency 'RxSwift', '~> 6.2'
   end
   
-  s.subspec 'AppDocker' do |ss|
-    ss.source_files = 'SwiftyArchitecture/Base/AppDocker/**/*.swift'
+  s.subspec 'AppDock' do |ss|
+    ss.source_files = 'SwiftyArchitecture/Base/AppDock/**/*.swift'
     ss.dependency 'MIOSwiftyArchitecture/Assistance'
     ss.dependency 'MIOSwiftyArchitecture/Networking'
     ss.dependency 'MIOSwiftyArchitecture/RxExtension'
@@ -77,7 +77,7 @@ Pod::Spec.new do |s|
     ss.dependency 'MIOSwiftyArchitecture/Assistance'
     ss.dependency 'MIOSwiftyArchitecture/Networking'
     ss.dependency 'MIOSwiftyArchitecture/RxExtension'
-    ss.dependency 'MIOSwiftyArchitecture/AppDocker'
+    ss.dependency 'MIOSwiftyArchitecture/AppDock'
     ss.dependency 'MIOSwiftyArchitecture/Componentize'
   end
   
@@ -87,7 +87,7 @@ Pod::Spec.new do |s|
     test_spec.dependency 'MIOSwiftyArchitecture/Assistance'
     test_spec.dependency 'MIOSwiftyArchitecture/Networking'
     test_spec.dependency 'MIOSwiftyArchitecture/RxExtension'
-    test_spec.dependency 'MIOSwiftyArchitecture/AppDocker'
+    test_spec.dependency 'MIOSwiftyArchitecture/AppDock'
     test_spec.dependency 'MIOSwiftyArchitecture/Componentize'
     test_spec.dependency 'MIOSwiftyArchitecture/Testable'
     

@@ -29,21 +29,21 @@ class AssistanceTests: XCTestCase {
         let scheduler = ConcurrentDispatchQueueScheduler.init(qos: .default)
         let expect = XCTestExpectation()
         
-        Observable<Void>.create { ob in
+        ObservableSignal.create { ob in
             lock.read {
                 print(1, value)
             }
             return Disposables.create()
         }.subscribe(on: scheduler).subscribe().disposed(by: cancel)
         
-        Observable<Void>.create { ob in
+        ObservableSignal.create { ob in
             lock.read {
                 print(2, value)
             }
             return Disposables.create()
         }.subscribe(on: scheduler).subscribe().disposed(by: cancel)
         
-        Observable<Void>.create { ob in
+        ObservableSignal.create { ob in
             lock.write {
                 print("changing")
                 value = 2
@@ -274,7 +274,7 @@ class AssistanceTests: XCTestCase {
         let expect = XCTestExpectation()
         let scheduler = ConcurrentDispatchQueueScheduler.init(qos: .default)
         
-        Observable<Void>.create { ob in
+        ObservableSignal.create { ob in
             queue.read {
                 print("r1: \(value)")
             }
@@ -284,7 +284,7 @@ class AssistanceTests: XCTestCase {
         .subscribe()
         .disposed(by: cancel)
         
-        Observable<Void>.create { ob in
+        ObservableSignal.create { ob in
             queue.read {
                 print("r2: \(value)")
             }
@@ -295,7 +295,7 @@ class AssistanceTests: XCTestCase {
         .disposed(by: cancel)
         
         
-        Observable<Void>.create { ob in
+        ObservableSignal.create { ob in
             queue.write {
                 print("w1")
                 value = 2
@@ -306,7 +306,7 @@ class AssistanceTests: XCTestCase {
         .subscribe()
         .disposed(by: cancel)
         
-        Observable<Void>.create { ob in
+        ObservableSignal.create { ob in
             queue.read {
                 print("r3: \(value)")
                 XCTAssertTrue(value == 2)
@@ -328,7 +328,7 @@ class AssistanceTests: XCTestCase {
         let expect = XCTestExpectation()
         let scheduler = ConcurrentDispatchQueueScheduler.init(qos: .default)
         
-        Observable<Void>.create { ob in
+        ObservableSignal.create { ob in
             queue.read {
                 print("r")
                 sleep(2)
@@ -339,7 +339,7 @@ class AssistanceTests: XCTestCase {
         .subscribe()
         .disposed(by: cancel)
         
-        Observable<Void>.create { ob in
+        ObservableSignal.create { ob in
             queue.write {
                 print("w")
                 let now = Date.now.timeIntervalSince1970
@@ -361,7 +361,7 @@ class AssistanceTests: XCTestCase {
         let expect = XCTestExpectation()
         let scheduler = ConcurrentDispatchQueueScheduler.init(qos: .default)
         
-        Observable<Void>.create { ob in
+        ObservableSignal.create { ob in
             queue.write {
                 print("w")
                 sleep(2)
@@ -372,7 +372,7 @@ class AssistanceTests: XCTestCase {
         .subscribe()
         .disposed(by: cancel)
         
-        Observable<Void>.create { ob in
+        ObservableSignal.create { ob in
             queue.read {
                 print("r")
                 let now = Date.now.timeIntervalSince1970

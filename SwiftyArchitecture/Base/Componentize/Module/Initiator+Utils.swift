@@ -129,13 +129,9 @@ class DirectedGraph<T: Hashable> {
         var stack: [DirectedGraphNode<T>] = []
         
         while let first = nodes.filter({ !visited.contains($0) }).first {
-            var hasCircle = false
             do {
                 try visit(first, visited: &visited, stack: &stack)
-            } catch _ {
-                hasCircle = true
-            }
-            if hasCircle {
+            } catch {
                 return true
             }
         }

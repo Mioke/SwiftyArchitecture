@@ -36,6 +36,9 @@ target "SAD" do
   pod 'Swinject'
   pod 'SwinjectAutoregistration'
   
+  # other utils
+  pod 'SnapKit'
+  
   target 'SwiftArchitectureTests' do
     
   end

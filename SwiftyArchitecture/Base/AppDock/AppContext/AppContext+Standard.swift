@@ -8,6 +8,7 @@
 import Foundation
 import RealmSwift
 import RxSwift
+import RxCocoa
 
 final public class StandardAppContext: AppContext {
     
@@ -39,18 +40,16 @@ final public class StandardAppContext: AppContext {
         super.init(user: user)
     }
     
-    var contextChangeObserver: Any? = nil
-    
     public func setup(authDelegate: AuthControllerDelegate) -> Void {
         // set auth delegate first.
         AppContext.authController.delegate = authDelegate
         
-        contextChangeObserver = NotificationCenter.default.addObserver(
-            forName: kAppContextChangedNotification,
-            object: nil,
-            queue: nil) { [weak self] notification in
+        NotificationCenter.default.rx
+            .notification(kAppContextChangedNotification)
+            .subscribe { [weak self] _ in
                 self?.didReceiveContextChangedNotification()
-        }
+            }
+            .disposed(by: disposables)
         
         // load user meta, synchronously
         loadUserMeta().subscribe().disposed(by: disposables)
@@ -69,49 +68,47 @@ final public class StandardAppContext: AppContext {
                 }, onError: { error in
                     KitLogger.error("Refresh authentication error: \(error)")
                 })
-                    .flatMapLatest { user -> Observable<Void> in
-                        guard user.id == AppContext.current.userId else { return .error(todo_error()) }
-                        return AppContext.current.update(user: user)
-                            .do { _ in KitLogger.info("Record fresh user complete.") }
-                    }
-                    .subscribe()
-                    .disposed(by: self.disposables)
+                .flatMapLatest { user -> ObservableSignal in
+                    guard user.id == AppContext.current.userId else { return .error(todo_error()) }
+                    return AppContext.current.update(user: user)
+                        .do { _ in KitLogger.info("Record fresh user complete.") }
+                }
+                .subscribe()
+                .disposed(by: self.disposables)
         }
     }
     
     deinit {
-        if let observer = contextChangeObserver {
-            NotificationCenter.default.removeObserver(observer)
-        }
     }
     
     static let userMetaKey: Int = 1
     
-    func loadUserMeta() -> Observable<Void> {
+    func loadUserMeta() -> ObservableSignal {
         return self.store.object(with: StandardAppContext.userMetaKey, type: _UserMeta.self)
-            .do(onNext: { meta in
-                guard meta == nil else { return }
+            .do(onNext: { [weak self] meta in
+                guard let self = self, meta == nil else { return }
                 KitLogger.info("No previous user meta, creating one and going to save it.")
                 self.createOrUpdateUserMata(with: self.userId).subscribe().disposed(by: self.disposables)
             })
             .compactMap({ meta -> String? in
                 return meta?.currentUserId == DefaultUser._id ? nil : meta?.currentUserId
             })
-            .flatMapLatest({ userId in
+            .flatMapLatest({ [weak self] userId -> Observable<UserProtocol?> in
+                guard let self = self else { return .deallocatedError }
                 return self.loadArchivedUser(with: userId)
             })
-            .flatMapLatest { user -> Observable<Void> in
+            .flatMapLatest { user -> ObservableSignal in
                 if let user = user {
                     KitLogger.info("Loaded previous user meta, going to create a new app context with the user.")
                     user.authState.onNext(.presession)
                     let newAppContext = AppContext(user: user)
                     AppContext.current = newAppContext
                 }
-                return .just(())
+                return .signal
             }
     }
     
-    func createOrUpdateUserMata(with userId: String) -> Observable<Void> {
+    func createOrUpdateUserMata(with userId: String) -> ObservableSignal {
         return Observable<_UserMeta>.create { ob in
             let meta = _UserMeta()
             meta.key = StandardAppContext.userMetaKey
@@ -119,7 +116,7 @@ final public class StandardAppContext: AppContext {
             ob.onNext(meta)
             return Disposables.create()
         }
-        .flatMapLatest { [weak self] meta -> Observable<Void> in
+        .flatMapLatest { [weak self] meta -> ObservableSignal in
             guard let self = self else { return .error(todo_error()) }
             return self.store.upsert(object: meta)
         }
@@ -151,8 +148,8 @@ extension StandardAppContext {
             }
     }
     
-    func archive(appContext: AppContext) -> Observable<Void> {
-        return Observable<Void>.create { observer in
+    func archive(appContext: AppContext) -> ObservableSignal {
+        return ObservableSignal.create { observer in
             let data: Data
             do {
                 let opaque: _User.Wrapper = .init(class: String(reflecting: appContext.user),

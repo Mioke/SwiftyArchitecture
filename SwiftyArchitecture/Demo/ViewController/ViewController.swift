@@ -32,7 +32,7 @@ open class ViewController: UIViewController {
     }
     
     deinit {
-        KitLogger.info()
+        KitLogger.info("\(self) deinit")
     }
 }
 

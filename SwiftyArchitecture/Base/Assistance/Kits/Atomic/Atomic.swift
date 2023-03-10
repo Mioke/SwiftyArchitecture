@@ -161,4 +161,9 @@ final public class Atomic<T> {
             return copy
         }
     }
+    
+    public var unsafeValue: T {
+        let copy = _value
+        return copy
+    }
 }

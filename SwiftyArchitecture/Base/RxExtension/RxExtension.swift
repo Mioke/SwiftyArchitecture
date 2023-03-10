@@ -37,7 +37,7 @@ extension BehaviorSubject {
 }
 
 public extension Observable {
-    func mapToVoid() -> Observable<Void> {
+    func mapToSignal() -> ObservableSignal {
         return self.map { _ in () }
     }
     
@@ -45,5 +45,19 @@ public extension Observable {
         return self.flatMapLatest { _ -> Observable<T> in
             return observale
         }
+    }
+}
+
+/// When Observable's value is just a signal without usable value, we can just call it `ObservableSignal`.
+public typealias ObservableSignal = Observable<Void>
+
+public extension ObservableSignal {
+    /// Send a signal with meaning `success`,`ok`,`notify` etc., a wrapper of `.just(())` and make it more readable.
+    static var signal: ObservableSignal { .just(()) }
+}
+
+extension Observable {
+    static var deallocatedError: Observable<Element> {
+        return .error(KitErrors.deallocated)
     }
 }

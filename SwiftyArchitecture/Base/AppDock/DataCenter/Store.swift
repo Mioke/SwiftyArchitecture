@@ -80,7 +80,7 @@ public class Store: NSObject {
     
     // MARK: - WRITE
     
-    public func upsert<Element: Object>(object: Element) -> Observable<Void> {
+    public func upsert<Element: Object>(object: Element) -> ObservableSignal {
         return .create { ob in
             do {
                 let realm = self.db.getRealmOnOtherThread()

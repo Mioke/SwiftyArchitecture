@@ -89,13 +89,13 @@ extension DataCenterManaged {
 
 extension DataAccessObject where T: DataCenterManaged {
     
-    public static func update(with request: Request<T>) -> Observable<Void> {
+    public static func update(with request: Request<T>) -> ObservableSignal {
         
         if let rst = self.checkFreshness(with: request) {
             return rst
         }
         
-        return Observable<Void>.create { observer in
+        return ObservableSignal.create { observer in
             let api = T.api
             let rlm = self.stored.realm
             return api.rxLoadData(with: request.params)
@@ -111,13 +111,13 @@ extension DataAccessObject where T: DataCenterManaged {
         }
     }
     
-    private static func checkFreshness(with request: Request<T>) -> Observable<Void>? {
+    private static func checkFreshness(with request: Request<T>) -> ObservableSignal? {
         switch T.requestFreshness {
         case .seconds(_):
             if AppContext.current.store.requestRecords.shouldSend(request: request) {
                 return nil
             } else {
-                return Observable<Void>.just(())
+                return ObservableSignal.signal
             }
         default:
             return nil

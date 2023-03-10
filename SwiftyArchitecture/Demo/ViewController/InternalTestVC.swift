@@ -30,6 +30,7 @@ class InternalTestVC: ViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.title = "SwiftyArchitecture Demo"
 //        self.navigationItem.titleView = {
 //            let v = UIView(frame: .init(x: 0, y: 0, width: 200, height: 88))
 //            let label = UILabel()
@@ -44,7 +45,7 @@ class InternalTestVC: ViewController {
         
         // Do any additional setup after loading the view.
         self.tests = ["Record user model", "Read users", "API test", "Call Log", "Data center test", "Theme",
-                      "Push local notification", "Auth Tests", "TableView Test"]
+                      "Push local notification", "Auth Tests", "Smooth Scrolling TableView Test", "Code Block Editor"]
         
         self.tableView = {
             let view = UITableView(frame: self.view.bounds)
@@ -87,7 +88,7 @@ class InternalTestVC: ViewController {
         let video = try? JSONDecoder().decode(Video.self, from: json.data(using: .utf8)!)
         print(video as Any)
         
-        ModuleManager.default.initiator.setPresentedFirstPage()
+        ModuleManager.default.initiator.setPresentedFirstFrame()
         
         Observable<Int>.create { observer in
             dispatchPrecondition(condition: .onQueue(self.queue1))
@@ -260,6 +261,9 @@ extension InternalTestVC: UITableViewDelegate, UITableViewDataSource {
             
         case 8:
             let vc = InfiniteTableViewController()
+            self.navigationController?.pushViewController(vc, animated: true)
+        case 9:
+            let vc = CodeBlockEditorViewController(nibName: nil, bundle: nil)
             self.navigationController?.pushViewController(vc, animated: true)
         default:
             break

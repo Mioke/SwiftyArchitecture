@@ -46,6 +46,7 @@ extension KitErrors {
         // general
         case noDelegate
         case unknown
+        case deallocated
         case todo = 777
         
         // networking
@@ -64,13 +65,19 @@ extension KitErrors {
 
 // Demo
 public extension KitErrors {
-    static var todoInfo: Info {
+    
+    private static var deallocatedInfo: Info {
+        .init(code: .todo, message: "The instance has already been deallocated.")
+    }
+    static let deallocated: NSError = error(domain: Consts.defaultDomain, info: KitErrors.deallocatedInfo)
+    
+    private static var todoInfo: Info {
         .init(code: .todo, message: "The author is too lazy to complete this.")
     }
     static let todo: NSError = error(domain: Consts.defaultDomain, info: KitErrors.todoInfo)
     
     
-    static var unknownErrorInfo: Info {
+    private static var unknownErrorInfo: Info {
         return .init(code: .unknown, message: "Unknown error")
     }
     

@@ -34,8 +34,13 @@
 		ABAFE35028C1EAAF00D023A2 /* AuthTestViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = ABAFE34E28C1EAAE00D023A2 /* AuthTestViewController.xib */; };
 		ABC9EA872449AFD2009D044E /* TestObjModifyVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABC9EA852449AFD2009D044E /* TestObjModifyVC.swift */; };
 		ABC9EA882449AFD2009D044E /* TestObjModifyVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = ABC9EA862449AFD2009D044E /* TestObjModifyVC.xib */; };
+		ABD4A26E2952AB2D00D0C04E /* SATextStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD4A26D2952AB2D00D0C04E /* SATextStorage.swift */; };
 		ABD632442727FE0E00AA775A /* Video.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABD632432727FE0D00AA775A /* Video.swift */; };
 		ABE27F4028F5571A009CD73D /* InfiniteTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABE27F3F28F5571A009CD73D /* InfiniteTableViewController.swift */; };
+		ABE54E152939AEEC00DAD8C2 /* CodeBlockEditorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABE54E132939AEEC00DAD8C2 /* CodeBlockEditorViewController.swift */; };
+		ABE54E162939AEEC00DAD8C2 /* CodeBlockEditorViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = ABE54E142939AEEC00DAD8C2 /* CodeBlockEditorViewController.xib */; };
+		ABE54E182939AF6000DAD8C2 /* SATextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABE54E172939AF6000DAD8C2 /* SATextView.swift */; };
+		ABE54E1A293D942700DAD8C2 /* SALayoutManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABE54E19293D942700DAD8C2 /* SALayoutManager.swift */; };
 		ABF6CA9D243DB3C400D0849B /* TestFailureAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABF6CA9C243DB3C400D0849B /* TestFailureAPI.swift */; };
 		AF158A541E14B63900FB0BAF /* TestAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF158A531E14B63900FB0BAF /* TestAPI.swift */; };
 		AF158A561E1BB26700FB0BAF /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF158A551E1BB26700FB0BAF /* NotificationService.swift */; };
@@ -102,8 +107,13 @@
 		ABAFE34E28C1EAAE00D023A2 /* AuthTestViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AuthTestViewController.xib; sourceTree = "<group>"; };
 		ABC9EA852449AFD2009D044E /* TestObjModifyVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestObjModifyVC.swift; sourceTree = "<group>"; };
 		ABC9EA862449AFD2009D044E /* TestObjModifyVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TestObjModifyVC.xib; sourceTree = "<group>"; };
+		ABD4A26D2952AB2D00D0C04E /* SATextStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SATextStorage.swift; sourceTree = "<group>"; };
 		ABD632432727FE0D00AA775A /* Video.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Video.swift; sourceTree = "<group>"; };
 		ABE27F3F28F5571A009CD73D /* InfiniteTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfiniteTableViewController.swift; sourceTree = "<group>"; };
+		ABE54E132939AEEC00DAD8C2 /* CodeBlockEditorViewController.swift */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = CodeBlockEditorViewController.swift; sourceTree = "<group>"; tabWidth = 2; };
+		ABE54E142939AEEC00DAD8C2 /* CodeBlockEditorViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CodeBlockEditorViewController.xib; sourceTree = "<group>"; };
+		ABE54E172939AF6000DAD8C2 /* SATextView.swift */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = SATextView.swift; sourceTree = "<group>"; tabWidth = 2; };
+		ABE54E19293D942700DAD8C2 /* SALayoutManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SALayoutManager.swift; sourceTree = "<group>"; };
 		ABF6CA9C243DB3C400D0849B /* TestFailureAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestFailureAPI.swift; sourceTree = "<group>"; };
 		AF158A531E14B63900FB0BAF /* TestAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestAPI.swift; sourceTree = "<group>"; };
 		AF158A551E1BB26700FB0BAF /* NotificationService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
@@ -177,6 +187,7 @@
 		A752DE411C031066008E3118 /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
+				ABE54E122939AECE00DAD8C2 /* Code Block */,
 				ABAFE34C28C1EA8800D023A2 /* Auth */,
 				A753A0A21C06FE5A00C9FBFE /* ViewController.swift */,
 				A77BAD191C196DFD00AF7A86 /* InternalTestVC.swift */,
@@ -308,6 +319,18 @@
 			path = InfiniteTableView;
 			sourceTree = "<group>";
 		};
+		ABE54E122939AECE00DAD8C2 /* Code Block */ = {
+			isa = PBXGroup;
+			children = (
+				ABE54E132939AEEC00DAD8C2 /* CodeBlockEditorViewController.swift */,
+				ABE54E142939AEEC00DAD8C2 /* CodeBlockEditorViewController.xib */,
+				ABE54E172939AF6000DAD8C2 /* SATextView.swift */,
+				ABE54E19293D942700DAD8C2 /* SALayoutManager.swift */,
+				ABD4A26D2952AB2D00D0C04E /* SATextStorage.swift */,
+			);
+			path = "Code Block";
+			sourceTree = "<group>";
+		};
 		B41F4498FD05D386DBCFBEED /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -332,7 +355,6 @@
 				A791C6A91C02E90000670017 /* Sources */,
 				A791C6AA1C02E90000670017 /* Frameworks */,
 				A791C6AB1C02E90000670017 /* Resources */,
-				70EDF7961C2572D700140087 /* ShellScript */,
 				5359342F6E7925A211C4BD8B /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
@@ -391,7 +413,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0710;
-				LastUpgradeCheck = 1310;
+				LastUpgradeCheck = 1410;
 				ORGANIZATIONNAME = KleinMioke;
 				TargetAttributes = {
 					A791C6AC1C02E90000670017 = {
@@ -437,6 +459,7 @@
 			files = (
 				A791C6BE1C02E90000670017 /* LaunchScreen.storyboard in Resources */,
 				A791C6BB1C02E90000670017 /* Assets.xcassets in Resources */,
+				ABE54E162939AEEC00DAD8C2 /* CodeBlockEditorViewController.xib in Resources */,
 				AB35E655244476B400EC361A /* DataCenterTestViewController.xib in Resources */,
 				AF437DD127898EB40052FEAE /* ModulesRegistery.plist in Resources */,
 				ABAFE35028C1EAAF00D023A2 /* AuthTestViewController.xib in Resources */,
@@ -536,19 +559,6 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-SAD/Pods-SAD-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		70EDF7961C2572D700140087 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 12;
-			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n";
-		};
 		8220F0529434B3A8D939A891 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -603,6 +613,7 @@
 				ABAFE34F28C1EAAF00D023A2 /* AuthTestViewController.swift in Sources */,
 				ABE27F4028F5571A009CD73D /* InfiniteTableViewController.swift in Sources */,
 				A791C6B11C02E90000670017 /* AppDelegate.swift in Sources */,
+				ABE54E182939AF6000DAD8C2 /* SATextView.swift in Sources */,
 				AB6781392861C8CD007740FA /* ThemeTestViewController.swift in Sources */,
 				A77BAD1A1C196DFD00AF7A86 /* InternalTestVC.swift in Sources */,
 				AF158A561E1BB26700FB0BAF /* NotificationService.swift in Sources */,
@@ -612,6 +623,9 @@
 				AB67813C2862BB74007740FA /* SceneDelegate.swift in Sources */,
 				ABF6CA9D243DB3C400D0849B /* TestFailureAPI.swift in Sources */,
 				A77BAD1D1C1971A300AF7A86 /* UserTable.swift in Sources */,
+				ABE54E152939AEEC00DAD8C2 /* CodeBlockEditorViewController.swift in Sources */,
+				ABD4A26E2952AB2D00D0C04E /* SATextStorage.swift in Sources */,
+				ABE54E1A293D942700DAD8C2 /* SALayoutManager.swift in Sources */,
 				A791C6B91C02E90000670017 /* swiftArchitecture.xcdatamodeld in Sources */,
 				ABD632442727FE0E00AA775A /* Video.swift in Sources */,
 				A753A0A31C06FE5A00C9FBFE /* ViewController.swift in Sources */,
@@ -696,6 +710,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -720,7 +735,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -753,6 +768,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -771,7 +787,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
@@ -802,7 +818,7 @@
 					"@executable_path/Frameworks",
 				);
 				OTHER_SWIFT_FLAGS = "$(inherited) \"-D\" \"COCOAPODS\" -D DEBUG";
-				PRODUCT_BUNDLE_IDENTIFIER = com.mioke.bios;
+				PRODUCT_BUNDLE_IDENTIFIER = com.mioke.swiftyarchitecture.demo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "SwiftyArchitecture/Resource/swiftArchitecture-Bridging-Header.h";

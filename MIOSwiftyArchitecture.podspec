@@ -60,6 +60,7 @@ Pod::Spec.new do |s|
     ss.dependency 'MIOSwiftyArchitecture/Networking'
     ss.dependency 'MIOSwiftyArchitecture/RxExtension'
     ss.dependency 'RxSwift', '~> 6.2'
+    ss.dependency 'RxCocoa', '~> 6.2'
     ss.dependency 'RxRealm', '~> 5.0'
     ss.dependency 'RealmSwift', '~> 10.20.0'
     ss.dependency "Realm", '~> 10.20.0'

@@ -23,7 +23,7 @@ final public class Initiator {
         let identifier: String
         let dependencies: [String]
         
-        var producer: Observable<Void> {
+        var producer: ObservableSignal {
             return .create(operation: self.operation)
         }
         init(id: String, dependencies: [String], operation: @escaping Operation) {
@@ -36,11 +36,17 @@ final public class Initiator {
         }
     }
     
+    /// The Task's priority
     public enum Priority: Int {
+        /// Running in `didFinishLaunching` with main thread and block the prosedure.
         case high = 0
+        /// Running in `didFinishLaunching` with an async global thread and block the prosedure.
         case asyncHigh
-        case afterFirstPage
+        /// Running after `didFinishLaunching` and the first frame is prepared for present.
+        case afterFirstFrame
+        /// Running after the `afterFirstFrame` with an async global thread with `background` qos setting.
         case low
+        /// Only Running when CPU and memory usage is low
         case idle
     }
     
@@ -62,9 +68,7 @@ final public class Initiator {
     private let cancel: DisposeBag = .init()
     
     public func start() throws -> Void {
-        guard let list = moduleManager.moduleList else {
-            throw todo_error()
-        }
+        guard let list = moduleManager.moduleList else { throw todo_error() }
         taskMap = list.internalModules
             .compactMap { $0.initiator() }
             .reduce(into: [Priority: [Task]](), { partialResult, type in
@@ -72,17 +76,12 @@ final public class Initiator {
                 + [Initiator.Task(id: type.identifier, dependencies: type.dependencies, operation: type.operation)]
             })
         
-        let zipTasks = { (ts: [Task]?, scheduler: SchedulerType, id: String) -> Observable<Void> in
-            guard let tasks = ts, !tasks.isEmpty else { return .just(()) }
-            return self.createList(with: tasks, schedule: scheduler, id: id)
-        }
-        
-        zipTasks(taskMap?[.high], MainScheduler.instance, "High")
-            .flatMapLatest { [weak self] _ -> Observable<Void> in
+        zipTasks(ts: taskMap?[.high], scheduler: MainScheduler.instance, id: "High")
+            .flatMapLatest { [weak self] _ -> ObservableSignal in
                 guard let self = self else { return .never() }
-                return zipTasks(self.taskMap?[.asyncHigh],
-                                ConcurrentDispatchQueueScheduler(queue: self.asyncHighPriorityQueue),
-                                "Async hight")
+                return self.zipTasks(ts: self.taskMap?[.asyncHigh],
+                                     scheduler: ConcurrentDispatchQueueScheduler(queue: self.asyncHighPriorityQueue),
+                                     id: "Async hight")
             }
             .subscribe { [weak self] _ in
                 self?.highTasksFinished.onNext(true)
@@ -90,51 +89,54 @@ final public class Initiator {
             .disposed(by: cancel)
     }
     
+    func zipTasks(ts: [Task]?, scheduler: SchedulerType, id: String) -> ObservableSignal {
+        guard let tasks = ts, !tasks.isEmpty else { return .signal }
+        return self.createList(with: tasks, schedule: scheduler, id: id)
+    }
+    
     func createList(with tasks: [Task],
                     schedule: ImmediateSchedulerType,
                     id: String)
-    -> Observable<Void> {
+    -> ObservableSignal {
         let results = TaskGraphBuilder.buildGraph(with: tasks).dfsMap({ node in
             node.value.producer.subscribe(on: schedule)
         })
-        return Observable<Void>.zip(results)
-            .map { _ in () }
+        return ObservableSignal.zip(results)
+            .mapToSignal()
             .do(onCompleted:  {
-                print("Level [\(id)] tasks have finished.")
+                KitLogger.info("Level [\(id)] tasks have finished.")
             })
     }
     
     var presentedFirstPage: BehaviorSubject<Bool> = .init(value: false)
     
-    public func setPresentedFirstPage() {
+    public func setPresentedFirstFrame() {
         presentedFirstPage.onNext(true)
         presentedFirstPage.onCompleted()
     }
     
     func subscribePresentAction() {
         Observable.zip(highTasksFinished, presentedFirstPage)
-            .take(1)
             .filter { $0.0 && $0.1 }
-            .subscribe { [weak self] _ in
-                self?.startAfterPresentedTasks()
-            }
+            .take(1)
+            .mapToSignal()
+            .flatMapLatest(startAfterPresentedTasks)
+            .subscribe()
             .disposed(by: cancel)
     }
     
-    func startAfterPresentedTasks() {
-        guard let afterFirstPage = taskMap?[.afterFirstPage] else { return }
-        createList(with: afterFirstPage,
-                   schedule: ConcurrentDispatchQueueScheduler(queue: asyncHighPriorityQueue),
-                   id: "After first page present")
-            .flatMapLatest({ [weak self] _ -> Observable<Void> in
-                guard let self = self, let low = self.taskMap?[.low] else { return .just(()) }
-                return self.createList(
-                    with: low,
-                    schedule: ConcurrentDispatchQueueScheduler(queue: self.lowPriorityQueue),
-                    id: "Low")
-            })
-            .subscribe { _ in }
-            .disposed(by: cancel)
+    func startAfterPresentedTasks() -> ObservableSignal {
+        guard let afterFirstPage = taskMap?[.afterFirstFrame] else { return .never() }
+        return createList(with: afterFirstPage,
+                          schedule: ConcurrentDispatchQueueScheduler(queue: asyncHighPriorityQueue),
+                          id: "After first page present")
+        .flatMapLatest({ [weak self] _ -> ObservableSignal in
+            guard let self = self, let low = self.taskMap?[.low] else { return .signal }
+            return self.createList(
+                with: low,
+                schedule: ConcurrentDispatchQueueScheduler(queue: self.lowPriorityQueue),
+                id: "Low")
+        })
     }
 }
 
@@ -146,7 +148,7 @@ extension Module {
 
 
 extension Observable where Element == Void {
-    static func create(operation: @escaping Initiator.Operation) -> Observable<Void> {
+    static func create(operation: @escaping Initiator.Operation) -> ObservableSignal {
         return .create { ob in
             operation()
             ob.onNext(())
@@ -191,7 +193,7 @@ class TaskGraphBuilder {
                     return exist
                 } else {
                     guard let find = tasks.first(where: { $0.identifier == id }) else {
-                        print("Error!")
+                        KitLogger.error("Error!")
                         return nil
                     }
                     return add(task: find, visited: &visited, existing: &existing, tasks: tasks)

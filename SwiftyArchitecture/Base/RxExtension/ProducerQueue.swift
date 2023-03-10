@@ -8,7 +8,7 @@
 import Foundation
 import RxSwift
 
-/// For enqueue *cold signals*, start them one by one, start one after the previous one sent completed.
+/// Enqueue *cold signals*, start them one by one, start one after the previous one sent completed.
 open class ProducerQueue<Value> {
     
     struct ProducerWrapper {

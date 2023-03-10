@@ -50,11 +50,11 @@ public class AppContext: NSObject {
             .disposed(by: AppContext.standard.disposables)
     }
     
-    @discardableResult
     /// Any changes of the user should call this function to update the context.
     /// - Parameter user: The new users.
     /// - Returns: Handling signal.
-    public func update(user: UserProtocol) -> Observable<Void> {
+    @discardableResult
+    public func update(user: UserProtocol) -> ObservableSignal {
         guard user.id == self.user.id else {
             fatalError("Update user must use the same user id.")
         }

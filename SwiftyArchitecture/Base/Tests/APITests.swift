@@ -32,7 +32,7 @@ class APITests: XCTestCase {
         
         let expect = XCTestExpectation(description: "Api test mock")
         
-        testApi.rx.loadData(with: ["id": "1"])
+        testApi.rxLoadData(with: ["id": "1"])
             .subscribe { event in
                 print(event)
                 guard case .next(_) = event else { return }
@@ -47,7 +47,7 @@ class APITests: XCTestCase {
         APIMocker.recover(type: UserAPI.self)
         
         let expect = XCTestExpectation(description: "RemoveMock")
-        testApi.rx.loadData(with: ["id": "1"])
+        testApi.rxLoadData(with: ["id": "1"])
             .subscribe { event in
                 print(event)
                 guard case .error(_) = event else { return }

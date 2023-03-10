@@ -23,11 +23,10 @@ class UserService: NSObject {
     
     @discardableResult
     func login() -> Bool {
-        AppContext.startAppContext(
-            with: TestUser(id: "test_user",
-                           age: 11,
-                           token: self.genRandomToken())
-        )
+        let user = TestUser(id: "test_user",
+                            age: 11,
+                            token: self.genRandomToken())
+        AppContext.startAppContext(with: user)
         return true
     }
 
@@ -46,6 +45,7 @@ class TestUser: UserProtocol, Codable {
     var id: String
     var age: Int
     var token: String
+    var expiration: Date?
     var authState: BehaviorSubject<AuthState> = .init(value: .unauthenticated)
     var contextConfiguration: StandardAppContext.Configuration = .init(archiveLocation: .database)
     
@@ -53,12 +53,14 @@ class TestUser: UserProtocol, Codable {
         case id
         case age
         case token
+        case expiration
     }
     
     init(id: String, age: Int, token: String) {
         self.id = id
         self.age = age
         self.token = token
+        self.expiration = Date().offsetWeek(1)
     }
 }
 
@@ -74,12 +76,20 @@ extension UserService: AuthControllerDelegate {
     }
     
     func refreshAuthentication(with user: UserProtocol) -> Observable<UserProtocol> {
-        return .just(TestUser(id: "test_user", age: 12, token: UserService.shared.genRandomToken()))
-            .delay(.seconds(3), scheduler: SerialDispatchQueueScheduler.init(qos: .default))
+        guard let user = user as? TestUser else {
+            assert(false, "This application should use `TestUser` as the UserProtocol.")
+        }
+        
+        if let expiration = user.expiration, expiration < Date() {
+            return .just(user)
+        } else {
+            return .just(TestUser(id: "test_user", age: 12, token: UserService.shared.genRandomToken()))
+                .delay(.seconds(3), scheduler: SerialDispatchQueueScheduler.init(qos: .default))
+        }
     }
     
-    func deauthenticate() -> Observable<Void> {
-        return .just(())
+    func deauthenticate() -> ObservableSignal {
+        return .signal
     }
 }
 

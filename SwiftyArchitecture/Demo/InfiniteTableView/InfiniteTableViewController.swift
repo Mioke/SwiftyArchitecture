@@ -19,11 +19,9 @@ class MessageViewModel {
     }
     
     convenience init() {
-        self.init(
-            message:(0..<Int.random(in: 50..<100))
-                .compactMap { _ in String(alphanumberic.randomElement() ?? Character.init("")) }
-                .joined()
-        )
+        self.init(message: (0..<Int.random(in: 50..<100))
+            .compactMap { _ in String(alphanumberic.randomElement() ?? Character.init(""))}
+            .joined())
     }
 }
 
@@ -45,7 +43,11 @@ class MessageCell: UITableViewCell {
         
         messageLabel.font = UIFont.systemFont(ofSize: 16)
         messageLabel.numberOfLines = 0
-        
+        contentView.backgroundColor = Self.colors.randomElement() ?? .clear
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
         contentView.backgroundColor = Self.colors.randomElement() ?? .clear
     }
     
@@ -54,7 +56,7 @@ class MessageCell: UITableViewCell {
     }
 }
 
-class InfiniteTableViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class InfiniteTableViewController: ViewController, UITableViewDelegate, UITableViewDataSource {
 
     var data: [MessageViewModel] = []
     
@@ -78,7 +80,7 @@ class InfiniteTableViewController: UIViewController, UITableViewDelegate, UITabl
         
         view.addSubview(tableView)
         tableView.frame = view.bounds
-        tableView.estimatedRowHeight = 60
+//        tableView.estimatedRowHeight = 60
         tableView.register(MessageCell.self, forCellReuseIdentifier: "MessageCell")
         
         tableView.delegate = self
@@ -112,8 +114,7 @@ class InfiniteTableViewController: UIViewController, UITableViewDelegate, UITabl
     
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-//        return UITableView.automaticDimension
-        return 60
+        return UITableView.automaticDimension
     }
     
 //    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {

@@ -14,6 +14,7 @@ public enum LogLevel {
 
 public class KitLogger {
     public static let instance: KitLogger = .init()
+    private init() {}
     
     public typealias Event = (level: LogLevel, message: String, file: String, line: Int)
     

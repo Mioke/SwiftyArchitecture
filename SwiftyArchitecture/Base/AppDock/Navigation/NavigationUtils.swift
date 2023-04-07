@@ -46,6 +46,10 @@ extension CharacterSet {
     }()
 }
 
+func escape(_ string: String) -> String {
+    return string.addingPercentEncoding(withAllowedCharacters: .fixedURLQueryAllowed) ?? string
+}
+
 class NavigationUtils {
     static func topPresentingViewController() -> UIViewController? {
         guard let window = applicationWindow(), var controller = window.rootViewController else {

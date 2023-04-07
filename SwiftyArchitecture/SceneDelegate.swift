@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import MIOSwiftyArchitecture
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
@@ -70,6 +71,15 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
     
 
+    func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
+        KitLogger.info("open \(URLContexts)")
+        
+        if navigation!.handle(open: URLContexts) {
+            return
+        }
+        
+        // do else handler.
+    }
 
 }
 

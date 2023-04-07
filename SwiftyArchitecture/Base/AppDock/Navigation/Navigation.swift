@@ -23,14 +23,22 @@ public protocol NavigationTargetProtocol: AnyObject {
 /**
  The navigatoin center for an application, can translate URL string and navigate to the designated page.
  
- Design of navigation: we want to support the in-app navigation and universal(external) link that comes from other apps.
- Basically we'd like to design the url like: `<scheme>://<host>/<module>/<path>?var1=value1&var2=value2`, just like
- the design of the http url.
+ Design of navigation: we want to support the in-app navigation and external link that comes from other apps.
+ Basically we'd like to design the url like:
+ ```
+ <scheme>://<host>/<module>/<path>?var1=value1&var2=value2
+ ```
+ just similar to the design of the http url.
  
- And sometimes we want to seperate the internal link and universal link for the safety guard purpose, so we design the
- univeral link can be translate to an internal link, and provide another register table for universal link. The only
- difference between internal link and universal link is the scheme of them, like we can set the universal link scheme as
- `google://` and internal link as `google-internal://`.
+ And sometimes we want to seperate the internal link and external link for the safety purpose, so we design the
+ external link can be translate to an internal link. The only difference between internal link and external link is
+ the scheme of them, like we can set the external link scheme as `google://` and internal link as `google-internal://`.
+ 
+ For the universal link(which link to your website), like `https://www.google.com/module/path` will automatically
+ jump to your application and translate to an internal link(aka. in-app navigation url) and then open it if possible.
+ For more information about universal link and associate domain, please see [universal link documents](https://developer.apple.com/ios/universal-links/)
+ and [associate domain documents](https://developer.apple.com/documentation/xcode/allowing-apps-and-websites-to-link-to-your-content)
+ 
 */
 
 public class Navigation {
@@ -84,6 +92,24 @@ public class Navigation {
             let maybeError = navigate(to: navigationURL, in: module, configuration: configuration)
             complete(with: maybeError)
         }
+    }
+    
+    public func handle(open contexts: Set<UIOpenURLContext>) -> Bool {
+        let valids = contexts.compactMap { context in
+            if let url = NavigationURL(from: context.url), isExternal(with: url), context.options.openInPlace == false {
+                return (url, context)
+            }
+            return nil
+        }
+        guard valids.count > 0 else { return false }
+        do {
+            try valids.forEach { (url, context) in
+                try navigate(to: url)
+            }
+        } catch {
+            KitLogger.info("Handle open URL failed with error: \(error)")
+        }
+        return true
     }
     
     public enum Decision {
@@ -201,8 +227,11 @@ public struct NavigationURL {
         if let queryString = url.query {
             self.queries = queryString.components(separatedBy: "&").compactMap { string in
                 let items = string.components(separatedBy: "=")
-                guard items.count == 2 else { return nil }
-                return QueryItem(key: items[0], value: items[1])
+                guard items.count == 2,
+                      let decodedKey = items[0].removingPercentEncoding,
+                      let decodedValue = items[1].removingPercentEncoding
+                else { return nil }
+                return QueryItem(key: decodedKey, value: decodedValue)
             }
         }
         
@@ -235,10 +264,7 @@ public struct NavigationURL {
         public var value: String
         
         var absoluteString: String? {
-            guard let encodedValue = value.addingPercentEncoding(withAllowedCharacters: .fixedURLQueryAllowed) else {
-                return nil
-            }
-            return key + "=" + encodedValue
+            return escape(key) + "=" + escape(value)
         }
     }
 }

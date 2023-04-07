@@ -72,20 +72,17 @@ extension TestUser {
 
 extension UserService: AuthControllerDelegate {
     func shouldRefreshAuthentication(with user: UserProtocol) -> Bool {
-        return true
+        guard let user = user as? TestUser else {
+            assert(false, "This application should use `TestUser` as the UserProtocol.")
+            return true
+        }
+        guard let expiration = user.expiration else { return true }
+        return expiration < Date()
     }
     
     func refreshAuthentication(with user: UserProtocol) -> Observable<UserProtocol> {
-        guard let user = user as? TestUser else {
-            assert(false, "This application should use `TestUser` as the UserProtocol.")
-        }
-        
-        if let expiration = user.expiration, expiration < Date() {
-            return .just(user)
-        } else {
-            return .just(TestUser(id: "test_user", age: 12, token: UserService.shared.genRandomToken()))
-                .delay(.seconds(3), scheduler: SerialDispatchQueueScheduler.init(qos: .default))
-        }
+        return .just(TestUser(id: "test_user", age: 12, token: UserService.shared.genRandomToken()))
+            .delay(.seconds(3), scheduler: SerialDispatchQueueScheduler.init(qos: .default))
     }
     
     func deauthenticate() -> ObservableSignal {

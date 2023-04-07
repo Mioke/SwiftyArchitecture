@@ -24,7 +24,7 @@ public class DataAccessObject<T: Object> {
     }
     
     public static func object<KeyType>(with key: KeyType) -> Observable<T?> {
-        return store.object(with: key, type:T.self)
+        return store.object(with: key, type: T.self)
     }
     
     public static func objects(with predicate: NSPredicate) -> Observable<[T]> {

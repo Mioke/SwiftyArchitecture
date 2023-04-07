@@ -11,7 +11,6 @@ import RxDataSources
 import RxSwift
 import RxCocoa
 import RxRealm
-@_exported import MIOSwiftyArchitecture
 
 extension TestObj: IdentifiableType {
     typealias Identity = String
@@ -161,20 +160,20 @@ class DataCenterTestViewController: UIViewController {
     @objc func refresh() -> Void {
         print("Show loading")
         
-        let request = Request<TestObj>()
-        DataAccessObject<TestObj>
-            .update(with: request)
-            .subscribe({ event in
-                switch event {
-                case .completed:
-                    print("Hide loading")
-                case .error(let error as NSError):
-                    print("Hide loading with error: \(error.localizedDescription)")
-                default:
-                    break
-                }
-            })
-            .disposed(by: self.disposeBag)
+//        let request = Request<TestObj>()
+//        DataAccessObject<TestObj>
+//            .update(with: request)
+//            .subscribe({ event in
+//                switch event {
+//                case .completed:
+//                    print("Hide loading")
+//                case .error(let error as NSError):
+//                    print("Hide loading with error: \(error.localizedDescription)")
+//                default:
+//                    break
+//                }
+//            })
+//            .disposed(by: self.disposeBag)
     }
 
     /*

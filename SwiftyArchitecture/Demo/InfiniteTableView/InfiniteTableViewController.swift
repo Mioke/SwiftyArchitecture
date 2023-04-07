@@ -77,6 +77,7 @@ class InfiniteTableViewController: ViewController, UITableViewDelegate, UITableV
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        title = "Messages"
         
         view.addSubview(tableView)
         tableView.frame = view.bounds
@@ -179,5 +180,19 @@ extension InfiniteTableViewController {
 //        tableView.performBatchUpdates {
 //        } completion: { finished in
 //        }
+    }
+}
+
+extension InfiniteTableViewController: NavigationTargetProtocol {
+    static func createTarget(
+        subPaths: [String],
+        queries: [NavigationURL.QueryItem],
+        configuration: Navigation.Configuration)
+    -> [UIViewController] {
+        if case .present = configuration.presentationMode {
+            let nav = UINavigationController(rootViewController: InfiniteTableViewController())
+            return [nav]
+        }
+        return [InfiniteTableViewController()]
     }
 }

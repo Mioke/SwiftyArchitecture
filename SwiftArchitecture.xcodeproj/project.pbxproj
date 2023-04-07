@@ -26,10 +26,16 @@
 		AB0BF5D9283CD28500418569 /* MockComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB0BF5D8283CD28500418569 /* MockComponents.swift */; };
 		AB35E654244476B400EC361A /* DataCenterTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB35E652244476B400EC361A /* DataCenterTestViewController.swift */; };
 		AB35E655244476B400EC361A /* DataCenterTestViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AB35E653244476B400EC361A /* DataCenterTestViewController.xib */; };
+		AB459C4929DC1C8F00B68602 /* AppLinkRegistery.plist in Resources */ = {isa = PBXBuildFile; fileRef = AB459C4829DC1C8F00B68602 /* AppLinkRegistery.plist */; };
+		AB459C4C29DC203A00B68602 /* HomeNavigationHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB459C4B29DC203A00B68602 /* HomeNavigationHandler.swift */; };
+		AB459C5029DE80E900B68602 /* CommonModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB459C4F29DE80E900B68602 /* CommonModule.swift */; };
 		AB6781362861C0B7007740FA /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6781352861C0B7007740FA /* Theme.swift */; };
 		AB6781392861C8CD007740FA /* ThemeTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6781372861C8CD007740FA /* ThemeTestViewController.swift */; };
 		AB67813A2861C8CD007740FA /* ThemeTestViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AB6781382861C8CD007740FA /* ThemeTestViewController.xib */; };
 		AB67813C2862BB74007740FA /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB67813B2862BB74007740FA /* SceneDelegate.swift */; };
+		AB6F82E929C3295E008C51CA /* GlobalImports.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6F82E829C3295E008C51CA /* GlobalImports.swift */; };
+		AB6F82EB29C32B04008C51CA /* BaseAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6F82EA29C32B04008C51CA /* BaseAPI.swift */; };
+		ABAD81B129C4630400D600F5 /* UIDectector.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABAD81B029C4630400D600F5 /* UIDectector.swift */; };
 		ABAFE34F28C1EAAF00D023A2 /* AuthTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABAFE34D28C1EAAE00D023A2 /* AuthTestViewController.swift */; };
 		ABAFE35028C1EAAF00D023A2 /* AuthTestViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = ABAFE34E28C1EAAE00D023A2 /* AuthTestViewController.xib */; };
 		ABC9EA872449AFD2009D044E /* TestObjModifyVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABC9EA852449AFD2009D044E /* TestObjModifyVC.swift */; };
@@ -99,10 +105,16 @@
 		AB35E63C243F35CA00EC361A /* pod_publish.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = pod_publish.sh; sourceTree = SOURCE_ROOT; };
 		AB35E652244476B400EC361A /* DataCenterTestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataCenterTestViewController.swift; sourceTree = "<group>"; };
 		AB35E653244476B400EC361A /* DataCenterTestViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DataCenterTestViewController.xib; sourceTree = "<group>"; };
+		AB459C4829DC1C8F00B68602 /* AppLinkRegistery.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = AppLinkRegistery.plist; sourceTree = "<group>"; };
+		AB459C4B29DC203A00B68602 /* HomeNavigationHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeNavigationHandler.swift; sourceTree = "<group>"; };
+		AB459C4F29DE80E900B68602 /* CommonModule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonModule.swift; sourceTree = "<group>"; };
 		AB6781352861C0B7007740FA /* Theme.swift */ = {isa = PBXFileReference; indentWidth = 4; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; usesTabs = 0; };
 		AB6781372861C8CD007740FA /* ThemeTestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeTestViewController.swift; sourceTree = "<group>"; };
 		AB6781382861C8CD007740FA /* ThemeTestViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ThemeTestViewController.xib; sourceTree = "<group>"; };
 		AB67813B2862BB74007740FA /* SceneDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		AB6F82E829C3295E008C51CA /* GlobalImports.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalImports.swift; sourceTree = "<group>"; };
+		AB6F82EA29C32B04008C51CA /* BaseAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseAPI.swift; sourceTree = "<group>"; };
+		ABAD81B029C4630400D600F5 /* UIDectector.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIDectector.swift; sourceTree = "<group>"; };
 		ABAFE34D28C1EAAE00D023A2 /* AuthTestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthTestViewController.swift; sourceTree = "<group>"; };
 		ABAFE34E28C1EAAE00D023A2 /* AuthTestViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AuthTestViewController.xib; sourceTree = "<group>"; };
 		ABC9EA852449AFD2009D044E /* TestObjModifyVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestObjModifyVC.swift; sourceTree = "<group>"; };
@@ -164,6 +176,9 @@
 		A752DE3F1C031066008E3118 /* Demo */ = {
 			isa = PBXGroup;
 			children = (
+				AB6F82E829C3295E008C51CA /* GlobalImports.swift */,
+				AB459C4F29DE80E900B68602 /* CommonModule.swift */,
+				ABAD81B029C4630400D600F5 /* UIDectector.swift */,
 				ABE27F3E28F55649009CD73D /* InfiniteTableView */,
 				AB6781342861C08A007740FA /* Appearance */,
 				A77BACEB1C157EC100AF7A86 /* ApiManager */,
@@ -187,6 +202,7 @@
 		A752DE411C031066008E3118 /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
+				AB459C4A29DC201700B68602 /* Navigation */,
 				ABE54E122939AECE00DAD8C2 /* Code Block */,
 				ABAFE34C28C1EA8800D023A2 /* Auth */,
 				A753A0A21C06FE5A00C9FBFE /* ViewController.swift */,
@@ -215,6 +231,7 @@
 			children = (
 				AF158A531E14B63900FB0BAF /* TestAPI.swift */,
 				ABF6CA9C243DB3C400D0849B /* TestFailureAPI.swift */,
+				AB6F82EA29C32B04008C51CA /* BaseAPI.swift */,
 			);
 			path = ApiManager;
 			sourceTree = "<group>";
@@ -270,6 +287,7 @@
 				A791C6BF1C02E90000670017 /* Info.plist */,
 				A791C6B71C02E90000670017 /* swiftArchitecture.xcdatamodeld */,
 				AF437DD027898EB40052FEAE /* ModulesRegistery.plist */,
+				AB459C4829DC1C8F00B68602 /* AppLinkRegistery.plist */,
 				A752DE441C03F287008E3118 /* Resource */,
 			);
 			path = SwiftyArchitecture;
@@ -292,6 +310,14 @@
 				A791C6D51C02E90000670017 /* Info.plist */,
 			);
 			path = SwiftArchitectureUITests;
+			sourceTree = "<group>";
+		};
+		AB459C4A29DC201700B68602 /* Navigation */ = {
+			isa = PBXGroup;
+			children = (
+				AB459C4B29DC203A00B68602 /* HomeNavigationHandler.swift */,
+			);
+			path = Navigation;
 			sourceTree = "<group>";
 		};
 		AB6781342861C08A007740FA /* Appearance */ = {
@@ -461,6 +487,7 @@
 				A791C6BB1C02E90000670017 /* Assets.xcassets in Resources */,
 				ABE54E162939AEEC00DAD8C2 /* CodeBlockEditorViewController.xib in Resources */,
 				AB35E655244476B400EC361A /* DataCenterTestViewController.xib in Resources */,
+				AB459C4929DC1C8F00B68602 /* AppLinkRegistery.plist in Resources */,
 				AF437DD127898EB40052FEAE /* ModulesRegistery.plist in Resources */,
 				ABAFE35028C1EAAF00D023A2 /* AuthTestViewController.xib in Resources */,
 				AB67813A2861C8CD007740FA /* ThemeTestViewController.xib in Resources */,
@@ -623,6 +650,7 @@
 				AB67813C2862BB74007740FA /* SceneDelegate.swift in Sources */,
 				ABF6CA9D243DB3C400D0849B /* TestFailureAPI.swift in Sources */,
 				A77BAD1D1C1971A300AF7A86 /* UserTable.swift in Sources */,
+				AB6F82E929C3295E008C51CA /* GlobalImports.swift in Sources */,
 				ABE54E152939AEEC00DAD8C2 /* CodeBlockEditorViewController.swift in Sources */,
 				ABD4A26E2952AB2D00D0C04E /* SATextStorage.swift in Sources */,
 				ABE54E1A293D942700DAD8C2 /* SALayoutManager.swift in Sources */,
@@ -630,8 +658,12 @@
 				ABD632442727FE0E00AA775A /* Video.swift in Sources */,
 				A753A0A31C06FE5A00C9FBFE /* ViewController.swift in Sources */,
 				A7826F761C0EF06A007AA18D /* UserModel.swift in Sources */,
+				ABAD81B129C4630400D600F5 /* UIDectector.swift in Sources */,
+				AB6F82EB29C32B04008C51CA /* BaseAPI.swift in Sources */,
+				AB459C5029DE80E900B68602 /* CommonModule.swift in Sources */,
 				ABC9EA872449AFD2009D044E /* TestObjModifyVC.swift in Sources */,
 				AB6781362861C0B7007740FA /* Theme.swift in Sources */,
+				AB459C4C29DC203A00B68602 /* HomeNavigationHandler.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -806,7 +838,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = 56R85U86AZ;
+				DEVELOPMENT_TEAM = GAM7WF67F4;
 				HEADER_SEARCH_PATHS = (
 					"$(PROJECT_DIR)/Pods/**",
 					"$(inherited)",
@@ -818,7 +850,7 @@
 					"@executable_path/Frameworks",
 				);
 				OTHER_SWIFT_FLAGS = "$(inherited) \"-D\" \"COCOAPODS\" -D DEBUG";
-				PRODUCT_BUNDLE_IDENTIFIER = com.mioke.swiftyarchitecture.demo;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.mioke.swifty-architecture-demo";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "SwiftyArchitecture/Resource/swiftArchitecture-Bridging-Header.h";

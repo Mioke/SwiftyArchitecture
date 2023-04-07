@@ -72,8 +72,9 @@ final public class Initiator {
         taskMap = list.internalModules
             .compactMap { $0.initiator() }
             .reduce(into: [Priority: [Task]](), { partialResult, type in
-                partialResult[type.priority] = partialResult[type.priority] ?? []
-                + [Initiator.Task(id: type.identifier, dependencies: type.dependencies, operation: type.operation)]
+                partialResult[type.priority] = (partialResult[type.priority] ?? []) + [
+                    Initiator.Task(id: type.identifier, dependencies: type.dependencies, operation: type.operation)
+                ]
             })
         
         zipTasks(ts: taskMap?[.high], scheduler: MainScheduler.instance, id: "High")
@@ -142,7 +143,13 @@ final public class Initiator {
 
 extension Module {
     func initiator() -> ModuleInitiatorProtocol.Type? {
-        return (Bundle.main.classNamed(className) ?? NSClassFromString(className)) as? ModuleInitiatorProtocol.Type
+        var clazz: AnyClass? = Bundle.main.classNamed(className)
+        if clazz == nil {
+            clazz = NSClassFromString(className)
+        }
+        
+        return clazz as? ModuleInitiatorProtocol.Type
+//        return (Bundle.main.classNamed(className) ?? NSClassFromString(className)) as? ModuleInitiatorProtocol.Type
     }
 }
 

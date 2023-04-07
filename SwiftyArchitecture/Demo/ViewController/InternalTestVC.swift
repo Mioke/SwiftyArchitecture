@@ -117,6 +117,14 @@ class InternalTestVC: ViewController {
         print(Bundle.main.classNamed(objcClazzName) as Any) // x
         print(Bundle.allBundles.compactMap { $0.classNamed(clazzName) }) // x
         print(NSClassFromString(objcClazzName) as Any) // only this worked for frameworks?
+        
+//        UIDetector.shared.startMonitor()
+//
+//        DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(1), execute: {
+//            sleep(1)
+//        })
+        
+        
     }
 
     override func didReceiveMemoryWarning() {
@@ -197,7 +205,9 @@ extension InternalTestVC: UITableViewDelegate, UITableViewDataSource {
             // you can't get any data from here because baidu.com 
             // return a html page instead of json data.
             api.loadData(with: nil).response({ (api, result, error) in
-                
+                if let result = result {
+                    print(result.isFinal, result.objects)
+                }
             })
         case 3:
             KitLogger.log(level: .info, message: "Info messages.")
@@ -229,8 +239,20 @@ extension InternalTestVC: UITableViewDelegate, UITableViewDataSource {
 //            signal.subscribe().disposed(by: cancel)
 //            print(3)
             
-            let vc = ThemeTestViewController(nibName: nil, bundle: nil)
-            self.navigationController?.pushViewController(vc, animated: true)
+            let url = "sa-interal://com.mioke.swifty-architecture-demo/home/theme"
+            let navi = navigation!.createNavigationURL(withModule: "home", paths: ["theme"])
+            if navi.absoluteString != url {
+                KitLogger.error("not matched: \n\(navi.absoluteString)\n\(url)")
+                fatalError()
+            }
+            
+            do {
+                try navigation!.navigate(to: url) { result in
+                    KitLogger.info("result: \(result)")
+                }
+            } catch {
+                KitLogger.error("error: \(error)")
+            }
             
         case 6:
             if #available(iOS 10.0, *) {
@@ -260,8 +282,10 @@ extension InternalTestVC: UITableViewDelegate, UITableViewDataSource {
             self.navigationController?.pushViewController(vc, animated: true)
             
         case 8:
-            let vc = InfiniteTableViewController()
-            self.navigationController?.pushViewController(vc, animated: true)
+            let url = "sa-interal://com.mioke.swifty-architecture-demo/home/messages"
+            var config = Navigation.Configuration.default
+            config.presentationMode = .present(style: .popover)
+            try! navigation!.navigate(to: url, configuration: config)
         case 9:
             let vc = CodeBlockEditorViewController(nibName: nil, bundle: nil)
             self.navigationController?.pushViewController(vc, animated: true)

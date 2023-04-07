@@ -4,6 +4,7 @@
 <dict>
 	<key>modules</key>
 	<array>
+		<string>SAD.CommonModule</string>
 		<string>Application.ApplicationModule</string>
 		<string>Auth.AuthModule</string>
 	</array>

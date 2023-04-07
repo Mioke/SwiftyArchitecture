@@ -89,6 +89,15 @@ final class TestObj: Object {
         obj.value = self.value
         return obj
     }
+    
+    enum CodingKeys: String, CodingKey {
+        case key = "k"
+        case value = "v"
+    }
+}
+
+extension TestObj: Codable {
+    
 }
 
 extension TestObj: Comparable {
@@ -97,19 +106,19 @@ extension TestObj: Comparable {
     }
 }
 
-extension TestObj: DataCenterManaged {
-    
-    typealias APIInfo = TestAPI
-    typealias DatabaseObject = TestObj
-    
-    static func serialize(data: [String : Any]) throws -> TestObj {
-//        if let obj = TestObj.yy_model(with: data) {
-//            return obj
-//        } else {
-            throw NSError(domain: "com.mioke.DEMO", code: 201, userInfo: nil)
-//        }
-    }
-}
+//extension TestObj: DataCenterManaged {
+//
+//    typealias APIInfo = TestAPI
+//    typealias DatabaseObject = TestObj
+//
+//    static func serialize(data: [String : Any]) throws -> TestObj {
+////        if let obj = TestObj.yy_model(with: data) {
+////            return obj
+////        } else {
+//            throw NSError(domain: "com.mioke.DEMO", code: 201, userInfo: nil)
+////        }
+//    }
+//}
 
 
 final class _User: Object {

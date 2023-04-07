@@ -76,6 +76,13 @@ extension ThemeTestViewController: UITableViewDelegate, UITableViewDataSource {
     
 }
 
+extension ThemeTestViewController: NavigationTargetProtocol {
+    static func createTarget(subPaths: [String], queries: [MIOSwiftyArchitecture.NavigationURL.QueryItem], configuration: Navigation.Configuration) -> [UIViewController] {
+        KitLogger.info("Navigation action : \(subPaths), queries: \(queries)")
+        return [ThemeTestViewController.init(nibName: nil, bundle: nil)]
+    }
+}
+
 class ThemeTestCell: UITableViewCell {
     
     let label: UILabel

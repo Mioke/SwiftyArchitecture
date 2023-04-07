@@ -35,14 +35,3 @@ public class RwQueue {
         return try queue.sync(flags: .barrier, execute: closure)
     }
 }
-
-extension Swift.Optional where Wrapped == String {
-    @inlinable var isEmpty: Bool {
-        switch self {
-        case .none:
-            return true
-        case .some(let value):
-            return value.isEmpty
-        }
-    }
-}

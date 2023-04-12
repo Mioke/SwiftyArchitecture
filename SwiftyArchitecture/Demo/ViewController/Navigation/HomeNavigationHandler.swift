@@ -14,9 +14,9 @@ class HomeNavigationHandler: NavigationModuleHandlerProtocol {
                                decisionHandler: @escaping (MIOSwiftyArchitecture.Navigation.Decision) -> Void) {
         KitLogger.info()
         if let firstPath = url.paths.first, firstPath == "messages" {
-//            DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(1)) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(1)) {
                 decisionHandler(.pass)
-//            }
+            }
         } else {
             decisionHandler(.pass)
         }

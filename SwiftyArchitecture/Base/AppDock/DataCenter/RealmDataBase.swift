@@ -20,10 +20,10 @@ public final class RealmDataBase: NSObject {
         case memory
     }
     
-    public static let schemaVersion: UInt64 = 1
+    public let schemaVersion: UInt64
     
     /// This instance is created on main thread, so only write on main thread is allowed. If the code is not sure which
-    /// thread would the code running, you can use `getRealmOnOtherThread()` to get a new instance on current thread.
+    /// thread would the code running, you can use `currentThreadInstance` to get a new instance on current thread.
     public var realm: Realm
     public private(set) var type: RealmDataBase.`Type` = .file
     
@@ -34,11 +34,12 @@ public final class RealmDataBase: NSObject {
     /// - Parameters:
     ///   - context: The app context contains user information.
     ///   - migration: The customize migration handler.
-    public init(appContext context: AppContext, migration: @escaping RealmMigrationBlock) throws {
-        fileURL = URL(fileURLWithPath: Path.docPath).appendingPathComponent(context.userId + "_RLM")
+    public init(location: URL, schemaVersion: UInt64, migration: @escaping RealmMigrationBlock) throws {
+        fileURL = location
+        self.schemaVersion = schemaVersion
         let config = Realm.Configuration(
             fileURL: fileURL,
-            schemaVersion: RealmDataBase.schemaVersion,
+            schemaVersion: schemaVersion,
             migrationBlock: migration,
             deleteRealmIfMigrationNeeded: true
         )
@@ -47,6 +48,7 @@ public final class RealmDataBase: NSObject {
     
     init(realm: Realm) {
         self.realm = realm
+        self.schemaVersion = realm.configuration.schemaVersion
     }
     
     public static func inMemoryDatabase(appContext context: AppContext) -> RealmDataBase {
@@ -59,19 +61,21 @@ public final class RealmDataBase: NSObject {
         return db
     }
     
-    public func getRealmOnOtherThread() -> Realm {
-        switch self.type {
-        case .file:
-            let config = Realm.Configuration(
-                fileURL: fileURL,
-                schemaVersion: RealmDataBase.schemaVersion,
-                deleteRealmIfMigrationNeeded: true
-            )
-            return try! Realm(configuration: config)
-        case .memory:
-            var config = Realm.Configuration.defaultConfiguration;
-            config.inMemoryIdentifier = self.inMemoryIdentifier;
-            return try! Realm(configuration: config)
+    public var currentThreadInstance: Realm  {
+        get throws {
+            switch self.type {
+            case .file:
+                let config = Realm.Configuration(
+                    fileURL: fileURL,
+                    schemaVersion: schemaVersion,
+                    deleteRealmIfMigrationNeeded: true
+                )
+                return try Realm(configuration: config)
+            case .memory:
+                var config = Realm.Configuration.defaultConfiguration;
+                config.inMemoryIdentifier = self.inMemoryIdentifier;
+                return try Realm(configuration: config)
+            }
         }
     }
 }

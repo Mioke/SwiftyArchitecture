@@ -10,13 +10,13 @@ import Foundation
 import RxSwift
 
 public extension API {
-    func rxLoadData(with params: [String: Any]?) -> Observable<T.ResultType> {
+    func rxSendRequest(with params: T.RequestParam?) -> Observable<T.ResultType> {
         return Observable.create { [weak self] observer in
             guard let self = self else {
                 observer.onCompleted()
                 return Disposables.create()
             }
-            self.loadData(with: params).response({ (api, data, error) in
+            self.sendRequest(with: params).response({ (api, data, error) in
                 if let error = error {
                     observer.onError(error)
                 }
@@ -59,5 +59,11 @@ public extension ObservableSignal {
 extension Observable {
     static var deallocatedError: Observable<Element> {
         return .error(KitErrors.deallocated)
+    }
+}
+
+extension AnyObserver where Element == Void {
+    public func signal() -> Void {
+        self.onNext(())
     }
 }

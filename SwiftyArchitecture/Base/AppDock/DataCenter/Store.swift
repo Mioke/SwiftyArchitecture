@@ -21,61 +21,75 @@ import RealmSwift
 */
 public class Store: NSObject {
     
-    let accessQueue: DispatchQueue = DispatchQueue(label: Consts.domainPrefix + ".store.access", qos: .userInitiated)
+//    let accessQueue: DispatchQueue = DispatchQueue(label: Consts.domainPrefix + ".store.access", qos: .default)
     
-    public var db: RealmDataBase
+    public var cache: RealmDataBase
     public var memory: RealmDataBase
+    public var persistance: RealmDataBase
     
-    public init(appContext: AppContext) {
-        self.db = try! RealmDataBase(appContext: appContext, migration: { migration, oldSchemaVersion in
-            print("Migrating from \(oldSchemaVersion) to \(RealmDataBase.schemaVersion)")
+    public init(appContext: AppContext) throws {
+        
+        var baseURL = try FileManager.default.url(for: .cachesDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
+            .appendingPathComponent(Consts.domainPrefix + "/Store")
+        try FileManager.default.createDiractoryIfNeeded(at: baseURL)
+        
+        let cacheURL = baseURL.appendingPathComponent("cache-\(appContext.userId)-RLM")
+        self.cache = try RealmDataBase(location: cacheURL,
+                                       schemaVersion: appContext.storeVersions.cacheVersion,
+                                       migration: { [weak appContext] migration, oldSchemaVersion in
+            if let handler = appContext?.storeDelegate {
+                handler.realmDataBasePerform(migration: migration, oldSchema: oldSchemaVersion)
+            }
         })
+        
+        baseURL = try FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
+            .appendingPathComponent(Consts.domainPrefix + "/Store")
+        try FileManager.default.createDiractoryIfNeeded(at: baseURL)
+        
+        let persistanceURL = baseURL.appendingPathComponent("persistance-\(appContext.userId)-RLM")
+        self.persistance = try RealmDataBase(location: persistanceURL,
+                                             schemaVersion: appContext.storeVersions.persistanceVersion,
+                                             migration: { [weak appContext] migration, oldSchemaVersion in
+            if let handler = appContext?.storeDelegate {
+                handler.realmDataBasePerform(migration: migration, oldSchema: oldSchemaVersion)
+            }
+        })
+        
         self.memory = RealmDataBase.inMemoryDatabase(appContext: appContext)
-        self.requestRecords = RequestRecords()
         super.init()
     }
     
-    internal var requestRecords: RequestRecords
-    
     deinit {
-        self.db.realm.invalidate()
+        self.cache.realm.invalidate()
         self.memory.realm.invalidate()
+        self.persistance.realm.invalidate()
     }
     
     // MARK: - QUERY
     public func object<KeyType, Element: Object>(with key: KeyType, type: Element.Type) -> Observable<Element?> {
         return Observable<Element?>.create { observer in
-            observer.onNext(self.db.realm.object(ofType: type, forPrimaryKey: key))
+            observer.onNext(self.cache.realm.object(ofType: type, forPrimaryKey: key))
             observer.onCompleted()
             return Disposables.create()
         }
     }
     
-    public func objects<Element: Object>(with type: Element.Type) -> Observable<[Element]> {
-        return Observable<[Element]>.create { observer in
-            observer.onNext(self.db.realm.objects(type).toArray())
-            observer.onCompleted()
-            return Disposables.create()
-        }
+    public func objects<Element: Object>(with type: Element.Type) -> Observable<Results<Element>> {
+        return Observable<Results<Element>>
+            .collection(from: cache.realm.objects(type))
     }
     
-    public func objects<Element: Object>(with type: Element.Type, predicate: NSPredicate) -> Observable<[Element]> {
-        return Observable<[Element]>.create { observer in
-            observer.onNext(self.db.realm.objects(type).filter(predicate).toArray())
-            observer.onCompleted()
-            return Disposables.create()
-        }
+    public func objects<Element: Object>(with type: Element.Type, predicate: NSPredicate) -> Observable<Results<Element>> {
+        return Observable<Results<Element>>
+            .collection(from: cache.realm.objects(type).filter(predicate))
     }
     
     public func objects<Element: Object>(
         with type: Element.Type,
         where query: @escaping (Query<Element>) -> Query<Element>)
-    -> Observable<[Element]> {
-        return Observable<[Element]>.create { observer in
-            observer.onNext(self.db.realm.objects(type).where(query).toArray())
-            observer.onCompleted()
-            return Disposables.create()
-        }
+    -> Observable<Results<Element>> {
+        return Observable<Results<Element>>
+            .collection(from: cache.realm.objects(type).where(query))
     }
     
     // MARK: - WRITE
@@ -83,7 +97,7 @@ public class Store: NSObject {
     public func upsert<Element: Object>(object: Element) -> ObservableSignal {
         return .create { ob in
             do {
-                let realm = self.db.getRealmOnOtherThread()
+                let realm = try self.cache.currentThreadInstance
                 try realm.safeWrite { realm in
                     realm.add(object, update: .modified)
                 }

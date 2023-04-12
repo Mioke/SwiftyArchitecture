@@ -7,6 +7,7 @@
 
 import Foundation
 
+/// @discussion: should provide the configuration key in url string?
 public struct ConfigKeys {
     public static let presentationMode: String = "_pm"
     public static let animated: String = "_a"

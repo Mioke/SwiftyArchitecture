@@ -49,7 +49,7 @@ open class API<T: ApiInfoProtocol>: NSObject {
     
     // MARK: Publics
     /// Parameters cache.
-    public private(set) var params: [String: Any]?
+    public private(set) var params: T.RequestParam?
     
     /// Request is out-going and not receive the response, that means `YES`.
     public var isLoading = false
@@ -83,9 +83,9 @@ open class API<T: ApiInfoProtocol>: NSObject {
     ///
     /// - Parameter params: Parameters of request
     @discardableResult
-    public func loadData(with params: [String: Any]?) -> ApiDelegate<T> {
+    public func sendRequest(with params: T.RequestParam?) -> ApiDelegate<T> {
         configuration.internalQueue.async {
-            guard self.isLoading else {
+            guard !self.isLoading else {
                 debugPrint("API manager current is requesting, if you want to reload, call cancel() and retry")
                 return
 //                return defaultDelegate
@@ -148,7 +148,7 @@ open class API<T: ApiInfoProtocol>: NSObject {
                     configuration.internalQueue.asyncAfter(
                         deadline: .now() + .seconds(Int(interval)),
                         execute: {
-                            self.loadData(with: self.params)
+                            self.sendRequest(with: self.params)
                         })
                     self.retryTimes += 1
                     return

@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -11,6 +12,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="AuthTestViewController" customModule="SAD" customModuleProvider="target">
             <connections>
                 <outlet property="displayLabel" destination="fvf-Ea-KG9" id="JDv-FE-AQw"/>
+                <outlet property="statusLabel" destination="K8r-NR-u8h" id="nm5-tP-se7"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -47,7 +49,13 @@
                     </connections>
                 </button>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fvf-Ea-KG9">
-                    <rect key="frame" x="48" y="162" width="318" height="20.5"/>
+                    <rect key="frame" x="48" y="166" width="318" height="20.5"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="K8r-NR-u8h">
+                    <rect key="frame" x="48" y="204" width="318" height="20.5"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
@@ -57,8 +65,11 @@
             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
             <constraints>
                 <constraint firstItem="fvf-Ea-KG9" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="118" id="0nd-hg-3sR"/>
+                <constraint firstItem="K8r-NR-u8h" firstAttribute="centerX" secondItem="fvf-Ea-KG9" secondAttribute="centerX" id="DUS-it-0HD"/>
                 <constraint firstItem="fvf-Ea-KG9" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="48" id="Sic-gG-IFs"/>
+                <constraint firstItem="K8r-NR-u8h" firstAttribute="leading" secondItem="fvf-Ea-KG9" secondAttribute="leading" id="Xgt-Gs-v7u"/>
                 <constraint firstItem="fvf-Ea-KG9" firstAttribute="centerX" secondItem="fnl-2z-Ty3" secondAttribute="centerX" id="icb-p3-XqP"/>
+                <constraint firstItem="K8r-NR-u8h" firstAttribute="top" secondItem="fvf-Ea-KG9" secondAttribute="bottom" constant="17.5" id="qLn-10-mg0"/>
             </constraints>
             <point key="canvasLocation" x="443" y="91"/>
         </view>

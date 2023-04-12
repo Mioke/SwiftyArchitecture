@@ -26,7 +26,9 @@ public protocol NavigationTargetProtocol: AnyObject {
  Design of navigation: we want to support the in-app navigation and external link that comes from other apps.
  Basically we'd like to design the url like:
  ```
- <scheme>://<host>/<module>/<path>?var1=value1&var2=value2
+ <scheme>://<host>/<module>/<path>/<sub_path1>?var1=value1&var2=value2
+ 
+ for example: sa://com.mioke.swifty-architecture/home/setting?edit=1
  ```
  just similar to the design of the http url.
  

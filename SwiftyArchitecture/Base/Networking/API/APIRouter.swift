@@ -12,7 +12,7 @@ protocol APIRouter: AnyObject {
 }
 
 protocol APIRouterMokerDataSource: AnyObject {
-    func construct<T>(type: T.Type) -> (([String: Any]?) -> T.ResultType)? where T : ApiInfoProtocol
+    func construct<T>(type: T.Type) -> ((T.RequestParam?) -> T.ResultType)? where T : ApiInfoProtocol
 }
 
 class APIRouterContainer {
@@ -34,7 +34,7 @@ class APIRouterContainer {
     }
     
     func injectAPI<T>(with type: T.Type,
-                      customize: @escaping (_ param: [String: Any]?) -> T.ResultType)
+                      customize: @escaping (_ param: T.RequestParam?) -> T.ResultType)
     -> Void where T: ApiInfoProtocol {
         injectedTypesMap[String(reflecting: type)] = customize
     }
@@ -50,8 +50,8 @@ class APIRouterContainer {
 
 extension APIRouterContainer: APIRouterMokerDataSource {
     
-    func construct<T>(type: T.Type) -> (([String : Any]?) -> T.ResultType)? where T : ApiInfoProtocol {
+    func construct<T>(type: T.Type) -> ((T.RequestParam?) -> T.ResultType)? where T : ApiInfoProtocol {
         let name = String(reflecting: type)
-        return injectedTypesMap[name] as? ([String : Any]?) -> T.ResultType
+        return injectedTypesMap[name] as? (T.RequestParam?) -> T.ResultType
     }
 }

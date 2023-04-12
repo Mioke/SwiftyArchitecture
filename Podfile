@@ -38,6 +38,7 @@ target "SAD" do
   
   # other utils
   pod 'SnapKit'
+  pod 'FLEX'
   
   target 'SwiftArchitectureTests' do
     

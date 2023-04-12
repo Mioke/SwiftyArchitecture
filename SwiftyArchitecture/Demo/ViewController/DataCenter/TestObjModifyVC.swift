@@ -63,7 +63,7 @@ class TestObjModifyVC: UIViewController {
             .combineLatest(obj, editingEnd)
             .subscribe(onNext: { [weak self] (testObj, text) in
                 if let text = text, let value = Int(text) {
-                    try? AppContext.current.store.db.realm.safeWrite { rlm in
+                    try? AppContext.current.store.cache.realm.safeWrite { rlm in
                         testObj.value = value
                     }
                 } else {

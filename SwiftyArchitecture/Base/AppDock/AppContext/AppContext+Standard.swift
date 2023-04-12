@@ -15,7 +15,7 @@ final public class StandardAppContext: AppContext {
     let disposables: DisposeBag = .init()
     
     convenience init() {
-        self.init(user: DefaultUser())
+        self.init(user: DefaultUser(), storeVersions: .init(cacheVersion: 1, persistanceVersion: 1))
     }
     
     public let resourceBag: DisposeBag = .init()
@@ -34,10 +34,6 @@ final public class StandardAppContext: AppContext {
         public init(archiveLocation: InfoArchiveLocation) {
             self.archiveLocation = archiveLocation
         }
-    }
-    
-    private override init(user: UserProtocol) {
-        super.init(user: user)
     }
     
     public func setup(authDelegate: AuthControllerDelegate) -> Void {
@@ -60,7 +56,7 @@ final public class StandardAppContext: AppContext {
         KitLogger.info("App context change observed")
         let user = AppContext.current.user
         guard let value = user.authState.value, value == .presession else { return }
-        if AppContext.authController.delegate?.shouldRefreshAuthentication(with: user) == true {
+        if AppContext.authController.delegate?.shouldRefreshAuthentication(with: user, isStartup: true) == true {
             KitLogger.info("Begin refresh authentication...")
             AppContext.authController.delegate?.refreshAuthentication(with: user)
                 .do(onNext: { _ in
@@ -70,6 +66,7 @@ final public class StandardAppContext: AppContext {
                 })
                 .flatMapLatest { user -> ObservableSignal in
                     guard user.id == AppContext.current.userId else { return .error(todo_error()) }
+                    user.authState.onNext(.authenticated)
                     return AppContext.current.update(user: user)
                         .do { _ in KitLogger.info("Record fresh user complete.") }
                 }
@@ -101,7 +98,7 @@ final public class StandardAppContext: AppContext {
                 if let user = user {
                     KitLogger.info("Loaded previous user meta, going to create a new app context with the user.")
                     user.authState.onNext(.presession)
-                    let newAppContext = AppContext(user: user)
+                    let newAppContext = AppContext(user: user, storeVersions: AppContext.Consts.storeVersions)
                     AppContext.current = newAppContext
                 }
                 return .signal

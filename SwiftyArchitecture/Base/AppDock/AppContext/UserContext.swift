@@ -26,7 +26,7 @@ public enum AuthState {
 }
 
 public protocol AuthControllerDelegate: AnyObject {
-    func shouldRefreshAuthentication(with user: UserProtocol) -> Bool
+    func shouldRefreshAuthentication(with user: UserProtocol, isStartup: Bool) -> Bool
     func refreshAuthentication(with user: UserProtocol) -> Observable<UserProtocol>
     func deauthenticate() -> ObservableSignal
 }

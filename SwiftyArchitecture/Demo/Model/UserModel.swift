@@ -11,6 +11,7 @@ import RxRealm
 import RealmSwift
 import RxSwift
 import Alamofire
+import MIOSwiftyArchitecture
 //import YYModel
 
 // ************* DEPRECATING BEGIN ****************
@@ -106,40 +107,46 @@ extension TestObj: Comparable {
     }
 }
 
-//extension TestObj: DataCenterManaged {
-//
-//    typealias APIInfo = TestAPI
-//    typealias DatabaseObject = TestObj
-//
-//    static func serialize(data: [String : Any]) throws -> TestObj {
-////        if let obj = TestObj.yy_model(with: data) {
-////            return obj
-////        } else {
-//            throw NSError(domain: "com.mioke.DEMO", code: 201, userInfo: nil)
-////        }
-//    }
-//}
+extension TestObj: DataCenterManaged {
+    typealias APIInfo = TestAPI
 
-
-final class _User: Object {
-    @objc dynamic var userId: String = ""
-    @objc dynamic var name: String = ""
+    static func serialize(data: TestAPI.Result) throws -> [Object] {
+        return data.objects as [Object]
+    }
 }
 
-final class User: Codable {
+class User: Object {
+    @Persisted(primaryKey: true)
     var userId: String = ""
+    @Persisted
     var name: String = ""
 }
 
 final class UserAPI: NSObject, ApiInfoProtocol {
     
-    typealias ResultType = User
+    struct Param: Codable {
+        let uids: [String]
+    }
+    
+    typealias RequestParam = UserAPI.Param
+    
+    typealias ResultType = Reply
+    
+    struct Reply: Codable {
+        
+        struct User: Codable {
+            var userId: String
+            var name: String
+            var version: String?
+        }
+        var users: [Reply.User]
+    }
     
     static var apiVersion: String {
-        get { return "" }
+        get { return "v1" }
     }
     static var apiName: String {
-        get { return "s" }
+        get { return "getUserInfo" }
     }
     static var server: Server {
         get { return MioDemoServer }
@@ -148,21 +155,29 @@ final class UserAPI: NSObject, ApiInfoProtocol {
         get { return .get }
     }
     
-    static var responseSerializer: MIOSwiftyArchitecture.ResponseSerializer<User> {
-        return MIOSwiftyArchitecture.JSONCodableResponseSerializer<User>()
+    static var responseSerializer: MIOSwiftyArchitecture.ResponseSerializer<Reply> {
+        return MIOSwiftyArchitecture.JSONCodableResponseSerializer<Reply>()
     }
 }
 
 extension User: DataCenterManaged {
     
-    typealias DatabaseObject = _User
-    typealias APIInfo = UserAPI
-    
-    static func serialize(data: User) throws -> _User {
-        let user = _User()
-        user.name = data.name
-        user.userId = data.userId
-        return user
+    static func serialize(data: UserAPI.Reply) throws -> [RealmSwift.Object] {
+        var result: [Object] = data.users.map { item in
+            let user = User()
+            user.name = item.name
+            user.userId = item.userId
+            return user
+        }
+        
+        let addition = TestObj()
+        addition.key = "Klein"
+        addition.value = 10025
+        
+        return result + [addition]
     }
+    
+    
+    typealias APIInfo = UserAPI
     
 }

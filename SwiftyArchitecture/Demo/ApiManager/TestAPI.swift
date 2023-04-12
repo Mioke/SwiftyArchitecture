@@ -16,8 +16,10 @@ let MioDemoServer: Server = .init(live: URL(string: "https://www.baidu.com")!,
                                     .custom("Staging"): URL(string: "https://www.baidu.com")!,
                                   ])
 
+struct EmptyRequestParam: Codable { }
+
 class TestAPI: NSObject, ApplicationBasedApiInfoProtocol {
-    
+    typealias RequestParam = EmptyRequestParam
     typealias ResultType = TestAPI.Result
     
     static var apiVersion: String {

@@ -11,6 +11,8 @@ import RxDataSources
 import RxSwift
 import RxCocoa
 import RxRealm
+import MIOSwiftyArchitecture
+import RealmSwift
 
 extension TestObj: IdentifiableType {
     typealias Identity = String
@@ -25,6 +27,7 @@ class DataCenterTestViewModel: NSObject {
 
 class DataCenterTestCell: UITableViewCell {
     var valueLabel: UILabel!
+    var reset: DisposeBag = .init()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -36,6 +39,11 @@ class DataCenterTestCell: UITableViewCell {
         valueLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor).isActive = true
         
         valueLabel.translatesAutoresizingMaskIntoConstraints = false
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        reset = .init()
     }
     
     required init?(coder: NSCoder) {
@@ -53,8 +61,13 @@ class DataCenterTestViewController: UIViewController {
     let datasource = Section(configureCell: { datasource, tableView, indexPath, item in
         
         let cell = tableView.dequeReusableCell(forIndexPath: indexPath) as DataCenterTestCell
-        cell.textLabel?.text = item.key
-        cell.valueLabel?.text = "\(item.value)"
+        
+        Observable<TestObj>.from(object: item, emitInitialValue: true)
+            .subscribe(onNext: { [weak cell] object in
+                cell?.textLabel?.text = item.key
+                cell?.valueLabel?.text = "\(item.value)"
+            })
+            .disposed(by: cell.reset)
         
         return cell
     })
@@ -105,20 +118,13 @@ class DataCenterTestViewController: UIViewController {
                 vc.objectKey = key
                 self.navigationController?.pushViewController(vc, animated: true)
         }.disposed(by: self.disposeBag)
+        
 
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
 
-//        relay.map { $0.sorted(by: { $0.value < $1.value })}
-//            .map { [AnimatableSectionModel(model: "", items: $0)] }
-//            .bind(to: tableView.rx.items(dataSource: datasource))
-//            .disposed(by: disposeBag)
-        
-    
-                
     }
     
     func createObj() -> TestObj {
@@ -132,7 +138,7 @@ class DataCenterTestViewController: UIViewController {
         
         let obj = createObj()
         Observable.just(obj)
-            .bind(to: AppContextCurrentDatabase().rx.add())
+            .subscribe(try! AppContextCurrentCache().rx.add())
             .disposed(by: self.disposeBag)
         
 //        try? AppContext.current.db.realm.write {
@@ -159,21 +165,7 @@ class DataCenterTestViewController: UIViewController {
 
     @objc func refresh() -> Void {
         print("Show loading")
-        
-//        let request = Request<TestObj>()
-//        DataAccessObject<TestObj>
-//            .update(with: request)
-//            .subscribe({ event in
-//                switch event {
-//                case .completed:
-//                    print("Hide loading")
-//                case .error(let error as NSError):
-//                    print("Hide loading with error: \(error.localizedDescription)")
-//                default:
-//                    break
-//                }
-//            })
-//            .disposed(by: self.disposeBag)
+        RealmTests.shared.testObjectChanges()
     }
 
     /*

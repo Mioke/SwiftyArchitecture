@@ -92,7 +92,7 @@ extension Navigation {
     }
     
     func navigate(with handler: any NavigationModuleHandlerProtocol.Type,
-                  in module: RegisteryFile.Module,
+                  `in` module: RegisteryFile.Module,
                   navigationURL: NavigationURL,
                   configuration: Navigation.Configuration,
                   completion: @escaping (Error?) -> Void) {
@@ -126,7 +126,10 @@ extension Navigation {
         }
     }
     
-    func navigate(to url: NavigationURL, `in` module: RegisteryFile.Module, configuration: Navigation.Configuration) -> Error? {
+    func navigate(to url: NavigationURL,
+                  `in` module: RegisteryFile.Module,
+                  configuration: Navigation.Configuration)
+    -> Error? {
         // 4. find handler -> vc
         guard let path = url.paths.first,
               let target = module.paths[path],

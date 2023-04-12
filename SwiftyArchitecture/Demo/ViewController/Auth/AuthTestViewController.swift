@@ -12,6 +12,7 @@ import MIOSwiftyArchitecture
 class AuthTestViewController: UIViewController {
 
     @IBOutlet weak var displayLabel: UILabel!
+    @IBOutlet weak var statusLabel: UILabel!
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -23,6 +24,8 @@ class AuthTestViewController: UIViewController {
     func refreshDisplay() -> Void {
         if let user = AppContext.current.user as? TestUser {
             displayLabel.text = user.customDebugDescription
+            statusLabel.text = "\(try! user.authState.value())"
+            
         } else if AppContext.current == AppContext.standard {
             displayLabel.text = "Current is default user"
         }

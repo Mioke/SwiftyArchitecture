@@ -35,6 +35,14 @@ extension CommonModule: ModuleInitiatorProtocol {
         if let url = Bundle.main.url(forResource: "AppLinkRegistery", withExtension: ".plist") {
             try! navigation?.setRegisteryFile(at: url)
         }
+        
+        APIMocker.mock(type: UserAPI.self) { param in
+            if let param = param {
+                print(param)
+            }
+            let reply = UserAPI.Reply(users: [UserAPI.Reply.User(userId: "10025", name: "Klein")])
+            return reply
+        }
     }
     
     static var priority: MIOSwiftyArchitecture.Initiator.Priority {

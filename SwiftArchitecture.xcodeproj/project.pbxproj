@@ -26,6 +26,7 @@
 		AB0BF5D9283CD28500418569 /* MockComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB0BF5D8283CD28500418569 /* MockComponents.swift */; };
 		AB35E654244476B400EC361A /* DataCenterTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB35E652244476B400EC361A /* DataCenterTestViewController.swift */; };
 		AB35E655244476B400EC361A /* DataCenterTestViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AB35E653244476B400EC361A /* DataCenterTestViewController.xib */; };
+		AB41401229E3FC110047970C /* RealmTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB41401129E3FC110047970C /* RealmTests.swift */; };
 		AB459C4929DC1C8F00B68602 /* AppLinkRegistery.plist in Resources */ = {isa = PBXBuildFile; fileRef = AB459C4829DC1C8F00B68602 /* AppLinkRegistery.plist */; };
 		AB459C4C29DC203A00B68602 /* HomeNavigationHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB459C4B29DC203A00B68602 /* HomeNavigationHandler.swift */; };
 		AB459C5029DE80E900B68602 /* CommonModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB459C4F29DE80E900B68602 /* CommonModule.swift */; };
@@ -105,6 +106,7 @@
 		AB35E63C243F35CA00EC361A /* pod_publish.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = pod_publish.sh; sourceTree = SOURCE_ROOT; };
 		AB35E652244476B400EC361A /* DataCenterTestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataCenterTestViewController.swift; sourceTree = "<group>"; };
 		AB35E653244476B400EC361A /* DataCenterTestViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DataCenterTestViewController.xib; sourceTree = "<group>"; };
+		AB41401129E3FC110047970C /* RealmTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmTests.swift; sourceTree = "<group>"; };
 		AB459C4829DC1C8F00B68602 /* AppLinkRegistery.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = AppLinkRegistery.plist; sourceTree = "<group>"; };
 		AB459C4B29DC203A00B68602 /* HomeNavigationHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeNavigationHandler.swift; sourceTree = "<group>"; };
 		AB459C4F29DE80E900B68602 /* CommonModule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonModule.swift; sourceTree = "<group>"; };
@@ -202,17 +204,12 @@
 		A752DE411C031066008E3118 /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
+				A753A0A21C06FE5A00C9FBFE /* ViewController.swift */,
+				A77BAD191C196DFD00AF7A86 /* InternalTestVC.swift */,
 				AB459C4A29DC201700B68602 /* Navigation */,
 				ABE54E122939AECE00DAD8C2 /* Code Block */,
 				ABAFE34C28C1EA8800D023A2 /* Auth */,
-				A753A0A21C06FE5A00C9FBFE /* ViewController.swift */,
-				A77BAD191C196DFD00AF7A86 /* InternalTestVC.swift */,
-				AB35E652244476B400EC361A /* DataCenterTestViewController.swift */,
-				AB35E653244476B400EC361A /* DataCenterTestViewController.xib */,
-				ABC9EA852449AFD2009D044E /* TestObjModifyVC.swift */,
-				ABC9EA862449AFD2009D044E /* TestObjModifyVC.xib */,
-				AB6781372861C8CD007740FA /* ThemeTestViewController.swift */,
-				AB6781382861C8CD007740FA /* ThemeTestViewController.xib */,
+				AB41401529E53ECF0047970C /* DataCenter */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -240,6 +237,7 @@
 			isa = PBXGroup;
 			children = (
 				A77BAD1C1C1971A300AF7A86 /* UserTable.swift */,
+				AB41401129E3FC110047970C /* RealmTests.swift */,
 			);
 			path = Persistance;
 			sourceTree = "<group>";
@@ -312,6 +310,17 @@
 			path = SwiftArchitectureUITests;
 			sourceTree = "<group>";
 		};
+		AB41401529E53ECF0047970C /* DataCenter */ = {
+			isa = PBXGroup;
+			children = (
+				AB35E652244476B400EC361A /* DataCenterTestViewController.swift */,
+				AB35E653244476B400EC361A /* DataCenterTestViewController.xib */,
+				ABC9EA852449AFD2009D044E /* TestObjModifyVC.swift */,
+				ABC9EA862449AFD2009D044E /* TestObjModifyVC.xib */,
+			);
+			path = DataCenter;
+			sourceTree = "<group>";
+		};
 		AB459C4A29DC201700B68602 /* Navigation */ = {
 			isa = PBXGroup;
 			children = (
@@ -324,6 +333,8 @@
 			isa = PBXGroup;
 			children = (
 				AB6781352861C0B7007740FA /* Theme.swift */,
+				AB6781372861C8CD007740FA /* ThemeTestViewController.swift */,
+				AB6781382861C8CD007740FA /* ThemeTestViewController.xib */,
 			);
 			path = Appearance;
 			sourceTree = "<group>";
@@ -656,6 +667,7 @@
 				ABE54E1A293D942700DAD8C2 /* SALayoutManager.swift in Sources */,
 				A791C6B91C02E90000670017 /* swiftArchitecture.xcdatamodeld in Sources */,
 				ABD632442727FE0E00AA775A /* Video.swift in Sources */,
+				AB41401229E3FC110047970C /* RealmTests.swift in Sources */,
 				A753A0A31C06FE5A00C9FBFE /* ViewController.swift in Sources */,
 				A7826F761C0EF06A007AA18D /* UserModel.swift in Sources */,
 				ABAD81B129C4630400D600F5 /* UIDectector.swift in Sources */,

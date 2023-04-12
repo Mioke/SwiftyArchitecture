@@ -39,7 +39,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if let standardContext = AppContext.current as? StandardAppContext {
             standardContext.setup(authDelegate: UserService.shared)
         }
-//        UserService.shared.login()
+        // Set user `Store` versions
+        AppContext.Consts.storeVersions = .init(cacheVersion: 1, persistanceVersion: 1)
         
         // Modulization setup
         if let url = Bundle.main.url(forResource: "ModulesRegistery", withExtension: ".plist") {

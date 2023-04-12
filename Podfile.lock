@@ -13,6 +13,7 @@ PODS:
   - AuthProtocol (0.0.1):
     - MIOSwiftyArchitecture
   - Differentiator (5.0.0)
+  - FLEX (5.22.10)
   - FMDB (2.7.5):
     - FMDB/standard (= 2.7.5)
   - FMDB/standard (2.7.5)
@@ -29,6 +30,7 @@ PODS:
     - MIOSwiftyArchitecture/RxExtension
     - Realm (~> 10.20.0)
     - RealmSwift (~> 10.20.0)
+    - RxCocoa (~> 6.2)
     - RxRealm (~> 5.0)
     - RxSwift (~> 6.2)
   - MIOSwiftyArchitecture/Assistance (2.0.0)
@@ -93,6 +95,7 @@ DEPENDENCIES:
   - ApplicationProtocol (from `./ComponentizeDemo/Application`)
   - Auth (from `./ComponentizeDemo/Auth`)
   - AuthProtocol (from `./ComponentizeDemo/Auth`)
+  - FLEX
   - FMDB
   - MIOSwiftyArchitecture (from `./`)
   - MIOSwiftyArchitecture/Testable (from `./`)
@@ -109,6 +112,7 @@ SPEC REPOS:
   https://github.com/CocoaPods/Specs.git:
     - Alamofire
     - Differentiator
+    - FLEX
     - FMDB
     - ObjectMapper
     - Realm
@@ -141,8 +145,9 @@ SPEC CHECKSUMS:
   Auth: 5659f3a716fb6e046dac47c6b0000c259233eb4e
   AuthProtocol: 699414ec99eb060731d49ec1092901fc1ae55e3e
   Differentiator: e8497ceab83c1b10ca233716d547b9af21b9344d
+  FLEX: f21ee4f498eed3f8a1eded66b21939fd3b7a22ce
   FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
-  MIOSwiftyArchitecture: 630881ed75a01b7ee670043a3a5b15cc72c71fc1
+  MIOSwiftyArchitecture: 4b194a8f2d81ac67c2bd6c86bce7ac03aaebb8a0
   ObjectMapper: 1eb41f610210777375fa806bf161dc39fb832b81
   Realm: fac5ecd031fcb81171627b74944c885662d4b266
   RealmSwift: 9b02d25acb46a14756bde9893abb99e2e3675923
@@ -155,6 +160,6 @@ SPEC CHECKSUMS:
   Swinject: b4a11b31992e8668308dc594ba1cb9b3164a37ab
   SwinjectAutoregistration: 330f5012642a8b5c89a8a4adb0c5e52df07382c0
 
-PODFILE CHECKSUM: 81eee6eff68b36c64ba0538f53c5c5581cf6dc9c
+PODFILE CHECKSUM: 84291d4ce0245f30fa96eb1659b8c2d4ec0d1c66
 
 COCOAPODS: 1.11.3

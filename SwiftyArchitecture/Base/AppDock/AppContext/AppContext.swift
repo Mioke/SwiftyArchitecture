@@ -21,6 +21,12 @@ public class AppContext: NSObject {
             NotificationCenter.default.post(name: kAppContextChangedNotification, object: current)
         }
     }
+    
+    public struct Consts {
+        /// Only for the `AppContext` created by the startup logic in `StandardAppContext`, modify this property when
+        /// your database schema version is changing.
+        public static var storeVersions: StoreVersions = .init(cacheVersion: 1, persistanceVersion: 1)
+    }
 
     // MARK: - User
     public internal(set) var user: UserProtocol
@@ -29,8 +35,9 @@ public class AppContext: NSObject {
         return user.id
     }
     
-    public init(user: UserProtocol) {
+    public init(user: UserProtocol, storeVersions: StoreVersions) {
         self.user = user
+        self.storeVersions = storeVersions
         super.init()
     }
     
@@ -38,8 +45,8 @@ public class AppContext: NSObject {
     
     /// Start a new app context.
     /// - Parameter user: the user of this context.
-    public static func startAppContext(with user: UserProtocol) -> Void {
-        let appContext = AppContext(user: user)
+    public static func startAppContext(with user: UserProtocol, storeVersions: StoreVersions) -> Void {
+        let appContext = AppContext(user: user, storeVersions: storeVersions)
         if let value = user.authState.value, value != .authenticated {
             user.authState.onNext(.authenticated)
         }
@@ -64,14 +71,36 @@ public class AppContext: NSObject {
     }
     
     // MARK: - Data Center
-    public lazy var store: Store = Store(appContext: self)
+    public lazy var store: Store = try! Store(appContext: self)
+    
+    weak var storeDelegate: AppContextStoreDelegate?
+    
+    public struct StoreVersions {
+        public let cacheVersion: UInt64
+        public let persistanceVersion: UInt64
+        
+        public init(cacheVersion: UInt64, persistanceVersion: UInt64) {
+            self.cacheVersion = cacheVersion
+            self.persistanceVersion = persistanceVersion
+        }
+    }
+    
+    let storeVersions: StoreVersions
+}
+
+public protocol AppContextStoreDelegate: AnyObject {
+    func realmDataBasePerform(migration: Migration, oldSchema: UInt64)
 }
 
 // MARK: - Convenience
-public func AppContextCurrentDatabase() -> Realm {
-    return AppContext.current.store.db.realm
+public func AppContextCurrentPersistance() throws -> Realm {
+    return try AppContext.current.store.persistance.currentThreadInstance
 }
 
-public func AppContextCurrentMemory() -> Realm {
-    return AppContext.current.store.memory.realm
+public func AppContextCurrentCache() throws -> Realm {
+    return try AppContext.current.store.cache.currentThreadInstance
+}
+
+public func AppContextCurrentMemory() throws -> Realm {
+    return try AppContext.current.store.memory.currentThreadInstance
 }

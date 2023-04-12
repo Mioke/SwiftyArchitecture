@@ -32,7 +32,7 @@ class APITests: XCTestCase {
         
         let expect = XCTestExpectation(description: "Api test mock")
         
-        testApi.rxLoadData(with: ["id": "1"])
+        testApi.rxSendRequest(with: ["id": "1"])
             .subscribe { event in
                 print(event)
                 guard case .next(_) = event else { return }
@@ -47,7 +47,7 @@ class APITests: XCTestCase {
         APIMocker.recover(type: UserAPI.self)
         
         let expect = XCTestExpectation(description: "RemoveMock")
-        testApi.rxLoadData(with: ["id": "1"])
+        testApi.rxSendRequest(with: ["id": "1"])
             .subscribe { event in
                 print(event)
                 guard case .error(_) = event else { return }
@@ -70,7 +70,7 @@ let MioDemoServer: Server = .init(live: URL(string: "https://www.baidu.com")!,
                                   ])
 
 final class UserAPI: NSObject, ApiInfoProtocol {
-    
+    typealias RequestParam = [String: String]
     typealias ResultType = User
     
     static var apiVersion: String {

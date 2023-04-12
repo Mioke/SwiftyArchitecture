@@ -12,6 +12,7 @@ import MIOSwiftyArchitecture
 import Swinject
 import RxSwift
 import AuthProtocol
+import FLEX
 
 class InternalTestVC: ViewController {
     
@@ -44,8 +45,11 @@ class InternalTestVC: ViewController {
 //        }()
         
         // Do any additional setup after loading the view.
-        self.tests = ["Record user model", "Read users", "API test", "Call Log", "Data center test", "Theme",
-                      "Push local notification", "Auth Tests", "Smooth Scrolling TableView Test", "Code Block Editor"]
+        self.tests = [
+            "Record user model", "Read users", "API test", "Call Log", "Data center test", "Theme",
+            "Push local notification", "Auth Tests", "Smooth Scrolling TableView Test", "Code Block Editor",
+            "Show FLEX"
+        ]
         
         self.tableView = {
             let view = UITableView(frame: self.view.bounds)
@@ -204,7 +208,7 @@ extension InternalTestVC: UITableViewDelegate, UITableViewDataSource {
             let api = API<TestAPI>()
             // you can't get any data from here because baidu.com 
             // return a html page instead of json data.
-            api.loadData(with: nil).response({ (api, result, error) in
+            api.sendRequest(with: nil).response({ (api, result, error) in
                 if let result = result {
                     print(result.isFinal, result.objects)
                 }
@@ -289,6 +293,8 @@ extension InternalTestVC: UITableViewDelegate, UITableViewDataSource {
         case 9:
             let vc = CodeBlockEditorViewController(nibName: nil, bundle: nil)
             self.navigationController?.pushViewController(vc, animated: true)
+        case 10:
+            FLEXManager.shared.showExplorer()
         default:
             break
         }

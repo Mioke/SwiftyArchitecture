@@ -26,7 +26,7 @@ class UserService: NSObject {
         let user = TestUser(id: "test_user",
                             age: 11,
                             token: self.genRandomToken())
-        AppContext.startAppContext(with: user)
+        AppContext.startAppContext(with: user, storeVersions: AppContext.Consts.storeVersions)
         return true
     }
 
@@ -71,7 +71,12 @@ extension TestUser {
 }
 
 extension UserService: AuthControllerDelegate {
-    func shouldRefreshAuthentication(with user: UserProtocol) -> Bool {
+    func shouldRefreshAuthentication(with user: UserProtocol, isStartup: Bool) -> Bool {
+        // we can refresh authentication everytime when app startup.
+        if isStartup {
+            return true
+        }
+        // or we can trust the `expiration` of the user we stored.
         guard let user = user as? TestUser else {
             assert(false, "This application should use `TestUser` as the UserProtocol.")
             return true

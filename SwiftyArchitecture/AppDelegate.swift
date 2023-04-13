@@ -37,6 +37,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // App Context
         if let standardContext = AppContext.current as? StandardAppContext {
+            standardContext.contextConfiguration = .init(archiveLocation: .database)
             standardContext.setup(authDelegate: UserService.shared)
         }
         // Set user `Store` versions

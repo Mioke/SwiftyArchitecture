@@ -12,11 +12,8 @@ import RealmSwift
 public protocol UserProtocol: DataConversion {
     /// The identifier of a user, the primary key of the conversion data of the user model.
     var id: String { get set }
-    /// The state indicate the user session. This property should not be record, so if your user model self is
-    /// `Codable`, please remove this from coding keys.
-    var authState: BehaviorSubject<AuthState> { get }
-    /// The configuration of app context.
-    var contextConfiguration: StandardAppContext.Configuration { get }
+    
+    static var modelVersion: Int { get }
 }
 
 public enum AuthState {
@@ -44,9 +41,8 @@ public class AuthController: NSObject {
 
 class DefaultUser: UserProtocol, Codable {
     static let _id = "__standard__"
-    var contextConfiguration: StandardAppContext.Configuration = .init(archiveLocation: .database)
+    static let modelVersion: Int = 1
     
-    var authState: BehaviorSubject<AuthState> = .init(value: .authenticated)
     var id: String = DefaultUser._id
     
     enum CodingKeys: CodingKey {
@@ -62,6 +58,7 @@ class _UserMeta: Object {
 class _UserData: Object {
     @Persisted(primaryKey: true) var userId: String
     @Persisted var codableData: Foundation.Data
+    @Persisted var version: Int
 }
 
 class _User {

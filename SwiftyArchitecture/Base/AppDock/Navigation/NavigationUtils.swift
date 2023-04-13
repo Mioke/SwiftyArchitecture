@@ -55,7 +55,7 @@ class NavigationUtils {
         guard let window = applicationWindow(), var controller = window.rootViewController else {
             return nil
         }
-        while let presenting = controller.presentingViewController, !presenting.isBeingDismissed {
+        while let presenting = controller.presentedViewController, !presenting.isBeingDismissed {
             controller = presenting
         }
         return controller

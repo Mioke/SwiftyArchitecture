@@ -30,8 +30,8 @@ public extension API {
     }
 }
 
-extension BehaviorSubject {
-    public var value: Element? {
+public extension BehaviorSubject {
+    var value: Element? {
         return try? value()
     }
 }
@@ -45,6 +45,10 @@ public extension Observable {
         return self.flatMapLatest { _ -> Observable<T> in
             return observale
         }
+    }
+    
+    func then<T>(_ function: @escaping (Element) -> Observable<T>) -> Observable<T> {
+        return flatMapLatest(function)
     }
 }
 
@@ -62,8 +66,20 @@ extension Observable {
     }
 }
 
-extension AnyObserver where Element == Void {
-    public func signal() -> Void {
+public extension AnyObserver where Element == Void {
+    func signal() -> Void {
         self.onNext(())
+    }
+}
+
+public extension Reactive {
+    
+    var lifetime: DisposeBag {
+        guard let disposeBag = objc_getAssociatedObject(self.base, #function) as? DisposeBag else {
+            let disposeBag = DisposeBag.init()
+            objc_setAssociatedObject(self.base, #function, disposeBag, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+            return disposeBag
+        }
+        return disposeBag
     }
 }

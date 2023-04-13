@@ -8,6 +8,7 @@
 
 import UIKit
 import MIOSwiftyArchitecture
+import RxCocoa
 
 class AuthTestViewController: UIViewController {
 
@@ -19,12 +20,15 @@ class AuthTestViewController: UIViewController {
         // Do any additional setup after loading the view.
         
         refreshDisplay()
+        AppContext.current.authState.map { "\($0)" }
+            .asDriver(onErrorJustReturn: "Error")
+            .drive(statusLabel.rx.text)
+            .disposed(by: self.rx.lifetime)
     }
     
     func refreshDisplay() -> Void {
         if let user = AppContext.current.user as? TestUser {
             displayLabel.text = user.customDebugDescription
-            statusLabel.text = "\(try! user.authState.value())"
             
         } else if AppContext.current == AppContext.standard {
             displayLabel.text = "Current is default user"

@@ -16,7 +16,13 @@ final public class StandardAppContext: AppContext {
     
     convenience init() {
         self.init(user: DefaultUser(), storeVersions: .init(cacheVersion: 1, persistanceVersion: 1))
+        self.authState.onNext(.authenticated)
     }
+    
+    /// The configuration of app context.
+    public var contextConfiguration: StandardAppContext.Configuration = .init(archiveLocation: .database)
+    
+    public weak var migrateDelegate: StandardAppContextStoreProtocol?
     
     public let resourceBag: DisposeBag = .init()
     
@@ -40,39 +46,35 @@ final public class StandardAppContext: AppContext {
         // set auth delegate first.
         AppContext.authController.delegate = authDelegate
         
-        NotificationCenter.default.rx
-            .notification(kAppContextChangedNotification)
-            .subscribe { [weak self] _ in
-                self?.didReceiveContextChangedNotification()
-            }
-            .disposed(by: disposables)
-        
         // load user meta, synchronously
-        loadUserMeta().subscribe().disposed(by: disposables)
+        loadUserMeta().then(self.refreshAuthenticationIfNeeded)
+            .subscribe()
+            .disposed(by: disposables)
         KitLogger.info("Standard app context setup completed.")
     }
     
-    func didReceiveContextChangedNotification() {
-        KitLogger.info("App context change observed")
+    func refreshAuthenticationIfNeeded() -> ObservableSignal {
+        guard let value = AppContext.current.authState.value, value == .presession else { return .signal }
+        
         let user = AppContext.current.user
-        guard let value = user.authState.value, value == .presession else { return }
-        if AppContext.authController.delegate?.shouldRefreshAuthentication(with: user, isStartup: true) == true {
-            KitLogger.info("Begin refresh authentication...")
-            AppContext.authController.delegate?.refreshAuthentication(with: user)
-                .do(onNext: { _ in
-                    KitLogger.info("Refresh authentication complete")
-                }, onError: { error in
-                    KitLogger.error("Refresh authentication error: \(error)")
-                })
-                .flatMapLatest { user -> ObservableSignal in
-                    guard user.id == AppContext.current.userId else { return .error(todo_error()) }
-                    user.authState.onNext(.authenticated)
-                    return AppContext.current.update(user: user)
-                        .do { _ in KitLogger.info("Record fresh user complete.") }
-                }
-                .subscribe()
-                .disposed(by: self.disposables)
+        guard let delegate = AppContext.authController.delegate,
+              delegate.shouldRefreshAuthentication(with: user, isStartup: true)
+        else {
+            return .signal
         }
+        KitLogger.info("Begin refresh authentication...")
+        return delegate.refreshAuthentication(with: user)
+            .do(onNext: { _ in
+                KitLogger.info("Refresh authentication complete")
+            }, onError: { error in
+                KitLogger.error("Refresh authentication error: \(error)")
+            })
+            .flatMapLatest { user -> ObservableSignal in
+                guard user.id == AppContext.current.userId else { return .error(todo_error()) }
+                AppContext.current.authState.onNext(.authenticated)
+                return AppContext.current.update(user: user)
+                    .do { _ in KitLogger.info("Record fresh user complete.") }
+            }
     }
     
     deinit {
@@ -97,8 +99,8 @@ final public class StandardAppContext: AppContext {
             .flatMapLatest { user -> ObservableSignal in
                 if let user = user {
                     KitLogger.info("Loaded previous user meta, going to create a new app context with the user.")
-                    user.authState.onNext(.presession)
                     let newAppContext = AppContext(user: user, storeVersions: AppContext.Consts.storeVersions)
+                    newAppContext.authState.onNext(.presession)
                     AppContext.current = newAppContext
                 }
                 return .signal
@@ -128,6 +130,11 @@ final public class StandardAppContext: AppContext {
 }
 
 // MARK: - user storage
+
+public protocol StandardAppContextStoreProtocol: AnyObject {
+    func standardAppContext(_ context: AppContext, migrate userData: Data, from version: Int) -> (any UserProtocol)?
+}
+
 extension StandardAppContext {
     
     func loadArchivedUser(with userId: String) -> Observable<UserProtocol?> {
@@ -140,9 +147,27 @@ extension StandardAppContext {
                 guard let clazz = NSClassFromString(wrapper.class) as? UserProtocol.Type else {
                     return .error(todo_error())
                 }
+                // check version
+                if let checkResult = self.checkVersion(with: data, userClass: clazz) {
+                    return checkResult
+                }
                 let archivedUser = try clazz.object(from: wrapper.data)
                 return .just(archivedUser)
             }
+    }
+    
+    func checkVersion(with data: _UserData, userClass: UserProtocol.Type) -> Observable<UserProtocol?>? {
+        guard data.version != userClass.modelVersion else { return nil }
+        if let migrateDelegate = self.migrateDelegate,
+           let user = migrateDelegate.standardAppContext(self,
+                                                         migrate: data.codableData,
+                                                         from: data.version) {
+            return updateArchived(userData: data, with: user).flatMapLatest { _ in
+                return Observable<UserProtocol?>.just(user)
+            }
+        } else {
+            return .just(nil)
+        }
     }
     
     func archive(appContext: AppContext) -> ObservableSignal {
@@ -157,7 +182,7 @@ extension StandardAppContext {
                 return Disposables.create()
             }
             
-            switch self.user.contextConfiguration.archiveLocation {
+            switch self.contextConfiguration.archiveLocation {
             case .file(path: let path):
                 return self.archive(data: data, path: path, observer: observer)
             case .database:
@@ -170,7 +195,24 @@ extension StandardAppContext {
         let user = _UserData()
         user.codableData = data
         user.userId = appContext.userId
+        user.version = type(of: appContext.user).modelVersion
         return self.store.upsert(object: user).subscribe(observer)
+    }
+    
+    func updateArchived(userData: _UserData, with user: UserProtocol) -> ObservableSignal {
+        return .create { observer in
+            do {
+                try self.store.cache.realm.safeWrite { _ in
+                    userData.version = type(of: user).modelVersion
+                    userData.codableData = try user.data()
+                }
+                observer.onNext(()); observer.onCompleted()
+            } catch {
+                observer.onError(error)
+            }
+            return Disposables.create()
+        }
+        .subscribe(on: CurrentThreadScheduler.instance)
     }
     
     // TODO: - not complete
@@ -184,3 +226,5 @@ extension StandardAppContext {
         return Disposables.create()
     }
 }
+
+

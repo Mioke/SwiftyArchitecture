@@ -31,6 +31,10 @@ public class AppContext: NSObject {
     // MARK: - User
     public internal(set) var user: UserProtocol
     
+    /// The state indicate the user session. This property should not be record, so if your user model self is
+    /// `Codable`, please remove this from coding keys.
+    public var authState: BehaviorSubject<AuthState> = .init(value: .unauthenticated)
+    
     public var userId: String {
         return user.id
     }
@@ -47,9 +51,7 @@ public class AppContext: NSObject {
     /// - Parameter user: the user of this context.
     public static func startAppContext(with user: UserProtocol, storeVersions: StoreVersions) -> Void {
         let appContext = AppContext(user: user, storeVersions: storeVersions)
-        if let value = user.authState.value, value != .authenticated {
-            user.authState.onNext(.authenticated)
-        }
+        appContext.authState.onNext(.authenticated)
         AppContext.current = appContext
         AppContext.standard.archive(appContext: appContext)
             .then(AppContext.standard.createOrUpdateUserMata(with: appContext.user.id))

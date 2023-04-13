@@ -3,9 +3,9 @@ import MIOSwiftyArchitecture
 import RxSwift
 
 final public class User: UserProtocol, Codable {
+    public static var modelVersion: Int = 1
+    
     public var id: String
-    public var authState: BehaviorSubject<AuthState> = .init(value: .unauthenticated)
-    public var contextConfiguration: StandardAppContext.Configuration = .init(archiveLocation: .database)
     public var name: String?
     
     public init(id: String) {
@@ -14,7 +14,6 @@ final public class User: UserProtocol, Codable {
     
     enum CodingKeys: CodingKey {
         case id
-        case contextConfiguration
         case name
     }
 }

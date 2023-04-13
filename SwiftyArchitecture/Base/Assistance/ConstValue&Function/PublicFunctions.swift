@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import Dispatch
 
 /**
  代码区块区分.
@@ -18,11 +19,11 @@ public func scope(_ name: String, closure: () -> ()) -> Void {
     closure()
 }
 
-public func doOnMainQueue(_ block: @escaping () -> (), async: Bool = false) -> Void {
-    if !async && Thread.current.isMainThread {
+public func guardOnMainQueue(sync: Bool = false, _ block: @escaping () -> ()) -> Void {
+    if Thread.current.isMainThread {
         block()
     } else {
-        DispatchQueue.main.async(execute: block)
+        sync ? DispatchQueue.main.sync(execute: block) : DispatchQueue.main.async(execute: block)
     }
 }
 
@@ -42,5 +43,11 @@ public extension DataConversion where Self: Codable {
 }
 
 public final class WeakObject<T: AnyObject> {
-    weak var reference: T?
+    public weak var reference: T?
+    
+    public init(referencing: T) {
+        self.reference = referencing
+    }
+    
+    public var isEmpty: Bool { reference == nil }
 }

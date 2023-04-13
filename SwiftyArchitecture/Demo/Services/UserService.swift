@@ -42,12 +42,13 @@ class UserService: NSObject {
 }
 
 class TestUser: UserProtocol, Codable {
+    
     var id: String
     var age: Int
     var token: String
     var expiration: Date?
-    var authState: BehaviorSubject<AuthState> = .init(value: .unauthenticated)
-    var contextConfiguration: StandardAppContext.Configuration = .init(archiveLocation: .database)
+    
+    static let modelVersion: Int = 1
     
     enum CodingKeys: CodingKey {
         case id

@@ -9,25 +9,28 @@
 import Foundation
 import MIOSwiftyArchitecture
 import RxSwift
+import AuthProtocol
 
 class UserService: NSObject {
     
     static let shared: UserService = .init()
     
-    // Singleton model
-    static let currentUser = UserModel(name: "defaultUser", uid: 0)
-    
-    var user: UserModel {
-        get { return UserService.currentUser }
-    }
-    
     @discardableResult
-    func login() -> Bool {
-        let user = TestUser(id: "test_user",
-                            age: 11,
-                            token: self.genRandomToken())
-        AppContext.startAppContext(with: user, storeVersions: AppContext.Consts.storeVersions)
-        return true
+    func login() -> ObservableSignal {
+        return .create { observer in
+            do {
+                if let authModule = try ModuleManager.default.bridge.resolve(.auth) as? AuthServiceProtocol {
+                    try authModule.authenticate { user in
+                        AppContext.startAppContext(with: user, storeVersions: AppContext.Consts.storeVersions)
+                        observer.signal()
+                        observer.onCompleted()
+                    }
+                }
+            } catch {
+                observer.onError(error)
+            }
+            return Disposables.create()
+        }
     }
 
     func genRandomToken() -> String {
@@ -38,36 +41,6 @@ class UserService: NSObject {
             String(codec.randomElement()!)
         }
         .joined()
-    }
-}
-
-class TestUser: UserProtocol, Codable {
-    
-    var id: String
-    var age: Int
-    var token: String
-    var expiration: Date?
-    
-    static let modelVersion: Int = 1
-    
-    enum CodingKeys: CodingKey {
-        case id
-        case age
-        case token
-        case expiration
-    }
-    
-    init(id: String, age: Int, token: String) {
-        self.id = id
-        self.age = age
-        self.token = token
-        self.expiration = Date().offsetWeek(1)
-    }
-}
-
-extension TestUser {
-    var customDebugDescription: String {
-        return "id - \(id), age - \(age)\ntoken: \(token)"
     }
 }
 

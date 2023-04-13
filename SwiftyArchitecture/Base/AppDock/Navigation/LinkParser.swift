@@ -25,7 +25,7 @@ struct LinkParser {
         case notCompatibleToConfig
     }
     
-    var universalLinkScheme: String
+    var externalLinkScheme: String
     var inAppLinkScheme: String
     var host: String
     
@@ -38,7 +38,7 @@ struct LinkParser {
     }
     
     func validate(url: NavigationURL) throws {
-        guard url.scheme == inAppLinkScheme || url.scheme == universalLinkScheme,
+        guard url.scheme == inAppLinkScheme || url.scheme == externalLinkScheme,
               url.host == host
         else {
             throw ParseError.notCompatibleToConfig
@@ -46,6 +46,6 @@ struct LinkParser {
     }
     
     func isExternalLink(url: NavigationURL) -> Bool {
-        return url.scheme == universalLinkScheme
+        return url.scheme == externalLinkScheme
     }
 }

@@ -9,6 +9,7 @@
 import UIKit
 import MIOSwiftyArchitecture
 import RxCocoa
+import AuthProtocol
 
 class AuthTestViewController: UIViewController {
 
@@ -37,8 +38,17 @@ class AuthTestViewController: UIViewController {
 
 
     @IBAction func onLogin(_ sender: Any) {
-        UserService.shared.login()
-        refreshDisplay()
+        UserService.shared
+            .login()
+            .subscribe { event in
+                switch event {
+                case .next():
+                    self.refreshDisplay()
+                case .completed, .error:
+                    break
+                }
+            }
+            .disposed(by: self.rx.lifetime)
     }
     
     @IBAction func onRefresh(_ sender: Any) {

@@ -47,7 +47,7 @@ public class AppContext: NSObject {
     
     public static var authController: AuthController = .init(delegate: nil)
     
-    /// Start a new app context.
+    /// Start a new app context, and auth context is `authenticated`
     /// - Parameter user: the user of this context.
     public static func startAppContext(with user: UserProtocol, storeVersions: StoreVersions) -> Void {
         let appContext = AppContext(user: user, storeVersions: storeVersions)
@@ -65,11 +65,25 @@ public class AppContext: NSObject {
     @discardableResult
     public func update(user: UserProtocol) -> ObservableSignal {
         guard user.id == self.user.id else {
-            fatalError("Update user must use the same user id.")
+            assertionFailure("Update user must use the same user id.")
+            return .error(todo_error())
         }
         KitLogger.info("Updating user of id: \(user.id)")
-        self.user = user
-        return AppContext.standard.archive(appContext: self)
+        return AppContext.standard.archive(appContext: self).do { _ in self.user = user }
+    }
+    
+    public func refreshAuthentication() -> ObservableSignal {
+        return AppContext.standard.refreshAuthentication(isStartup: false)
+    }
+    
+    public func logout() -> ObservableSignal {
+        return .create { observer in
+            self.authState.onNext(.unauthenticated)
+            AppContext.current = AppContext.standard
+            observer.signal()
+            observer.onCompleted()
+            return Disposables.create()
+        }
     }
     
     // MARK: - Data Center

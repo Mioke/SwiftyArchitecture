@@ -55,10 +55,13 @@ final public class StandardAppContext: AppContext {
     
     func refreshAuthenticationIfNeeded() -> ObservableSignal {
         guard let value = AppContext.current.authState.value, value == .presession else { return .signal }
-        
+        return refreshAuthentication(isStartup: true)
+    }
+    
+    func refreshAuthentication(isStartup: Bool) -> ObservableSignal {
         let user = AppContext.current.user
         guard let delegate = AppContext.authController.delegate,
-              delegate.shouldRefreshAuthentication(with: user, isStartup: true)
+              delegate.shouldRefreshAuthentication(with: user, isStartup: isStartup)
         else {
             return .signal
         }

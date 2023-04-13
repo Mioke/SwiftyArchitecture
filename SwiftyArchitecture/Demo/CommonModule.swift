@@ -31,7 +31,7 @@ extension CommonModule: ModuleInitiatorProtocol {
     }
     
     static var operation: MIOSwiftyArchitecture.Initiator.Operation = {
-        navigation = .init(inAppLinkScheme: "sa-interal", universalLinkScheme: "sa", host: "com.mioke.swifty-architecture-demo")
+        navigation = .init(inAppLinkScheme: "sa-interal", externalLinkScheme: "sa", host: "com.mioke.swifty-architecture-demo")
         if let url = Bundle.main.url(forResource: "AppLinkRegistery", withExtension: ".plist") {
             try! navigation?.setRegisteryFile(at: url)
         }

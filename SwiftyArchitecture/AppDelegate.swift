@@ -17,7 +17,6 @@ import RxSwift
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
-    var window: UIWindow?
     let bag: DisposeBag = .init()
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
@@ -28,12 +27,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         #endif
         
         print(#function)
-        
-        let root = InternalTestVC()
-        let nav = UINavigationController(rootViewController: root)
-        
-        self.window?.rootViewController = nav
-        self.window?.makeKeyAndVisible()
         
         // App Context
         if let standardContext = AppContext.current as? StandardAppContext {

@@ -143,13 +143,7 @@ final public class Initiator {
 
 extension Module {
     func initiator() -> ModuleInitiatorProtocol.Type? {
-        var clazz: AnyClass? = Bundle.main.classNamed(className)
-        if clazz == nil {
-            clazz = NSClassFromString(className)
-        }
-        
-        return clazz as? ModuleInitiatorProtocol.Type
-//        return (Bundle.main.classNamed(className) ?? NSClassFromString(className)) as? ModuleInitiatorProtocol.Type
+        return (Bundle.main.classNamed(className) ?? NSClassFromString(className)) as? ModuleInitiatorProtocol.Type
     }
 }
 
@@ -184,10 +178,11 @@ class TaskGraphBuilder {
         return .init(nodes: .init(nodes.values))
     }
     
-    static func add(task: Initiator.Task,
-                    visited: inout Set<Initiator.Task>,
-                    existing: inout [String: DirectedGraphNode<Initiator.Task>],
-                    tasks: [Initiator.Task])
+    static func add(
+        task: Initiator.Task,
+        visited: inout Set<Initiator.Task>,
+        existing: inout [String: DirectedGraphNode<Initiator.Task>],
+        tasks: [Initiator.Task])
     -> DirectedGraphNode<Initiator.Task> {
         
         let newNode = DirectedGraphNode<Initiator.Task>.init(value: task)

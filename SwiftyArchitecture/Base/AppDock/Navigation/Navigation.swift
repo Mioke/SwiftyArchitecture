@@ -52,8 +52,8 @@ public class Navigation {
     }
     let processQueue: DispatchQueue = .init(label: Consts.domainPrefix + "-navigation")
     
-    public init(inAppLinkScheme: String, universalLinkScheme: String, host: String, enablePageGroup: Bool = true) {
-        parser = LinkParser(universalLinkScheme: universalLinkScheme, inAppLinkScheme: inAppLinkScheme, host: host)
+    public init(inAppLinkScheme: String, externalLinkScheme: String, host: String, enablePageGroup: Bool = true) {
+        parser = LinkParser(externalLinkScheme: externalLinkScheme, inAppLinkScheme: inAppLinkScheme, host: host)
         self.enablePageGroup = enablePageGroup
     }
     

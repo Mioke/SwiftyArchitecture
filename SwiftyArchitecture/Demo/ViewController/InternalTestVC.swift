@@ -113,7 +113,7 @@ class InternalTestVC: ViewController {
         }
         .disposed(by: cancel)
         
-        let user = AuthProtocol.User.init(id: "123123")
+        let user = AuthProtocol.TestUser.init(id: "123123", age: 1, token: "123")
         let clazzName = String(describing: type(of: user))
         let objcClazzName = NSStringFromClass(type(of: user))
         print(":", clazzName, objcClazzName, String(reflecting: user), String(reflecting: type(of: user)))

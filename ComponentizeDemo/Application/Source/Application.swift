@@ -4,7 +4,15 @@ import ApplicationProtocol
 import AuthProtocol
 import RxSwift
 
-class ApplicationModule: ModuleProtocol, ApplicationProtocol {
+class ApplicationModule: SessionModuleProtocol, ApplicationProtocol {
+    
+    static func sessionDidAuthenticate(with userID: String) {
+        KitLogger.info()
+    }
+    
+    static func sessionDidDeauthenticate(with userID: String) {
+        KitLogger.info()
+    }
     
     static var moduleIdentifier: ModuleIdentifier {
         return .application

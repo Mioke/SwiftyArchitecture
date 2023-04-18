@@ -23,9 +23,14 @@ public class Store: NSObject {
     
 //    let accessQueue: DispatchQueue = DispatchQueue(label: Consts.domainPrefix + ".store.access", qos: .default)
     
-    public var cache: RealmDataBase
-    public var memory: RealmDataBase
-    public var persistance: RealmDataBase
+    /// A database stored in `<root>/Library/Cache`, for data which want to keep for a while and unnecessary, may get deleted by system when disk free capicity is running low.
+    public internal(set) var cache: RealmDataBase
+    
+    /// A database only in memory, reset after application process been killed.
+    public internal(set) var memory: RealmDataBase
+    
+    /// A database stored in `<root>/Document`, for data which want to keep it until developer deleted it.
+    public internal(set) var persistance: RealmDataBase
     
     public init(appContext: AppContext) throws {
         

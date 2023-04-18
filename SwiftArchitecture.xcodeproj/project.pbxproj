@@ -128,6 +128,8 @@
 		ABE54E142939AEEC00DAD8C2 /* CodeBlockEditorViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CodeBlockEditorViewController.xib; sourceTree = "<group>"; };
 		ABE54E172939AF6000DAD8C2 /* SATextView.swift */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = SATextView.swift; sourceTree = "<group>"; tabWidth = 2; };
 		ABE54E19293D942700DAD8C2 /* SALayoutManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SALayoutManager.swift; sourceTree = "<group>"; };
+		ABE9EB3629EE30D500FEEC18 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = SOURCE_ROOT; };
+		ABE9EB3729EE420600FEEC18 /* README-AppDocker.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = "README-AppDocker.md"; sourceTree = SOURCE_ROOT; };
 		ABF6CA9C243DB3C400D0849B /* TestFailureAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestFailureAPI.swift; sourceTree = "<group>"; };
 		AF158A531E14B63900FB0BAF /* TestAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestAPI.swift; sourceTree = "<group>"; };
 		AF158A551E1BB26700FB0BAF /* NotificationService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
@@ -217,6 +219,8 @@
 		A752DE441C03F287008E3118 /* Resource */ = {
 			isa = PBXGroup;
 			children = (
+				ABE9EB3629EE30D500FEEC18 /* README.md */,
+				ABE9EB3729EE420600FEEC18 /* README-AppDocker.md */,
 				AB35E63C243F35CA00EC361A /* pod_publish.sh */,
 				A753A0A11C06FE3A00C9FBFE /* swiftArchitecture-Bridging-Header.h */,
 			);

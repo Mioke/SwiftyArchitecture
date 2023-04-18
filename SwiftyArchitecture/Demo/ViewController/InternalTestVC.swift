@@ -127,8 +127,6 @@ class InternalTestVC: ViewController {
 //        DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(1), execute: {
 //            sleep(1)
 //        })
-        
-        
     }
 
     override func didReceiveMemoryWarning() {

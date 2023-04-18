@@ -163,7 +163,7 @@ final class UserAPI: NSObject, ApiInfoProtocol {
 extension User: DataCenterManaged {
     
     static func serialize(data: UserAPI.Reply) throws -> [RealmSwift.Object] {
-        var result: [Object] = data.users.map { item in
+        let result: [Object] = data.users.map { item in
             let user = User()
             user.name = item.name
             user.userId = item.userId

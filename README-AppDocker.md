@@ -44,9 +44,9 @@ After creation is complete, the new AppContext will automatically stored in a st
 
 #### Restore an old AppContext
 
-The restoration is automatically done after `setup(authDelegate:)` function called, which there is an old `AppContext` stored before.
+The restoration is automatically performed after the `setup(authDelegate:)` function called, but only if there is an old AppContext stored before.
 
-After the restoration is complete, the old AppContext will be created and authentication state will keep `.presession` until refresh authentication is done. Refreshing procedure will be delegated to the `authDelegate` you set up.
+Once the restoration process is complete, the old AppContext will be created and the authentication state will remain as `.presession` until the authentication is refreshed. The refreshing procedure will be delegated to the `authDelegate` that you have set up.
 
 For example:
 
@@ -82,7 +82,7 @@ After successfully refreshing, the `authState` will be set to `.authenticated`.
 
 Each `AppContext` has a `Store` inside, which provide storage features. Currently this function is built on `Realm` database which has `live object` and `thread-safe` features.
 
-The `Store` provides three databases refer to different policies. 
+The `Store` provides three databases that are governed by different policies. 
 
 ```swift
 public class Store {
@@ -97,4 +97,4 @@ public class Store {
 }
 ```
 
-Developers can create `Object`s and store them anywhere they like, and only thing you should care about is the version of `Object`s. When a `Object` has changed, you should update the `StoreVersions`. For the flexibility design, the `StoreVersion` has two seperated schema version for `cache` and `persistance`, but in fact many developers may use both of them to store their `Object`. So for better and more convenient usage, you can wrap it with a new class with unique version.
+When any `Object` has changed, it is important to update the `StoreVersions`. For a more flexible design, the `StoreVersion` has separate schema versions for `.cache` and `.persistence`. However, many developers may use both to store their `Object`s. To improve usage convenience and flexibility, it is recommended to wrap the `StoreVersions` in a new class with a unique version.

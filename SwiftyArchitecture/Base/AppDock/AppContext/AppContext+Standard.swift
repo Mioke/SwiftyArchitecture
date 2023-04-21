@@ -88,16 +88,16 @@ final public class StandardAppContext: AppContext {
     func loadUserMeta() -> ObservableSignal {
         return self.store.object(with: StandardAppContext.userMetaKey, type: _UserMeta.self)
             .do(onNext: { [weak self] meta in
-                guard let self = self, meta == nil else { return }
+                guard let self, meta == nil else { return }
                 KitLogger.info("No previous user meta, creating one and going to save it.")
-                self.createOrUpdateUserMata(with: self.userId).subscribe().disposed(by: self.disposables)
+                createOrUpdateUserMata(with: self.userId).subscribe().disposed(by: self.disposables)
             })
             .compactMap({ meta -> String? in
                 return meta?.currentUserId == DefaultUser._id ? nil : meta?.currentUserId
             })
             .flatMapLatest({ [weak self] userId -> Observable<UserProtocol?> in
-                guard let self = self else { return .deallocatedError }
-                return self.loadArchivedUser(with: userId)
+                guard let self else { return .deallocatedError }
+                return loadArchivedUser(with: userId)
             })
             .flatMapLatest { user -> ObservableSignal in
                 if let user = user {
@@ -119,8 +119,8 @@ final public class StandardAppContext: AppContext {
             return Disposables.create()
         }
         .flatMapLatest { [weak self] meta -> ObservableSignal in
-            guard let self = self else { return .error(todo_error()) }
-            return self.store.upsert(object: meta)
+            guard let self else { return .error(todo_error()) }
+            return store.upsert(object: meta)
         }
         .do { _ in
             KitLogger.info("Update meta with user id - \(userId)")

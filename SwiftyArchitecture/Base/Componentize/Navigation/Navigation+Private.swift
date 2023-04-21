@@ -99,12 +99,12 @@ extension Navigation {
         processQueue.async { [weak self] in
             // 2. should navigate -> bool
             handler.shouldNavigate(to: navigationURL) { [weak self] result in
-                guard let self = self else { return }
+                guard let self else { return }
                 switch result {
                 case .pass:
                     // 3. will navigate
                     handler.willNavigate(to: navigationURL)
-                    let error = self.navigate(to: navigationURL, in: module, configuration: configuration)
+                    let error = navigate(to: navigationURL, in: module, configuration: configuration)
                     // 6. did navigate
                     if error == nil { handler.didNavigate(to: navigationURL) }
                     completion(error)

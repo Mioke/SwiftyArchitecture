@@ -28,11 +28,7 @@ class ThemeTestViewController: ViewController {
         selection.selectedSegmentIndex = dynamic.currentSetting.rawValue
     }
 
-    var dataSource: [String] = {
-        (0...100).map { value in
-            "Messages \(value)"
-        }
-    }()
+    var dataSource: [String] = (0...100).map { "Messages \($0)" }
     /*
     // MARK: - Navigation
 

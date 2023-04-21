@@ -79,10 +79,10 @@ final public class Initiator {
         
         zipTasks(ts: taskMap?[.high], scheduler: MainScheduler.instance, id: "High")
             .flatMapLatest { [weak self] _ -> ObservableSignal in
-                guard let self = self else { return .never() }
-                return self.zipTasks(ts: self.taskMap?[.asyncHigh],
-                                     scheduler: ConcurrentDispatchQueueScheduler(queue: self.asyncHighPriorityQueue),
-                                     id: "Async hight")
+                guard let self else { return .never() }
+                return zipTasks(ts: taskMap?[.asyncHigh],
+                                scheduler: ConcurrentDispatchQueueScheduler(queue: asyncHighPriorityQueue),
+                                id: "Async hight")
             }
             .subscribe { [weak self] _ in
                 self?.highTasksFinished.onNext(true)
@@ -132,10 +132,10 @@ final public class Initiator {
                           schedule: ConcurrentDispatchQueueScheduler(queue: asyncHighPriorityQueue),
                           id: "After first page present")
         .flatMapLatest({ [weak self] _ -> ObservableSignal in
-            guard let self = self, let low = self.taskMap?[.low] else { return .signal }
-            return self.createList(
+            guard let self, let low = self.taskMap?[.low] else { return .signal }
+            return createList(
                 with: low,
-                schedule: ConcurrentDispatchQueueScheduler(queue: self.lowPriorityQueue),
+                schedule: ConcurrentDispatchQueueScheduler(queue: lowPriorityQueue),
                 id: "Low")
         })
     }

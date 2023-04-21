@@ -46,39 +46,40 @@ open class ProducerQueue<Value> {
     }
     
     private func check(_ wrapper: ProducerWrapper? = nil) {
-        self.queue.async { [weak self] in
-            guard let self = self else { return }
+        queue.async { [weak self] in
+            guard let self else { return }
             if let wrapper = wrapper {
-                self.producers.append(wrapper)
+                producers.append(wrapper)
             }
             
-            guard !self.isProcessing.value, let next = self.producers.first else { return }
+            guard !isProcessing.value, let next = producers.first else { return }
             
             let id = next.id
-            self.isProcessing.swap(true)
-            self.producers.removeFirst()
+            isProcessing.swap(true)
+            producers.removeFirst()
             
             next.producer
             // This place shouldn't change the queue, because producer may have it's own queue and we shouldn't change
             // the expectation of users.
-                .subscribe({ event in
+                .subscribe({ [weak self] event in
+                    guard let self else { return }
                     var result: ResultWrapper? = nil
                     switch event {
                     case .next(let value):
                         result = ResultWrapper(id: id, result: .success(value))
                     case .error(let error):
                         result = ResultWrapper(id: id, result: .failure(error))
-                        self.isProcessing.swap(false)
-                        self.check()
+                        isProcessing.swap(false)
+                        check()
                     case .completed:
-                        self.isProcessing.swap(false)
-                        self.check()
+                        isProcessing.swap(false)
+                        check()
                     }
                     if let result = result {
-                        self.subject.onNext(result)
+                        subject.onNext(result)
                     }
                 })
-                .disposed(by: self.cancel)
+                .disposed(by: cancel)
         }
     }
     

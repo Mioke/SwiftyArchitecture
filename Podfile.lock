@@ -147,7 +147,7 @@ SPEC CHECKSUMS:
   Differentiator: e8497ceab83c1b10ca233716d547b9af21b9344d
   FLEX: f21ee4f498eed3f8a1eded66b21939fd3b7a22ce
   FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
-  MIOSwiftyArchitecture: 4b194a8f2d81ac67c2bd6c86bce7ac03aaebb8a0
+  MIOSwiftyArchitecture: d977245d0980cef57627f0905c3a63bc678d7762
   ObjectMapper: 1eb41f610210777375fa806bf161dc39fb832b81
   Realm: fac5ecd031fcb81171627b74944c885662d4b266
   RealmSwift: 9b02d25acb46a14756bde9893abb99e2e3675923

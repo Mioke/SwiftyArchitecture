@@ -12,11 +12,11 @@ import RxSwift
 public extension API {
     func rxSendRequest(with params: T.RequestParam?) -> Observable<T.ResultType> {
         return Observable.create { [weak self] observer in
-            guard let self = self else {
+            guard let self else {
                 observer.onCompleted()
                 return Disposables.create()
             }
-            self.sendRequest(with: params).response({ (api, data, error) in
+            sendRequest(with: params).response({ (api, data, error) in
                 if let error = error {
                     observer.onError(error)
                 }
@@ -25,7 +25,7 @@ public extension API {
                     observer.onCompleted()
                 }
             })
-            return Disposables.create(with: self.cancel)
+            return Disposables.create(with: cancel)
         }
     }
 }

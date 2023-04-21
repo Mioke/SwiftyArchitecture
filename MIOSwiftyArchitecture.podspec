@@ -19,7 +19,7 @@ Pod::Spec.new do |s|
   s.source           = { :git => 'https://github.com/Mioke/SwiftArchitectureWithPOP.git', :tag => s.version.to_s }
   
   s.ios.deployment_target = '13.0'
-  s.swift_versions = '5.0'
+  s.swift_versions = '5'
   
   #  s.frameworks = 'UIKit', 'Foundation'
   # s.libraries = 'c++', 'sqlite3'

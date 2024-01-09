@@ -79,14 +79,14 @@ public final class RwLock {
         return status == 0
     }
     
-    public func write<T>(_ closure: () -> T) -> T {
+    public func write<T>(_ closure: () throws -> T) rethrows -> T {
         let rst = writeLock(); defer { if rst { unlock() } }
-        return closure()
+        return try closure()
     }
     
-    public func read<T>(_ closure: () -> T) -> T {
+    public func read<T>(_ closure: () throws -> T) rethrows -> T {
         let rst = readLock(); defer { if rst { unlock() } }
-        return closure()
+        return try closure()
     }
     
     deinit {
@@ -109,10 +109,10 @@ public final class RwLock {
       self.array += [1]
   }
  ```
- The result could be randomly different. So this wrapper only keep the value type property from crash when access and
- modified from multiple threads.
+ The result could be randomly different. So use `read(_:)` or `write(_:)` functions to ensure all the logic is protected.
  */
 @propertyWrapper
+@dynamicMemberLookup
 final public class ThreadSafe<T> {
     private var value: T
     private let _lock: RwLock = .init()
@@ -128,6 +128,26 @@ final public class ThreadSafe<T> {
     
     public init(wrappedValue: T) {
         self.value = wrappedValue
+    }
+    
+    subscript<Property>(dynamicMember keyPath: WritableKeyPath<T, Property>) -> Property {
+        get { _lock.read { value[keyPath: keyPath] } }
+        set { _lock.write { value[keyPath: keyPath] = newValue } }
+    }
+    
+    subscript<Property>(dynamicMember keyPath: KeyPath<T, Property>) -> Property {
+        _lock.read { value[keyPath: keyPath] }
+    }
+    
+    /// Synchronously read or transform the contained value.
+    func read<U>(_ closure: (T) throws -> U) rethrows -> U {
+        try _lock.read { try closure(self.value) }
+    }
+    
+    /// Synchronously modify the protected value.
+    @discardableResult
+    func write<U>(_ closure: (inout T) throws -> U) rethrows -> U {
+        try _lock.write { try closure(&self.value) }
     }
 }
 

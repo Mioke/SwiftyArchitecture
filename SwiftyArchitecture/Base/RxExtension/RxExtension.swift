@@ -72,7 +72,7 @@ public extension AnyObserver where Element == Void {
     }
 }
 
-public extension Reactive {
+public extension Reactive where Base: AnyObject {
     
     var lifetime: DisposeBag {
         guard let disposeBag = objc_getAssociatedObject(self.base, #function) as? DisposeBag else {
@@ -81,5 +81,41 @@ public extension Reactive {
             return disposeBag
         }
         return disposeBag
+    }
+}
+
+#if canImport(_Concurrency)
+
+@available(iOS 13, *)
+public extension UnsubscribeToken {
+    
+    /// Extern lifetime corresponding to an object.
+    /// - Parameter object: An object.
+    func bindLifetime<T: NSObject>(to object: T) {
+        object.rx
+            .deallocating
+            .subscribe(onNext: { [weak self] _ in
+                self?.unsubscribe()
+            })
+            .disposed(by: object.rx.lifetime)
+    }
+}
+
+#endif
+
+public extension Observable {
+    
+    /// Create a `Observable` using a throwing subscribe function.
+    static func throwingCreate(
+        _ subscribe: @escaping (AnyObserver<Element>) throws -> Disposable
+    ) -> Observable<Element> {
+        return create { observer in
+            do {
+                return try subscribe(observer)
+            } catch {
+                observer.onError(error)
+                return Disposables.create()
+            }
+        }
     }
 }

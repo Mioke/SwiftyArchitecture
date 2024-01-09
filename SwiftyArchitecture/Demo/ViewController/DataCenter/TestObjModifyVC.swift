@@ -31,7 +31,7 @@ class TestObjModifyVC: UIViewController {
     }
     
     func bindData() -> Void {
-        let obj = AppContext.current.store.object(with: objectKey, type: TestObj.self).compactMap { $0 }
+        let obj = AppContext.current.cache.object(with: objectKey, type: TestObj.self).compactMap { $0 }
         
         obj.map { $0.key }
             .bind(to: self.keyLabel.rx.text)
@@ -61,15 +61,19 @@ class TestObjModifyVC: UIViewController {
         
         Observable
             .combineLatest(obj, editingEnd)
-            .subscribe(onNext: { [weak self] (testObj, text) in
+            .flatMapLatest { [weak self] (testObj, text) -> ObservableSignal in
                 if let text = text, let value = Int(text) {
-                    try? AppContext.current.store.cache.realm.safeWrite { rlm in
-                        testObj.value = value
-                    }
+                    return AppContext.current.store
+                        .context(.cache)
+                        .update { _ in
+                            testObj.value = value
+                        }
                 } else {
                     self?.valueTextField.text = "\(testObj.value)"
+                    return .signal
                 }
-            })
+            }
+            .subscribe()
             .disposed(by: self.disposeBag)
         
     }

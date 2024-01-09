@@ -12,18 +12,17 @@ target "SAD" do
   pod 'RxDataSources'
   
   # persistence
-  pod 'RxRealm'
-  pod 'RealmSwift'
   
-  # or sqlite
-  pod 'FMDB'
+  # RxRealm not up-to-date, so we have to modify it ourselves.
+  pod 'RxRealm', :git => 'https://github.com/Mioke/RxRealm.git', :branch => 'main'
+  pod 'RealmSwift'
   
   pod 'MIOSwiftyArchitecture', :path => './', :testspecs => ['Tests']
   pod 'MIOSwiftyArchitecture/Testable', :path => './'
   
   
 
-  # componentize
+  # componentization
   pod 'Application', :path => './ComponentizeDemo/Application'
   pod 'ApplicationProtocol', :path => './ComponentizeDemo/Application'
   

@@ -141,19 +141,21 @@ extension InfiniteTableViewController {
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         defer { lastLoadedIndexPath = indexPath }
-        // filter with the direction
-        guard let last = lastLoadedIndexPath, last.row > indexPath.row else { return }
         
-        let firstRow = indexPath.row
+        let rowOfGoingToShow = indexPath.row
         let all = data.count
         
-        let number = (all - 1) - firstRow
+        // The row number of data, reverse order.
+        let row = (all - 1) - rowOfGoingToShow
         
-        currentPage = number / pageSize
+        currentPage = row / pageSize
+        
+        // filter with the direction - scrolling upward
+        guard let last = lastLoadedIndexPath, last.row > indexPath.row else { return }
         
         guard !isUpdating, currentPage == pageCount - 1 else { return }
         
-        let numberInCurrentPage = number % pageSize
+        let numberInCurrentPage = row % pageSize
         
         if numberInCurrentPage * 2 > pageSize {
             loadNextPage()
@@ -164,22 +166,21 @@ extension InfiniteTableViewController {
         isUpdating = true
         pageCount += 1
         
-        DispatchQueue.global().async {
-            let new = self.gen(count: self.pageSize)
-            DispatchQueue.main.async {
-                self.data.append(contentsOf: new)
+        DispatchQueue.global().async { [self] in
+            let new = gen(count: pageSize)
+            DispatchQueue.main.async { [self] in
+                data.append(contentsOf: new)
                 
-                UIView.setAnimationsEnabled(false)
-                self.tableView.insertRows(at: Self.indexPaths, with: .top)
-                UIView.setAnimationsEnabled(true)
+//                UIView.setAnimationsEnabled(false)
+                tableView.performBatchUpdates {
+                    tableView.insertRows(at: Self.indexPaths, with: .none)
+//                    UIView.setAnimationsEnabled(true)
+                } completion: { finished in
+                    self.isUpdating = false
+                }
                 
-                self.isUpdating = false
             }
         }
-        
-//        tableView.performBatchUpdates {
-//        } completion: { finished in
-//        }
     }
 }
 

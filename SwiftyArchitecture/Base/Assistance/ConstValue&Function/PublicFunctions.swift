@@ -27,12 +27,12 @@ public func guardOnMainQueue(sync: Bool = false, _ block: @escaping () -> ()) ->
     }
 }
 
-public protocol DataConversion {
+public protocol DataConvertible {
     func data() throws -> Data
     static func object(from data: Data) throws -> Self
 }
 
-public extension DataConversion where Self: Codable {
+public extension DataConvertible where Self: Codable {
     func data() throws -> Data {
         return try JSONEncoder().encode(self)
     }

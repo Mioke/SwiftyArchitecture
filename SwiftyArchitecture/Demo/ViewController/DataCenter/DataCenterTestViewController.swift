@@ -104,7 +104,7 @@ class DataCenterTestViewController: UIViewController {
         tableView.register(DataCenterTestCell.self,
                            forCellReuseIdentifier: DataCenterTestCell.reusedIdentifier)
         
-        DataAccessObject<TestObj>.all
+        Accessor<TestObj>.context(.cache).all
             .map { $0.sorted(by: <) }
             .map { [AnimatableSectionModel(model: "", items: $0)] }
             .bind(to: tableView.rx.items(dataSource: datasource))

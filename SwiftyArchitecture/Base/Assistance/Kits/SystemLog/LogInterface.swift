@@ -9,7 +9,7 @@ import Foundation
 import os
 
 public enum LogLevel {
-    case debug, info, verbose, error
+    case error, info, verbose, debug
 }
 
 public class KitLogger {

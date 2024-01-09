@@ -60,7 +60,9 @@ extension UserService: AuthControllerDelegate {
     }
     
     func refreshAuthentication(with user: UserProtocol) -> Observable<UserProtocol> {
-        return .just(TestUser(id: "test_user", age: 12, token: UserService.shared.genRandomToken()))
+        guard let user = user as? TestUser else { return .error(KitErrors.unknown) }
+        
+        return .just(TestUser(id: user.id, age: user.age + 1, token: UserService.shared.genRandomToken()))
             .delay(.seconds(3), scheduler: SerialDispatchQueueScheduler.init(qos: .default))
     }
     

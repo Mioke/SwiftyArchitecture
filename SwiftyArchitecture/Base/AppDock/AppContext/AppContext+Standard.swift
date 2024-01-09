@@ -47,7 +47,7 @@ final public class StandardAppContext: AppContext {
         AppContext.authController.delegate = authDelegate
         
         // load user meta, synchronously
-        loadUserMeta().then(self.refreshAuthenticationIfNeeded)
+        loadUserMeta().then(refreshAuthenticationIfNeeded)
             .subscribe()
             .disposed(by: disposables)
         KitLogger.info("Standard app context setup completed.")
@@ -86,22 +86,28 @@ final public class StandardAppContext: AppContext {
     static let userMetaKey: Int = 1
     
     func loadUserMeta() -> ObservableSignal {
-        return self.store.object(with: StandardAppContext.userMetaKey, type: _UserMeta.self)
+        return persist.object(with: StandardAppContext.userMetaKey, type: _UserMeta.self)
+            // No need to listen to the changes.
+            .take(1)
             .do(onNext: { [weak self] meta in
+                // Create a meta data of the new user context. During the first launch it would
+                // create a default user's meta, then when a new user account has logged in, it
+                // will call 
                 guard let self, meta == nil else { return }
                 KitLogger.info("No previous user meta, creating one and going to save it.")
                 createOrUpdateUserMata(with: self.userId).subscribe().disposed(by: self.disposables)
             })
-            .compactMap({ meta -> String? in
+            .compactMap { meta -> String? in
+                // filter default user, only try to load the normal user account.
                 return meta?.currentUserId == DefaultUser._id ? nil : meta?.currentUserId
-            })
-            .flatMapLatest({ [weak self] userId -> Observable<UserProtocol?> in
+            }
+            .flatMapLatest { [weak self] userId -> Observable<UserProtocol?> in
                 guard let self else { return .deallocatedError }
                 return loadArchivedUser(with: userId)
-            })
+            }
             .flatMapLatest { user -> ObservableSignal in
                 if let user = user {
-                    KitLogger.info("Loaded previous user meta, going to create a new app context with the user.")
+                    KitLogger.info("Loaded previous user(\(user.id)) meta, going to create a new app context with the user.")
                     let newAppContext = AppContext(user: user, storeVersions: AppContext.Consts.storeVersions)
                     newAppContext.authState.onNext(.presession)
                     AppContext.current = newAppContext
@@ -119,11 +125,11 @@ final public class StandardAppContext: AppContext {
             return Disposables.create()
         }
         .flatMapLatest { [weak self] meta -> ObservableSignal in
-            guard let self else { return .error(todo_error()) }
-            return store.upsert(object: meta)
+            guard let self else { throw KitErrors.deallocated }
+            return persist.upsert(object: meta)
         }
         .do { _ in
-            KitLogger.info("Update meta with user id - \(userId)")
+            KitLogger.info("Updated meta with user id - \(userId)")
         }
     }
     
@@ -140,8 +146,9 @@ public protocol StandardAppContextStoreProtocol: AnyObject {
 
 extension StandardAppContext {
     
-    func loadArchivedUser(with userId: String) -> Observable<UserProtocol?> {
-        return self.store.object(with: userId, type: _UserData.self)
+    private func loadArchivedUser(with userId: String) -> Observable<UserProtocol?> {
+        return persist.object(with: userId, type: _UserData.self)
+            .take(1)
             .flatMapLatest { data -> Observable<UserProtocol?> in
                 guard let data = data else { return .just(nil) }
                 guard let wrapper = try? JSONDecoder().decode(_User.Wrapper.self, from: data.codableData) else {
@@ -199,7 +206,7 @@ extension StandardAppContext {
         user.codableData = data
         user.userId = appContext.userId
         user.version = type(of: appContext.user).modelVersion
-        return self.store.upsert(object: user).subscribe(observer)
+        return persist.upsert(object: user).subscribe(observer)
     }
     
     func updateArchived(userData: _UserData, with user: UserProtocol) -> ObservableSignal {

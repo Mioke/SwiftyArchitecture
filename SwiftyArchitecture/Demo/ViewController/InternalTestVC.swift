@@ -27,6 +27,8 @@ class InternalTestVC: ViewController {
     lazy var schedule2 = SerialDispatchQueueScheduler(queue: self.queue2, internalSerialQueueName: "schedule.queue2")
     
     let cancel: DisposeBag = .init()
+    
+    var continuations: [CheckedContinuation<Int, Never>] = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -46,9 +48,9 @@ class InternalTestVC: ViewController {
         
         // Do any additional setup after loading the view.
         self.tests = [
-            "Record user model", "Read users", "API test", "Call Log", "Data center test", "Theme",
+            "None1", "None2", "API test", "Call Log", "Data center test", "Theme",
             "Push local notification", "Auth Tests", "Smooth Scrolling TableView Test", "Code Block Editor",
-            "Show FLEX"
+            "Show FLEX", "Concurrency Tests", "Combine Tests",
         ]
         
         self.tableView = {
@@ -127,6 +129,43 @@ class InternalTestVC: ViewController {
 //        DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(1), execute: {
 //            sleep(1)
 //        })
+        
+        print("1. start")
+        
+        Observable<Int>.create { observer in
+            print("2. Subscriptoin logic")
+            observer.onNext(1)
+            observer.onCompleted()
+            return Disposables.create()
+        }
+        .flatMapLatest { value -> Observable in
+            print("3. flatmap")
+            return .just(value * 2)
+        }
+        .subscribe { value in
+            print("4. observe")
+        }
+        .disposed(by: rx.lifetime)
+        
+        print("5. end")
+        
+        print("========================")
+        
+        print("1. start")
+        let subject = PublishSubject<Int>()
+        subject.flatMapLatest { value -> Observable in
+            print("3. flatmap")
+            return .just(value)
+        }
+        .subscribe { _ in
+            print("4. observe")
+        }
+        .disposed(by: rx.lifetime)
+        print("2. send")
+        subject.onNext(1)
+        print("5. end")
+        
+        
     }
 
     override func didReceiveMemoryWarning() {
@@ -187,21 +226,22 @@ extension InternalTestVC: UITableViewDelegate, UITableViewDataSource {
         
         switch indexPath.row {
         case 0:
-            let table = UserTable()
-            let newUser = UserModel(name: "Klein", uid: 310)
-            
-            let _ = table.replace(newUser)
-            
+//            let table = UserTable()
+//            let newUser = UserModel(name: "Klein", uid: 310)
+//            
+//            let _ = table.replace(newUser)
+            break
         case 1:
-            let table = UserTable()
-            let condition = DatabaseCommandCondition()
-            
-            condition.whereConditions = "user_id >= 0"
-            condition.orderBy = "user_name"
-            
-            let result = table.queryRecord(with: nil, condition: condition)
-            
-            print(result)
+//            let table = UserTable()
+//            let condition = DatabaseCommandCondition()
+//            
+//            condition.whereConditions = "user_id >= 0"
+//            condition.orderBy = "user_name"
+//            
+//            let result = table.queryRecord(with: nil, condition: condition)
+//            
+//            print(result)
+            break
         case 2:
             let api = API<TestAPI>()
             // you can't get any data from here because baidu.com 
@@ -286,13 +326,17 @@ extension InternalTestVC: UITableViewDelegate, UITableViewDataSource {
         case 8:
             let url = "sa-interal://com.mioke.swifty-architecture-demo/home/messages"
             var config = Navigation.Configuration.default
-            config.presentationMode = .present(style: .popover)
+            config.presentationMode = .push
             try! navigation!.navigate(to: url, configuration: config)
         case 9:
             let vc = CodeBlockEditorViewController(nibName: nil, bundle: nil)
             self.navigationController?.pushViewController(vc, animated: true)
         case 10:
             FLEXManager.shared.showExplorer()
+        case 11:
+            navigationController?.pushViewController(ConcurrencyTestViewController(), animated: true)
+        case 12:
+            navigationController?.pushViewController(CombineTestsViewController(), animated: true)
         default:
             break
         }

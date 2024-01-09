@@ -9,6 +9,10 @@
 import UIKit
 import SwiftUI
 
+#if swift(<5.5.2)
+#error("SwiftyArchitecture only support Swift version >= 5.5.2 for concurrency support purpose.")
+#endif
+
 public struct Consts {
     public static let domainPrefix = "com.mioke.swiftyarchitecture"
     
@@ -67,7 +71,7 @@ extension KitErrors {
 public extension KitErrors {
     
     private static var deallocatedInfo: Info {
-        .init(code: .todo, message: "The instance has already been deallocated.")
+        .init(code: .deallocated, message: "The instance has already been deallocated.")
     }
     static let deallocated: NSError = error(domain: Consts.defaultDomain, info: KitErrors.deallocatedInfo)
     

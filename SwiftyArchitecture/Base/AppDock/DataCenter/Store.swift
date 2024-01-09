@@ -11,6 +11,26 @@ import RxRealm
 import RxSwift
 import RealmSwift
 
+/// Rx type API for the Realm database. By default, all the operation is not running on the main thread, if you want to
+/// use the objects on the main thread, `freeze()` the objects and call `observe(on:)` to switch to the main thread, and
+/// then `thaw()` the objects.
+public protocol ObservableDataBase {
+    
+    func object<KeyType, Element: Object>(with key: KeyType, type: Element.Type) -> Observable<Element?>
+    
+    func objects<Element: Object>(with type: Element.Type) -> Observable<Results<Element>>
+    
+    func objects<Element: Object>(with type: Element.Type, predicate: NSPredicate) -> Observable<Results<Element>>
+    
+    func objects<Element: Object>(
+        with type: Element.Type,
+        where query: @escaping (Query<Element>) -> Query<Bool>) -> Observable<Results<Element>>
+    
+    func upsert<Element: Object>(object: Element) -> ObservableSignal
+    
+    func update(with block: @escaping (Realm) -> Void) -> ObservableSignal
+}
+
 /**
  Note: We are not using a abstract layer for data APIs, because now we are strongly depend on
  Realm database, so if there need to switch to other database one day, then consider to
@@ -23,18 +43,24 @@ public class Store: NSObject {
     
 //    let accessQueue: DispatchQueue = DispatchQueue(label: Consts.domainPrefix + ".store.access", qos: .default)
     
-    /// A database stored in `<root>/Library/Cache`, for data which want to keep for a while and unnecessary, may get deleted by system when disk free capicity is running low.
-    public internal(set) var cache: RealmDataBase
+    /// A database stored in `<root>/Library/Cache`, for data which want to keep for a while and unnecessary, may get 
+    /// deleted by system when disk free capicity is running low.
+    internal var cache: RealmDataBase
     
     /// A database only in memory, reset after application process been killed.
-    public internal(set) var memory: RealmDataBase
+    internal var memory: RealmDataBase
     
     /// A database stored in `<root>/Document`, for data which want to keep it until developer deleted it.
-    public internal(set) var persistance: RealmDataBase
+    internal var persistance: RealmDataBase
+    
+    public enum ContextType {
+        case persistance, cache, memory
+    }
     
     public init(appContext: AppContext) throws {
         
-        var baseURL = try FileManager.default.url(for: .cachesDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
+        var baseURL = try FileManager.default.url(for: .cachesDirectory, in: .userDomainMask,
+                                                  appropriateFor: nil, create: true)
             .appendingPathComponent(Consts.domainPrefix + "/Store")
         try FileManager.default.createDiractoryIfNeeded(at: baseURL)
         
@@ -47,7 +73,8 @@ public class Store: NSObject {
             }
         })
         
-        baseURL = try FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
+        baseURL = try FileManager.default.url(for: .documentDirectory, in: .userDomainMask,
+                                              appropriateFor: nil, create: true)
             .appendingPathComponent(Consts.domainPrefix + "/Store")
         try FileManager.default.createDiractoryIfNeeded(at: baseURL)
         
@@ -64,47 +91,100 @@ public class Store: NSObject {
         super.init()
     }
     
-    deinit {
-        self.cache.realm.invalidate()
-        self.memory.realm.invalidate()
-        self.persistance.realm.invalidate()
+    public func context(_ type: ContextType) -> ObservableDataBase {
+        switch type {
+        case .persistance:
+            return persistance
+        case .cache:
+            return cache
+        case .memory:
+            return memory
+        }
     }
+    
+    deinit {
+        self.cache.invalidate()
+        self.memory.invalidate()
+        self.persistance.invalidate()
+    }
+
+}
+
+/// - Important: Because of the Realm database is controlled by MVCC and only can use the Realm instance in the same
+/// thread, so the Observable asynchronouse API won't apply any `Scheduler` to the subscribtion or observation logic.
+/// You can apply the logics to any `Scheduler` you want, and if you do nothing it will use `CurrentThreadScheduler`.
+/// Notice that if you going to switch the results to a new `Scheduler` you should `freeze()` the `Object` before the
+/// switching.
+extension RealmDataBase : ObservableDataBase {
     
     // MARK: - QUERY
     public func object<KeyType, Element: Object>(with key: KeyType, type: Element.Type) -> Observable<Element?> {
-        return Observable<Element?>.create { observer in
-            observer.onNext(self.cache.realm.object(ofType: type, forPrimaryKey: key))
+        return Observable<Element?>.throwingCreate { [weak self] observer in
+            guard let self else { throw KitErrors.deallocated }
+            observer.onNext(try realm.object(ofType: type, forPrimaryKey: key))
             observer.onCompleted()
             return Disposables.create()
+        }
+        .flatMapLatest { element -> Observable<Element?>in
+            guard let ele = element else { return .just(nil) }
+            return Observable<Element>.from(object: ele).map { $0 as Element? }
         }
     }
     
     public func objects<Element: Object>(with type: Element.Type) -> Observable<Results<Element>> {
-        return Observable<Results<Element>>
-            .collection(from: cache.realm.objects(type))
+        return .throwingCreate { [weak self] observer in
+            guard let self else { throw KitErrors.deallocated }
+            observer.onNext(try realm.objects(type))
+            return Disposables.create()
+        }
+        .subscribe(on: internalScheduler)
+        .flatMapLatest { results -> Observable<Results<Element>> in
+            return .collection(from: results)
+        }
     }
     
-    public func objects<Element: Object>(with type: Element.Type, predicate: NSPredicate) -> Observable<Results<Element>> {
-        return Observable<Results<Element>>
-            .collection(from: cache.realm.objects(type).filter(predicate))
-    }
-    
-    public func objects<Element: Object>(
-        with type: Element.Type,
-        where query: @escaping (Query<Element>) -> Query<Element>)
+    public func objects<Element: Object>(with type: Element.Type,
+                                         predicate: NSPredicate)
     -> Observable<Results<Element>> {
-        return Observable<Results<Element>>
-            .collection(from: cache.realm.objects(type).where(query))
+        return .throwingCreate { [weak self] observer in
+            guard let self else { throw KitErrors.deallocated }
+            observer.onNext(try realm.objects(type).filter(predicate))
+            return Disposables.create()
+        }
+        .subscribe(on: internalScheduler)
+        .flatMapLatest { results -> Observable<Results<Element>> in
+            return .collection(from: results)
+        }
+    }
+    
+    public func objects<Element: Object>(with type: Element.Type,
+                                         where query: @escaping (Query<Element>) -> Query<Bool>)
+    -> Observable<Results<Element>> {
+        return .throwingCreate { [weak self] observer in
+            guard let self else { throw KitErrors.deallocated }
+            observer.onNext(try realm.objects(type).where(query))
+            return Disposables.create()
+        }
+        .subscribe(on: internalScheduler)
+        .flatMapLatest { results -> Observable<Results<Element>> in
+            return .collection(from: results)
+        }
     }
     
     // MARK: - WRITE
     
     public func upsert<Element: Object>(object: Element) -> ObservableSignal {
-        return .create { ob in
+        return update { realm in
+            realm.add(object, update: .modified)
+        }
+    }
+    
+    public func update(with block: @escaping (Realm) -> Void) -> ObservableSignal {
+        return .throwingCreate { [weak self] ob in
+            guard let self else { throw KitErrors.deallocated }
             do {
-                let realm = try self.cache.currentThreadInstance
                 try realm.safeWrite { realm in
-                    realm.add(object, update: .modified)
+                    block(realm)
                 }
             } catch {
                 ob.onError(error)
@@ -113,6 +193,38 @@ public class Store: NSObject {
             ob.onCompleted()
             return Disposables.create()
         }
+        .subscribe(on: internalScheduler)
     }
-
 }
+
+
+extension Observable {
+    
+    /// Convinience function for transmit Realm fetch results from a thread to a new one.
+    /// - Parameter queue: The destination queue, but actually the `Queue` and `Thread` is not equal, but this is safe.
+    /// - Returns: Transmited signal.
+    public func transmitRealmResults<T>(to queue: DispatchQueue) -> Observable<Array<T>> where Element == Results<T>, T: Object {
+        return map { results -> [T] in
+            return results.map { $0.freeze() }
+        }
+        .observe(on: SerialDispatchQueueScheduler(queue: queue, internalSerialQueueName: ""))
+        .map { results in
+            results.compactMap { $0.thaw() }
+        }
+    }
+    
+    
+    ///  Convinience function for transmit Realm fetch results from a thread to the main thread.
+    /// - Returns: Transmited signal.
+    public func trasmitRealmResultsToMainThread<T>() -> Observable<Array<T>> where Element == Results<T>, T: Object {
+        return map { results -> [T] in
+            return results.map { $0.freeze() }
+        }
+        .observe(on: MainScheduler.instance)
+        .map { results in
+            results.compactMap { $0.thaw() }
+        }
+    }
+}
+
+

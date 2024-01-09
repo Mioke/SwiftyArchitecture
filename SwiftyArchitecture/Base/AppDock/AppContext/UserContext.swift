@@ -9,7 +9,7 @@ import UIKit
 import RxSwift
 import RealmSwift
 
-public protocol UserProtocol: DataConversion {
+public protocol UserProtocol: DataConvertible {
     /// The identifier of a user, the primary key of the conversion data of the user model.
     var id: String { get set }
     

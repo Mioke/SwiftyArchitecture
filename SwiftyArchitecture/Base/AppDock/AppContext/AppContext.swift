@@ -87,7 +87,18 @@ public class AppContext: NSObject {
     }
     
     // MARK: - Data Center
+    
+    /// Each AppContext have a specific Store for storing data relevant to this context.
     public lazy var store: Store = try! Store(appContext: self)
+    
+    /// Convinience method for get persistance datasource in the Store.
+    public var persist: ObservableDataBase { return store.persistance }
+    
+    /// Convinience method for get the cache datasource in the Store.
+    public var cache: ObservableDataBase { return store.cache }
+    
+    /// Convinience method for get memory datasource in the Store.
+    public var memory: ObservableDataBase { return store.memory }
     
     weak var storeDelegate: AppContextStoreDelegate?
     

@@ -7,7 +7,7 @@
 
 import Foundation
 
-protocol APIRouter: AnyObject {
+protocol ApiRouter: AnyObject {
     func route<T: ApiInfoProtocol>(api: API<T>) throws -> Void
 }
 
@@ -15,20 +15,20 @@ protocol APIRouterMokerDataSource: AnyObject {
     func construct<T>(type: T.Type) -> ((T.RequestParam?) -> T.ResultType)? where T : ApiInfoProtocol
 }
 
-class APIRouterContainer {
+class ApiRouterContainer {
     
-    static let shared: APIRouterContainer = .init()
+    static let shared: ApiRouterContainer = .init()
     
-    private let builtinRouter = BuiltinAPIRouter()
-    private lazy var routerMocker = { () -> APIRouterMocker in
-        let mocker = APIRouterMocker()
+    private let builtinRouter = BuiltinApiRouter()
+    private lazy var routerMocker = { () -> ApiRouterMocker in
+        let mocker = ApiRouterMocker()
         mocker.datasource = self
         return mocker
     }()
     
     private var injectedTypesMap: [String: Any] = [:]
     
-    func router<T>(withType type: T.Type) -> APIRouter {
+    func router<T>(withType type: T.Type) -> ApiRouter {
         let name = String(reflecting: type)
         return injectedTypesMap[name] != nil ? routerMocker : builtinRouter
     }
@@ -48,7 +48,7 @@ class APIRouterContainer {
     }
 }
 
-extension APIRouterContainer: APIRouterMokerDataSource {
+extension ApiRouterContainer: APIRouterMokerDataSource {
     
     func construct<T>(type: T.Type) -> ((T.RequestParam?) -> T.ResultType)? where T : ApiInfoProtocol {
         let name = String(reflecting: type)

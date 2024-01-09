@@ -25,7 +25,7 @@ Pod::Spec.new do |s|
   # s.libraries = 'c++', 'sqlite3'
   
   #  s.source_files = 'SwiftyArchitecture/Base/**/*.swift'
-  s.default_subspecs = 'Assistance', 'Networking', 'Persistance', 'RxExtension', 'AppDock', 'Componentize'
+  s.default_subspecs = 'Assistance', 'Networking', 'RxExtension', 'AppDock', 'Componentize'
   
   s.subspec 'Assistance' do |ss|
     ss.frameworks = 'UIKit', 'Foundation'
@@ -40,12 +40,12 @@ Pod::Spec.new do |s|
     ss.dependency 'MIOSwiftyArchitecture/Assistance'
   end
   
-  s.subspec 'Persistance' do |ss|
-    ss.frameworks = 'UIKit', 'Foundation'
-    ss.source_files = 'SwiftyArchitecture/Base/Persistance/**/*.swift'
-    ss.dependency 'FMDB'
-    ss.dependency 'MIOSwiftyArchitecture/Assistance'
-  end
+#  s.subspec 'Persistance' do |ss|
+#    ss.frameworks = 'UIKit', 'Foundation'
+#    ss.source_files = 'SwiftyArchitecture/Base/Persistance/**/*.swift'
+#    ss.dependency 'FMDB'
+#    ss.dependency 'MIOSwiftyArchitecture/Assistance'
+#  end
   
   s.subspec 'RxExtension' do |ss|
     ss.source_files = 'SwiftyArchitecture/Base/RxExtension/**/*.swift'
@@ -61,9 +61,9 @@ Pod::Spec.new do |s|
     ss.dependency 'MIOSwiftyArchitecture/RxExtension'
     ss.dependency 'RxSwift', '~> 6.2'
     ss.dependency 'RxCocoa', '~> 6.2'
-    ss.dependency 'RxRealm', '~> 5.0'
-    ss.dependency 'RealmSwift', '~> 10.20.0'
-    ss.dependency "Realm", '~> 10.20.0'
+    ss.dependency 'RxRealm' # 5.0.4
+    ss.dependency 'RealmSwift' # 10.45.2
+    ss.dependency "Realm"
   end
   
   s.subspec 'Componentize' do |ss|

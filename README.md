@@ -6,7 +6,8 @@ A base architecture written in swift and protocol oriented.
 ```ruby
 pod 'SwiftyArchitecture'
 # or choose on your need
-pod 'SwiftyArchitecture/Persistance'
+pod 'SwiftyArchitecture/AppDock'
+pod 'SwiftyArchitecture/Componentize'
 pod 'SwiftyArchitecture/Networking'
 pod 'SwiftyArchitecture/RxExtension'
 # Write tests
@@ -18,7 +19,8 @@ Download `.zip` package and copy the `SwiftyArchitecture/Base` folder into you p
 ### What to provide
 
 - Networking.
-- Persistence.
+- Persistence Store, cache store and a memory store.
+- AppDocker, an application context handler for helping developer to handle user authentication and local storage isolation. 
 - Data center, handle all API and storage of response data in realm database.
 - Modulize or componentize your main project, provide data transmit and router between modules.
 - Reactive extension for all functionalities above.
@@ -115,7 +117,7 @@ See [this documentation](https://github.com/Mioke/SwiftyArchitecture/blob/dev/RE
 
 `SwiftyArchitecture` provides a data center, which can automatically manage your models, data and requests. This function is based on `Reactive Functional Programing`, and using `RxSwift`. The networking kit is using `API` and database is `Realm`.
 
-It provides an accessor called `DataAccessObject<Object>`, and all data or models can be read throught this DAO.
+It provides an accessor called `Accessor<Object>`, and all data or models can be read throught this DAO.
 
 Example:
 
@@ -189,11 +191,11 @@ extension User: DataCenterManaged {
 }
 ```
 
-Then you can read the data in database and use it by using `DataAccessObject<User>`.
+Then you can read the data in database and use it by using `Accessor<User>`.
 
 ```swift
 // read all users and display on table view.
-DataAccessObject<User>.all
+Accessor<User>.context(.persist).all
     .map { $0.sorted(by: <) }
     .map { [AnimatableSectionModel(model: "", items: $0)] }
     .bind(to: tableView.rx.items(dataSource: datasource))

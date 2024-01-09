@@ -86,14 +86,6 @@ class InternalTestVC: ViewController {
         print(a.minus(with: b))
         print(a.union(with: b))
         
-        let json = """
-            {
-                "name": "Lord of Ring"
-            }
-            """
-        let video = try? JSONDecoder().decode(Video.self, from: json.data(using: .utf8)!)
-        print(video as Any)
-        
         ModuleManager.default.initiator.setPresentedFirstFrame()
         
         Observable<Int>.create { observer in

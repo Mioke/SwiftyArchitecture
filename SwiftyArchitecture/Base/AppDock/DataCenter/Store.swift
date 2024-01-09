@@ -137,7 +137,6 @@ extension RealmDataBase : ObservableDataBase {
             observer.onNext(try realm.objects(type))
             return Disposables.create()
         }
-        .subscribe(on: internalScheduler)
         .flatMapLatest { results -> Observable<Results<Element>> in
             return .collection(from: results)
         }
@@ -151,7 +150,6 @@ extension RealmDataBase : ObservableDataBase {
             observer.onNext(try realm.objects(type).filter(predicate))
             return Disposables.create()
         }
-        .subscribe(on: internalScheduler)
         .flatMapLatest { results -> Observable<Results<Element>> in
             return .collection(from: results)
         }
@@ -165,7 +163,6 @@ extension RealmDataBase : ObservableDataBase {
             observer.onNext(try realm.objects(type).where(query))
             return Disposables.create()
         }
-        .subscribe(on: internalScheduler)
         .flatMapLatest { results -> Observable<Results<Element>> in
             return .collection(from: results)
         }
@@ -193,7 +190,6 @@ extension RealmDataBase : ObservableDataBase {
             ob.onCompleted()
             return Disposables.create()
         }
-        .subscribe(on: internalScheduler)
     }
 }
 

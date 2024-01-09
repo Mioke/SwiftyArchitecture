@@ -35,6 +35,11 @@ public class DataCenter {
     internal static let shared: DataCenter = .init()
     internal var requestRecords: RequestRecords = .init()
     
+    /// To send a request for updating the model using model's relevant API. Pay attention to the refreshness of the
+    /// request, it won't send a request if refreshness is working.
+    /// - Parameter request: The model update request.
+    /// - Returns: This update operation's actions, like success / failed, not the model result, if you want to get the
+    ///            result, please using `Accessor` to fetch or listen to the `Object`.
     public static func update<T: DataCenterManaged>(with request: Request<T>) -> ObservableSignal {
         
         if let rst = shared.checkFreshness(with: request) {
@@ -88,12 +93,18 @@ public class DataCenter {
     
 }
 
+/// Decide where the request data is stored.
 public enum StorePolicy: Int {
+    /// Only stored in the memory cache.
     case memoryCache
+    /// Stored in the `/Library/Cache`, and sometimes wil be clean by system.
     case diskCache
+    /// Stored in `/Document`, won't get deleted automatically.
     case persistance
 }
 
+/// The request refreshness, if a request is being sent in short seconds, it won't really send out a request, instead
+/// it will return the last success result.
 public enum RequestFreshness {
     case none
     case seconds(Int)
@@ -102,16 +113,17 @@ public enum RequestFreshness {
 /// Let data center handle your data, automaticaly request and save.
 public protocol DataCenterManaged {
     
-    // API information class for requesting data.
+    /// API information class for requesting data.
     associatedtype APIInfo: ApiInfoProtocol
     
     /// API instance
     static var api: API<APIInfo> { get }
     
-    /// set your data's cache policy
+    /// Set your data's cache policy
     static var cachePolicy: StorePolicy { get }
     
-    /// Refreshness for request
+    /// Refreshness for the request, in the refreshness time the request won't really sent and it will return the last
+    /// succuess result.
     static var requestFreshness: RequestFreshness { get }
     
     /// Serializing function for converting API's result to database Object.

@@ -69,12 +69,15 @@ final class TestObj: Object {
     // When using Realm from Swift, the Swift.reflect(_:) function is used to determine information
     // about your models, which requires that calling init() succeed. This means that all
     // non-optional properties must have a default value.
-    @objc dynamic var key: String = ""
-    @objc dynamic var value: Int = 0
+    @Persisted(primaryKey: true) 
+    var key: String
+    
+    @Persisted
+    var value: Int
 
     init(with key: String) {
-        self.key = key
         super.init()
+        self.key = key
     }
     
     override class func primaryKey() -> String? {

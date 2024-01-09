@@ -92,7 +92,7 @@ final public class StandardAppContext: AppContext {
             .do(onNext: { [weak self] meta in
                 // Create a meta data of the new user context. During the first launch it would
                 // create a default user's meta, then when a new user account has logged in, it
-                // will call 
+                // will call
                 guard let self, meta == nil else { return }
                 KitLogger.info("No previous user meta, creating one and going to save it.")
                 createOrUpdateUserMata(with: self.userId).subscribe().disposed(by: self.disposables)

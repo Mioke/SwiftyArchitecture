@@ -2,7 +2,7 @@
 A base architecture written in swift and protocol oriented. 
 
 ### Installation
-##### Using cocoapods:
+##### Using cocoapods: (Not publish to official cocoapods for now, will be deployed later.)
 ```ruby
 pod 'SwiftyArchitecture'
 # or choose on your need

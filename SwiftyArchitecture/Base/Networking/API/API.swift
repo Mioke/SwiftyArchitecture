@@ -9,6 +9,27 @@
 import Foundation
 import Alamofire
 
+/// API configuration for running requests and logic.
+public struct ApiConfiguration {
+    
+    /// The default configuration for all APIs.
+    public static var `default`: ApiConfiguration = {
+        let reportQueue: DispatchQueue = .init(
+            label: Consts.networkingDomain + ".default-reporting",
+            qos: .default,
+            attributes: .concurrent)
+        let internalQueue: DispatchQueue = .init(label: Consts.networkingDomain + ".internal")
+        return .init(reportingQueue: reportQueue, internalQueue: internalQueue)
+    }()
+    
+    /// The queue of callback handler running.
+    var reportingQueue: DispatchQueue
+    
+    /// The queue of request sender running.
+    var internalQueue: DispatchQueue
+}
+
+
 /// Concrete class of api manager, subclass from this class to use it and don't use this class directly.
 open class API<T: ApiInfoProtocol>: NSObject {
     
@@ -22,9 +43,13 @@ open class API<T: ApiInfoProtocol>: NSObject {
     fileprivate var result: Swift.Result<T.ResultType, NSError>?
     fileprivate var defaultDelegate: ApiDelegate<T>
     
+    private var configuration: ApiConfiguration {
+        return customizedConfiguration ?? ApiConfiguration.default
+    }
+    
     // MARK: Publics
     /// Parameters cache.
-    public private(set) var params: [String: Any]?
+    public private(set) var params: T.RequestParam?
     
     /// Request is out-going and not receive the response, that means `YES`.
     public var isLoading = false
@@ -32,11 +57,11 @@ open class API<T: ApiInfoProtocol>: NSObject {
     /// Interval for request timeout
     public var timeoutInterval: TimeInterval = 20
     
-    /// Whether process the reponse data from server.
-    public var autoProcessServerData: Bool = true
-    
     /// If this property is true, it will auto retry when all situations are eligible
     public var shouldAutoRetry: Bool = true
+    
+    /// Override the APIConfiguration.default if this property is not empty
+    public var customizedConfiguration: ApiConfiguration?
     
     // MARK: Initialization
     public override init() {
@@ -55,26 +80,23 @@ open class API<T: ApiInfoProtocol>: NSObject {
     ///
     /// - Parameter params: Parameters of request
     @discardableResult
-    public func loadData(with params: [String: Any]?) -> ApiDelegate<T> {
-        
-        if self.isLoading {
-            debugPrint("API manager current is requesting, if you want to reload, call cancel() and retry")
-            return defaultDelegate
-        }
-        self.isLoading = true
-        
-        // cache parameters
-        self.params = params
-        
-        defer {
+    public func sendRequest(with params: T.RequestParam?) -> ApiDelegate<T> {
+        configuration.internalQueue.async {
+            guard !self.isLoading else {
+                KitLogger.error("API manager current is requesting, if you want to reload, call cancel() and retry")
+                return
+//                return defaultDelegate
+            }
+            self.isLoading = true
+            // cache parameters
+            self.params = params
             do {
-                try APIRouterContainer.shared.router(withType: T.self).route(api: self)
+                try ApiRouterContainer.shared.router(withType: T.self).route(api: self)
             } catch {
                 self.deal(value: nil, error: error as NSError)
             }
         }
-        
-        return defaultDelegate
+        return delegate ?? defaultDelegate
     }
     
     /// Deal the response JSON object
@@ -88,21 +110,7 @@ open class API<T: ApiInfoProtocol>: NSObject {
         
         // HTTP request success
         if let value = value {
-            self.result = .success(value)
-            
-            // If the server has retry mechanism
-            if self.autoProcessServerData,
-                let server = T.server as? ServerDataProcessProtocol {
-                
-                do {
-                    try server.handle(data: value)
-                    self.successRoute()
-                } catch {
-                    err = error as NSError
-                }
-            } else {
-                self.successRoute()
-            }
+            result = .success(value)
         }
         // HTTP request error
         else if let error = error {
@@ -120,9 +128,10 @@ open class API<T: ApiInfoProtocol>: NSObject {
                let interval = T.retryTimeInterval(withErrorCode: err.code) {
                 
                 if self.retryTimes < maxCount {
-                    DispatchQueue.global(qos: .default)
-                        .asyncAfter(deadline: DispatchTime(uptimeNanoseconds: interval), execute: {
-                            self.loadData(with: self.params)
+                    configuration.internalQueue.asyncAfter(
+                        deadline: .now() + .seconds(Int(interval)),
+                        execute: {
+                            self.sendRequest(with: self.params)
                         })
                     self.retryTimes += 1
                     return
@@ -131,6 +140,8 @@ open class API<T: ApiInfoProtocol>: NSObject {
             // reset the retry count
             self.retryTimes = 0
             self.failureRoute(with: err)
+        } else {
+            successRoute()
         }
         
         let logMessage = "API response - name: \(T.apiName)\n data: \(String(describing: value))\n error: \(err.debugDescription)"
@@ -144,31 +155,21 @@ open class API<T: ApiInfoProtocol>: NSObject {
     }
     
     private func successRoute() -> Void {
-        doOnMainQueue({
+        configuration.reportingQueue.async {
             if let result = self.originData() {
                 self.delegate?.API(self, finishedWithResult: result)
             }
-        }, async: true)
+        }
         self.retryTimes = 0
     }
     
     private func failureRoute(with error: NSError) -> Void {
-        doOnMainQueue({
+        configuration.reportingQueue.async {
             self.delegate?.API(self, failedWithError: error)
-        }, async: true)
+        }
     }
 
     // MARK: - Others
-    
-    /// HTTP request is succeed or not
-    open func isSuccess() -> Bool {
-        switch self.result {
-        case .success(_):
-            return !self.isLoading
-        default:
-            return false
-        }
-    }
     
     /// Data which received from server and transformed to JSON
     ///
@@ -195,20 +196,37 @@ open class API<T: ApiInfoProtocol>: NSObject {
 
 // MARK: - API Routers
 
-class BuiltinAPIRouter: APIRouter {
+extension ApiRouter {
+    func tryServerResolve<T>(data: Data, using api: API<T>) -> Bool where T : ApiInfoProtocol {
+        do {
+            if let server = T.server as? ServerDataProcessProtocol {
+                try server.handle(data: data)
+            }
+            return false
+        } catch {
+            api.deal(value: nil, error: error as NSError)
+            return true
+        }
+    }
+}
+
+class BuiltinApiRouter: ApiRouter {
     
     func route<T>(api: API<T>) throws where T : ApiInfoProtocol {
         api.request = try KMRequestGenerator.generateRequest(withApi: api,
                                                              params: api.params)
         let serializer = T.responseSerializer
-        api.request?.responseData(completionHandler: { [weak api] (resp) in
+        api.request?.responseData(completionHandler: { [weak api, weak self] (resp) in
             guard let api = api else { return }
             switch resp.result {
-            case .success(_):
+            case .success(let data):
                 do {
                     let result = try serializer.serialize(data: resp)
                     api.deal(value: result, error: nil)
                 } catch {
+                    if let self, tryServerResolve(data: data, using: api) {
+                        return
+                    }
                     api.deal(value: nil, error: error as NSError)
                 }
             case .failure(let error):
@@ -218,7 +236,7 @@ class BuiltinAPIRouter: APIRouter {
     }
 }
 
-class APIRouterMocker: APIRouter {
+class ApiRouterMocker: ApiRouter {
     
     weak var datasource: APIRouterMokerDataSource?
     

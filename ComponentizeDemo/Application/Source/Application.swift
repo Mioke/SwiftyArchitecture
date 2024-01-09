@@ -4,7 +4,15 @@ import ApplicationProtocol
 import AuthProtocol
 import RxSwift
 
-class ApplicationModule: ModuleProtocol, ApplicationProtocol {
+class ApplicationModule: SessionModuleProtocol, ApplicationProtocol {
+    
+    static func sessionDidAuthenticate(with userID: String) {
+        KitLogger.info()
+    }
+    
+    static func sessionDidDeauthenticate(with userID: String) {
+        KitLogger.info()
+    }
     
     static var moduleIdentifier: ModuleIdentifier {
         return .application
@@ -20,20 +28,20 @@ class ApplicationModule: ModuleProtocol, ApplicationProtocol {
     }
     
     func startApplication() {
-        AppContext.standard
-            .setup()
-            .subscribe { finished in
-                print(AppContext.standard.previousLaunchedUserId as Any)
-                guard let authModule = try? self.moduleManager?.bridge.resolve(.auth) as? AuthServiceProtocol else {
-                    fatalError()
-                }
-                if let _ = AppContext.standard.previousLaunchedUserId {
-                    authModule.refreshAuthenticationIfNeeded(completion: { user in
-                        print(user)
-                    })
-                }
-            }
-            .disposed(by: disposeBag)
+//        AppContext.standard
+//            .setup()
+//            .subscribe { finished in
+//                print(AppContext.standard.previousLaunchedUserId as Any)
+//                guard let authModule = try? self.moduleManager?.bridge.resolve(.auth) as? AuthServiceProtocol else {
+//                    fatalError()
+//                }
+//                if let _ = AppContext.standard.previousLaunchedUserId {
+//                    authModule.refreshAuthenticationIfNeeded(completion: { user in
+//                        print(user)
+//                    })
+//                }
+//            }
+//            .disposed(by: disposeBag)
     }
     
 }

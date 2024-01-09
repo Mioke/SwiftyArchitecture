@@ -19,13 +19,13 @@ Pod::Spec.new do |s|
   s.source           = { :git => 'https://github.com/Mioke/SwiftArchitectureWithPOP.git', :tag => s.version.to_s }
   
   s.ios.deployment_target = '13.0'
-  s.swift_versions = '5.0'
+  s.swift_versions = '5'
   
   #  s.frameworks = 'UIKit', 'Foundation'
   # s.libraries = 'c++', 'sqlite3'
   
   #  s.source_files = 'SwiftyArchitecture/Base/**/*.swift'
-  s.default_subspecs = 'Assistance', 'Networking', 'Persistance', 'RxExtension', 'AppDocker', 'Componentize'
+  s.default_subspecs = 'Assistance', 'Networking', 'RxExtension', 'AppDock', 'Componentize'
   
   s.subspec 'Assistance' do |ss|
     ss.frameworks = 'UIKit', 'Foundation'
@@ -40,12 +40,12 @@ Pod::Spec.new do |s|
     ss.dependency 'MIOSwiftyArchitecture/Assistance'
   end
   
-  s.subspec 'Persistance' do |ss|
-    ss.frameworks = 'UIKit', 'Foundation'
-    ss.source_files = 'SwiftyArchitecture/Base/Persistance/**/*.swift'
-    ss.dependency 'FMDB'
-    ss.dependency 'MIOSwiftyArchitecture/Assistance'
-  end
+#  s.subspec 'Persistance' do |ss|
+#    ss.frameworks = 'UIKit', 'Foundation'
+#    ss.source_files = 'SwiftyArchitecture/Base/Persistance/**/*.swift'
+#    ss.dependency 'FMDB'
+#    ss.dependency 'MIOSwiftyArchitecture/Assistance'
+#  end
   
   s.subspec 'RxExtension' do |ss|
     ss.source_files = 'SwiftyArchitecture/Base/RxExtension/**/*.swift'
@@ -54,15 +54,16 @@ Pod::Spec.new do |s|
     ss.dependency 'RxSwift', '~> 6.2'
   end
   
-  s.subspec 'AppDocker' do |ss|
-    ss.source_files = 'SwiftyArchitecture/Base/AppDocker/**/*.swift'
+  s.subspec 'AppDock' do |ss|
+    ss.source_files = 'SwiftyArchitecture/Base/AppDock/**/*.swift'
     ss.dependency 'MIOSwiftyArchitecture/Assistance'
     ss.dependency 'MIOSwiftyArchitecture/Networking'
     ss.dependency 'MIOSwiftyArchitecture/RxExtension'
     ss.dependency 'RxSwift', '~> 6.2'
-    ss.dependency 'RxRealm', '~> 5.0'
-    ss.dependency 'RealmSwift', '~> 10.20.0'
-    ss.dependency "Realm", '~> 10.20.0'
+    ss.dependency 'RxCocoa', '~> 6.2'
+    ss.dependency 'RxRealm' # 5.0.4
+    ss.dependency 'RealmSwift' # 10.45.2
+    ss.dependency "Realm"
   end
   
   s.subspec 'Componentize' do |ss|
@@ -77,7 +78,7 @@ Pod::Spec.new do |s|
     ss.dependency 'MIOSwiftyArchitecture/Assistance'
     ss.dependency 'MIOSwiftyArchitecture/Networking'
     ss.dependency 'MIOSwiftyArchitecture/RxExtension'
-    ss.dependency 'MIOSwiftyArchitecture/AppDocker'
+    ss.dependency 'MIOSwiftyArchitecture/AppDock'
     ss.dependency 'MIOSwiftyArchitecture/Componentize'
   end
   
@@ -87,7 +88,7 @@ Pod::Spec.new do |s|
     test_spec.dependency 'MIOSwiftyArchitecture/Assistance'
     test_spec.dependency 'MIOSwiftyArchitecture/Networking'
     test_spec.dependency 'MIOSwiftyArchitecture/RxExtension'
-    test_spec.dependency 'MIOSwiftyArchitecture/AppDocker'
+    test_spec.dependency 'MIOSwiftyArchitecture/AppDock'
     test_spec.dependency 'MIOSwiftyArchitecture/Componentize'
     test_spec.dependency 'MIOSwiftyArchitecture/Testable'
     

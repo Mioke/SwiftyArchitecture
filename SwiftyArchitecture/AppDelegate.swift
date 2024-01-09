@@ -10,30 +10,33 @@ import UIKit
 import CoreData
 import Alamofire
 import ApplicationProtocol
+import RxSwift
 
 @_exported import MIOSwiftyArchitecture
 
-@UIApplicationMain
+@main
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
-    var window: UIWindow?
-    
+    let bag: DisposeBag = .init()
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         
-//        AFNetworkActivityIndicatorManager.sharedManager().enabled = true
-        
         #if DEBUG
-            try? MioDemoServer.switch(to: "DEV")
+        try? MioDemoServer.switch(to: "DEV")
         #endif
         
-        let root = InternalTestVC()
-        let nav = UINavigationController(rootViewController: root)
-
-        self.window?.rootViewController = nav
-        self.window?.makeKeyAndVisible()
+        print(#function)
         
+        // App Context
+        if let standardContext = AppContext.current as? StandardAppContext {
+            standardContext.contextConfiguration = .init(archiveLocation: .database)
+            standardContext.setup(authDelegate: UserService.shared)
+        }
+        // Set user `Store` versions
+        AppContext.Consts.storeVersions = .init(cacheVersion: 1, persistanceVersion: 1)
+        
+        // Modulization setup
         if let url = Bundle.main.url(forResource: "ModulesRegistery", withExtension: ".plist") {
             try! ModuleManager.default.registerModules(withConfigFilePath: url)
         }
@@ -45,29 +48,56 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         return true
     }
+    
+    /* If application has a sceneDelegate, it will go there and handle it.
+    func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
+        KitLogger.info("Open url: \(url), options: \(options)")
+        return true
+    }
+     */
+    
 
     func applicationWillResignActive(_ application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
         // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
+        
+        print(#function)
     }
 
     func applicationDidEnterBackground(_ application: UIApplication) {
         // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+        print(#function)
     }
 
     func applicationWillEnterForeground(_ application: UIApplication) {
         // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
+        print(#function)
     }
 
     func applicationDidBecomeActive(_ application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+        
+        print(#function)
     }
 
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
         // Saves changes in the application's managed object context before the application terminates.
+        
+        print(#function)
         self.saveContext()
+    }
+    
+    func application(_ application: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession, options: UIScene.ConnectionOptions) -> UISceneConfiguration {
+        print(#function)
+        let configuration = UISceneConfiguration.init(name: nil, sessionRole: connectingSceneSession.role)
+        configuration.delegateClass = SceneDelegate.self
+        return configuration
+    }
+
+    func application(_ application: UIApplication, didDiscardSceneSessions sceneSessions: Set<UISceneSession>) {
+        print(#function)
     }
 
     // MARK: - Core Data stack

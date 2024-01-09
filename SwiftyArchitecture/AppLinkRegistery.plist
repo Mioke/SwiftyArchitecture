@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Modules</key>
+	<array>
+		<dict>
+			<key>id</key>
+			<string>home</string>
+			<key>handler</key>
+			<string>SAD.HomeNavigationHandler</string>
+			<key>paths</key>
+			<dict>
+				<key>messages</key>
+				<dict>
+					<key>target</key>
+					<string>SAD.InfiniteTableViewController</string>
+				</dict>
+				<key>data-center</key>
+				<dict>
+					<key>target</key>
+					<string>SAD.DataCenterTestViewController</string>
+				</dict>
+				<key>theme</key>
+				<dict>
+					<key>isAccessibleExternally</key>
+					<true/>
+					<key>target</key>
+					<string>SAD.ThemeTestViewController</string>
+				</dict>
+			</dict>
+		</dict>
+	</array>
+</dict>
+</plist>

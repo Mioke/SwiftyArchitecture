@@ -16,9 +16,11 @@ let MioDemoServer: Server = .init(live: URL(string: "https://www.baidu.com")!,
                                     .custom("Staging"): URL(string: "https://www.baidu.com")!,
                                   ])
 
-class TestAPI: NSObject, ApiInfoProtocol {
-    
-    typealias ResultType = [String: Any]
+struct EmptyRequestParam: Codable { }
+
+class TestAPI: NSObject, ApplicationBasedApiInfoProtocol {
+    typealias RequestParam = EmptyRequestParam
+    typealias ResultType = TestAPI.Result
     
     static var apiVersion: String {
         get { return "" }
@@ -35,8 +37,17 @@ class TestAPI: NSObject, ApiInfoProtocol {
     static func headers() -> HTTPHeaders? {
         return ["Cookie": "uid=123456"]
     }
+}
+
+extension TestAPI {
     
-    static var responseSerializer: MIOSwiftyArchitecture.ResponseSerializer<[String : Any]> {
-        return MIOSwiftyArchitecture.JSONResponseSerializer<[String : Any]>()
+    struct Result: Codable {
+        let isFinal: Bool
+        let objects: [TestObj]
+        
+        enum CodingKeys: String, CodingKey {
+            case isFinal = "is_final"
+            case objects = "objs"
+        }
     }
 }

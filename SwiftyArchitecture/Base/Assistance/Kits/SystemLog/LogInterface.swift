@@ -9,11 +9,12 @@ import Foundation
 import os
 
 public enum LogLevel {
-    case debug, info, verbose, error
+    case error, info, verbose, debug
 }
 
 public class KitLogger {
     public static let instance: KitLogger = .init()
+    private init() {}
     
     public typealias Event = (level: LogLevel, message: String, file: String, line: Int)
     
@@ -40,5 +41,23 @@ private extension LogLevel {
         case .error:
             return "🧯"
         }
+    }
+}
+
+public extension KitLogger {
+    static func debug(_ message: String = #function, file: String = #file, line: Int = #line) {
+        log(level: .debug, message: message, file: file, line: line)
+    }
+    
+    static func info(_ message: String = #function, file: String = #file, line: Int = #line) {
+        log(level: .info, message: message, file: file, line: line)
+    }
+    
+    static func verbose(_ message: String = #function, file: String = #file, line: Int = #line) {
+        log(level: .verbose, message: message, file: file, line: line)
+    }
+    
+    static func error(_ message: String = #function, file: String = #file, line: Int = #line) {
+        log(level: .error, message: message, file: file, line: line)
     }
 }

@@ -36,21 +36,27 @@ public class KMRequestGenerator: NSObject {
     
     public class func generateRequest<T: ApiInfoProtocol>(
         withApi api: API<T>,
-        params: [String: Any]?) throws -> DataRequest {
+        params: T.RequestParam?) throws -> DataRequest {
             
             let manager = T.server.supportHTTPS ? httpsManager : defaultManager
             manager.session.configuration.timeoutIntervalForRequest = api.timeoutInterval
             
+            var parameters: Parameters? = nil
+            if let params = params {
+                let data = try JSONEncoder().encode(params)
+                parameters = try JSONSerialization.jsonObject(with: data, options: []) as? Parameters
+            }
+            
             let req = manager.request(api.apiURL,
                                       method: T.httpMethod,
-                                      parameters: params,
+                                      parameters: parameters,
                                       encoding: T.encoding,
                                       headers: api.HTTPHeaders)
             
             // TODO: Do additional configuration or signature etc.
             KitLogger.log(
                 level: .info,
-                message: "Send request:\n\tRequest Info:\(req.description)\n\tRequest Headers:\(req.request?.allHTTPHeaderFields ?? [:])\n\tParam:\(params ?? [:])")
+                message: "Send request:\n\tRequest Info:\(req.description)\n\tRequest Headers:\(req.request?.allHTTPHeaderFields ?? [:])\n\tParam:\(parameters ?? [:])")
             
             return req
         }

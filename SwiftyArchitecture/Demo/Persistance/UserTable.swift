@@ -8,20 +8,20 @@
 
 import UIKit
 
-class UserTable: KMPersistanceTable, TableProtocol {
-    
-    var database: KMPersistanceDatabase {
-        return DefaultDatabase.instance
-    }
-    
-    var tableName: String {
-        return "user_table"
-    }
-    
-    var tableColumnInfo: [String: String] {
-        return [
-            "user_id": "Integer primary key",
-            "user_name": "text default NULL"
-        ]
-    }
-}
+//class UserTable: KMPersistanceTable, TableProtocol {
+//    
+//    var database: KMPersistanceDatabase {
+//        return DefaultDatabase.instance
+//    }
+//    
+//    var tableName: String {
+//        return "user_table"
+//    }
+//    
+//    var tableColumnInfo: [String: String] {
+//        return [
+//            "user_id": "Integer primary key",
+//            "user_name": "text default NULL"
+//        ]
+//    }
+//}

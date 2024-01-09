@@ -2,11 +2,12 @@
 A base architecture written in swift and protocol oriented. 
 
 ### Installation
-##### Using cocoapods:
+##### Using cocoapods: (Not publish to official cocoapods for now, will be deployed later.)
 ```ruby
 pod 'SwiftyArchitecture'
 # or choose on your need
-pod 'SwiftyArchitecture/Persistance'
+pod 'SwiftyArchitecture/AppDock'
+pod 'SwiftyArchitecture/Componentize'
 pod 'SwiftyArchitecture/Networking'
 pod 'SwiftyArchitecture/RxExtension'
 # Write tests
@@ -18,7 +19,8 @@ Download `.zip` package and copy the `SwiftyArchitecture/Base` folder into you p
 ### What to provide
 
 - Networking.
-- Persistence.
+- Persistence Store, cache store and a memory store.
+- AppDocker, an application context handler for helping developer to handle user authentication and local storage isolation. 
 - Data center, handle all API and storage of response data in realm database.
 - Modulize or componentize your main project, provide data transmit and router between modules.
 - Reactive extension for all functionalities above.
@@ -58,6 +60,8 @@ func handle(data: Any) throws -> Void {
   Now you can manager request with `API<ApiInfoProtocol>`, creating a class conformed to `ApiInfoProtocol`, only need to provide some infomation about the API and set where the callback is, you are already finished the configuration of an API.  
   
 ```swift
+    typealias RequestParam = [String, Any]
+    
     var apiVersion: String {
         get { return "v2" }
     }
@@ -70,19 +74,19 @@ func handle(data: Any) throws -> Void {
 
     typealias ResultType = _User
 
-    static var responseSerializer: ResponseSerializer<_User> {
-        return JSONResponseSerializer<_User>()
+    static var responseSerializer: ResponseSerializer<ResultType> {
+        return JSONResponseSerializer<ResultType>()
     }
 ```
   The API provide some basic method like:
   
 ```swift
-  public func loadData(with params: [String: Any]?) -> Void
+  public func sendRequest(with params: [String: Any]?) -> Void
 ```
 
   Using chaining syntax to request data:
   ```swift
-  api.loadData(with: nil).response({ (api, user, error) in
+  api.sendRequest(with: nil).response({ (api, user, error) in
     if let error = error {
       // deal error
     }
@@ -97,7 +101,7 @@ func handle(data: Any) throws -> Void {
 ApiManager provides an `Observable` for you, you can transfrom it or directly bind it to something:
 
 ```swift
-api.rx.loadData(with: params)
+api.rx.sendRequest(with: params)
     .flatMap {
         ...
         return yourResultObservable
@@ -105,52 +109,93 @@ api.rx.loadData(with: params)
     .bind(to: label.rx.text)
     .dispose(by: bag)
 ```
+
+### App Dock
+See [this documentation](https://github.com/Mioke/SwiftyArchitecture/blob/dev/README-AppDocker.md) for detail, include `App Context` & `User Context` & `Store`.
   
 ### Data Center
 
 `SwiftyArchitecture` provides a data center, which can automatically manage your models, data and requests. This function is based on `Reactive Functional Programing`, and using `RxSwift`. The networking kit is using `API` and database is `Realm`.
 
-It provides an accessor called `DataAccessObject<Object>`, and all data or models can be read throught this DAO.
+It provides an accessor called `Accessor<Object>`, and all data or models can be read throught this DAO.
 
 Example:
 
 Firstly, define your data model in model layer and your database model in `Realm`.
 
 ```swift
-final class User: Codable {
+class User: RealmSwift.Object {
+    @Persisted(primaryKey: true)
     var userId: String = ""
+    @Persisted
     var name: String = ""
-}
-
-final class _User: Object {
-    @objc dynamic var userId: String = ""
-    @objc dynamic var name: String = ""
 }
 ```
 
-To manage this `User` model, it must be conform to protocol `DataCenterManaged`, this protocol defines how data center should do with this model.
+Then there may have a API which request data relevant to the `User` model:
+```swift
+final class UserAPI: ApiInfoProtocol {
+    struct Param: Codable {
+        let uids: [String]
+    }
+    typealias RequestParam = UserAPI.Param
+    
+    struct Reply: Codable {
+        struct User: Codable {
+            var userId: String
+            var name: String
+            var version: String?
+        }
+        var users: [Reply.User]
+    }
+    typealias ResultType = Reply
+    
+    static var apiVersion: String {
+        get { return "v1" }
+    }
+    static var apiName: String {
+        get { return "getUserInfo" }
+    }
+    static var server: Server {
+        get { return getServer() }
+    }
+    static var httpMethod: Alamofire.HTTPMethod {
+        get { return .get }
+    }
+    static var responseSerializer: ResponseSerializer<Reply> {
+        return JSONCodableResponseSerializer<Reply>()
+    }
+}
+```
+
+To manage this `User` model, it must be conformed to the protocol `DataCenterManaged`, this protocol defines how data center should do with this model.
 
 ```swift
 extension User: DataCenterManaged {
-    // defines how transform data from API to data base object.
-    static func serialize(data: User) throws -> _User {
-        let user = _User()
-        user.name = data.name
-        user.userId = data.userId
-        return user
-    }
-    // define data base object's type
-    typealias DatabaseObject = User
     // define API's type
     typealias APIInfo = UserAPI
+    
+    // defines how transform data from API to data base object.
+    static func serialize(data: UserAPI.Reply) throws -> [RealmSwift.Object] {
+        let result: [Object] = data.users.map { item in
+            let user = User()
+            user.name = item.name
+            user.userId = item.userId
+            return user
+        }
+        if data.isFinal {
+            // do something else
+        }
+        return result
+    }
 }
 ```
 
-Then you can read the data in database and use it by using `DataAccessObject<User>`.
+Then you can read the data in database and use it by using `Accessor<User>`.
 
 ```swift
 // read all users and display on table view.
-DataAccessObject<User>.all
+Accessor<User>.context(.persist).all
     .map { $0.sorted(by: <) }
     .map { [AnimatableSectionModel(model: "", items: $0)] }
     .bind(to: tableView.rx.items(dataSource: datasource))
@@ -162,78 +207,22 @@ And then you can update models throught requests, and when data changed, the `Ob
 ```swift
 print("Show loading")
 
-let request = Request<User>()
-DataAccessObject<User>
-    .update(with: request)
+let request: Request<User> = .init(params: .init(uids: ["10025"]))
+DataCenter.update(with: request)
     .subscribe({ event in
         switch event {
         case .completed:
             print("Hide loading")
         case .error(let error as NSError):
             print("Hide loading with error: \(error.localizedDescription)")
-        default:
-            break
         }
     })
     .disposed(by: self.disposeBag)
 ```
-
-### Persistance (_refactoring_)
-
-- **Database**  
- 
-  Like ApiManager, only need to subclass from `KMPersistanceDatabase` and conform to `DatabaseManagerProtocol`, provide `path`,`databaseName`,`database`, you are already create a new database in your project. e.g.
-
-```swift
-  class DefaultDatabase: KMPersistanceDatabase, DatabaseManagerProtocol {
-    
-    override init() {
-
-        self.databaseName = "default.db"
-        self.path = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true).first! + "/" + self.databaseName
-        self.database = FMDatabaseQueue(path: self.path)
-        
-        super.init()
-    }
-  }
-```
-
-- **Table and Record**
-
-  Subclass from `KMPersistanceTable` and conform to `TableProtocol` let you create a new table in a database. Any objcect conform `RecordProtocol` can be record in the table you want. See more details in demo.
-  
-  Using this just like:
-  
-```swift
-    let table = UserTable()
-    let newUser = UserModel(name: "Klein", uid: 310)
-    table.replaceRecord(newUser)
-```
-
-- **Fetch**
-  
-  Fetch data with conditions using `DatabaseCommandCondition`:
-```swift
-    let table = UserTable()
-    let condition = DatabaseCommandCondition()
-            
-    condition.whereConditions = "user_id >= 0"
-    condition.orderBy = "user_name"
-            
-    let result = table.queryRecordWithSelect("user_name", condition: condition)
-```
-
-- **Advanced**
-
-  Always, database provide method of doing query or execute with sql directly, for complex database operation:
-```swift
-  let db = DefaultDatabase()
-  db.query("select * from tableDoesntExtist", withArgumentsInArray: nil)
-```
   
 ### Modulize or Componentize
 
-Support using `cocoapods` for modulize your project. You can separate some part of code which is indepence enough, and put the code into a `pod` repo. And finally the main project maybe have no code any more, when building your app, the `cocoapods` will install all the dependencies together and generate your app.
+Support using `cocoapods` to modulize your project. You can separate some part of code which is indepence enough, and put the code into a `pod` repo. And finally the main project maybe have no code any more, when building your app, the `cocoapods` will install all the dependencies together and generate your app.
 
 The good things of `modulization` or `componentization` are
 - modules are closed between each other, and there's no way to visit the detail from another module; 
@@ -242,10 +231,14 @@ The good things of `modulization` or `componentization` are
 - using `cocoapods package` to generate binary library, fasten the app package process.
 
 The bad things of it are (for now)
-- low running performance for developing, because the more frameworks or libraries, the worse `lldb` performance get;
+- low running performance for developing, because the more frameworks or libraries, the worse DYLD performance get;
 - need a lot of utils to maintain `pods` and their git repos, like auto generate version, auto update `Podfile` etc.
 
-So, this function should depend on the situation of your team. `;)`
+So, this function should depend on the situation of your team and your project. `;)`
+
+For small-sized teams, I would like to recommend the `monorepo` format for your components. This means you can place all your components in one Git repository but in different folders and create a `.podspec` for each of them. Then, you can manage them using Git branches instead of publishing them one by one. At the same time, all the code is separated by Cocoapods, which cannot access each other between pods.
+
+For large-sized teams, if you have a chain of tools and utilities to build pods and publish them, and have an integration tool to put them together into a main project, then you can use the `multi-repo` format to manage your pods.
 
 - **Module**
 
@@ -257,7 +250,7 @@ So, this function should depend on the situation of your team. `;)`
   }
   ```
 
-  The registery `.plist` file contains an array of class names, which implement module's protocol, like:
+  The register `.plist` file contains an array of class names, which implement module's protocol, like:
 
   ```swift
   // in public protocol pod:
@@ -269,7 +262,7 @@ So, this function should depend on the situation of your team. `;)`
       func authenticate(completion: @escaping (User) -> ()) throws
   }
 
-  // in hidden pod:
+  // in private pod:
   class AuthModule: ModuleProtocol, AuthServiceProtocol {
       static var moduleIdentifier: ModuleIdentifier {
           return .auth
@@ -301,7 +294,7 @@ So, this function should depend on the situation of your team. `;)`
   })
   ```
 
-- **Router**
+- **Navigation**
   
   TBA
 
@@ -335,19 +328,19 @@ So, this function should depend on the situation of your team. `;)`
 
 - Custom extensions and categories.
 - UI relevant class for easy accessing global UI settings.
-- ~~`SystemLog` can write log to files, and stored in sandbox.~~ (Refactoring)
+- Logger API, default to write in system console, you can customize the action and record messages somewhere else.
 
 > Almost done `>w<!`
 
 # TODO
 
 - [x] Networking: cache, origin data transform to Model or View's data, priority of request.
-- [ ] Mock of API's response.
+- [x] Mock of API's response.
 - [ ] Download and upload functions in API manager.
 - [x] ~~Persistance: transform data to model or View's data after query.~~(don't need it now, using Realm)
 - [x] ~~Animations, Tools and Kits: TextKit like [YYText](https://github.com/ibireme/YYText), etc~~. (SwiftyArchitecture won't provide those utilities, because base shouldn't have to.)
 - [x] Refactoring, more functional and reative. Considering to use `Rx` or `ReactiveSwift`. Fully use genericity.
-- [ ] Modulize of componentlization usage. Router.
+- [x] Modulize of componentization usage. Router.
   
 # License
 All the source code is published under the MIT license. See LICENSE file for details.

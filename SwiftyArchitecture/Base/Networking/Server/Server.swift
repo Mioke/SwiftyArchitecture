@@ -67,7 +67,13 @@ open class Server: NSObject {
 
 /// Customize data process operation of server
 public protocol ServerDataProcessProtocol {
-    func handle(data: Any) throws -> Void
+    
+    /// Handle the error data that may can handled uniformly. This function will be only called when the request data
+    /// can't serialized to the type it expected.
+    ///
+    /// - Important: Only throw a error when the server can handle it.
+    /// - Parameter data: The original response data.
+    func handle(data: Data) throws -> Void
 }
 
 extension Server {

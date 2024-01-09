@@ -57,10 +57,30 @@ extension UITableView {
         let nib = UINib(nibName: T.NibName, bundle: nil)
         self.register(nib, forCellReuseIdentifier: T.reusedIdentifier)
     }
+    
+    public func register<T>(_ type: T.Type) -> Void where T: ReusableView, T: UITableViewCell {
+        self.register(type, forCellReuseIdentifier: T.reusedIdentifier)
+    }
+    
     public func dequeReusableCell<T: UITableViewCell>(forIndexPath ip: IndexPath) -> T where T: ReusableView {
         guard let cell = self.dequeueReusableCell(withIdentifier: T.reusedIdentifier, for: ip) as? T else {
             fatalError("couldn't deque cell with identifier: \(T.reusedIdentifier)")
         }
         return cell
+    }
+}
+
+public extension UIApplication {
+    
+    /// Get all windows from all scenes.
+    static var availableWindows: [UIWindow] {
+        if #available(iOS 13, *) {
+            return UIApplication.shared.connectedScenes.flatMap { scene -> [UIWindow] in
+                guard let windowScene = scene as? UIWindowScene else { return [] }
+                return windowScene.windows
+            }
+        } else {
+            return UIApplication.shared.windows
+        }
     }
 }

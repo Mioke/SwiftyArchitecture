@@ -47,6 +47,8 @@ public protocol ApiInfoProtocol: NSObjectProtocol {
     /// Encoding function of api's parameters, default is `Alamofire.URLEncoding.default`(aka `methodDependent`)
     static var encoding: Alamofire.ParameterEncoding { get }
     
+    associatedtype RequestParam: Codable
+    
     associatedtype ResultType
     /// Response serializer type, default is .JSON, that request will call `responseJSON` method when get response.
     static var responseSerializer: ResponseSerializer<ResultType> { get }

@@ -2,31 +2,40 @@ import Foundation
 import MIOSwiftyArchitecture
 import RxSwift
 
-public class User: UserProtocol {
-    public var id: String
-    public var authState: BehaviorSubject<AuthState> = .init(value: .unauthenticated)
-    public var authConfiguration: AuthController.Configuration = .init(archiveLocation: .database)
-    public var archivableInfo: UserArchivableInfoProtocol = UserArchiveInfo()
-    public var name: String?
+public class TestUser: UserProtocol, Codable {
     
-    public init(id: String) {
+    public var id: String
+    public var age: Int
+    public var token: String
+    public var expiration: Date?
+    
+    public static let modelVersion: Int = 1
+    
+    public enum CodingKeys: CodingKey {
+        case id
+        case age
+        case token
+        case expiration
+    }
+    
+    public init(id: String, age: Int, token: String) {
         self.id = id
+        self.age = age
+        self.token = token
+        self.expiration = Date().offsetWeek(1)
     }
 }
 
-class UserArchiveInfo: UserArchivableInfoProtocol {
-    static func decode(_ data: Data) throws -> Self {
-        try JSONDecoder().decode(self, from: data)
-    }
-    public func encode() throws -> Data {
-        try JSONEncoder().encode(self)
+extension TestUser {
+    public var customDebugDescription: String {
+        return "id - \(id), age - \(age)\ntoken: \(token)"
     }
 }
 
 public protocol AuthServiceProtocol {
-    func authenticate(completion: @escaping (User) -> ()) throws
+    func authenticate(completion: @escaping (TestUser) -> ()) throws
     func deauthenticate(completion: @escaping (Error?) -> Void)
-    func refreshAuthenticationIfNeeded(completion: @escaping (User) -> ()) -> Void
+    func refreshAuthenticationIfNeeded(completion: @escaping (TestUser) -> ()) -> Void
 }
 
 public extension ModuleIdentifier {

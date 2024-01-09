@@ -12,14 +12,13 @@ import MIOSwiftyArchitecture
 import Swinject
 import RxSwift
 import AuthProtocol
+import FLEX
 
-class InternalTestVC: UIViewController {
+class InternalTestVC: ViewController {
     
     var tests: [String]!
     
     var tableView: UITableView!
-    
-    var testObj = true
     
     let queue1 = DispatchQueue.init(label: "Queue1")
     let queue2 = DispatchQueue.init(label: "Queue2")
@@ -28,19 +27,38 @@ class InternalTestVC: UIViewController {
     lazy var schedule2 = SerialDispatchQueueScheduler(queue: self.queue2, internalSerialQueueName: "schedule.queue2")
     
     let cancel: DisposeBag = .init()
+    
+    var continuations: [CheckedContinuation<Int, Never>] = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        self.title = "SwiftyArchitecture Demo"
+//        self.navigationItem.titleView = {
+//            let v = UIView(frame: .init(x: 0, y: 0, width: 200, height: 88))
+//            let label = UILabel()
+//            label.font = UIFont(name: "Snell Roundhand", size: 32)
+//            label.text = "Swifty"
+//            v.addSubview(label)
+//
+//            label.centerYAnchor.constraint(equalTo: v.centerYAnchor).isActive = true
+//            label.centerXAnchor.constraint(equalTo: v.centerXAnchor).isActive = true
+//            return v
+//        }()
+        
         // Do any additional setup after loading the view.
-        self.tests = ["Record user model", "Read users", "API test", "Call Log UI", "Data center test", "-", "Push local notification"]
+        self.tests = [
+            "None1", "None2", "API test", "Call Log", "Data center test", "Theme",
+            "Push local notification", "Auth Tests", "Smooth Scrolling TableView Test", "Code Block Editor",
+            "Show FLEX", "Concurrency Tests", "Combine Tests",
+        ]
         
         self.tableView = {
             let view = UITableView(frame: self.view.bounds)
             view.delegate = self
             view.dataSource = self
             view.tableFooterView = UIView()
-            view.backgroundColor = UIColor.white
+            view.backgroundColor = ThemeUI.current.color.background
             
             self.view.addSubview(view)
             return view
@@ -68,15 +86,7 @@ class InternalTestVC: UIViewController {
         print(a.minus(with: b))
         print(a.union(with: b))
         
-        let json = """
-            {
-                "name": "Lord of Ring"
-            }
-            """
-        let video = try? JSONDecoder().decode(Video.self, from: json.data(using: .utf8)!)
-        print(video as Any)
-        
-        ModuleManager.default.initiator.setPresentedFirstPage()
+        ModuleManager.default.initiator.setPresentedFirstFrame()
         
         Observable<Int>.create { observer in
             dispatchPrecondition(condition: .onQueue(self.queue1))
@@ -97,7 +107,7 @@ class InternalTestVC: UIViewController {
         }
         .disposed(by: cancel)
         
-        let user = AuthProtocol.User.init(id: "123123")
+        let user = AuthProtocol.TestUser.init(id: "123123", age: 1, token: "123")
         let clazzName = String(describing: type(of: user))
         let objcClazzName = NSStringFromClass(type(of: user))
         print(":", clazzName, objcClazzName, String(reflecting: user), String(reflecting: type(of: user)))
@@ -105,6 +115,49 @@ class InternalTestVC: UIViewController {
         print(Bundle.main.classNamed(objcClazzName) as Any) // x
         print(Bundle.allBundles.compactMap { $0.classNamed(clazzName) }) // x
         print(NSClassFromString(objcClazzName) as Any) // only this worked for frameworks?
+        
+//        UIDetector.shared.startMonitor()
+//
+//        DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(1), execute: {
+//            sleep(1)
+//        })
+        
+        print("1. start")
+        
+        Observable<Int>.create { observer in
+            print("2. Subscriptoin logic")
+            observer.onNext(1)
+            observer.onCompleted()
+            return Disposables.create()
+        }
+        .flatMapLatest { value -> Observable in
+            print("3. flatmap")
+            return .just(value * 2)
+        }
+        .subscribe { value in
+            print("4. observe")
+        }
+        .disposed(by: rx.lifetime)
+        
+        print("5. end")
+        
+        print("========================")
+        
+        print("1. start")
+        let subject = PublishSubject<Int>()
+        subject.flatMapLatest { value -> Observable in
+            print("3. flatmap")
+            return .just(value)
+        }
+        .subscribe { _ in
+            print("4. observe")
+        }
+        .disposed(by: rx.lifetime)
+        print("2. send")
+        subject.onNext(1)
+        print("5. end")
+        
+        
     }
 
     override func didReceiveMemoryWarning() {
@@ -165,27 +218,30 @@ extension InternalTestVC: UITableViewDelegate, UITableViewDataSource {
         
         switch indexPath.row {
         case 0:
-            let table = UserTable()
-            let newUser = UserModel(name: "Klein", uid: 310)
-            
-            let _ = table.replace(newUser)
-            
+//            let table = UserTable()
+//            let newUser = UserModel(name: "Klein", uid: 310)
+//            
+//            let _ = table.replace(newUser)
+            break
         case 1:
-            let table = UserTable()
-            let condition = DatabaseCommandCondition()
-            
-            condition.whereConditions = "user_id >= 0"
-            condition.orderBy = "user_name"
-            
-            let result = table.queryRecord(with: nil, condition: condition)
-            
-            print(result)
+//            let table = UserTable()
+//            let condition = DatabaseCommandCondition()
+//            
+//            condition.whereConditions = "user_id >= 0"
+//            condition.orderBy = "user_name"
+//            
+//            let result = table.queryRecord(with: nil, condition: condition)
+//            
+//            print(result)
+            break
         case 2:
             let api = API<TestAPI>()
             // you can't get any data from here because baidu.com 
             // return a html page instead of json data.
-            api.loadData(with: nil).response({ (api, result, error) in
-                
+            api.sendRequest(with: nil).response({ (api, result, error) in
+                if let result = result {
+                    print(result.isFinal, result.objects)
+                }
             })
         case 3:
             KitLogger.log(level: .info, message: "Info messages.")
@@ -200,7 +256,37 @@ extension InternalTestVC: UITableViewDelegate, UITableViewDataSource {
             
         case 5:
 //            print(NetworkCache.memoryCache.size())
-            break
+//            let signal =
+//            Observable<Int>.create { observer in
+//                print(1)
+//                observer.onNext(2)
+//                return Disposables.create()
+//            }
+//            .subscribe(on: schedule1)
+//            .observe(on: MainScheduler.instance)
+//            .flatMapLatest { value -> Observable<Int> in
+//                print(2)
+//                dispatchPrecondition(condition: .onQueue(DispatchQueue.main))
+//                return .just(3)
+//            }
+//
+//            signal.subscribe().disposed(by: cancel)
+//            print(3)
+            
+            let url = "sa-interal://com.mioke.swifty-architecture-demo/home/theme"
+            let navi = navigation!.createNavigationURL(withModule: "home", paths: ["theme"])
+            if navi.absoluteString != url {
+                KitLogger.error("not matched: \n\(navi.absoluteString)\n\(url)")
+                fatalError()
+            }
+            
+            do {
+                try navigation!.navigate(to: url) { result in
+                    KitLogger.info("result: \(result)")
+                }
+            } catch {
+                KitLogger.error("error: \(error)")
+            }
             
         case 6:
             if #available(iOS 10.0, *) {
@@ -225,7 +311,24 @@ extension InternalTestVC: UITableViewDelegate, UITableViewDataSource {
             } else {
                 // Fallback on earlier versions
             }
+        case 7:
+            let vc = AuthTestViewController(nibName: nil, bundle: nil)
+            self.navigationController?.pushViewController(vc, animated: true)
             
+        case 8:
+            let url = "sa-interal://com.mioke.swifty-architecture-demo/home/messages"
+            var config = Navigation.Configuration.default
+            config.presentationMode = .push
+            try! navigation!.navigate(to: url, configuration: config)
+        case 9:
+            let vc = CodeBlockEditorViewController(nibName: nil, bundle: nil)
+            self.navigationController?.pushViewController(vc, animated: true)
+        case 10:
+            FLEXManager.shared.showExplorer()
+        case 11:
+            navigationController?.pushViewController(ConcurrencyTestViewController(), animated: true)
+        case 12:
+            navigationController?.pushViewController(CombineTestsViewController(), animated: true)
         default:
             break
         }

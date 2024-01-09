@@ -9,15 +9,15 @@ import Foundation
 
 public class APIMocker {
     
-    static func mock<T: ApiInfoProtocol>(type: T.Type, customize: @escaping ([String: Any]?) -> T.ResultType) -> Void {
-        APIRouterContainer.shared.injectAPI(with: T.self, customize: customize)
+    public static func mock<T: ApiInfoProtocol>(type: T.Type, customize: @escaping (T.RequestParam?) -> T.ResultType) -> Void {
+        ApiRouterContainer.shared.injectAPI(with: T.self, customize: customize)
     }
     
-    static func recover<T: ApiInfoProtocol>(type: T.Type) -> Void {
-        APIRouterContainer.shared.remove(type: T.self)
+    public static func recover<T: ApiInfoProtocol>(type: T.Type) -> Void {
+        ApiRouterContainer.shared.remove(type: T.self)
     }
     
-    static func reset() {
-        APIRouterContainer.shared.reset()
+    public static func reset() {
+        ApiRouterContainer.shared.reset()
     }
 }

@@ -1,5 +1,5 @@
 PODS:
-  - Alamofire (5.5.0)
+  - Alamofire (5.8.1)
   - Application (0.0.1):
     - ApplicationProtocol
     - AuthProtocol
@@ -13,23 +13,21 @@ PODS:
   - AuthProtocol (0.0.1):
     - MIOSwiftyArchitecture
   - Differentiator (5.0.0)
-  - FMDB (2.7.5):
-    - FMDB/standard (= 2.7.5)
-  - FMDB/standard (2.7.5)
+  - FLEX (5.22.10)
   - MIOSwiftyArchitecture (2.0.0):
-    - MIOSwiftyArchitecture/AppDocker (= 2.0.0)
+    - MIOSwiftyArchitecture/AppDock (= 2.0.0)
     - MIOSwiftyArchitecture/Assistance (= 2.0.0)
     - MIOSwiftyArchitecture/Componentize (= 2.0.0)
     - MIOSwiftyArchitecture/Networking (= 2.0.0)
-    - MIOSwiftyArchitecture/Persistance (= 2.0.0)
     - MIOSwiftyArchitecture/RxExtension (= 2.0.0)
-  - MIOSwiftyArchitecture/AppDocker (2.0.0):
+  - MIOSwiftyArchitecture/AppDock (2.0.0):
     - MIOSwiftyArchitecture/Assistance
     - MIOSwiftyArchitecture/Networking
     - MIOSwiftyArchitecture/RxExtension
-    - Realm (~> 10.20.0)
-    - RealmSwift (~> 10.20.0)
-    - RxRealm (~> 5.0)
+    - Realm
+    - RealmSwift
+    - RxCocoa (~> 6.2)
+    - RxRealm
     - RxSwift (~> 6.2)
   - MIOSwiftyArchitecture/Assistance (2.0.0)
   - MIOSwiftyArchitecture/Componentize (2.0.0):
@@ -40,21 +38,18 @@ PODS:
     - Alamofire (~> 5.4)
     - MIOSwiftyArchitecture/Assistance
     - ObjectMapper (~> 4.2)
-  - MIOSwiftyArchitecture/Persistance (2.0.0):
-    - FMDB
-    - MIOSwiftyArchitecture/Assistance
   - MIOSwiftyArchitecture/RxExtension (2.0.0):
     - MIOSwiftyArchitecture/Assistance
     - MIOSwiftyArchitecture/Networking
     - RxSwift (~> 6.2)
   - MIOSwiftyArchitecture/Testable (2.0.0):
-    - MIOSwiftyArchitecture/AppDocker
+    - MIOSwiftyArchitecture/AppDock
     - MIOSwiftyArchitecture/Assistance
     - MIOSwiftyArchitecture/Componentize
     - MIOSwiftyArchitecture/Networking
     - MIOSwiftyArchitecture/RxExtension
   - MIOSwiftyArchitecture/Tests (2.0.0):
-    - MIOSwiftyArchitecture/AppDocker
+    - MIOSwiftyArchitecture/AppDock
     - MIOSwiftyArchitecture/Assistance
     - MIOSwiftyArchitecture/Componentize
     - MIOSwiftyArchitecture/Networking
@@ -62,29 +57,30 @@ PODS:
     - MIOSwiftyArchitecture/Testable
     - RxSwift (~> 6.2)
   - ObjectMapper (4.2.0)
-  - Realm (10.20.1):
-    - Realm/Headers (= 10.20.1)
-  - Realm/Headers (10.20.1)
-  - RealmSwift (10.20.1):
-    - Realm (= 10.20.1)
-  - RxCocoa (6.2.0):
-    - RxRelay (= 6.2.0)
-    - RxSwift (= 6.2.0)
+  - Realm (10.45.2):
+    - Realm/Headers (= 10.45.2)
+  - Realm/Headers (10.45.2)
+  - RealmSwift (10.45.2):
+    - Realm (= 10.45.2)
+  - RxCocoa (6.6.0):
+    - RxRelay (= 6.6.0)
+    - RxSwift (= 6.6.0)
   - RxDataSources (5.0.0):
     - Differentiator (~> 5.0)
     - RxCocoa (~> 6.0)
     - RxSwift (~> 6.0)
-  - RxRealm (5.0.3):
-    - Realm (~> 10.7)
-    - RealmSwift (~> 10.7)
-    - RxCocoa (~> 6.0)
-    - RxSwift (~> 6.0)
-  - RxRelay (6.2.0):
-    - RxSwift (= 6.2.0)
-  - RxSwift (6.2.0)
-  - Swinject (2.8.1)
-  - SwinjectAutoregistration (2.7.0):
-    - Swinject (~> 2.7)
+  - RxRealm (5.0.6):
+    - Realm (~> 10.45)
+    - RealmSwift (~> 10.45)
+    - RxCocoa (~> 6.2)
+    - RxSwift (~> 6.2)
+  - RxRelay (6.6.0):
+    - RxSwift (= 6.6.0)
+  - RxSwift (6.6.0)
+  - SnapKit (5.6.0)
+  - Swinject (2.8.3)
+  - SwinjectAutoregistration (2.8.3):
+    - Swinject (~> 2.8.3)
 
 DEPENDENCIES:
   - Alamofire
@@ -92,14 +88,15 @@ DEPENDENCIES:
   - ApplicationProtocol (from `./ComponentizeDemo/Application`)
   - Auth (from `./ComponentizeDemo/Auth`)
   - AuthProtocol (from `./ComponentizeDemo/Auth`)
-  - FMDB
+  - FLEX
   - MIOSwiftyArchitecture (from `./`)
   - MIOSwiftyArchitecture/Testable (from `./`)
   - MIOSwiftyArchitecture/Tests (from `./`)
   - RealmSwift
   - RxDataSources
-  - RxRealm
+  - RxRealm (from `https://github.com/Mioke/RxRealm.git`, branch `main`)
   - RxSwift (~> 6.0)
+  - SnapKit
   - Swinject
   - SwinjectAutoregistration
 
@@ -107,15 +104,15 @@ SPEC REPOS:
   https://github.com/CocoaPods/Specs.git:
     - Alamofire
     - Differentiator
-    - FMDB
+    - FLEX
     - ObjectMapper
     - Realm
     - RealmSwift
     - RxCocoa
     - RxDataSources
-    - RxRealm
     - RxRelay
     - RxSwift
+    - SnapKit
     - Swinject
     - SwinjectAutoregistration
 
@@ -130,27 +127,36 @@ EXTERNAL SOURCES:
     :path: "./ComponentizeDemo/Auth"
   MIOSwiftyArchitecture:
     :path: "./"
+  RxRealm:
+    :branch: main
+    :git: https://github.com/Mioke/RxRealm.git
+
+CHECKOUT OPTIONS:
+  RxRealm:
+    :commit: f930c360fef32372bc839c6939d4e0ee8f8276ac
+    :git: https://github.com/Mioke/RxRealm.git
 
 SPEC CHECKSUMS:
-  Alamofire: 1c4fb5369c3fe93d2857c780d8bbe09f06f97e7c
+  Alamofire: 3ca42e259043ee0dc5c0cdd76c4bc568b8e42af7
   Application: dd4fd31f4118552d2623f56cb55ab79f4db07853
   ApplicationProtocol: 3270de550fcbb5ad68ebdf9b42245159d51b0e77
   Auth: 5659f3a716fb6e046dac47c6b0000c259233eb4e
   AuthProtocol: 699414ec99eb060731d49ec1092901fc1ae55e3e
   Differentiator: e8497ceab83c1b10ca233716d547b9af21b9344d
-  FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
-  MIOSwiftyArchitecture: 013b955874684ff4ec74401c6400746b29a5b96a
+  FLEX: f21ee4f498eed3f8a1eded66b21939fd3b7a22ce
+  MIOSwiftyArchitecture: a3b8d6c138baa3a9d4369479a3a876e47605dd9c
   ObjectMapper: 1eb41f610210777375fa806bf161dc39fb832b81
-  Realm: fac5ecd031fcb81171627b74944c885662d4b266
-  RealmSwift: 9b02d25acb46a14756bde9893abb99e2e3675923
-  RxCocoa: 4baf94bb35f2c0ab31bc0cb9f1900155f646ba42
+  Realm: bc4fc31783a0b3e355edca05f167f6a49c544dc2
+  RealmSwift: 234003b5fdb187c4b439d478662636d62a1f9de0
+  RxCocoa: 44a80de90e25b739b5aeaae3c8c371a32e3343cc
   RxDataSources: aa47cc1ed6c500fa0dfecac5c979b723542d79cf
-  RxRealm: d9fedf16e3ead54b0be2077d2ff4a1b2dc27be39
-  RxRelay: e72dbfd157807478401ef1982e1c61c945c94b2f
-  RxSwift: d356ab7bee873611322f134c5f9ef379fa183d8f
-  Swinject: 97112918bd7e0785dc2df7036213f3c8cbba6586
-  SwinjectAutoregistration: 330f5012642a8b5c89a8a4adb0c5e52df07382c0
+  RxRealm: e21c822fe537c4db4d764c79901ce4b01b6c6446
+  RxRelay: 45eaa5db8ee4fb50e5ebd57deec0159e97fa51e6
+  RxSwift: a4b44f7d24599f674deebd1818eab82e58410632
+  SnapKit: e01d52ebb8ddbc333eefe2132acf85c8227d9c25
+  Swinject: 893c9a543000ac2f10ee4cbaf0933c6992c935d5
+  SwinjectAutoregistration: e3ee378dc458acf78d176fc7fec3902603452667
 
-PODFILE CHECKSUM: 23aa4b542c2b826493aa87894612c1f3f494821c
+PODFILE CHECKSUM: 5e81b093f7a6dc8996bd25533b64c5b77591b2ce
 
-COCOAPODS: 1.11.3
+COCOAPODS: 1.14.3

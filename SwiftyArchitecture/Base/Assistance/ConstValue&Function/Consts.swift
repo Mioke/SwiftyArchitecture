@@ -9,9 +9,15 @@
 import UIKit
 import SwiftUI
 
+#if swift(<5.5.2)
+#error("SwiftyArchitecture only support Swift version >= 5.5.2 for concurrency support purpose.")
+#endif
+
 public struct Consts {
-    public static let defaultDomain = "com.mioke.swiftyarchitecture.default"
-    public static let networkingDomain = "com.mioke.swiftyarchitecture.networking"
+    public static let domainPrefix = "com.mioke.swiftyarchitecture"
+    
+    public static let defaultDomain = domainPrefix + ".default"
+    public static let networkingDomain = domainPrefix + ".networking"
 }
 
 extension Consts {
@@ -44,6 +50,7 @@ extension KitErrors {
         // general
         case noDelegate
         case unknown
+        case deallocated
         case todo = 777
         
         // networking
@@ -52,7 +59,7 @@ extension KitErrors {
         
         // persistance
         
-        // app docker
+        // app dock
         
         // componentize
         case graphCycle = 4000
@@ -62,13 +69,19 @@ extension KitErrors {
 
 // Demo
 public extension KitErrors {
-    static var todoInfo: Info {
+    
+    private static var deallocatedInfo: Info {
+        .init(code: .deallocated, message: "The instance has already been deallocated.")
+    }
+    static let deallocated: NSError = error(domain: Consts.defaultDomain, info: KitErrors.deallocatedInfo)
+    
+    private static var todoInfo: Info {
         .init(code: .todo, message: "The author is too lazy to complete this.")
     }
     static let todo: NSError = error(domain: Consts.defaultDomain, info: KitErrors.todoInfo)
     
     
-    static var unknownErrorInfo: Info {
+    private static var unknownErrorInfo: Info {
         return .init(code: .unknown, message: "Unknown error")
     }
     

@@ -7,39 +7,32 @@
 //
 
 import UIKit
-@_exported import MIOSwiftyArchitecture
+import MIOSwiftyArchitecture
 
-class ViewController: UIViewController {
+open class ViewController: UIViewController {
     
-    let userService = UserService()
+    open override func viewWillAppear(_ animated: Bool) {
+        KitLogger.info("\(self) will appear")
+        super.viewWillAppear(animated)
+    }
     
-    var baiduSearch = API<TestAPI>()
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
-        
-        scope("init UI") {
-            self.view.backgroundColor = UIColor.lightGray
-        }
-        
-        scope("init data") {
-            self.baiduSearch.loadData(with: nil).response { (api, result, error) in
-                
-            }
-        }
-        
-        let db = DefaultDatabase()
-        print(db.query("select * from tableDoesntExtist", withArgumentsInArray: nil))
+    open override func viewDidAppear(_ animated: Bool) {
+        KitLogger.info("\(self) did appear")
+        super.viewDidAppear(animated)
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    
+    open override func viewWillDisappear(_ animated: Bool) {
+        KitLogger.info("\(self) will disappear")
+        super.viewWillDisappear(animated)
     }
-
-    @IBAction func clickButton(_ sender: Any) {
-        
+    
+    open override func viewDidDisappear(_ animated: Bool) {
+        KitLogger.info("\(self) did disappear")
+        super.viewDidDisappear(animated)
+    }
+    
+    deinit {
+        KitLogger.info("\(self) deinit")
     }
 }
 

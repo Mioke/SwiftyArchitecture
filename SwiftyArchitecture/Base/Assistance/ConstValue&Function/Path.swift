@@ -27,16 +27,14 @@ class Path: NSObject {
         return Bundle.main.bundlePath
     }
     
-    static var libPath: String? {
+    static var libPath: String {
         let paths = NSSearchPathForDirectoriesInDomains(.libraryDirectory, .userDomainMask, true)
-        return paths.first
-        
+        return paths.first ?? NSHomeDirectory() + "/Library"
     }
     
-    static var cachePath: String? {
+    static var cachePath: String {
         let paths = NSSearchPathForDirectoriesInDomains(.cachesDirectory, .userDomainMask, true)
-        return paths.first
-        
+        return paths.first ?? NSHomeDirectory() + "/Library/Cashes"
     }
     
     
@@ -98,3 +96,17 @@ class Path: NSObject {
     }
 }
 
+extension FileManager {
+    
+    func createDiractoryIfNeeded(at url: URL) throws {
+        var isDirectory: ObjCBool = false
+        if fileExists(atPath: url.path, isDirectory: &isDirectory) {
+            if !isDirectory.boolValue {
+                // let this throw a `file exists error`
+                try createDirectory(at: url, withIntermediateDirectories: true)
+            }
+        } else {
+            try createDirectory(at: url, withIntermediateDirectories: true)
+        }
+    }
+}

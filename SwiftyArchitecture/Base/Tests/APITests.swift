@@ -32,7 +32,7 @@ class APITests: XCTestCase {
         
         let expect = XCTestExpectation(description: "Api test mock")
         
-        testApi.rx.loadData(with: ["id": "1"])
+        testApi.rxSendRequest(with: ["id": "1"])
             .subscribe { event in
                 print(event)
                 guard case .next(_) = event else { return }
@@ -47,7 +47,7 @@ class APITests: XCTestCase {
         APIMocker.recover(type: UserAPI.self)
         
         let expect = XCTestExpectation(description: "RemoveMock")
-        testApi.rx.loadData(with: ["id": "1"])
+        testApi.rxSendRequest(with: ["id": "1"])
             .subscribe { event in
                 print(event)
                 guard case .error(_) = event else { return }
@@ -63,8 +63,14 @@ struct User: Codable {
     var name: String
 }
 
+let MioDemoServer: Server = .init(live: URL(string: "https://www.baidu.com")!,
+                                  customEnvironments: [
+                                    .custom("Dev"): URL(string: "https://www.baidu.com")!,
+                                    .custom("Staging"): URL(string: "https://www.baidu.com")!,
+                                  ])
+
 final class UserAPI: NSObject, ApiInfoProtocol {
-    
+    typealias RequestParam = [String: String]
     typealias ResultType = User
     
     static var apiVersion: String {
@@ -74,8 +80,7 @@ final class UserAPI: NSObject, ApiInfoProtocol {
         get { return "s" }
     }
     static var server: Server {
-        get { return Server(online: "http://www.mioke.com",
-                            offline: "http://www.mioke.com") }
+        get { return MioDemoServer }
     }
     static var httpMethod: Alamofire.HTTPMethod {
         get { return .get }

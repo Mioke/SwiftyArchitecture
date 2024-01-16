@@ -41,7 +41,7 @@ public class InputLimiter<T: Inputer>: NSObject {
     }
     
     // text field
-    fileprivate func _inputerDidChanged<T: UITextField>(_ inputer: T) -> Void {
+    fileprivate func _inputerDidChanged(_ inputer: UITextField) -> Void {
         
         guard let text = inputer.text else {
             return
@@ -60,7 +60,7 @@ public class InputLimiter<T: Inputer>: NSObject {
     }
     
     // text view
-    fileprivate func _inputerDidChanged<T: UITextView>(_ inputer: T) -> Void {
+    fileprivate func _inputerDidChanged(_ inputer: UITextView) -> Void {
         
         guard let text = inputer.text else {
             return

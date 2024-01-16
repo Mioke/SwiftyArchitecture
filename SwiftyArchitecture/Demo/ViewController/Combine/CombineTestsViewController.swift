@@ -17,9 +17,6 @@ class CombineTestsViewController: UIViewController {
 
         // Do any additional setup after loading the view.
         
-        let array: [Int] = []
-        let set: Set<Int> = .init(array)
-        let unique = Array<Int>.init(set)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -49,12 +46,14 @@ class CombineTestsViewController: UIViewController {
 
 protocol Notifiable<Value> {
     associatedtype Value
-    func subscribe() -> any AsyncSequence
+    func subscribe() -> AsyncStream<Value>
 //    var sequence: [Value] { get }
 }
 
 class Notifier: Notifiable {
-    func subscribe() -> any AsyncSequence {
+    
+    func subscribe() -> AsyncStream<Notification> {
+        
         return AsyncStream<Value>.init { continuation in
             
         }
@@ -72,10 +71,15 @@ class Notifier: Notifiable {
         
     }
     
-    func foo() {
-        nonProtocolSubscribe().map { element in
-            
+    func foo() async throws {
+        let mapped = nonProtocolSubscribe().map { element in
+            return element
         }
+        
+        for try await element in mapped {
+            print(element)
+        }
+        
     }
     
 }

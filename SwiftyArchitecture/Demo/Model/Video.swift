@@ -8,28 +8,36 @@
 
 import UIKit
 
-struct Video: Decodable {
-    enum State: String, Decodable {
+struct Video: Codable {
+    
+    enum State: String, Codable {
         case unknown, streaming, archived
     }
     
     let name: String
     
-    @CodableDefault(defaultValue: .unknown)
-    var state: Video.State
+//    @CodableDefault(defaultValue: .unknown)
+    var state: Video.State = .unknown
+    
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        self.name = try container.decode(String.self, forKey: .name)
+        self.state = try container.decodeIfPresent(Video.State.self, forKey: .state) ?? self.state // not a good solution
+    }
 }
 
-@propertyWrapper class CodableDefault<T: Decodable>: Decodable {
-    var `default`: T
-    var value: T?
+@propertyWrapper class CodableDefault<T: Codable>: Codable {
+    var defaultValue: T
     
+    var value: T?
     var wrappedValue: T {
-        get { return value ?? `default` }
-        set { self.value = newValue }
+        get { return value ?? defaultValue }
+        set { value = newValue }
     }
-    // This would be called when Codable object initializing.
-    init(defaultValue: T) {
-        self.default = defaultValue
+    
+    init(wrappedValue: T? = nil, defaultValue: T) {
+        value = wrappedValue
+        self.defaultValue = defaultValue
     }
 }
 

@@ -46,7 +46,6 @@ class InternalTestVC: ViewController {
 //            return v
 //        }()
         
-        // Do any additional setup after loading the view.
         self.tests = [
             "None1", "None2", "API test", "Call Log", "Data center test", "Theme",
             "Push local notification", "Auth Tests", "Smooth Scrolling TableView Test", "Code Block Editor",
@@ -157,7 +156,14 @@ class InternalTestVC: ViewController {
         subject.onNext(1)
         print("5. end")
         
+        print("========================")
         
+        let stream = AsyncThrowingSignalStream<Int>()
+        
+        Task {
+            let value = try await stream.wait { $0 == 1}
+            print(value)
+        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -218,11 +224,17 @@ extension InternalTestVC: UITableViewDelegate, UITableViewDataSource {
         
         switch indexPath.row {
         case 0:
-//            let table = UserTable()
-//            let newUser = UserModel(name: "Klein", uid: 310)
-//            
-//            let _ = table.replace(newUser)
-            break
+            do {
+                let jsonString = """
+                         { "name": "The Lord of the Rings" }
+                         """
+                if let data = jsonString.data(using: .utf8) {
+                    let video = try JSONDecoder().decode(Video.self, from: data)
+                    print(video.name, video.state)
+                }
+            } catch {
+                print(error)
+            }
         case 1:
 //            let table = UserTable()
 //            let condition = DatabaseCommandCondition()

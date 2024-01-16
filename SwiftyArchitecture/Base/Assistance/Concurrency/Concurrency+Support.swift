@@ -8,16 +8,17 @@ import _Concurrency
 
 // MARK: - AsyncProperty
 
-@available(iOS 13.0, *)
 /// Asynchronous updating a property and suspend the caller using `await`, but if the state is `ready` then it won't
 /// suspend the caller. For the feature like `Property<T>` in `ReactiveSwift`
-public actor AsyncProperty<T> {
+@available(iOS 13.0, *)
+public class AsyncProperty<T> {
     
     public enum State {
         case ready, updating
     }
     
     /// Current state.
+    @ThreadSafe
     public private(set) var state: State = .ready
     
     /// a storage contains all task continuations when the value is updating.
@@ -88,8 +89,10 @@ public actor AsyncProperty<T> {
 /// 2. Send `error` to all waiting callers.
 /// 3. Won't terminate when receiving an `error`
 /// 4. Send `haventWaitedForValue` error when stream is off.
+/// 5. If there's a wait in the stream, the stream won't get deallocated, please call `invalid()` first
+///    before relase a stream.
 @available(iOS 13, *)
-public actor AsyncThrowingSignalStream<T> {
+public class AsyncThrowingSignalStream<T> {
     
     public enum SignalError: Swift.Error {
         case haventWaitedForValue
@@ -103,14 +106,15 @@ public actor AsyncThrowingSignalStream<T> {
     /// - Parameter signalCondition: A condition to determine whether the value is what caller waiting for.
     /// - Returns: The value.
     public func wait(for signalCondition: @escaping (T) -> Bool) async throws -> T {
-        return try await withCheckedThrowingContinuation { continuation in
+        return try await withCheckedThrowingContinuation { [weak self] continuation in
+            guard let self else { return }
             continuations.append((condition: signalCondition, continuation: continuation))
         }
     }
     
     /// Send a value into this stream.
     /// - Parameter signal: A value.
-    public func send(signal: T) throws {
+    public func send(signal: T) {
         continuations.removeAll(where: { (condition: (T) -> Bool, continuation: CheckedContinuation<T, Error>) in
             if condition(signal) {
                 continuation.resume(returning: signal)
@@ -129,11 +133,18 @@ public actor AsyncThrowingSignalStream<T> {
         }
     }
     
-    deinit {
+    /// Invalidate current stream and remove all waits.
+    /// - Important: This stream won't ge deinit when there is any wait in the stream. So invalid when you
+    ///              want to release a stream or add `invalid()` in the owner's `deinit`.
+    public func invalid() {
         continuations.removeAll { (condition: (T) -> Bool, continuation: CheckedContinuation<T, Error>) in
             continuation.resume(throwing: SignalError.haventWaitedForValue)
             return true
         }
+    }
+    
+    deinit {
+        invalid()
     }
 }
 
@@ -404,6 +415,7 @@ public extension Task {
     ///   - object: The object to be captured
     ///   - priority: Task priority.
     ///   - operation: Task operation.
+    @discardableResult
     static func detached<T>(weakCapturing object: T,
                             priority: TaskPriority? = nil,
                             operation: @escaping (T) async throws -> Success)

@@ -20,7 +20,7 @@ class MessageViewModel {
     
     convenience init() {
         self.init(message: (0..<Int.random(in: 50..<100))
-            .compactMap { _ in String(alphanumberic.randomElement() ?? Character.init(""))}
+            .compactMap { _ in String(alphanumberic.randomElement() ?? Character.init("")) }
             .joined())
     }
 }
@@ -36,10 +36,12 @@ class MessageCell: UITableViewCell {
 //        contentView.translatesAutoresizingMaskIntoConstraints = false
         
         contentView.addSubview(messageLabel)
-        messageLabel.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 15).isActive = true
-        messageLabel.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -15).isActive = true
-        messageLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 15).isActive = true
-        messageLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -15).isActive = true
+        NSLayoutConstraint.activate([
+            messageLabel.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 15),
+            messageLabel.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -15),
+            messageLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 15),
+            messageLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -15),
+        ])
         
         messageLabel.font = UIFont.systemFont(ofSize: 16)
         messageLabel.numberOfLines = 0

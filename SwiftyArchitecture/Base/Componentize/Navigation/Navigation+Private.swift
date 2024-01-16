@@ -37,7 +37,10 @@ struct RegisteryFile: Codable {
 }
 
 class RegisteryFileCache {
+    /// Singleton of `RegisteryFileCache`
     static let shared: RegisteryFileCache = .init()
+    
+    @ThreadSafe
     var file: RegisteryFile? = nil
 }
 

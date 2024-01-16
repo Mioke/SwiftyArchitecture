@@ -10,9 +10,9 @@ import UIKit
 import SwiftUI
 
 class ThemeUI {
-    static var themeDidChange: Notification.Name = .init(rawValue: "SwiftyArchitecture.ThemeUI.themeDidChange")
+    static var themeResourceDidChange: Notification.Name = .init(rawValue: "SwiftyArchitecture.ThemeUI.themeDidChange")
     static var current: Resource = DynamicResource() {
-        didSet { NotificationCenter.default.post(name: themeDidChange, object: nil) }
+        didSet { NotificationCenter.default.post(name: themeResourceDidChange, object: nil) }
     }
 }
 

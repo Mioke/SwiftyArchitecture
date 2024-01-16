@@ -43,7 +43,18 @@ public final class ModuleManager: NSObject {
     
     public static let `default` = ModuleManager()
     
-    public lazy var bridge = ModuleBridge(with: self)
+    private let _lock = RwLock()
+    var _bridge: ModuleBridge? = nil
+    
+    /// The module's bridge, for resolving other modules' interface.
+    public lazy var bridge = {
+        // Lazy is not thread-safe so here should protect the initialization of the property.
+        return _lock.write {
+            if let _bridge { return _bridge }
+             _bridge = ModuleBridge(with: self)
+            return _bridge!
+        }
+    }()
     
     public var session: UserSession? = nil
     

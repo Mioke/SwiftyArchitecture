@@ -36,19 +36,19 @@ class ConcurrencyTestViewController: UIViewController {
         
         // Do any additional setup after loading the view.
         
-//        Task {
-//            do {
-//                async let result = timeoutTask(with: 3_000_000_000) {
-//                    try await Task.sleep(nanoseconds: 5_000_000_000)
-//                    return "ahhhhh"
-//                } onTimeout: {
-//                    print("timeout!")
-//                }
-//                print(try await result)
-//            } catch {
-//                print(error)
-//            }
-//
+        Task {
+            do {
+                async let result = timeoutTask(with: 2 * Consts.nanosecondsPerSecond) {
+                    try await Task.sleep(nanoseconds: 5 * Consts.nanosecondsPerSecond)
+                    return "ahhhhh"
+                } onTimeout: {
+                    print("timeout!")
+                }
+                print(try await result)
+            } catch {
+                print(error)
+            }
+
 //            _ = stream
 //
 //            streamContinuation?.onTermination = { termination in
@@ -56,8 +56,8 @@ class ConcurrencyTestViewController: UIViewController {
 //                    print(error, "$$$")
 //                }
 //            }
-//
-//        }
+
+        }
         
 //        Task {
 //            let rst = try await self.signalStream.wait { value in
@@ -82,40 +82,40 @@ class ConcurrencyTestViewController: UIViewController {
         
 //        FeatureManager.shared.updateToggleValue()
         
-        Task {
-            intSignals
-                .subscribe(on: SerialDispatchQueueScheduler.init(qos: .default)) // effective
-                .subscribe(onNext: { value in
-                    Task.detached { [weak self] in
-                        print("before task", value, Thread.current, Thread.isMainThread)
-                        await self?.updateCurrentSignal(with: value)
-                    }
-                })
-                .disposed(by: self.rx.lifetime)
-            
-//            for try await value in intSignals.subscribe(on: SerialDispatchQueueScheduler.init(qos: .default)).values {
-//                print(value, Thread.current, Thread.isMainThread)
-//            }
-        }
+//        Task {
+//            intSignals
+//                .subscribe(on: SerialDispatchQueueScheduler.init(qos: .default)) // effective
+//                .subscribe(onNext: { value in
+//                    Task.detached { [weak self] in
+//                        print("before task", value, Thread.current, Thread.isMainThread)
+//                        await self?.updateCurrentSignal(with: value)
+//                    }
+//                })
+//                .disposed(by: self.rx.lifetime)
+//            
+////            for try await value in intSignals.subscribe(on: SerialDispatchQueueScheduler.init(qos: .default)).values {
+////                print(value, Thread.current, Thread.isMainThread)
+////            }
+//        }
         
-        if #available(iOS 16, *) {
-            
-            self.state
-                .subscribe { event in
-                    print("VC Thread:", Thread.current)
-                }
-                .disposed(by: self.rx.lifetime)
-            
-            Task {
-                _ = try await FeatureManager.shared.asyncUpdateToggleValue() // switch to cooperative thread.
-                self.state.onNext(.two) // switch back to main thread.
-            }
-            
-            Task {
-                _ = try await FeatureManager.shared.asyncUpdateToggleValueMain()
-                self.state.onNext(.two) //
-            }
-        }
+//        if #available(iOS 16, *) {
+//            
+//            self.state
+//                .subscribe { event in
+//                    print("VC Thread:", Thread.current)
+//                }
+//                .disposed(by: self.rx.lifetime)
+//            
+//            Task {
+//                _ = try await FeatureManager.shared.asyncUpdateToggleValue() // switch to cooperative thread.
+//                self.state.onNext(.two) // switch back to main thread.
+//            }
+//            
+//            Task {
+//                _ = try await FeatureManager.shared.asyncUpdateToggleValueMain()
+//                self.state.onNext(.two) //
+//            }
+//        }
     }
     
     func updateCurrentSignal(with value: Int) async -> Void {

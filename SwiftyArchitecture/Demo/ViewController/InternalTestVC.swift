@@ -157,13 +157,6 @@ class InternalTestVC: ViewController {
         print("5. end")
         
         print("========================")
-        
-        let stream = AsyncThrowingSignalStream<Int>()
-        
-        Task {
-            let value = try await stream.wait { $0 == 1}
-            print(value)
-        }
     }
 
     override func didReceiveMemoryWarning() {

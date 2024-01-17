@@ -14,10 +14,18 @@ import SwiftUI
 #endif
 
 public struct Consts {
+    // - Domains
+    /// The domain prefix of this framework, used in any identifier like networking, queue etc.
     public static let domainPrefix = "com.mioke.swiftyarchitecture"
-    
+    /// The global used or non-specific domain identifier.
     public static let defaultDomain = domainPrefix + ".default"
+    /// The domain of networking kit in this kit.
     public static let networkingDomain = domainPrefix + ".networking"
+    
+    // - Time
+    public static let milisecondsPerSecond: UInt64 = 1_000
+    public static let microsecondsPerSecond: UInt64 = 1_000_000
+    public static let nanosecondsPerSecond: UInt64 = 1_000_000_000
 }
 
 extension Consts {

@@ -202,7 +202,7 @@ public class AsyncThrowingMulticast<T>: Unsubscribable {
                 }
                 continuation.onTermination = { [weak self] termination in
                     guard let self else { return }
-                    self._subscribers.write { s -> Void in
+                    _subscribers.write { s -> Void in
                         s[id] = nil
                     }
                 }
@@ -281,7 +281,7 @@ public class AsyncMulticast<T>: Unsubscribable {
                 }
                 continuation.onTermination = { [weak self] termination in
                     guard let self else { return }
-                    self._subscribers.write { s -> Void in
+                    _subscribers.write { s -> Void in
                         s[id] = nil
                     }
                 }
@@ -335,15 +335,15 @@ public class AsyncMulticast<T>: Unsubscribable {
 public func timeoutTask<T: Sendable>(with nanoseconds: UInt64,
                                      task: @Sendable @escaping () async throws -> T,
                                      onTimeout: @Sendable () -> Void) async throws -> T {
-    let result = Task(operation: task)
+    let task = Task(operation: task)
     Task.detached {
         try await Task.sleep(nanoseconds: nanoseconds)
-        result.cancel()
+        task.cancel()
     }
     return try await withTaskCancellationHandler(
         operation: {
             do {
-                return try await result.value
+                return try await task.value
             } catch {
                 if error is CancellationError {
                     onTimeout()
@@ -358,6 +358,10 @@ public func timeoutTask<T: Sendable>(with nanoseconds: UInt64,
 public extension Task {
     
     /// Get task's success value with a timeout limition.
+    /// - Important: If the task is a computationally-intensive process, guarantee to add `Task.checkCancellaction()`
+    /// and `Task.yield()` to check the task whether has been cancelled already. Or the timeout block won't get called
+    /// immediately but until the time of the task has a chance to check cancelled, for example calling other legecy
+    /// API like `Task.sleep`, `URLSessoin.data` etc.
     /// - Important: When timeout there will be raised a "CancellationError".
     /// - Parameters:
     ///   - nanoseconds: Timeout limition
@@ -381,6 +385,10 @@ public extension Task {
     }
     
     /// Get task's success value with a timeout duration limition.
+    /// - Important: If the task is a computationally-intensive process, guarantee to add `Task.checkCancellaction()`
+    /// and `Task.yield()` to check the task whether has been cancelled already. Or the timeout block won't get called
+    /// immediately but until the time of the task has a chance to check cancelled, for example calling other legecy
+    /// API like `Task.sleep`, `URLSessoin.data` etc.
     /// - Important: When timeout there will be raised a "CancellationError".
     /// - Parameters:
     ///   - duration: Timeout limition in Duration.

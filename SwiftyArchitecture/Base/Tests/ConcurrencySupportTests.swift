@@ -229,4 +229,123 @@ class ConcurrencySupportTestCases: XCTestCase {
             XCTAssert(false)
         }
     }
+    
+    var multicaster2: AsyncMulticast<Int> = .init()
+    
+    @available(iOS 16.0, *)
+    func testAsyncMulticast1() async throws {
+        
+        let expect = XCTestExpectation()
+        let (stream, token) = multicaster2.subscribe()
+        
+        Task {
+            var results = [Int]()
+            for try await item in stream {
+                results.append(item)
+            }
+            XCTAssert(results.count == 3)
+            expect.fulfill()
+        }
+        
+        Task {
+            multicaster2.cast(1)
+            try await Task.sleep(for: Duration.seconds(2))
+            multicaster2.cast(2)
+            try await Task.sleep(for: Duration.seconds(2))
+            multicaster2.cast(3)
+            token.unsubscribe()
+        }
+        
+        await fulfillment(of: [expect], timeout: 10)
+    }
+    
+    // Test deinit
+    @available(iOS 16.0, *)
+    func testAsyncMulticast2() async throws {
+        
+        let expect = XCTestExpectation()
+        let (stream, token) = multicaster2.subscribe()
+        token.bindLifetime(to: self)
+        
+        Task {
+            var results = [Int]()
+            for try await item in stream {
+                results.append(item)
+            }
+            XCTAssert(results.count == 1)
+            expect.fulfill()
+        }
+        
+        Task {
+            multicaster2.cast(1)
+            try await Task.sleep(for: Duration.seconds(2))
+            multicaster2 = .init()
+        }
+        
+        await fulfillment(of: [expect], timeout: 10)
+    }
+    
+    func testTimeout1() async throws {
+        
+        let task = Task {
+            return try await timeoutTask(with: 2 * Consts.nanosecondsPerSecond) {
+                var count = 0
+                while true {
+                    count += 1
+                    if count == 100 {
+                        count = 0
+                        /// - Important: In this computationally-intensive process, because this process already take
+                        /// place in this thread and there is no other place for concurrency system to check this task
+                        /// is cancelled or not, so we must explicitly call `checkCancellaction()`, and better to
+                        /// `yield()` once for asynchronisely call.
+                        try Task.checkCancellation()
+                        await Task.yield()
+                    }
+                }
+                XCTAssert(false)
+                return "some"
+            } onTimeout: {
+                print("ext: on timeout")
+                XCTAssert(true)
+            }
+        }
+        
+        if case .failure = await task.result {
+            XCTAssert(true)
+        } else {
+            XCTAssert(false)
+        }
+    }
+    
+    @available(iOS 16.0, *)
+    func testTimeout2() async throws {
+        
+        let task = Task {
+            var count = 0
+            while true {
+                count += 1
+                if count == 100 {
+                    count = 0
+                    /// - Important: In this computationally-intensive process, because this process already take
+                    /// place in this thread and there is no other place for concurrency system to check this task
+                    /// is cancelled or not, so we must explicitly call `checkCancellaction()`, and better to
+                    /// `yield()` once for asynchronisely call.
+                    try Task.checkCancellation()
+                    await Task.yield()
+                }
+            }
+            XCTAssert(false)
+            return "some"
+        }
+        
+        do {
+            _ = try await task.value(timeout: .seconds(2)) {
+                print("on timeout")
+            }
+        } catch {
+            XCTAssert(error is CancellationError)
+        }
+    }
+    
+    
 }

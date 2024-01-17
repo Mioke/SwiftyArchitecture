@@ -341,6 +341,7 @@ For large-sized teams, if you have a chain of tools and utilities to build pods 
 - [x] ~~Animations, Tools and Kits: TextKit like [YYText](https://github.com/ibireme/YYText), etc~~. (SwiftyArchitecture won't provide those utilities, because base shouldn't have to.)
 - [x] Refactoring, more functional and reative. Considering to use `Rx` or `ReactiveSwift`. Fully use genericity.
 - [x] Modulize of componentization usage. Router.
+- [ ] Full Swift concurrency API support.
   
 # License
 All the source code is published under the MIT license. See LICENSE file for details.

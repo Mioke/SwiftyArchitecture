@@ -6,7 +6,7 @@
 //
 
 import Foundation
-
+import UIKit
 
 extension URL {
     var getHost: String? {
@@ -77,7 +77,8 @@ class NavigationUtils {
     }
     
     static func applicationWindow() -> UIWindow? {
-        if let windowScene = UIApplication.shared.connectedScenes.first(where: { $0 as? UIWindowScene != nil }) as? UIWindowScene,
+        if #available(iOS 15.0, *),
+           let windowScene = UIApplication.shared.connectedScenes.first(where: { $0 as? UIWindowScene != nil }) as? UIWindowScene,
            let key = windowScene.keyWindow {
             return key
         }

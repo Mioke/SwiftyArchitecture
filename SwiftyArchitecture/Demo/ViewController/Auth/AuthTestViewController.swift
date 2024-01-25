@@ -9,22 +9,22 @@
 import UIKit
 import MIOSwiftyArchitecture
 import RxCocoa
+import RxSwift
 import AuthProtocol
 
 class AuthTestViewController: UIViewController {
 
     @IBOutlet weak var displayLabel: UILabel!
     @IBOutlet weak var statusLabel: UILabel!
+    
+    var listeners: DisposeBag = .init()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
         
         refreshDisplay()
-        AppContext.current.authState.map { "\($0)" }
-            .asDriver(onErrorJustReturn: "Error")
-            .drive(statusLabel.rx.text)
-            .disposed(by: self.rx.lifetime)
     }
     
     func refreshDisplay() -> Void {
@@ -34,6 +34,13 @@ class AuthTestViewController: UIViewController {
         } else if AppContext.current == AppContext.standard {
             displayLabel.text = "Current is default user"
         }
+        
+        listeners = .init()
+        AppContext.current.authState.map { "\($0)" }
+            .asDriver(onErrorJustReturn: "Error")
+            .debug("AuthVC")
+            .drive(statusLabel.rx.text)
+            .disposed(by: listeners)
     }
 
 
@@ -56,8 +63,15 @@ class AuthTestViewController: UIViewController {
     }
     
     @IBAction func onLogout(_ sender: Any) {
-        
+        UserService.shared.logout()
+            .subscribe { [weak self] event in
+                if case .next = event {
+                    self?.refreshDisplay()
+                }
+            }
+            .disposed(by: rx.lifetime)
     }
+    
     /*
     // MARK: - Navigation
 

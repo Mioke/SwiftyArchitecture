@@ -26,8 +26,6 @@ final public class StandardAppContext: AppContext {
     
     public let resourceBag: DisposeBag = .init()
     
-    var userMeta: _UserMeta? = nil
-    
     private let writeSchedule: SerialDispatchQueueScheduler = .init(internalSerialQueueName: "com.authcontroller.write")
     
     public struct Configuration: Codable {
@@ -42,9 +40,22 @@ final public class StandardAppContext: AppContext {
         }
     }
     
-    public func setup(authDelegate: AuthControllerDelegate) -> Void {
+    // MARK: - Public APIs
+    
+    /// Setup all delegates and run necessary processes:
+    ///  1. Try to load user's meta data if there is one
+    ///  2. Refresh the authentication if the user data is valid.
+    ///
+    /// - Important: Must setup this function before use AppContext.
+    ///
+    /// - Parameters:
+    ///   - authDelegate: The authentication controller's delegate.
+    ///   - migrateDelegate: The user data migration delegate.
+    public func setup(authDelegate: AuthControllerDelegate, migrateDelegate: StandardAppContextStoreProtocol) -> Void {
         // set auth delegate first.
         AppContext.authController.delegate = authDelegate
+        
+        self.migrateDelegate = migrateDelegate
         
         // load user meta, synchronously
         loadUserMeta().then(refreshAuthenticationIfNeeded)
@@ -53,6 +64,27 @@ final public class StandardAppContext: AppContext {
         KitLogger.info("Standard app context setup completed.")
     }
     
+    /// Trigger a login action, will try to request to delegate for processing custom authentication.
+    /// - Returns: A process signal.
+    public func triggerLogin() -> ObservableSignal {
+        guard AppContext.current == AppContext.standard else { return .error(KitErrors.alreadyAuthenticated) }
+        guard let delegate = AppContext.authController.delegate else { return .error(KitErrors.noDelegateError) }
+        return delegate.authenticate()
+            .do(onNext: { user in
+                AppContext.startAppContext(with: user, storeVersions: AppContext.Consts.storeVersions)
+            })
+            .mapToSignal()
+    }
+    
+    /// Trigger the log out process.
+    /// - Returns: The log out process signal.
+    public override func logout() -> ObservableSignal {
+        assertionFailure("StandardAppContext can't be logged out, please check the method call by using `AppContext.current.logout()` and current is not a standard AppContext.")
+        return .never()
+    }
+    
+    // MARK: - Internal helper functions
+    
     func refreshAuthenticationIfNeeded() -> ObservableSignal {
         guard let value = AppContext.current.authState.value, value == .presession else { return .signal }
         return refreshAuthentication(isStartup: true)
@@ -60,11 +92,13 @@ final public class StandardAppContext: AppContext {
     
     func refreshAuthentication(isStartup: Bool) -> ObservableSignal {
         let user = AppContext.current.user
-        guard let delegate = AppContext.authController.delegate,
-              delegate.shouldRefreshAuthentication(with: user, isStartup: isStartup)
-        else {
+        guard let delegate = AppContext.authController.delegate else { return .error(KitErrors.noDelegateError) }
+        
+        guard delegate.shouldRefreshAuthentication(with: user, isStartup: isStartup) else {
+            KitLogger.info("`shouldRefreshAuthentication(with:)` returns false, don't need to refresh authentication.")
             return .signal
         }
+        
         KitLogger.info("Begin refresh authentication...")
         return delegate.refreshAuthentication(with: user)
             .do(onNext: { _ in
@@ -86,9 +120,7 @@ final public class StandardAppContext: AppContext {
     static let userMetaKey: Int = 1
     
     func loadUserMeta() -> ObservableSignal {
-        return persist.object(with: StandardAppContext.userMetaKey, type: _UserMeta.self)
-            // No need to listen to the changes.
-            .take(1)
+        return fetchUserMeta()
             .do(onNext: { [weak self] meta in
                 // Create a meta data of the new user context. During the first launch it would
                 // create a default user's meta, then when a new user account has logged in, it
@@ -99,7 +131,10 @@ final public class StandardAppContext: AppContext {
             })
             .compactMap { meta -> String? in
                 // filter default user, only try to load the normal user account.
-                return meta?.currentUserId == DefaultUser._id ? nil : meta?.currentUserId
+                if meta?.currentUserId == DefaultUser._id { return nil }
+                // Only the user which has been logged in previously can be loaded.
+                if meta?.isLoggedIn == true { return meta?.currentUserId }
+                return nil
             }
             .flatMapLatest { [weak self] userId -> Observable<UserProtocol?> in
                 guard let self else { return .deallocatedError }
@@ -121,6 +156,7 @@ final public class StandardAppContext: AppContext {
             let meta = _UserMeta()
             meta.key = StandardAppContext.userMetaKey
             meta.currentUserId = userId
+            meta.isLoggedIn = true
             ob.onNext(meta)
             return Disposables.create()
         }
@@ -133,15 +169,29 @@ final public class StandardAppContext: AppContext {
         }
     }
     
+    func updateUserMeta(with block: @escaping (_UserMeta) -> Void) -> ObservableSignal {
+        fetchUserMeta().flatMapLatest { [weak self] maybeData -> ObservableSignal in
+            guard let self else { return .never() }
+            guard let meta = maybeData else { return .error(KitErrors.notFound) }
+            return persist.update { _ in block(meta) }
+        }
+    }
+    
+    func fetchUserMeta() -> Observable<_UserMeta?> {
+        return persist.object(with: StandardAppContext.userMetaKey, type: _UserMeta.self)
+        // No need to listen to the changes.
+            .take(1)
+    }
+    
     var defaultUser: DefaultUser {
         return self.user as! DefaultUser
     }
 }
 
-// MARK: - user storage
+// MARK: - User storage
 
 public protocol StandardAppContextStoreProtocol: AnyObject {
-    func standardAppContext(_ context: AppContext, migrate userData: Data, from version: Int) -> (any UserProtocol)?
+    func standardAppContext(_ context: AppContext, migrate userData: Data, from version: Int) -> UserProtocol?
 }
 
 extension StandardAppContext {
@@ -237,4 +287,39 @@ extension StandardAppContext {
     }
 }
 
+// MARK: - Public API for user records
 
+public struct UserData {
+    public let userId: String
+    public let codableData: Foundation.Data
+    public let version: Int
+    
+    init(from innerModel: _UserData) {
+        self.userId = innerModel.userId
+        self.codableData = innerModel.codableData
+        self.version = innerModel.version
+    }
+}
+
+public extension StandardAppContext {
+    
+    /// Get all users who have logged in before or currently is logged in.
+    /// - Returns: The observable result of a list of `UserData`.
+    func fetchHistoryUserList() -> Observable<[UserData]> {
+        persist.objects(with: _UserData.self)
+            .map { $0.map { UserData(from: $0) } }
+    }
+    
+    /// Clean all inactive users' data.
+    /// - Returns: Process signal.
+    func cleanHistoryUserList() -> ObservableSignal {
+        if AppContext.current != self {
+            return persist.delete(with: _UserData.self) { query in
+                return query.userId != AppContext.current.userId
+            }
+        } else {
+            return persist.deleteAll(_UserData.self)
+        }
+    }
+    
+}

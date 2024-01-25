@@ -17,20 +17,11 @@ class UserService: NSObject {
     
     @discardableResult
     func login() -> ObservableSignal {
-        return .create { observer in
-            do {
-                if let authModule = try ModuleManager.default.bridge.resolve(.auth) as? AuthServiceProtocol {
-                    try authModule.authenticate { user in
-                        AppContext.startAppContext(with: user, storeVersions: AppContext.Consts.storeVersions)
-                        observer.signal()
-                        observer.onCompleted()
-                    }
-                }
-            } catch {
-                observer.onError(error)
-            }
-            return Disposables.create()
-        }
+        return AppContext.standard.triggerLogin()
+    }
+    
+    func logout() -> ObservableSignal {
+        AppContext.current.logout()
     }
 
     func genRandomToken() -> String {
@@ -45,6 +36,19 @@ class UserService: NSObject {
 }
 
 extension UserService: AuthControllerDelegate {
+    
+    func authenticate() -> Observable<UserProtocol> {
+        return .throwingCreate { observer in
+            if let authModule = try ModuleManager.default.bridge.resolve(.auth) as? AuthServiceProtocol {
+                try authModule.authenticate { user in
+                    observer.onNext(user)
+                    observer.onCompleted()
+                }
+            }
+            return Disposables.create()
+        }
+    }
+    
     func shouldRefreshAuthentication(with user: UserProtocol, isStartup: Bool) -> Bool {
         // we can refresh authentication everytime when app startup.
         if isStartup {
@@ -73,4 +77,14 @@ extension UserService: AuthControllerDelegate {
 
 enum UserServiceError: Error {
     case unknown
+}
+
+extension UserService : StandardAppContextStoreProtocol {
+    
+    func standardAppContext(_ context: AppContext, migrate userData: Data, from version: Int) -> UserProtocol? {
+        if let jsonObj = try? JSONSerialization.jsonObject(with: userData), let dic = jsonObj as? [String: Any] {
+            print(dic)
+        }
+        return nil
+    }
 }

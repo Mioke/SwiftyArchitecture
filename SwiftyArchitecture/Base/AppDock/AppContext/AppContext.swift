@@ -15,7 +15,9 @@ public let kAppContextChangedNotification = NSNotification.Name(rawValue: "kAppC
 public class AppContext: NSObject {
     
     public static let standard: StandardAppContext = .init()
-    public static var current: AppContext = standard {
+    
+    /// The current application context, default is the `StandardAppContext`.
+    public internal(set) static var current: AppContext = standard {
         didSet {
             guard oldValue != current else { return }
             NotificationCenter.default.post(name: kAppContextChangedNotification, object: current)
@@ -47,7 +49,10 @@ public class AppContext: NSObject {
     
     public static var authController: AuthController = .init(delegate: nil)
     
-    /// Start a new app context, and auth context is `authenticated`
+    /// Start a new app context, and auth context is `authenticated`.
+    /// - Important: Normally you shouldn't use this function directly, please use `StandardAppContext.triggerLoggin`.
+    /// But if your application don't need to do complicated authentication with server, you can just call this function
+    /// to create a locally user context.
     /// - Parameter user: the user of this context.
     public static func startAppContext(with user: UserProtocol, storeVersions: StoreVersions) -> Void {
         let appContext = AppContext(user: user, storeVersions: storeVersions)
@@ -77,13 +82,17 @@ public class AppContext: NSObject {
     }
     
     public func logout() -> ObservableSignal {
-        return .create { observer in
-            self.authState.onNext(.unauthenticated)
-            AppContext.current = AppContext.standard
-            observer.signal()
-            observer.onCompleted()
-            return Disposables.create()
-        }
+        guard let delegate = AppContext.authController.delegate else { return .error(KitErrors.noDelegateError) }
+        return delegate.deauthenticate()
+            .flatMapLatest { _ -> ObservableSignal in
+                AppContext.standard.updateUserMeta { $0.isLoggedIn = false }
+            }
+            .flatMapLatest { [weak self] _ -> ObservableSignal in
+                self?.authState.onNext(.unauthenticated)
+                AppContext.current = AppContext.standard
+                KitLogger.info("Log out success, switching context to the StandardAppContext.")
+                return .signal
+            }
     }
     
     // MARK: - Data Center

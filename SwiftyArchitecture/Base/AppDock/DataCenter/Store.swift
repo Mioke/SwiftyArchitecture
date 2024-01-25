@@ -29,6 +29,14 @@ public protocol ObservableDataBase {
     func upsert<Element: Object>(object: Element) -> ObservableSignal
     
     func update(with block: @escaping (Realm) -> Void) -> ObservableSignal
+    
+    func delete<Element: Object>(object: Element) -> ObservableSignal
+    
+    func delete<S>(_ sequence: S) -> ObservableSignal where S: Sequence, S.Element: Object
+    
+    func delete<Element: Object>(with type: Element.Type, where query: @escaping (Query<Element>) -> Query<Bool>) -> ObservableSignal
+    
+    func deleteAll<Element: Object>(_ type: Element.Type) -> ObservableSignal
 }
 
 /**
@@ -59,8 +67,8 @@ public class Store: NSObject {
     
     public init(appContext: AppContext) throws {
         
-        var baseURL = try FileManager.default.url(for: .cachesDirectory, in: .userDomainMask,
-                                                  appropriateFor: nil, create: true)
+        var baseURL = try FileManager.default
+            .url(for: .cachesDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
             .appendingPathComponent(Consts.domainPrefix + "/Store")
         try FileManager.default.createDiractoryIfNeeded(at: baseURL)
         
@@ -179,18 +187,53 @@ extension RealmDataBase : ObservableDataBase {
     public func update(with block: @escaping (Realm) -> Void) -> ObservableSignal {
         return .throwingCreate { [weak self] ob in
             guard let self else { throw KitErrors.deallocated }
-            do {
-                try realm.safeWrite { realm in
-                    block(realm)
-                }
-            } catch {
-                ob.onError(error)
+            try realm.safeWrite { realm in
+                block(realm)
             }
-            ob.onNext(())
+            ob.signal()
             ob.onCompleted()
             return Disposables.create()
         }
     }
+    
+    // MARK: - DELETE
+    
+    public func delete<Element>(object: Element) -> ObservableSignal where Element : Object {
+        return .throwingCreate { [weak self] observer in
+            guard let self else { throw KitErrors.deallocated }
+            try realm.delete(object)
+            return Disposables.create()
+        }
+    }
+    
+    public func delete<S>(_ sequence: S) -> ObservableSignal where S : Sequence, S.Element : Object {
+        return .throwingCreate { [weak self] observer in
+            guard let self else { throw KitErrors.deallocated }
+            try realm.delete(sequence)
+            return Disposables.create()
+        }
+    }
+    
+    public func delete<Element>(with type: Element.Type, 
+                                where query: @escaping (Query<Element>) -> Query<Bool>)
+    -> ObservableSignal where Element : Object {
+        return .throwingCreate { [weak self] observer in
+            guard let self else { throw KitErrors.deallocated }
+            let objects = try realm.objects(type).where(query)
+            try realm.delete(objects)
+            return Disposables.create()
+        }
+    }
+    
+    public func deleteAll<Element>(_ type: Element.Type) -> ObservableSignal where Element : Object {
+        return .throwingCreate { [weak self] observer in
+            guard let self else { throw KitErrors.deallocated }
+            let objects = try realm.objects(type)
+            try realm.delete(objects)
+            return Disposables.create()
+        }
+    }
+    
 }
 
 
@@ -222,5 +265,3 @@ extension Observable {
         }
     }
 }
-
-

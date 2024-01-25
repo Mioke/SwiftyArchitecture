@@ -43,7 +43,7 @@ public class KitErrors {
         let message: String?
     }
     
-    static func error(domain: String, info: KitErrors.Info) -> NSError {
+    public static func error(domain: String, info: KitErrors.Info) -> NSError {
         return .init(
             domain: domain,
             code: info.code.rawValue,
@@ -66,8 +66,10 @@ extension KitErrors {
         case apiConstructionFailed
         
         // persistance
+        case notFound = 2000
         
         // app dock
+        case alreadyAuthenticated = 3000
         
         // componentize
         case graphCycle = 4000
@@ -75,7 +77,8 @@ extension KitErrors {
 }
 
 
-// Demo
+// MARK: - Intnernal errors
+
 public extension KitErrors {
     
     private static var deallocatedInfo: Info {

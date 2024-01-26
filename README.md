@@ -1,8 +1,31 @@
 # SwiftArchitectureWithPOP
-A base architecture written in swift and protocol oriented. 
 
-### Installation
-##### Using cocoapods: (Not publish to official cocoapods for now, will be deployed later.)
+A base architecture written in swift and protocol oriented.
+
+## Installation
+
+### Swift Package
+
+Currently not provide a stable version so please use branch "master" instead.
+
+```swift
+dependencies: [
+    .package(url: "https://github.com/Mioke/SwiftyArchitecture.git", branch: "master"),
+]
+```
+
+or if you are coding with a iOS application project, please add this repository as a git submodule:
+
+```shell
+git submodule add -b master https://github.com/Mioke/SwiftyArchitecture.git <path>
+git submodule init
+git submodule update
+```
+
+After that please click the project file in your Xcode and find "Package Dependency" tab, click `+` button and then click `Add Local...`, finally please select the path of submodule and the program will automatically find the available package in the folder. Add the package's framework to your project's target and all done.
+
+### Using cocoapods: (Not publish to official cocoapods for now, will be deployed later.)
+
 ```ruby
 pod 'SwiftyArchitecture'
 # or choose on your need
@@ -13,14 +36,12 @@ pod 'SwiftyArchitecture/RxExtension'
 # Write tests
 pod 'SwiftyArchitecture/Testable'
 ```
-##### Manually
-Download `.zip` package and copy the `SwiftyArchitecture/Base` folder into you project.
 
-### What to provide
+## What to provide
 
 - Networking.
 - Persistence Store, cache store and a memory store.
-- AppDocker, an application context handler for helping developer to handle user authentication and local storage isolation. 
+- AppDocker, an application context handler for helping developer to handle user authentication and local storage isolation.
 - Data center, handle all API and storage of response data in realm database.
 - Modulize or componentize your main project, provide data transmit and router between modules.
 - Reactive extension for all functionalities above.
@@ -29,7 +50,8 @@ Download `.zip` package and copy the `SwiftyArchitecture/Base` folder into you p
 
 - **Server**
 
-  Provide some basic functionalities of a server like url configuation, environments switch etc. In test Mode, offline the server. 
+  Provide some basic functionalities of a server like url configuation, environments switch etc. In test Mode, offline the server.
+
 ```swift
   let server: Server = .init(live: cdn.config.liveURL,
                              customEnvironments: [
@@ -42,6 +64,7 @@ Download `.zip` package and copy the `SwiftyArchitecture/Base` folder into you p
 ```
 
 You can comstomize the operation of dealing response data now, just subclass from `Server` and conform to protocol `ServerDataProcessProtocol` like:
+
 ```swift
 func handle(data: Any) throws -> Void {
     
@@ -78,6 +101,7 @@ func handle(data: Any) throws -> Void {
         return JSONResponseSerializer<ResultType>()
     }
 ```
+
   The API provide some basic method like:
   
 ```swift
@@ -85,6 +109,7 @@ func handle(data: Any) throws -> Void {
 ```
 
   Using chaining syntax to request data:
+
   ```swift
   api.sendRequest(with: nil).response({ (api, user, error) in
     if let error = error {
@@ -96,7 +121,7 @@ func handle(data: Any) throws -> Void {
   })
   ```
 
-  - **Rx supported**
+- **Rx supported**
 
 ApiManager provides an `Observable` for you, you can transfrom it or directly bind it to something:
 
@@ -111,6 +136,7 @@ api.rx.sendRequest(with: params)
 ```
 
 ### App Dock
+
 See [this documentation](https://github.com/Mioke/SwiftyArchitecture/blob/dev/README-AppDocker.md) for detail, include `App Context` & `User Context` & `Store`.
   
 ### Data Center
@@ -133,6 +159,7 @@ class User: RealmSwift.Object {
 ```
 
 Then there may have a API which request data relevant to the `User` model:
+
 ```swift
 final class UserAPI: ApiInfoProtocol {
     struct Param: Codable {
@@ -202,7 +229,7 @@ Accessor<User>.context(.persist).all
     .disposed(by: disposeBag)
 ```
 
-And then you can update models throught requests, and when data changed, the `Observable<User>` will notify observers the new model is coming. And data center will save the newest data to database. For developers of in feature team, they should only need to forcus on models and actions. 
+And then you can update models throught requests, and when data changed, the `Observable<User>` will notify observers the new model is coming. And data center will save the newest data to database. For developers of in feature team, they should only need to forcus on models and actions.
 
 ```swift
 print("Show loading")
@@ -225,12 +252,14 @@ DataCenter.update(with: request)
 Support using `cocoapods` to modulize your project. You can separate some part of code which is indepence enough, and put the code into a `pod` repo. And finally the main project maybe have no code any more, when building your app, the `cocoapods` will install all the dependencies together and generate your app.
 
 The good things of `modulization` or `componentization` are
-- modules are closed between each other, and there's no way to visit the detail from another module; 
-- modules can be used in other project, if the module is well designed; 
+
+- modules are closed between each other, and there's no way to visit the detail from another module;
+- modules can be used in other project, if the module is well designed;
 - instead of using git branch, now we can use version of the `pod` for development and generate app;
 - using `cocoapods package` to generate binary library, fasten the app package process.
 
 The bad things of it are (for now)
+
 - low running performance for developing, because the more frameworks or libraries, the worse DYLD performance get;
 - need a lot of utils to maintain `pods` and their git repos, like auto generate version, auto update `Podfile` etc.
 
@@ -281,7 +310,7 @@ For large-sized teams, if you have a chain of tools and utilities to build pods 
     Auth.AuthModule,
     ...
   ```
-    
+
   Call other module's method like
 
   ```swift
@@ -332,7 +361,7 @@ For large-sized teams, if you have a chain of tools and utilities to build pods 
 
 > Almost done `>w<!`
 
-# TODO
+## TODO
 
 - [x] Networking: cache, origin data transform to Model or View's data, priority of request.
 - [x] Mock of API's response.
@@ -343,5 +372,6 @@ For large-sized teams, if you have a chain of tools and utilities to build pods 
 - [x] Modulize of componentization usage. Router.
 - [ ] Full Swift concurrency API support.
   
-# License
+## License
+
 All the source code is published under the MIT license. See LICENSE file for details.

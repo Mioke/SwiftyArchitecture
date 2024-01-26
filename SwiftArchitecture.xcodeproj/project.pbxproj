@@ -129,6 +129,7 @@
 		ABAD81B029C4630400D600F5 /* UIDectector.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIDectector.swift; sourceTree = "<group>"; };
 		ABAFE34D28C1EAAE00D023A2 /* AuthTestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthTestViewController.swift; sourceTree = "<group>"; };
 		ABAFE34E28C1EAAE00D023A2 /* AuthTestViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AuthTestViewController.xib; sourceTree = "<group>"; };
+		ABBB9DB82B63599C00D575D1 /* Package.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Package.swift; sourceTree = SOURCE_ROOT; };
 		ABC9EA852449AFD2009D044E /* TestObjModifyVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestObjModifyVC.swift; sourceTree = "<group>"; };
 		ABC9EA862449AFD2009D044E /* TestObjModifyVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TestObjModifyVC.xib; sourceTree = "<group>"; };
 		ABD4A26D2952AB2D00D0C04E /* SATextStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SATextStorage.swift; sourceTree = "<group>"; };
@@ -231,6 +232,7 @@
 		A752DE441C03F287008E3118 /* Resource */ = {
 			isa = PBXGroup;
 			children = (
+				ABBB9DB82B63599C00D575D1 /* Package.swift */,
 				ABE9EB3629EE30D500FEEC18 /* README.md */,
 				ABE9EB3729EE420600FEEC18 /* README-AppDocker.md */,
 				AB35E63C243F35CA00EC361A /* pod_publish.sh */,

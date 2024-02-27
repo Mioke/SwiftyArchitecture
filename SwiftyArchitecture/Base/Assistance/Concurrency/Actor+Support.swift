@@ -29,9 +29,9 @@ public extension Actor {
         return unsafeBitCast(fn, to: (@Sendable () -> Void).self)
     }
     
-    // Asynchronously invoke the given block on the actor. This takes a
-    // non-sendable function because the function is invoked on the same actor
-    // it was defined on, and just goes through some hops in between.
+    /// Asynchronously invoke the given block on the actor. This takes a
+    /// non-sendable function because the function is invoked on the same actor
+    /// it was defined on, and just goes through some hops in between.
     nonisolated func invoke(_ fn: @escaping () -> Void) {
         let fn = unsafeBitCast(fn, to: (@Sendable () -> Void).self)
         Task {
@@ -43,7 +43,7 @@ public extension Actor {
         fn()
     }
     
-    // A helper to invoke a regular isolated sendable function with this actor
+    /// A helper to invoke a regular isolated sendable function with this actor
     func invoke<T: Sendable>(_ fn: @Sendable (isolated Self) async throws -> T) async rethrows -> T {
         try await fn(self)
     }

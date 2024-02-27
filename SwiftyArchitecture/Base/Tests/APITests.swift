@@ -35,7 +35,9 @@ class APITests: XCTestCase {
         testApi.rxSendRequest(with: ["id": "1"])
             .subscribe { event in
                 print(event)
-                guard case .next(_) = event else { return }
+                guard case .next(let user) = event else { return }
+                XCTAssert(user.userId == "1")
+                XCTAssert(user.name == "Klein")
                 expect.fulfill()
             }
             .disposed(by: cancel)
@@ -55,6 +57,24 @@ class APITests: XCTestCase {
             }
             .disposed(by: cancel)
         wait(for: [expect], timeout: 5)
+    }
+    
+    func testRequestRetry() async {
+        APIMocker.mock(type: UserAPI.self) { param in
+            throw todo_error()
+        }
+        
+        let expect = XCTestExpectation(description: "RemoveMock")
+        Task {
+            do {
+                _ = try await testApi.sendRequest(with: nil)
+                XCTAssert(false)
+            } catch {
+                expect.fulfill()
+            }
+        }
+        
+        await fulfillment(of: [expect], timeout: 100000)
     }
 }
 
@@ -88,5 +108,16 @@ final class UserAPI: NSObject, ApiInfoProtocol {
     
     static var responseSerializer: MIOSwiftyArchitecture.ResponseSerializer<User> {
         return MIOSwiftyArchitecture.JSONCodableResponseSerializer<User>()
+    }
+    
+    static func autoRetryMaxCount(withErrorCode code: Int) -> Int? {
+        if code == 777 {
+            return 3
+        }
+        return nil
+    }
+    
+    static func retryTimeInterval(withErrorCode code: Int) -> UInt64? {
+        1
     }
 }

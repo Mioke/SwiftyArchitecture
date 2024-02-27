@@ -36,10 +36,10 @@ public class KMRequestGenerator: NSObject {
     
     public class func generateRequest<T: ApiInfoProtocol>(
         withApi api: API<T>,
-        params: T.RequestParam?) throws -> DataRequest {
+        params: T.RequestParam?) async throws -> DataRequest {
             
             let manager = T.server.supportHTTPS ? httpsManager : defaultManager
-            manager.session.configuration.timeoutIntervalForRequest = api.timeoutInterval
+            manager.session.configuration.timeoutIntervalForRequest = await api.state.timeoutInterval
             
             var parameters: Parameters? = nil
             if let params = params {

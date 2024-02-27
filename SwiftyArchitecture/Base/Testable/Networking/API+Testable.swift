@@ -9,7 +9,7 @@ import Foundation
 
 public class APIMocker {
     
-    public static func mock<T: ApiInfoProtocol>(type: T.Type, customize: @escaping (T.RequestParam?) -> T.ResultType) -> Void {
+    public static func mock<T: ApiInfoProtocol>(type: T.Type, customize: @escaping (T.RequestParam?) throws -> T.ResultType) -> Void {
         ApiRouterContainer.shared.injectAPI(with: T.self, customize: customize)
     }
     

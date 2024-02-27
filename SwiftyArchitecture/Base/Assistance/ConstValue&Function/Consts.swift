@@ -64,6 +64,7 @@ extension KitErrors {
         // networking
         case responseError = 1000
         case apiConstructionFailed
+        case inProgress
         
         // persistance
         case notFound = 2000

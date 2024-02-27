@@ -11,21 +11,9 @@ import RxSwift
 
 public extension API {
     func rxSendRequest(with params: T.RequestParam?) -> Observable<T.ResultType> {
-        return Observable.create { [weak self] observer in
-            guard let self else {
-                observer.onCompleted()
-                return Disposables.create()
-            }
-            sendRequest(with: params).response({ (api, data, error) in
-                if let error = error {
-                    observer.onError(error)
-                }
-                else if let data = data {
-                    observer.on(.next(data))
-                    observer.onCompleted()
-                }
-            })
-            return Disposables.create(with: cancel)
+        return Observable.task { [weak self] in
+            guard let self else { throw KitErrors.deallocated }
+            return try await sendRequest(with: params)
         }
     }
 }

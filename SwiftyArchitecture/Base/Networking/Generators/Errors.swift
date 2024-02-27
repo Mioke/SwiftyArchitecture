@@ -8,13 +8,13 @@
 
 import UIKit
 
-extension KitErrors {
+public extension KitErrors {
     
-    static var responseErrorInfo: Info {
+    private static var responseErrorInfo: Info {
         return .init(code: .responseError, message: "Unexpected response value")
     }
     
-    static var apiConstructionInfo: Info {
+    private static var apiConstructionInfo: Info {
         return .init(code: .apiConstructionFailed, message: "Unexpected API construction result")
     }
     
@@ -26,5 +26,13 @@ extension KitErrors {
     
     static var apiConstructionError: NSError {
         return error(domain: Consts.networkingDomain, info: apiConstructionInfo)
+    }
+    
+    private static var inProgressErrorInfo: Info {
+        return .init(code: .inProgress, message: "API is currently in progress.")
+    }
+    
+    static var inProgressError: NSError {
+        return error(domain: Consts.networkingDomain, info: inProgressErrorInfo)
     }
 }

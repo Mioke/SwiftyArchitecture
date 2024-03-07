@@ -26,7 +26,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         try? MioDemoServer.switch(to: "DEV")
         #endif
         
-        print(#function)
+        let stringified = #stringify(#function)
+        print(stringified)
         
         // App Context
         if let standardContext = AppContext.current as? StandardAppContext {

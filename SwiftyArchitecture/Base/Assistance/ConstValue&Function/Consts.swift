@@ -9,6 +9,8 @@
 import UIKit
 import SwiftUI
 
+@_exported import SwiftyArchitectureMacrosPackage
+
 #if swift(<5.5.2)
 #error("SwiftyArchitecture only support Swift version >= 5.5.2 for concurrency support purpose.")
 #endif

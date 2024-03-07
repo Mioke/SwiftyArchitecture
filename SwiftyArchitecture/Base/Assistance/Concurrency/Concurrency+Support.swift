@@ -17,6 +17,10 @@ public class AsyncProperty<T> {
         case ready, updating
     }
     
+    public enum UpdateError: Error {
+        case duringUpdating
+    }
+    
     /// Current state.
     @ThreadSafe
     public private(set) var state: State = .ready
@@ -46,7 +50,8 @@ public class AsyncProperty<T> {
     
     /// Use this function to modify the wrapped value, the state will automatically adjust to corresponding state.
     /// - Parameter operation: Async operation.
-    public func update(_ operation: (T) async throws -> T) async {
+    public func update(_ operation: (T) async throws -> T) async throws {
+        guard state != .updating else { throw UpdateError.duringUpdating }
         do {
             state = .updating
             _value = try await operation(_value)

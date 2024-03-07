@@ -9,7 +9,7 @@ import Foundation
 import os
 
 public enum LogLevel {
-    case error, info, verbose, debug
+    case error, info, warning, verbose, debug
 }
 
 public class KitLogger {
@@ -40,6 +40,8 @@ private extension LogLevel {
             return "🛰"
         case .error:
             return "🧯"
+        case .warning:
+            return "⚠️"
         }
     }
 }
@@ -59,5 +61,9 @@ public extension KitLogger {
     
     static func error(_ message: String = #function, file: String = #file, line: Int = #line) {
         log(level: .error, message: message, file: file, line: line)
+    }
+    
+    static func warning(_ message: String = #function, file: String = #file, line: Int = #line) {
+        log(level: .warning, message: message, file: file, line: line)
     }
 }

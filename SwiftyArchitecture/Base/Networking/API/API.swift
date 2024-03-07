@@ -9,23 +9,6 @@
 import Foundation
 import Alamofire
 
-/// API configuration for running requests and logic.
-public struct ApiConfiguration {
-    
-    /// The default configuration for all APIs.
-    public static var `default`: ApiConfiguration = {
-        let reportQueue: DispatchQueue = .init(
-            label: Consts.networkingDomain + ".default-reporting",
-            qos: .default,
-            attributes: .concurrent)
-        return .init(reportingQueue: reportQueue)
-    }()
-    
-    /// The queue of callback handler running.
-    var reportingQueue: DispatchQueue
-}
-
-
 /// Concrete class of api manager, subclass from this class to use it and don't use this class directly.
 open class API<T: ApiInfoProtocol>: NSObject {
     
@@ -46,15 +29,6 @@ open class API<T: ApiInfoProtocol>: NSObject {
     }
     
     public var state: State = .init()
-    
-    // MARK: Privates
-    private var configuration: ApiConfiguration {
-        return customizedConfiguration ?? ApiConfiguration.default
-    }
-    
-    // MARK: Publics
-    /// Override the APIConfiguration.default if this property is not empty
-    public var customizedConfiguration: ApiConfiguration?
     
     // MARK: Initialization
     public override init() {
@@ -102,9 +76,8 @@ open class API<T: ApiInfoProtocol>: NSObject {
             // Retry operations
             if await state.shouldAutoRetry,
                let maxCount = T.autoRetryMaxCount(withErrorCode: err.code),
-               let interval = T.retryTimeInterval(withErrorCode: err.code),
                await state.retryTimes < maxCount {
-                
+                let interval = T.retryTimeInterval(withErrorCode: err.code) ?? 0
                 let task = Task {
                     try await Task.sleep(nanoseconds: interval * Consts.nanosecondsPerSecond)
                     return try await self.sendRequest(with: state.params)
@@ -220,5 +193,30 @@ extension AFError {
                        code: 776,
                        userInfo: [NSLocalizedDescriptionKey: localizedDescription,
                                   NSLocalizedFailureErrorKey: errorDescription ?? "None"])
+    }
+}
+
+// MARK: - Extension for non-concurrency usage
+
+extension API {
+    
+    /// Non-concurrency usage for sending request.
+    /// - Parameters:
+    ///   - param: The request parameters.
+    ///   - callbackQueue: The DispatchQueue which callback logic is running on.
+    ///   - response: The success response callback.
+    ///   - error: The error callback.
+    public func sendRequest(with param: T.RequestParam,
+                            callbackQueue: DispatchQueue = .main,
+                            response: @escaping (T.ResultType) -> Void,
+                            error: @escaping (Error) -> Void) {
+        Task {
+            do {
+                let result = try await self.sendRequest(with: param)
+                callbackQueue.async { response(result) }
+            } catch let e {
+                callbackQueue.async { error(e) }
+            }
+        }
     }
 }

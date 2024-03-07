@@ -13,7 +13,7 @@ import Alamofire
  *  Protocol that descripe what infomation should API provide,
  - attention: `apiVersion` and `apiName` __shouldn't begin and end with '/'__. Just like "v2", "user/login" is good. If you don't have a versioned-API, return an empty string.
  */
-public protocol ApiInfoProtocol: NSObjectProtocol {
+public protocol ApiInfoProtocol: AnyObject {
     
     /// The version of api
     static var apiVersion: String { get }
@@ -30,13 +30,13 @@ public protocol ApiInfoProtocol: NSObjectProtocol {
     /// Max counts of auto retry machanism, you can return different counts for different error.
     ///
     /// - Parameter code: Error's code
-    /// - Returns: Counts of auto retry machanism
+    /// - Returns: Counts of auto retry machanism, return `nil` to disable the machanism.
     static func autoRetryMaxCount(withErrorCode code: Int) -> Int?
     
-    /// The time of retry interval between two request
+    /// The time of retry interval between two request.
     ///
     /// - Parameter code: Error's code
-    /// - Returns: Time interval for the error
+    /// - Returns: Time interval for the error, return `nil` will use default value `0`.
     static func retryTimeInterval(withErrorCode code: Int) -> UInt64?
     
     /// HTTP headers of request

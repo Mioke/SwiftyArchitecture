@@ -1,5 +1,5 @@
 PODS:
-  - Alamofire (5.8.1)
+  - Alamofire (5.9.0)
   - Application (0.0.1):
     - ApplicationProtocol
     - AuthProtocol
@@ -29,7 +29,8 @@ PODS:
     - RxCocoa (~> 6.2)
     - RxRealm
     - RxSwift (~> 6.2)
-  - MIOSwiftyArchitecture/Assistance (2.0.0)
+  - MIOSwiftyArchitecture/Assistance (2.0.0):
+    - SwiftyArchitectureMacrosPackage
   - MIOSwiftyArchitecture/Componentize (2.0.0):
     - MIOSwiftyArchitecture/Assistance
     - RxSwift (~> 6.2)
@@ -57,11 +58,11 @@ PODS:
     - MIOSwiftyArchitecture/Testable
     - RxSwift (~> 6.2)
   - ObjectMapper (4.2.0)
-  - Realm (10.45.2):
-    - Realm/Headers (= 10.45.2)
-  - Realm/Headers (10.45.2)
-  - RealmSwift (10.45.2):
-    - Realm (= 10.45.2)
+  - Realm (10.47.0):
+    - Realm/Headers (= 10.47.0)
+  - Realm/Headers (10.47.0)
+  - RealmSwift (10.47.0):
+    - Realm (= 10.47.0)
   - RxCocoa (6.6.0):
     - RxRelay (= 6.6.0)
     - RxSwift (= 6.6.0)
@@ -77,7 +78,8 @@ PODS:
   - RxRelay (6.6.0):
     - RxSwift (= 6.6.0)
   - RxSwift (6.6.0)
-  - SnapKit (5.6.0)
+  - SnapKit (5.7.1)
+  - SwiftyArchitectureMacrosPackage (0.1.0)
   - Swinject (2.8.3)
   - SwinjectAutoregistration (2.8.3):
     - Swinject (~> 2.8.3)
@@ -97,6 +99,7 @@ DEPENDENCIES:
   - RxRealm (from `https://github.com/Mioke/RxRealm.git`, branch `main`)
   - RxSwift (~> 6.0)
   - SnapKit
+  - SwiftyArchitectureMacrosPackage (from `https://github.com/Mioke/SwiftyArchitectureMacros.git`, branch `dev`)
   - Swinject
   - SwinjectAutoregistration
 
@@ -130,33 +133,40 @@ EXTERNAL SOURCES:
   RxRealm:
     :branch: main
     :git: https://github.com/Mioke/RxRealm.git
+  SwiftyArchitectureMacrosPackage:
+    :branch: dev
+    :git: https://github.com/Mioke/SwiftyArchitectureMacros.git
 
 CHECKOUT OPTIONS:
   RxRealm:
     :commit: f930c360fef32372bc839c6939d4e0ee8f8276ac
     :git: https://github.com/Mioke/RxRealm.git
+  SwiftyArchitectureMacrosPackage:
+    :commit: be50e3747add5c529d29cd4844caa3969def80ea
+    :git: https://github.com/Mioke/SwiftyArchitectureMacros.git
 
 SPEC CHECKSUMS:
-  Alamofire: 3ca42e259043ee0dc5c0cdd76c4bc568b8e42af7
+  Alamofire: 02b772c9910e8eba1a079227c32fbd9e46c90a24
   Application: dd4fd31f4118552d2623f56cb55ab79f4db07853
   ApplicationProtocol: 3270de550fcbb5ad68ebdf9b42245159d51b0e77
   Auth: 5659f3a716fb6e046dac47c6b0000c259233eb4e
   AuthProtocol: 699414ec99eb060731d49ec1092901fc1ae55e3e
   Differentiator: e8497ceab83c1b10ca233716d547b9af21b9344d
   FLEX: f21ee4f498eed3f8a1eded66b21939fd3b7a22ce
-  MIOSwiftyArchitecture: a3b8d6c138baa3a9d4369479a3a876e47605dd9c
+  MIOSwiftyArchitecture: 0e5f07eef0eaf603b6ac61f61fb9d11e5ca85589
   ObjectMapper: 1eb41f610210777375fa806bf161dc39fb832b81
-  Realm: bc4fc31783a0b3e355edca05f167f6a49c544dc2
-  RealmSwift: 234003b5fdb187c4b439d478662636d62a1f9de0
+  Realm: e43fb540ae947497e3ea8a662443256920602060
+  RealmSwift: 8b06ed06b5d16749ae0c4d91c0cba414a9e28189
   RxCocoa: 44a80de90e25b739b5aeaae3c8c371a32e3343cc
   RxDataSources: aa47cc1ed6c500fa0dfecac5c979b723542d79cf
   RxRealm: e21c822fe537c4db4d764c79901ce4b01b6c6446
   RxRelay: 45eaa5db8ee4fb50e5ebd57deec0159e97fa51e6
   RxSwift: a4b44f7d24599f674deebd1818eab82e58410632
-  SnapKit: e01d52ebb8ddbc333eefe2132acf85c8227d9c25
+  SnapKit: d612e99e678a2d3b95bf60b0705ed0a35c03484a
+  SwiftyArchitectureMacrosPackage: a279c25e1811e0bf77359a7728b0ebabc45317ae
   Swinject: 893c9a543000ac2f10ee4cbaf0933c6992c935d5
   SwinjectAutoregistration: e3ee378dc458acf78d176fc7fec3902603452667
 
-PODFILE CHECKSUM: 5e81b093f7a6dc8996bd25533b64c5b77591b2ce
+PODFILE CHECKSUM: c47de56b95a9a5b46489c9983ed05886446629b8
 
-COCOAPODS: 1.14.3
+COCOAPODS: 1.15.1

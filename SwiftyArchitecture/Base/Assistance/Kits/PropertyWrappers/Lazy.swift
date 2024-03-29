@@ -41,7 +41,7 @@ public struct Lazify<Enclosing, Value> {
         }
     }
 
-    @available(*, unavailable, message: "This property wrapper can only used in classes.")
+    @available(*, unavailable, message: "This property wrapper can only be used in classes.")
     public var wrappedValue: Value {
         get { fatalError() }
         set { fatalError() }

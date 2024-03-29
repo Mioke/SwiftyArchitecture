@@ -451,7 +451,7 @@ class AssistanceTests: XCTestCase {
         XCTAssert(_className.storage != nil, "Lazify property should not be nil after read.")
     }
     
-    // Thie property should not be compiled becase the initialiser key path is not the same class.
+    // This property should not be compiled because the initialiser key path is not the same class.
     
 //    struct TestLazifyStruct {
 //        var value: String = "hello"
@@ -474,5 +474,24 @@ class AssistanceTests: XCTestCase {
 //            return 1
 //        }
 //    }
-  
+}
+
+protocol ImageViewProtocol {
+    var image: UIImage? { get set }
+}
+
+class HeaderView: UIView, ImageViewProtocol {
+    let imageView: UIImageView = .init()
+    
+    @Proxy(\.imageView.image)
+    var image: UIImage?
+}
+
+class MessageCell: UITableViewCell {
+    
+    var header: ImageViewProtocol = HeaderView()
+    
+    func populate(with image: UIImage) {
+        header.image = image
+    }
 }

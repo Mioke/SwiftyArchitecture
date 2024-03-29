@@ -7,8 +7,9 @@
 
 import Foundation
 
-/// The `RwQueue` is only be used in a simple way because it's a heavy work when enqueue actions and switch the threads.
-/// So if `RwQueue` contains huge amount of work to do, it may leads to unexpected behavior and bad performance.
+/// The `RwQueue` is only be used in a simple way because it's a heavy work when enqueue actions and switch context
+/// between threads. So if an `RwQueue` contains huge amount of works to do, it may leads to unexpected behavior and bad
+/// performance.
 public class RwQueue {
     
     public let queue: DispatchQueue

@@ -11,7 +11,7 @@ Pod::Spec.new do |s|
   s.version          = '2.0.0'
   s.summary          = 'Breezy architecture in Swift for building iOS applications.'
   s.description      = <<-DESC
-  * Breezy architecture in Swift for building iOS applications. It offers lots of functions which simple and easy to use for developer.
+  * Breezy architecture in Swift for building iOS applications. It offers lots of functions which is simple and easy to use for developers.
   DESC
   s.homepage         = 'https://github.com/Mioke/SwiftArchitectureWithPOP'
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
@@ -26,7 +26,7 @@ Pod::Spec.new do |s|
 
   #  s.source_files = 'SwiftyArchitecture/Base/**/*.swift'
   s.default_subspecs = 'Assistance', 'Networking', 'RxExtension', 'AppDock', 'Componentize'
-  s.preserve_paths = 'SwiftyArchitecture/Resource/PrivacyManifest/*'
+  s.preserve_paths = 'SwiftyArchitecture/Base/Resource/PrivacyManifest/*'
 
   s.subspec 'Assistance' do |ss|
     ss.frameworks = 'UIKit', 'Foundation'

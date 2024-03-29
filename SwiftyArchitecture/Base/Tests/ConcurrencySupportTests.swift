@@ -26,7 +26,7 @@ class ConcurrencySupportTestCases: XCTestCase {
         
         Task.detached {
             print("detached task 1, prepare to update")
-            await self.property.update { old in
+            try await self.property.update { old in
                 try await Task.sleep(for: Duration.seconds(5))
                 return 2
             }

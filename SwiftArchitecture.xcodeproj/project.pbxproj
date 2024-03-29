@@ -236,7 +236,8 @@
 				ABE9EB3729EE420600FEEC18 /* README-AppDocker.md */,
 				AB35E63C243F35CA00EC361A /* pod_publish.sh */,
 			);
-			path = Resource;
+			name = Resource;
+			path = Base/Resource;
 			sourceTree = "<group>";
 		};
 		A77BACEB1C157EC100AF7A86 /* ApiManager */ = {
@@ -277,7 +278,9 @@
 				27B436A87306082FAA4D827C /* Frameworks */,
 				B41F4498FD05D386DBCFBEED /* Pods */,
 			);
+			indentWidth = 4;
 			sourceTree = "<group>";
+			tabWidth = 4;
 		};
 		A791C6AE1C02E90000670017 /* Products */ = {
 			isa = PBXGroup;

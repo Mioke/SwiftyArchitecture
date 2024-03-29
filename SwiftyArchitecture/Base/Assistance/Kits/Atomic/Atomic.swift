@@ -9,6 +9,10 @@ import Foundation
 import os
 import Darwin
 
+public protocol Protectable {
+    func around<T>(_ closure: () -> T) -> T
+}
+
 public final class UnfairLock {
     private let _lock: os_unfair_lock_t
     
@@ -187,3 +191,15 @@ final public class Atomic<T> {
         return copy
     }
 }
+
+extension RwLock: Protectable {
+    /// Default is using the write lock.
+    /// - Parameter closure: Protected operation.
+    /// - Returns: The result of the operation.
+    public func around<T>(_ closure: () -> T) -> T {
+        writeLock(); defer { unlock() }
+        return closure()
+    }
+}
+
+extension UnfairLock: Protectable {}

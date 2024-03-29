@@ -53,6 +53,24 @@
         "revision" : "9dcaa4b333db437b0fbfaf453fad29069044a8b4",
         "version" : "6.6.0"
       }
+    },
+    {
+      "identity" : "swift-syntax",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/apple/swift-syntax.git",
+      "state" : {
+        "revision" : "64889f0c732f210a935a0ad7cda38f77f876262d",
+        "version" : "509.1.1"
+      }
+    },
+    {
+      "identity" : "swiftyarchitecturemacros",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/Mioke/SwiftyArchitectureMacros.git",
+      "state" : {
+        "branch" : "master",
+        "revision" : "90649d6f7fd74632dc2aaf5fb9c9cfa2b917cab0"
+      }
     }
   ],
   "version" : 2

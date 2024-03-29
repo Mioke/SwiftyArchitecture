@@ -322,6 +322,7 @@ class AssistanceTests: XCTestCase {
         
     }
     
+    @available(iOS 15, *)
     func testRwQueue2() {
         let queue = RwQueue(qos: .default)
         let date = Date.now.timeIntervalSince1970
@@ -355,6 +356,7 @@ class AssistanceTests: XCTestCase {
         wait(for: [expect], timeout: 5)
     }
     
+    @available(iOS 15, *)
     func testRwQueue3() {
         let queue = RwQueue(qos: .default)
         let date = Date.now.timeIntervalSince1970
@@ -435,5 +437,42 @@ class AssistanceTests: XCTestCase {
             }
         }
     }
+    
+    private var initiateLazyTestValue: String {
+        return NSStringFromClass(type(of: self))
+    }
+    
+    @Lazify(initialiserKeyPath: \AssistanceTests.initiateLazyTestValue)
+    var className: String
+    
+    func testLazifyPropertyWrapper() {
+        XCTAssert(_className.storage == nil, "Lazify property should be nil before read.")
+        print(className)
+        XCTAssert(_className.storage != nil, "Lazify property should not be nil after read.")
+    }
+    
+    // Thie property should not be compiled becase the initialiser key path is not the same class.
+    
+//    struct TestLazifyStruct {
+//        var value: String = "hello"
+//    }
+//    
+//    @Lazify(initialiserKeyPath: \TestLazifyStruct.value)
+//    var notCompiledValue: String
+//    
+//    func testLazifyPropertyWrapper2() {
+//        print(notCompiledValue)
+//    }
+    
+    // This struct should not be compiled because `wrappedValue` is not available.
+//    struct TestLazifyStruct {
+//
+//        @Lazify(initialiserKeyPath: \TestLazifyStruct.getValue)
+//        var value: Int
+//        
+//        var getValue: Int {
+//            return 1
+//        }
+//    }
   
 }

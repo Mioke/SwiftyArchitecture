@@ -72,25 +72,6 @@ public extension Reactive where Base: AnyObject {
     }
 }
 
-#if canImport(_Concurrency)
-
-@available(iOS 13, *)
-public extension UnsubscribeToken {
-    
-    /// Extern lifetime corresponding to an object.
-    /// - Parameter object: An object.
-    func bindLifetime<T: NSObject>(to object: T) {
-        object.rx
-            .deallocating
-            .subscribe(onNext: { [weak self] _ in
-                self?.unsubscribe()
-            })
-            .disposed(by: object.rx.lifetime)
-    }
-}
-
-#endif
-
 public extension Observable {
     
     /// Create a `Observable` using a throwing subscribe function.

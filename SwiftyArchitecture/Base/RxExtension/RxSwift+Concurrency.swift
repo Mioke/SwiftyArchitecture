@@ -32,4 +32,21 @@ public extension Observable {
     }
 }
 
+
+@available(iOS 13, *)
+public extension UnsubscribeToken {
+    
+    /// Extern lifetime corresponding to an object.
+    /// - Parameter object: An object.
+    func bindLifetime(to object: AnyObject) {
+        let reactive = Reactive(object)
+        reactive.deallocating
+            .subscribe(onNext: { [weak self] _ in
+                self?.unsubscribe()
+            })
+            .disposed(by: reactive.lifetime)
+    }
+}
+
+
 #endif

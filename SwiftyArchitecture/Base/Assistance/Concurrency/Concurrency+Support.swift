@@ -323,24 +323,9 @@ public class AsyncMulticast<T>: Unsubscribable {
 @available(iOS 13.0, *)
 public func timeoutTask<T: Sendable>(with nanoseconds: UInt64,
                                      task: @Sendable @escaping () async throws -> T,
-                                     onTimeout: @Sendable () -> Void) async throws -> T {
+                                     onTimeout: @escaping @Sendable () -> Void) async throws -> T {
     let task = Task(operation: task)
-    Task.detached {
-        try await Task.sleep(nanoseconds: nanoseconds)
-        task.cancel()
-    }
-    return try await withTaskCancellationHandler(
-        operation: {
-            do {
-                return try await task.value
-            } catch {
-                if error is CancellationError {
-                    onTimeout()
-                }
-                throw error
-            }
-        },
-        onCancel: { /* won't run here, weird... */})
+    return try await task.value(timeout: nanoseconds, onTimeout: onTimeout)
 }
 
 @available(iOS 13.0, *)
@@ -477,14 +462,16 @@ final public class TaskQueue<Element> {
     /// - Parameters:
     ///   - id: Task id
     ///   - task: The task you want to enqueue.
-    ///   - onFinished: Finish callback closure.
-    public func addTask(id: String, _ task: @escaping () async -> Element, onFinished: @escaping (Element) -> Void) {
+    ///   - onFinished: Finish callback closure. If the result is nil, that means the `TaskQueue` has already been
+    ///   deallocated before this task is finished.
+    public func addTask(id: String, _ task: @escaping () async -> Element, onFinished: @escaping (Element?) -> Void) {
         let item = enqueueTask(with: id, task: task)
-        Task.detached(weakCapturing: self, operation: { me in
-            await me.waitUntilAvailable(item: item)
-            let result = await item.task()
+        let checkInvalidSelf = checkNil(self, throwing: _Concurrency.CancellationError())
+        Task { [weak self] in
+            await self?.waitUntilAvailable(item: item)()
+            let result = try? await checkAround(checkInvalidSelf) { await item.task() }
             onFinished(result)
-        })
+        }
     }
     
     /// Enqueue a task and wait for it's result.
@@ -494,7 +481,8 @@ final public class TaskQueue<Element> {
     /// - Returns: The task's result.
     public func task(id: String, _ task: @escaping () async -> Element) async -> Element {
         let item = enqueueTask(with: id, task: task)
-        await waitUntilAvailable(item: item)
+        // The `await`s here will capture `self` and delay the deallocation if the queue has no other owners.
+        await waitUntilAvailable(item: item)()
         return await item.task()
     }
     
@@ -503,19 +491,22 @@ final public class TaskQueue<Element> {
     ///   - id: Task's id
     ///   - task: The task.
     /// - Returns: The wrapped Task.
-    public func enqueueTask(id: String, task: @escaping () async -> Element) -> Task<Element, Never> {
+    public func enqueueTask(id: String, task: @escaping () async -> Element) -> Task<Element, Error> {
         let item = enqueueTask(with: id, task: task)
-        return .init {
-            await self.waitUntilAvailable(item: item)
-            return await item.task()
+        let checkInvalidSelf = checkNil(self, throwing: _Concurrency.CancellationError())
+        return .init { [weak self] in
+            await self?.waitUntilAvailable(item: item)()
+            return try await checkAround(checkInvalidSelf) { await item.task() }
         }
     }
     
     private func enqueueTask(with id: String, task: @escaping () async -> Element) -> TaskItem {
-        let item = TaskItem(id: id, task: {
+        let item = TaskItem(id: id, task: { [weak self] in
             let result = await task()
-            self.isRunning = false
-            self.checkNext()
+            if let self {
+                self.isRunning = false
+                self.checkNext()
+            }
             return result
         })
         _array.write { array in
@@ -524,12 +515,15 @@ final public class TaskQueue<Element> {
         return item
     }
     
-    private func waitUntilAvailable(item: TaskItem) async {
-        let (signal, token) = stream.subscribe { $0.id == item.id }
-        checkNext()
-        // Must await here first, then the `stream` can cast the item later.
-        for await _ in signal { break }
-        token.unsubscribe()
+    private func waitUntilAvailable(item: TaskItem) -> () async -> Void {
+        // weak capture `self`, otherwise if any signal is waiting, the `TaskQueue` can't be deallocated.
+        return { [weak self] in
+            guard let (signal, token) = self?.stream.subscribe(where: { $0.id == item.id }) else { return }
+            self?.checkNext()
+            // Must await here first, then the `stream` can cast the item later.
+            for await _ in signal { break }
+            token.unsubscribe()
+        }
     }
     
     private func checkNext() {
@@ -546,6 +540,10 @@ final public class TaskQueue<Element> {
         Task {
             stream.cast(next)
         }
+    }
+    
+    deinit {
+        print("deallocating ...")
     }
 }
 

@@ -27,6 +27,24 @@ public func guardOnMainQueue(sync: Bool = false, _ block: @escaping () -> ()) ->
     }
 }
 
+#if canImport(_Concurrency)
+
+@Sendable
+public func checkAround<T>(_ checks: () throws -> Void, around operation: () async throws -> T) async throws -> T {
+    try checks()
+    let result = try await operation()
+    try checks()
+    return result
+}
+
+#endif
+
+public func checkNil<T: AnyObject>(_ object: T, throwing: Swift.Error) -> () throws -> Void {
+    let weakObject = WeakObject(referencing: object)
+    return { if weakObject.isEmpty { throw throwing } }
+}
+
+
 public protocol DataConvertible {
     func data() throws -> Data
     static func object(from data: Data) throws -> Self

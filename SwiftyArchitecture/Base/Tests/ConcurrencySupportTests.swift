@@ -686,3 +686,189 @@ class TaskQueueTestCases: XCTestCase {
         await fulfillment(of: [expect], timeout: 10)
     }
 }
+
+@available(iOS 16, *)
+class AsyncOperationTestCases: XCTestCase {
+    
+    func testOperation() async throws {
+        let operation: AsyncOperation<Int> = .init {
+            try await Task.sleep(for: .seconds(1))
+            return 1
+        }
+        
+        let result = try await operation.start()
+        XCTAssert(result == 1)
+    }
+    
+    func testOperationMultipleEntry() async throws {
+        let operation: AsyncOperation<Int> = .init {
+            try await Task.sleep(for: .seconds(1))
+            return 1
+        }
+        
+        Task {
+            let result = try await operation.start()
+            XCTAssert(result == 1)
+        }
+        
+        await Task.yield()
+        
+        let failedTask = Task {
+            return try await operation.start()
+        }
+        
+        if case .failure(let error) = await failedTask.result {
+            print(error)
+            XCTAssert(error is AsyncOperation<Int>.Error)
+        }
+    }
+    
+    func testFlatMap() async throws {
+        let operation1: AsyncOperation<Int> = .init {
+            print("Enter 1")
+            try await Task.sleep(for: .seconds(1))
+            print("Ending 1")
+            return 1
+        }
+        
+        
+        let operation2 = operation1.flatMap { result in
+            return .init {
+                print("Enter 2")
+                try await Task.sleep(for: .seconds(1))
+                print("Ending 2")
+                return result + 1
+            }
+        }
+        
+        let result = try await operation2.start()
+        
+        XCTAssert(result == 2)
+    }
+    
+    func testMap() async throws {
+        let operation1: AsyncOperation<Int> = .init {
+            print("Enter 1")
+            try await Task.sleep(for: .seconds(1))
+            print("Ending 1")
+            return 1
+        }
+        
+        
+        let operation2 = operation1
+            .flatMap { result in
+                return .init {
+                    print("Enter 2")
+                    try await Task.sleep(for: .seconds(1))
+                    print("Ending 2")
+                    return result + 1
+                }
+            }
+            .map { value in
+                value + 1
+            }
+        
+        let result = try await operation2.start()
+        
+        XCTAssert(result == 3)
+    }
+    
+    func testCombine() async throws {
+        let operation1: AsyncOperation<Int> = .init {
+            print("Enter 1")
+            try await Task.sleep(for: .seconds(1))
+            print("Ending 1")
+            return 1
+        }
+        
+        let operation2: AsyncOperation<Int> = .init {
+            print("Enter 2")
+            try await Task.sleep(for: .seconds(1))
+            print("Ending 2")
+            return 2
+        }
+        let combined = operation1.combine(operation2)
+        let result = try await combined.start()
+        
+        XCTAssert(result == (1, 2))
+    }
+    
+    func testCombines() async throws {
+        let operation1: AsyncOperation<Int> = .init {
+            print("Enter 1")
+            try await Task.sleep(for: .seconds(2))
+            print("Ending 1")
+            return 1
+        }
+        
+        let operation2: AsyncOperation<Int> = .init {
+            print("Enter 2")
+            try await Task.sleep(for: .seconds(1))
+            print("Ending 2")
+            return 2
+        }
+        
+        let combined = AsyncOperation.combine([operation1, operation2])
+        let result = try await combined.start()
+        
+        XCTAssert(result == [1, 2])
+    }
+}
+
+@available(iOS 16, *)
+class AsyncOperationQueueTestCases: XCTestCase {
+    
+    func testOrder() async throws {
+        let queue = AsyncOperationQueue()
+        
+        Task {
+            print("Running task 1")
+            let result = try await queue.operation {
+                print("enter operation 1")
+                try await Task.sleep(for: .seconds(2))
+                print("after sleep operation 1")
+                return 1
+            }
+            print("Get result \(result)")
+        }
+        
+        await Task.yield()
+        
+        let task2 = Task {
+            print("Running task 2")
+            let result = try await queue.operation {
+                print("enter operation 2")
+                try await Task.sleep(for: .seconds(2))
+                print("after sleep operation 2")
+                return 2
+            }
+            print("Get result \(result)")
+        }
+        
+        _ = await task2.result
+    }
+    
+    func testConcurrentQueue() async throws {
+        let queue = AsyncOperationQueue(mode: .concurrent(limit: 2))
+        let expect = XCTestExpectation()
+        
+        for i in 0...10 {
+            Task {
+                print("Running task \(i)")
+                let result = try await queue.operation {
+                    print("enter operation \(i)")
+                    try await Task.sleep(for: .seconds(2))
+                    print("after sleep operation \(i)")
+                    return i
+                }
+                print("Get result \(result)")
+                if result == 10 {
+                    expect.fulfill()
+                }
+            }
+            try await Task.sleep(for: .seconds(0.2))
+        }
+        
+        await fulfillment(of: [expect])
+    }
+}

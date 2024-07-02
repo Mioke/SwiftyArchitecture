@@ -120,7 +120,12 @@ class ConcurrencyTestViewController: UIViewController {
     
     func updateCurrentSignal(with value: Int) async -> Void {
         self.currentSignal = value
-        print(value, Thread.current, Thread.isMainThread)
+        print(value)
+        printThreadInfo()
+    }
+    
+    func printThreadInfo() {
+        print(Thread.current, Thread.isMainThread)
     }
 
 }

@@ -46,6 +46,10 @@ public final class UnfairLock {
 
 public final class RwLock {
     
+    public enum Exception: Swift.Error {
+        case lockFailed(internalStatus: Int32)
+    }
+    
     private var _lock: pthread_rwlock_t = .init()
     
     public init() {
@@ -65,14 +69,14 @@ public final class RwLock {
     public func tryReadLock() throws -> Void {
         let status = pthread_rwlock_tryrdlock(&_lock)
         if status == EBUSY || status == EINVAL || status == EDEADLK {
-            throw todo_error()
+            throw RwLock.Exception.lockFailed(internalStatus: status)
         }
     }
     
     public func tryWriteLock() throws -> Void {
         let status = pthread_rwlock_trywrlock(&_lock)
         if status == EBUSY || status == EINVAL || status == EDEADLK {
-            throw todo_error()
+            throw RwLock.Exception.lockFailed(internalStatus: status)
         }
     }
     

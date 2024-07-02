@@ -37,6 +37,7 @@
 		AB67813C2862BB74007740FA /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB67813B2862BB74007740FA /* SceneDelegate.swift */; };
 		AB6F82E929C3295E008C51CA /* GlobalImports.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6F82E829C3295E008C51CA /* GlobalImports.swift */; };
 		AB6F82EB29C32B04008C51CA /* BaseAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6F82EA29C32B04008C51CA /* BaseAPI.swift */; };
+		AB76614E2C2CFE650053A146 /* Stupid generics and protocol - EventProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB76614D2C2CFE650053A146 /* Stupid generics and protocol - EventProvider.swift */; };
 		ABA4329B2A4A84980032B58B /* Combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABA4329A2A4A84980032B58B /* Combine.swift */; };
 		ABA4329E2A4A962E0032B58B /* CombineTestsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABA4329C2A4A962E0032B58B /* CombineTestsViewController.swift */; };
 		ABA4329F2A4A962F0032B58B /* CombineTestsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = ABA4329D2A4A962E0032B58B /* CombineTestsViewController.xib */; };
@@ -122,6 +123,7 @@
 		AB67813B2862BB74007740FA /* SceneDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		AB6F82E829C3295E008C51CA /* GlobalImports.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalImports.swift; sourceTree = "<group>"; };
 		AB6F82EA29C32B04008C51CA /* BaseAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseAPI.swift; sourceTree = "<group>"; };
+		AB76614D2C2CFE650053A146 /* Stupid generics and protocol - EventProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Stupid generics and protocol - EventProvider.swift"; sourceTree = "<group>"; };
 		ABA4329A2A4A84980032B58B /* Combine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Combine.swift; sourceTree = "<group>"; };
 		ABA4329C2A4A962E0032B58B /* CombineTestsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CombineTestsViewController.swift; sourceTree = "<group>"; };
 		ABA4329D2A4A962E0032B58B /* CombineTestsViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CombineTestsViewController.xib; sourceTree = "<group>"; };
@@ -209,6 +211,7 @@
 			children = (
 				A752DE421C03F23D008E3118 /* UserService.swift */,
 				AF158A551E1BB26700FB0BAF /* NotificationService.swift */,
+				AB76614D2C2CFE650053A146 /* Stupid generics and protocol - EventProvider.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -715,6 +718,7 @@
 				ABAD81B129C4630400D600F5 /* UIDectector.swift in Sources */,
 				AB6F82EB29C32B04008C51CA /* BaseAPI.swift in Sources */,
 				AB459C5029DE80E900B68602 /* CommonModule.swift in Sources */,
+				AB76614E2C2CFE650053A146 /* Stupid generics and protocol - EventProvider.swift in Sources */,
 				ABC9EA872449AFD2009D044E /* TestObjModifyVC.swift in Sources */,
 				AB6781362861C0B7007740FA /* Theme.swift in Sources */,
 				AB459C4C29DC203A00B68602 /* HomeNavigationHandler.swift in Sources */,

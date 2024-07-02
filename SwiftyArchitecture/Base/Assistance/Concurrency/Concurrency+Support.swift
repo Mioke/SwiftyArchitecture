@@ -6,39 +6,6 @@ import Foundation
 #if canImport(_Concurrency)
 import _Concurrency
 
-// MARK: - AsyncProperty
-
-/// For the feature like `Property<T>` in `ReactiveSwift`
-@available(iOS 13.0, *)
-public class AsyncProperty<T> {
-    
-    let multicaster: AsyncMulticast<T> = .init(bufferSize: 1)
-    let initialValue: T
-    
-    /// Initialization
-    /// - Parameter wrappedValue: initial value.
-    public init(initialValue: T) {
-        self.initialValue = initialValue
-    }
-    
-    public var value: T {
-        get {
-            return multicaster.lastElement() ?? initialValue
-        }
-    }
-    
-    public func update(_ newValue: T) {
-        multicaster.cast(newValue)
-    }
-    
-    /// Subscribing the changes of this property.
-    /// - Important: the token should be stored some where, otherwise the subscibed stream will be invalid immediately.
-    /// - Returns: An async stream and it's invalidation token.
-    public func subscribe() -> (AsyncStream<T>, UnsubscribeToken) {
-        return multicaster.subscribe()
-    }
-}
-
 // MARK: - AsyncThrowingSignalStream
 
 /// A signal stream similiar to `AsyncThrowingStream`, but a little different from it.
@@ -102,211 +69,6 @@ public class AsyncThrowingSignalStream<T> {
     
     deinit {
         invalid()
-    }
-}
-
-// MARK: - AsyncMulticast
-
-@available(iOS 13, *)
-protocol Unsubscribable: AnyObject {
-    func unsubscribe(with token: UnsubscribeToken)
-}
-
-@available(iOS 13, *)
-public class UnsubscribeToken {
-    weak var multicaster: (any Unsubscribable)?
-    
-    init(multicaster: any Unsubscribable) {
-        self.multicaster = multicaster
-    }
-    /// Unsubscribe from the multicaster.
-    public func unsubscribe() {
-        multicaster?.unsubscribe(with: self)
-    }
-    
-    deinit {
-        unsubscribe()
-    }
-}
-
-/// Multicast values to many observers, observers can await values over time.
-@available(iOS 13, *)
-public class AsyncThrowingMulticast<T>: Unsubscribable {
-    
-    typealias Subscriber = (T) -> Void
-    
-    @ThreadSafe
-    var subscribers: [ObjectIdentifier: (Subscriber, AsyncThrowingStream<T, Error>.Continuation)] = [:]
-    
-    public let bufferSize: Int
-    
-    @ThreadSafe
-    public private(set) var buffer: [T] = []
-    
-    public init(bufferSize: Int = 1) {
-        self.bufferSize = bufferSize
-    }
-    
-    public func lastElement() -> T? {
-        return _buffer.read { $0.last }
-    }
-    
-    /// Subscribe from this multicaster.
-    /// - Parameters:
-    ///   - condition: Optional, this condition can help to filter the cast values.
-    /// - Returns: An `AsyncThrowingStream` and an unsubscribe token.
-    public func subscribe(where condition: ((T) -> Bool)? = nil) -> (AsyncThrowingStream<T, Error>, UnsubscribeToken) {
-        let cancelToken = UnsubscribeToken(multicaster: self)
-        let id = ObjectIdentifier(cancelToken)
-        
-        return (
-            .init { continuation in
-                let subscriber: Subscriber = { value in
-                    if condition == nil || condition?(value) == true {
-                        continuation.yield(value)
-                    }
-                }
-                _subscribers.write { s in
-                    s[id] = (subscriber, continuation)
-                }
-                continuation.onTermination = { [weak self] termination in
-                    guard let self else { return }
-                    _subscribers.write { s -> Void in
-                        s[id] = nil
-                    }
-                }
-            },
-            cancelToken
-        )
-    }
-    
-    /// Unsubscribe from this multicaster.
-    /// - Parameter subscriber: Who is unsubscribing.
-    func unsubscribe(with token: UnsubscribeToken) {
-        let id = ObjectIdentifier(token)
-        let values = _subscribers.write { s -> (Subscriber, AsyncThrowingStream<T, Error>.Continuation)? in
-            guard let values = s[id] else { return nil }
-            s[id] = nil
-            return values
-        }
-        if let values {
-            values.1.finish()
-        }
-    }
-    
-    /// Send a value and proadcast it.
-    /// - Parameter value: The value.
-    public func cast(_ value: T) -> Void {
-        _buffer.write {
-            $0.append(value)
-            if $0.count > bufferSize { $0.removeFirst() }
-        }
-        let subs = subscribers
-        subs.forEach { (_, sub: ((T) -> Void, AsyncThrowingStream<T, Error>.Continuation)) in
-            sub.0(value)
-        }
-    }
-    
-    /// Send an error to all subscribers, and terminate the for-in loop.
-    /// - Parameter error: An error.
-    public func cast(error: any Error, keepBuffer: Bool = true) -> Void {
-        if !keepBuffer { _buffer.write { $0.removeAll() } }
-        let subs = subscribers
-        subs.forEach { (_, sub: ((T) -> Void, AsyncThrowingStream<T, Error>.Continuation)) in
-            sub.1.finish(throwing: error)
-        }
-    }
-    
-    deinit {
-        let subs = subscribers
-        subs.forEach { (_, sub: ((T) -> Void, AsyncThrowingStream<T, Error>.Continuation)) in
-            sub.1.finish()
-        }
-    }
-}
-
-@available(iOS 13, *)
-public class AsyncMulticast<T>: Unsubscribable {
-    
-    typealias Subscriber = (T) -> Void
-    
-    @ThreadSafe
-    var subscribers: [ObjectIdentifier: (Subscriber, AsyncStream<T>.Continuation)] = [:]
-    
-    public let bufferSize: Int
-    
-    @ThreadSafe
-    public private(set) var buffer: [T] = []
-    
-    public init(bufferSize: Int = 1) {
-        self.bufferSize = bufferSize
-    }
-    
-    public func lastElement() -> T? {
-        return _buffer.read { $0.last }
-    }
-    
-    /// Subscribe from this multicaster.
-    /// - Parameters:
-    ///   - subscriber: Who is subscribing.
-    ///   - condition: Optional, this condition can help to filter the cast values.
-    /// - Returns: An `AsyncThrowingStream`
-    public func subscribe(where condition: ((T) -> Bool)? = nil) -> (AsyncStream<T>, UnsubscribeToken) {
-        let cancelToken = UnsubscribeToken(multicaster: self)
-        let id = ObjectIdentifier(cancelToken)
-        return (
-            .init { continuation in
-                let subscriber: Subscriber = { value in
-                    if condition == nil || condition?(value) == true {
-                        continuation.yield(value)
-                    }
-                }
-                _subscribers.write { s in
-                    s[id] = (subscriber, continuation)
-                }
-                continuation.onTermination = { [weak self] termination in
-                    guard let self else { return }
-                    _subscribers.write { s -> Void in
-                        s[id] = nil
-                    }
-                }
-            },
-            cancelToken
-        )
-    }
-    
-    /// Unsubscribe from this multicaster.
-    /// - Parameter subscriber: Who is unsubscribing.
-    func unsubscribe(with token: UnsubscribeToken) {
-        let id = ObjectIdentifier(token)
-        let values = _subscribers.write { s -> (Subscriber, AsyncStream<T>.Continuation)? in
-            guard let values = s[id] else { return nil }
-            s[id] = nil
-            return values
-        }
-        if let values {
-            values.1.finish()
-        }
-    }
-    
-    /// Send a value and proadcast it.
-    /// - Parameter value: The value.
-    public func cast(_ value: T) -> Void {
-        _buffer.write {
-            $0.append(value)
-            if $0.count > bufferSize { $0.removeFirst() }
-        }
-        let subs = subscribers
-        subs.forEach { (_, sub: ((T) -> Void, AsyncStream<T>.Continuation)) in
-            sub.0(value)
-        }
-    }
-    
-    deinit {
-        let subs = subscribers
-        subs.forEach { (_, sub: ((T) -> Void, AsyncStream<T>.Continuation)) in
-            sub.1.finish()
-        }
     }
 }
 
@@ -395,7 +157,7 @@ public extension Task where Failure == any Error {
                         continuation.resume(throwing: CustomError.timeout)
                         self.cancel()
                     }
-                } catch { 
+                } catch {
                     continuation.resume(throwing: error)
                 }
             }
@@ -409,9 +171,11 @@ public extension Task where Failure == any Error {
             }
         }
     }
-    
-    // MARK: - Weak capture convinience methods.
-    
+}
+
+// MARK: - Weak capture convinience methods.
+@available(iOS 13.0, *)
+public extension Task where Failure == any Error {
     /// Create a detached task and weak capture an object for the task operation. (Mostly used in capture `self`)
     /// - Parameters:
     ///   - object: The object to be captured
@@ -441,113 +205,6 @@ public extension Task where Success == Void, Failure == Never {
         })
     }
 }
-
-/// Run tasks one by one, FIFO.
-final public class TaskQueue<Element> {
-    
-    @ThreadSafe
-    private var array: Array<TaskItem> = []
-    
-    private var stream: AsyncMulticast<TaskItem> = .init()
-    
-    /// The running state, protected by the `array`'s lock, not thread-safe.
-    private var isRunning: Bool = false
-    
-    struct TaskItem {
-        let id: String
-        let task: () async -> Element
-    }
-    
-    /// Enqueue a task and run it immediately, the finish callback will be called as non-concurrency type.
-    /// - Parameters:
-    ///   - id: Task id
-    ///   - task: The task you want to enqueue.
-    ///   - onFinished: Finish callback closure. If the result is nil, that means the `TaskQueue` has already been
-    ///   deallocated before this task is finished.
-    public func addTask(id: String, _ task: @escaping () async -> Element, onFinished: @escaping (Element?) -> Void) {
-        let item = enqueueTask(with: id, task: task)
-        let checkInvalidSelf = checkNil(self, throwing: _Concurrency.CancellationError())
-        Task { [weak self] in
-            await self?.waitUntilAvailable(item: item)()
-            let result = try? await checkAround(checkInvalidSelf) { await item.task() }
-            onFinished(result)
-        }
-    }
-    
-    /// Enqueue a task and wait for it's result.
-    /// - Parameters:
-    ///   - id: Task id
-    ///   - task: The task you want to enqueue.
-    /// - Returns: The task's result.
-    public func task(id: String, _ task: @escaping () async -> Element) async -> Element {
-        let item = enqueueTask(with: id, task: task)
-        // The `await`s here will capture `self` and delay the deallocation if the queue has no other owners.
-        await waitUntilAvailable(item: item)()
-        return await item.task()
-    }
-    
-    /// Enqueue a task and try to run it immediately.
-    /// - Parameters:
-    ///   - id: Task's id
-    ///   - task: The task.
-    /// - Returns: The wrapped Task.
-    public func enqueueTask(id: String, task: @escaping () async -> Element) -> Task<Element, Error> {
-        let item = enqueueTask(with: id, task: task)
-        let checkInvalidSelf = checkNil(self, throwing: _Concurrency.CancellationError())
-        return .init { [weak self] in
-            await self?.waitUntilAvailable(item: item)()
-            return try await checkAround(checkInvalidSelf) { await item.task() }
-        }
-    }
-    
-    private func enqueueTask(with id: String, task: @escaping () async -> Element) -> TaskItem {
-        let item = TaskItem(id: id, task: { [weak self] in
-            let result = await task()
-            if let self {
-                self.isRunning = false
-                self.checkNext()
-            }
-            return result
-        })
-        _array.write { array in
-            array.append(item)
-        }
-        return item
-    }
-    
-    private func waitUntilAvailable(item: TaskItem) -> () async -> Void {
-        // weak capture `self`, otherwise if any signal is waiting, the `TaskQueue` can't be deallocated.
-        return { [weak self] in
-            guard let (signal, token) = self?.stream.subscribe(where: { $0.id == item.id }) else { return }
-            self?.checkNext()
-            // Must await here first, then the `stream` can cast the item later.
-            for await _ in signal { break }
-            token.unsubscribe()
-        }
-    }
-    
-    private func checkNext() {
-        let next: TaskItem? = _array.write { array in
-            // `isRunning` must be protected by the `write`, because this whole logic determine the `isRunning` state.
-            guard isRunning == false, let next = array.first else { return nil }
-            array.removeFirst()
-            isRunning = true
-            return next
-        }
-        guard let next else { return }
-        
-        // cast asynchrounously, make sure the `cast` is run after `await`.
-        Task {
-            stream.cast(next)
-        }
-    }
-    
-    deinit {
-        print("deallocating ...")
-    }
-}
-
-public typealias ThrowingTaskQueue<Value, E: Swift.Error> = TaskQueue<Swift.Result<Value, E>>
 
 
 #endif

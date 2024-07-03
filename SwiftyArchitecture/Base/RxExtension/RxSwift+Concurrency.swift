@@ -7,6 +7,7 @@
 
 import Foundation
 import RxSwift
+import SwiftConcurrencySupport
 
 #if canImport(_Concurrency)
 

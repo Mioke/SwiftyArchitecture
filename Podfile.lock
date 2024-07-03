@@ -30,6 +30,7 @@ PODS:
     - RxRealm
     - RxSwift (~> 6.2)
   - MIOSwiftyArchitecture/Assistance (2.0.0):
+    - SwiftConcurrencySupport
     - SwiftyArchitectureMacrosPackage
   - MIOSwiftyArchitecture/Componentize (2.0.0):
     - MIOSwiftyArchitecture/Assistance
@@ -79,6 +80,7 @@ PODS:
     - RxSwift (= 6.6.0)
   - RxSwift (6.6.0)
   - SnapKit (5.7.1)
+  - SwiftConcurrencySupport (0.1.0)
   - SwiftyArchitectureMacrosPackage (0.1.0)
   - Swinject (2.8.3)
   - SwinjectAutoregistration (2.8.3):
@@ -99,6 +101,7 @@ DEPENDENCIES:
   - RxRealm (from `https://github.com/Mioke/RxRealm.git`, branch `main`)
   - RxSwift (~> 6.0)
   - SnapKit
+  - SwiftConcurrencySupport (from `https://github.com/Mioke/swift-concurrency-support.git`, branch `master`)
   - SwiftyArchitectureMacrosPackage (from `https://github.com/Mioke/SwiftyArchitectureMacros.git`, branch `dev`)
   - Swinject
   - SwinjectAutoregistration
@@ -133,6 +136,9 @@ EXTERNAL SOURCES:
   RxRealm:
     :branch: main
     :git: https://github.com/Mioke/RxRealm.git
+  SwiftConcurrencySupport:
+    :branch: master
+    :git: https://github.com/Mioke/swift-concurrency-support.git
   SwiftyArchitectureMacrosPackage:
     :branch: dev
     :git: https://github.com/Mioke/SwiftyArchitectureMacros.git
@@ -141,6 +147,9 @@ CHECKOUT OPTIONS:
   RxRealm:
     :commit: f930c360fef32372bc839c6939d4e0ee8f8276ac
     :git: https://github.com/Mioke/RxRealm.git
+  SwiftConcurrencySupport:
+    :commit: f37303ce4c6068006cbddc7c805b8e1ecedd3dc4
+    :git: https://github.com/Mioke/swift-concurrency-support.git
   SwiftyArchitectureMacrosPackage:
     :commit: be50e3747add5c529d29cd4844caa3969def80ea
     :git: https://github.com/Mioke/SwiftyArchitectureMacros.git
@@ -153,7 +162,7 @@ SPEC CHECKSUMS:
   AuthProtocol: 699414ec99eb060731d49ec1092901fc1ae55e3e
   Differentiator: e8497ceab83c1b10ca233716d547b9af21b9344d
   FLEX: f21ee4f498eed3f8a1eded66b21939fd3b7a22ce
-  MIOSwiftyArchitecture: ab98ba1a56337c64d9c2e6ec6c00d1b6ffbeb969
+  MIOSwiftyArchitecture: c9b95c32bdce95d251bc60ee9334b5e6a29a242a
   ObjectMapper: 1eb41f610210777375fa806bf161dc39fb832b81
   Realm: e43fb540ae947497e3ea8a662443256920602060
   RealmSwift: 8b06ed06b5d16749ae0c4d91c0cba414a9e28189
@@ -163,10 +172,11 @@ SPEC CHECKSUMS:
   RxRelay: 45eaa5db8ee4fb50e5ebd57deec0159e97fa51e6
   RxSwift: a4b44f7d24599f674deebd1818eab82e58410632
   SnapKit: d612e99e678a2d3b95bf60b0705ed0a35c03484a
+  SwiftConcurrencySupport: 5fa79bb80fea51dc131a1e354896370b6dc86d60
   SwiftyArchitectureMacrosPackage: a279c25e1811e0bf77359a7728b0ebabc45317ae
   Swinject: 893c9a543000ac2f10ee4cbaf0933c6992c935d5
   SwinjectAutoregistration: e3ee378dc458acf78d176fc7fec3902603452667
 
-PODFILE CHECKSUM: 80a6602fb5e14d0b46aae9c4a7b79bd91de216df
+PODFILE CHECKSUM: a31dacae88975c34a91a5422ff2ce53494905996
 
-COCOAPODS: 1.15.1
+COCOAPODS: 1.15.2

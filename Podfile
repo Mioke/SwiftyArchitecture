@@ -22,6 +22,7 @@ target "SAD" do
 
   pod 'SwiftyArchitectureMacrosPackage', :git => 'https://github.com/Mioke/SwiftyArchitectureMacros.git', :branch => 'dev'
 #  pod 'SwiftyArchitectureMacros', :path => '/Users/kelanjiang/Documents/GitHub/SwiftyArchitectureMacros'
+  pod 'SwiftConcurrencySupport', :git => 'https://github.com/Mioke/swift-concurrency-support.git', :branch => 'master'
 
   # componentization
   pod 'Application', :path => './ComponentizeDemo/Application'

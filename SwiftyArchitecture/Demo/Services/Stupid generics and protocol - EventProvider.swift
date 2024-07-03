@@ -8,6 +8,7 @@
 
 import Foundation
 import MIOSwiftyArchitecture
+import SwiftConcurrencySupport
 
 public protocol SAAsyncSequence<Element>: AsyncSequence {}
 

@@ -8,6 +8,7 @@
 
 import Foundation
 import Alamofire
+import SwiftConcurrencySupport
 
 /// Concrete class of api manager, subclass from this class to use it and don't use this class directly.
 open class API<T: ApiInfoProtocol>: NSObject {

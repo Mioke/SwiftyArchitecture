@@ -10,6 +10,7 @@ import UIKit
 import MIOSwiftyArchitecture
 import _Concurrency
 import RxSwift
+import SwiftConcurrencySupport
 
 class ConcurrencyTestViewController: UIViewController {
     

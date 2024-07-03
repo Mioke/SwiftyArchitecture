@@ -18,7 +18,8 @@ let package = Package(
     .package(url: "https://github.com/tristanhimmelman/ObjectMapper.git", from: "4.2.0"),
     .package(url: "https://github.com/ReactiveX/RxSwift.git", from: "6.6.0"),
     .package(url: "https://github.com/Mioke/RxRealm.git", branch: "main"),
-    .package(url: "https://github.com/Mioke/SwiftyArchitectureMacros.git", branch: "master")
+    .package(url: "https://github.com/Mioke/SwiftyArchitectureMacros.git", branch: "master"),
+    .package(url: "https://github.com/Mioke/swift-concurrency-support.git", branch: "master"),
   ],
   targets: [
     // Targets are the basic building blocks of a package, defining a module or a test suite.
@@ -33,6 +34,7 @@ let package = Package(
         .product(name: "RxCocoa", package: "RxSwift"),
         .product(name: "RxRealm", package: "RxRealm"),
 //        .product(name: "SwiftyArchitectureMacros", package: "SwiftyArchitectureMacros"),
+        .product(name: "SwiftConcurrencySupport", package: "swift-concurrency-support"),
       ],
       path: "./SwiftyArchitecture/Base",
       exclude: ["Persistance", "Tests"],

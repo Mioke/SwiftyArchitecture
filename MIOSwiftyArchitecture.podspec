@@ -33,6 +33,7 @@ Pod::Spec.new do |s|
     ss.source_files = 'SwiftyArchitecture/Base/Assistance/**/*.swift'
 
     ss.dependency 'SwiftyArchitectureMacrosPackage'
+    ss.dependency 'SwiftConcurrencySupport'
   end
 
   s.subspec 'Networking' do |ss|

@@ -101,7 +101,7 @@ DEPENDENCIES:
   - RxRealm (from `https://github.com/Mioke/RxRealm.git`, branch `main`)
   - RxSwift (~> 6.0)
   - SnapKit
-  - SwiftConcurrencySupport (from `https://github.com/Mioke/swift-concurrency-support.git`, branch `master`)
+  - SwiftConcurrencySupport (from `/Users/kelanjiang/Documents/GitHub/swift-concurrency-support/SwiftConcurrencySupport.podspec`)
   - SwiftyArchitectureMacrosPackage (from `https://github.com/Mioke/SwiftyArchitectureMacros.git`, branch `dev`)
   - Swinject
   - SwinjectAutoregistration
@@ -137,8 +137,7 @@ EXTERNAL SOURCES:
     :branch: main
     :git: https://github.com/Mioke/RxRealm.git
   SwiftConcurrencySupport:
-    :branch: master
-    :git: https://github.com/Mioke/swift-concurrency-support.git
+    :path: "/Users/kelanjiang/Documents/GitHub/swift-concurrency-support/SwiftConcurrencySupport.podspec"
   SwiftyArchitectureMacrosPackage:
     :branch: dev
     :git: https://github.com/Mioke/SwiftyArchitectureMacros.git
@@ -147,9 +146,6 @@ CHECKOUT OPTIONS:
   RxRealm:
     :commit: f930c360fef32372bc839c6939d4e0ee8f8276ac
     :git: https://github.com/Mioke/RxRealm.git
-  SwiftConcurrencySupport:
-    :commit: f37303ce4c6068006cbddc7c805b8e1ecedd3dc4
-    :git: https://github.com/Mioke/swift-concurrency-support.git
   SwiftyArchitectureMacrosPackage:
     :commit: be50e3747add5c529d29cd4844caa3969def80ea
     :git: https://github.com/Mioke/SwiftyArchitectureMacros.git
@@ -172,11 +168,11 @@ SPEC CHECKSUMS:
   RxRelay: 45eaa5db8ee4fb50e5ebd57deec0159e97fa51e6
   RxSwift: a4b44f7d24599f674deebd1818eab82e58410632
   SnapKit: d612e99e678a2d3b95bf60b0705ed0a35c03484a
-  SwiftConcurrencySupport: 5fa79bb80fea51dc131a1e354896370b6dc86d60
+  SwiftConcurrencySupport: f22c167245dffaef2134aaa63a1f0c15be359118
   SwiftyArchitectureMacrosPackage: a279c25e1811e0bf77359a7728b0ebabc45317ae
   Swinject: 893c9a543000ac2f10ee4cbaf0933c6992c935d5
   SwinjectAutoregistration: e3ee378dc458acf78d176fc7fec3902603452667
 
-PODFILE CHECKSUM: a31dacae88975c34a91a5422ff2ce53494905996
+PODFILE CHECKSUM: 2d0d5981a3541f14d58e4b5128852e01ab58574a
 
 COCOAPODS: 1.15.2

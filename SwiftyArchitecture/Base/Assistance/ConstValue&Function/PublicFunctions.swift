@@ -16,56 +16,56 @@ import Dispatch
  - parameter closure: 执行功能
  */
 public func scope(_ name: String, closure: () -> ()) -> Void {
-    closure()
+  closure()
 }
 
 public func guardOnMainQueue(sync: Bool = false, _ block: @escaping () -> ()) -> Void {
-    if Thread.current.isMainThread {
-        block()
-    } else {
-        sync ? DispatchQueue.main.sync(execute: block) : DispatchQueue.main.async(execute: block)
-    }
+  if Thread.current.isMainThread {
+    block()
+  } else {
+    sync ? DispatchQueue.main.sync(execute: block) : DispatchQueue.main.async(execute: block)
+  }
 }
 
 #if canImport(_Concurrency)
 
 @Sendable
 public func checkAround<T>(_ checks: () throws -> Void, around operation: () async throws -> T) async throws -> T {
-    try checks()
-    let result = try await operation()
-    try checks()
-    return result
+  try checks()
+  let result = try await operation()
+  try checks()
+  return result
 }
 
 #endif
 
 public func checkNil<T: AnyObject>(_ object: T, throwing: Swift.Error) -> () throws -> Void {
-    let weakObject = WeakObject(referencing: object)
-    return { if weakObject.isEmpty { throw throwing } }
+  let weakObject = WeakObject(referencing: object)
+  return { if weakObject.isEmpty { throw throwing } }
 }
 
 
 public protocol DataConvertible {
-    func data() throws -> Data
-    static func object(from data: Data) throws -> Self
+  func data() throws -> Data
+  static func object(from data: Data) throws -> Self
 }
 
 public extension DataConvertible where Self: Codable {
-    func data() throws -> Data {
-        return try JSONEncoder().encode(self)
-    }
-    
-    static func object(from data: Data) throws -> Self {
-        return try JSONDecoder().decode(Self.self, from: data)
-    }
+  func data() throws -> Data {
+    return try JSONEncoder().encode(self)
+  }
+  
+  static func object(from data: Data) throws -> Self {
+    return try JSONDecoder().decode(Self.self, from: data)
+  }
 }
 
 public final class WeakObject<T: AnyObject> {
-    public weak var reference: T?
-    
-    public init(referencing: T) {
-        self.reference = referencing
-    }
-    
-    public var isEmpty: Bool { reference == nil }
+  public weak var reference: T?
+  
+  public init(referencing: T) {
+    self.reference = referencing
+  }
+  
+  public var isEmpty: Bool { reference == nil }
 }

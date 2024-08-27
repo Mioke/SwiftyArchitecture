@@ -11,28 +11,28 @@ import Foundation
 /// between threads. So if an `RwQueue` contains huge amount of works to do, it may leads to unexpected behavior and bad
 /// performance.
 public class RwQueue {
-    
-    public let queue: DispatchQueue
-    
-    public init(qos: DispatchQoS = .default, label: String? = nil) {
-        self.queue = .init(label: "com.mioke.swiftyarchitecture.rwqueue" + (!label.isEmpty ? ".\(label!)" : ""),
-                           qos: qos,
-                           attributes: .concurrent)
-    }
-    
-    public func read(action: @escaping () -> ()) {
-        queue.async(execute: action)
-    }
-    
-    public func write(action: @escaping () -> ()) {
-        queue.async(flags: .barrier, execute: action)
-    }
-    
-    public func syncRead<T>(_ closure: () throws -> T) rethrows -> T {
-        return try queue.sync(execute: closure)
-    }
-    
-    public func syncWrite<T>(_ closure: () throws -> T) rethrows -> T {
-        return try queue.sync(flags: .barrier, execute: closure)
-    }
+  
+  public let queue: DispatchQueue
+  
+  public init(qos: DispatchQoS = .default, label: String? = nil) {
+    self.queue = .init(label: "com.mioke.swiftyarchitecture.rwqueue" + (!label.isEmpty ? ".\(label!)" : ""),
+                       qos: qos,
+                       attributes: .concurrent)
+  }
+  
+  public func read(action: @escaping () -> ()) {
+    queue.async(execute: action)
+  }
+  
+  public func write(action: @escaping () -> ()) {
+    queue.async(flags: .barrier, execute: action)
+  }
+  
+  public func syncRead<T>(_ closure: () throws -> T) rethrows -> T {
+    return try queue.sync(execute: closure)
+  }
+  
+  public func syncWrite<T>(_ closure: () throws -> T) rethrows -> T {
+    return try queue.sync(flags: .barrier, execute: closure)
+  }
 }

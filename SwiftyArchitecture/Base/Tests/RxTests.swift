@@ -11,69 +11,50 @@ import XCTest
 import RxSwift
 
 class RxTestCase: XCTestCase {
+  
+  override func setUp() {
+    super.setUp()
+  }
+  
+  override func tearDown() {
+    super.tearDown()
+  }
+  
+  var cancel: DisposeBag = .init()
+  
+  func testProducerQueue() {
+    let queue = ProducerQueue<Int>()
+    let expect = XCTestExpectation()
     
-    override func setUp() {
-        super.setUp()
+    let ob1 = Single<Int>.create { observer in
+      observer(.success(0))
+      return Disposables.create()
     }
     
-    override func tearDown() {
-        super.tearDown()
+    let ob2 = Single<Int>.create { observer in
+      observer(.success(1))
+      return Disposables.create()
     }
     
-    var cancel: DisposeBag = .init()
+    var results: [Int] = []
+    queue.enqueue(single:  ob1)
+      .subscribe(onNext: { value in
+        print(value)
+        results.append(value)
+      })
+      .disposed(by: cancel)
+
+    queue.enqueue(single: ob2)
+      .subscribe { value in
+        print(value)
+        results.append(value)
+        XCTAssert(results == [0, 1])
+        expect.fulfill()
+      }
+      .disposed(by: cancel)
     
-    func testProducerQueue() {
-        let queue = ProducerQueue<Int>()
-        let expect = XCTestExpectation()
-        
-        let ob1 = Observable<Int>.create { observer in
-            observer.onNext(1)
-            observer.onNext(2)
-            observer.onCompleted()
-            return Disposables.create()
-        }
-        
-        let ob2 = Observable<Int>.create { observer in
-            observer.onNext(3)
-            observer.onCompleted()
-            return Disposables.create()
-        }
-        
-        queue.enqueue(producer: ob1).subscribe { event in
-            print(event)
-        }.disposed(by: cancel)
-        
-        queue.enqueue(producer: ob2).subscribe { event in
-            print(event)
-            expect.fulfill()
-        }.disposed(by: cancel)
-        
-        wait(for: [expect], timeout: 5)
-    }
-    
-    func testDelayWorker() {
-        let work = Observable<Int>.create { observer in
-            observer.onNext(1)
-            observer.onCompleted()
-            return Disposables.create()
-        }
-        
-        let expect = XCTestExpectation()
-        
-        DelayWorker.delay(work: work, interval: .seconds(3))
-            .debug(#function + "1", trimOutput: true)
-            .do(onCompleted: {
-                expect.fulfill()
-            })
-            .subscribe()
-            .disposed(by: cancel)
-        
-        DelayWorker.delay(work: work, interval: .microseconds(0))
-            .debug(#function + "2", trimOutput: true)
-            .subscribe()
-            .disposed(by: cancel)
-        
-        wait(for: [expect], timeout: 5)
-    }
+    wait(for: [expect], timeout: 2)
+  }
+  
 }
 

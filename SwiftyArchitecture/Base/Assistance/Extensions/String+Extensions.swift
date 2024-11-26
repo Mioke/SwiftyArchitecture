@@ -9,36 +9,36 @@
 import Foundation
 
 extension String {
-    
-    /**
-     Be able to use range to get substring, e.x.: "abced"[0..<1] = "a"
-     */
-    public subscript (r: Range<Int>) -> String {
-        get {
-            let startIndex = self.index(self.startIndex, offsetBy: r.lowerBound)
-            let endIndex = self.index(startIndex, offsetBy: r.upperBound - r.lowerBound)
-            
-            let substring = self.prefix(upTo: endIndex).suffix(from: startIndex)
-            return String.init(substring)
-        }
+  
+  /**
+   Be able to use range to get substring, e.x.: "abced"[0..<1] = "a"
+   */
+  public subscript (r: Range<Int>) -> String {
+    get {
+      let startIndex = self.index(self.startIndex, offsetBy: r.lowerBound)
+      let endIndex = self.index(startIndex, offsetBy: r.upperBound - r.lowerBound)
+      
+      let substring = self.prefix(upTo: endIndex).suffix(from: startIndex)
+      return String.init(substring)
     }
-    /**
-    Be able to use range to get substring, e.x.: "abced"[0...1] = "ab"
-    */
-    public subscript (r: ClosedRange<Int>) -> String {
-        get {
-            let startIndex = self.index(self.startIndex, offsetBy: r.lowerBound)
-            let endIndex = self.index(startIndex, offsetBy: r.upperBound - r.lowerBound)
-            
-            let substring = self.prefix(through: endIndex).suffix(from: startIndex)
-            return String.init(substring)
-        }
+  }
+  /**
+   Be able to use range to get substring, e.x.: "abced"[0...1] = "ab"
+   */
+  public subscript (r: ClosedRange<Int>) -> String {
+    get {
+      let startIndex = self.index(self.startIndex, offsetBy: r.lowerBound)
+      let endIndex = self.index(startIndex, offsetBy: r.upperBound - r.lowerBound)
+      
+      let substring = self.prefix(through: endIndex).suffix(from: startIndex)
+      return String.init(substring)
     }
-    /// length of String, number of characters -- Swift 2.0
-    public var length: Int {
-        return self.count
-    }
-    
+  }
+  /// length of String, number of characters -- Swift 2.0
+  public var length: Int {
+    return self.count
+  }
+  
     /*
     /// MD5 of string, need to #import <CommonCrypto/CommonCrypto.h> in bridge file
     var MD5: String {
@@ -79,15 +79,15 @@ extension String {
 }
 
 public extension Swift.Optional where Wrapped == String {
-    @inlinable
-    var isEmpty: Bool {
-        switch self {
-        case .none:
-            return true
-        case .some(let value):
-            return value.isEmpty
-        }
+  @inlinable
+  var isEmpty: Bool {
+    switch self {
+    case .none:
+      return true
+    case .some(let value):
+      return value.isEmpty
     }
+  }
 }
 
 

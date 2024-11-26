@@ -8,16 +8,16 @@
 import Foundation
 
 public class APIMocker {
-    
-    public static func mock<T: ApiInfoProtocol>(type: T.Type, customize: @escaping (T.RequestParam?) -> T.ResultType) -> Void {
-        ApiRouterContainer.shared.injectAPI(with: T.self, customize: customize)
-    }
-    
-    public static func recover<T: ApiInfoProtocol>(type: T.Type) -> Void {
-        ApiRouterContainer.shared.remove(type: T.self)
-    }
-    
-    public static func reset() {
-        ApiRouterContainer.shared.reset()
-    }
+  
+  public static func mock<T: ApiInfoProtocol>(type: T.Type, customize: @escaping (T.RequestParam?) throws -> T.ResultType) -> Void {
+    ApiRouterContainer.shared.injectAPI(with: T.self, customize: customize)
+  }
+  
+  public static func recover<T: ApiInfoProtocol>(type: T.Type) -> Void {
+    ApiRouterContainer.shared.remove(type: T.self)
+  }
+  
+  public static func reset() {
+    ApiRouterContainer.shared.reset()
+  }
 }

@@ -9,12 +9,12 @@
 import Foundation
 
 extension Dictionary {
-    
-    static func +(lhs: Dictionary, rhs: Dictionary) -> Dictionary {
-        var rst = lhs
-        for pair in rhs {
-            rst.updateValue(pair.value, forKey: pair.key)
-        }
-        return rst
+  
+  static func +(lhs: Dictionary, rhs: Dictionary) -> Dictionary {
+    var rst = lhs
+    for pair in rhs {
+      rst.updateValue(pair.value, forKey: pair.key)
     }
+    return rst
+  }
 }

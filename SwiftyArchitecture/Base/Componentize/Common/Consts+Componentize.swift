@@ -8,12 +8,12 @@
 import Foundation
 
 public extension Consts {
-    static let componentizeDomain = "com.mioke.swiftyarchitecture.componentize"
+  static let componentizeDomain = "com.mioke.swiftyarchitecture.componentize"
 }
 
 extension KitErrors {
-    static var graphCycleInfo: Info {
-        .init(code: .graphCycle, message: "Detacted graph circle.")
-    }
-    static let graphCycle: Error = error(domain: Consts.componentizeDomain, info: KitErrors.graphCycleInfo)
+  static var graphCycleInfo: Info {
+    .init(code: .graphCycle, message: "Detacted graph circle.")
+  }
+  static let graphCycle: Error = error(domain: Consts.componentizeDomain, info: KitErrors.graphCycleInfo)
 }

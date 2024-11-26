@@ -240,14 +240,13 @@ extension InternalTestVC: UITableViewDelegate, UITableViewDataSource {
 //            print(result)
             break
         case 2:
-            let api = API<TestAPI>()
-            // you can't get any data from here because baidu.com 
-            // return a html page instead of json data.
-            api.sendRequest(with: nil).response({ (api, result, error) in
-                if let result = result {
-                    print(result.isFinal, result.objects)
-                }
-            })
+            Task {
+                let api = API<TestAPI>()
+                // you can't get any data from here because baidu.com
+                // return a html page instead of json data.
+                let result = try await api.sendRequest(with: nil)
+                print(result)
+            }
         case 3:
             KitLogger.log(level: .info, message: "Info messages.")
             KitLogger.log(level: .debug, message: "Debug messages.")
